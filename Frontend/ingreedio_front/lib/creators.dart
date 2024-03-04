@@ -50,16 +50,16 @@ class CreatorDialog<T> extends StatelessWidget {
   }
 }
 class DialogButton<T> extends StatelessWidget {
-  const DialogButton({super.key, required this.c, required this.onFinished, required this.text});
-  final Creator<T> c;
+  const DialogButton({super.key, required this.creator, required this.onFinished, required this.child});
+  final Creator<T> creator;
   final void Function(T) onFinished;
-  final String text;
+  final Widget child;
   @override
   Widget build(BuildContext context) {
     return TextButton(onPressed: (){
-      showDialog(context: context, builder: CreatorDialog<T>(creator: c).build).then((value) {
+      showDialog(context: context, builder: CreatorDialog<T>(creator: creator).build).then((value) {
         if(value is T) onFinished(value);
         });
-    }, child: Text(text));
+    }, child: child);
   }
 }
