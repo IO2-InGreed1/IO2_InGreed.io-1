@@ -10,7 +10,7 @@ class BoolCreator extends Creator<bool> {
 class _BoolCreatorState extends State<BoolCreator> {
   @override
   Widget build(BuildContext context) {
-    return const Text("Are you sure?");
+    return const Center(child: Text("Are you sure?"));
   }
 }
 abstract class Creator<T> extends StatefulWidget {
