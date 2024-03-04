@@ -31,11 +31,8 @@ class CreatorDialog<T> extends StatelessWidget {
     return AlertDialog(
       content: SizedBox(
         width: double.maxFinite,
-        height: double.maxFinite,
-        child: ListView(
-          children: [
-            creator,
-          ],
+        child: SingleChildScrollView(
+          child: creator,
         ),
       ),
       actions: [
