@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B49004A4-94FC-4E67-9836-31122C2E90E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3E74B73E-5BC9-413A-B57F-BD0FAB2D649A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InGreed.Api", "Src\InGreed.Api\InGreed.Api.csproj", "{7596A273-2360-44FB-9096-E28B50402F6B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InGreed.Test", "Tests\InGreed.Test\InGreed.Test.csproj", "{4044E09C-1E3D-4457-B70B-0840F1D7CC73}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7596A273-2360-44FB-9096-E28B50402F6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7596A273-2360-44FB-9096-E28B50402F6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7596A273-2360-44FB-9096-E28B50402F6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7596A273-2360-44FB-9096-E28B50402F6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4044E09C-1E3D-4457-B70B-0840F1D7CC73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4044E09C-1E3D-4457-B70B-0840F1D7CC73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4044E09C-1E3D-4457-B70B-0840F1D7CC73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4044E09C-1E3D-4457-B70B-0840F1D7CC73}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7596A273-2360-44FB-9096-E28B50402F6B} = {B49004A4-94FC-4E67-9836-31122C2E90E6}
+		{4044E09C-1E3D-4457-B70B-0840F1D7CC73} = {3E74B73E-5BC9-413A-B57F-BD0FAB2D649A}
+	EndGlobalSection
+EndGlobal

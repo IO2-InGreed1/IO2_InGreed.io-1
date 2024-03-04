@@ -1,0 +1,6 @@
+@InGreed.Api_HostAddress = http://localhost:5074
+
+GET {{InGreed.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
