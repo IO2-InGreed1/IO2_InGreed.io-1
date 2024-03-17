@@ -43,6 +43,11 @@ class Admin extends IModerator with IProducer
 {
   Admin.fromAllData({required this.controlPanel});
   ControlPanel controlPanel;
+  void getControlPanel()
+  {
+    //TODO: this
+    throw Exception("not implemented");
+  }
 }
 class ControlPanel
 {

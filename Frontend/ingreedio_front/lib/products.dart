@@ -56,21 +56,21 @@ class Preference
   int id;
   String name;
   List<Ingredient> allergens;
-  List<Ingredient> preferances;
+  List<Ingredient> prefered;
   bool isActive;
   Preference.fromAllData({
     required this.allergens,
     required this.id,
     required this.isActive,
     required this.name,
-    required this.preferances
+    required this.prefered
   });
   void addAllergen(Ingredient ingredient)
   {
     //TODO: this 
     throw Exception("not implemented");
   }
-  void addPreferances(Ingredient ingredient)
+  void addprefered(Ingredient ingredient)
   {
     //TODO: this 
     throw Exception("not implemented");
@@ -80,7 +80,7 @@ class Preference
     //TODO: this 
     throw Exception("not implemented");
   }
-  void removePreferances(Ingredient ingredient)
+  void removeprefered(Ingredient ingredient)
   {
     //TODO: this 
     throw Exception("not implemented");

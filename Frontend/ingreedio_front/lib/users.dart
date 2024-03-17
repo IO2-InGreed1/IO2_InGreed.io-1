@@ -2,7 +2,7 @@ import 'package:ingreedio_front/products.dart';
 
 mixin class IProducer
 {
-  void promoteProduct(Product product)
+  void promoteProduct(Product product,DateTime date)
   {
     //TODO: this
     throw Exception("not implemented");
@@ -73,7 +73,7 @@ class Client extends User
     //TODO: this
     throw Exception("not implemented");
   }
-  void removePreferance()
+  void removePreferance(Preference preference)
   {
     //TODO: this
     throw Exception("not implemented");
