@@ -1,4 +1,4 @@
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 import 'package:ingreedio_front/admins.dart';
 import 'package:ingreedio_front/products.dart';
 import 'package:ingreedio_front/users.dart';
