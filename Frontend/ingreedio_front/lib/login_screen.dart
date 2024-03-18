@@ -22,7 +22,7 @@ class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -74,11 +74,11 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 244, 142),
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
         backgroundColor: const Color.fromARGB(255, 255, 239, 96),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               TextFormField(
                 controller: _usernameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Username',
                   border: OutlineInputBorder(),
                 ),
@@ -98,11 +98,11 @@ class _LoginPageState extends State<LoginPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: _passwordController,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(),
                 ),
@@ -113,18 +113,18 @@ class _LoginPageState extends State<LoginPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
                ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.lightGreen),
                 onPressed: _login,
-                child: Text('Login'),
+                child: const Text('Login'),
               ),
               if (_errorMessage != null)
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     _errorMessage!,
-                    style: TextStyle(color: Colors.red),
+                    style: const TextStyle(color: Colors.red),
                   ),
                 ),
             ],
