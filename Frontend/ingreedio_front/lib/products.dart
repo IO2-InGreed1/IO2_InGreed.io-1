@@ -6,6 +6,7 @@ enum Category
 }
 class Product
 {
+  Product.empty():id=0,name="",promotionUntil=DateTime(0),opinions=[],category=Category.cosmetics,ingredients=[],producer=Producer.fromAllData(companyName: "", nip: "", representativeName: "", representativeSurname: "", telephoneNumber: "");
   Product.fromAllData({
     required this.category,
     required this.id,

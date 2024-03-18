@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ingreedio_front/creators.dart';
 import 'package:ingreedio_front/login_screen.dart';
+import 'package:ingreedio_front/product_creators.dart';
+import 'package:ingreedio_front/products.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
-
+  List<Product> products=List.empty(growable: true);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,8 +65,15 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            DialogButton<Product>(creator: ProductCreator(item: Product.empty()), onFinished: (val){
+              setState(() {
+                products.add(val);
+              });
+            }, child:const Text("XD")),
+          ...products.map((e) => Text(e.name)).toList()
           ],
         ),
+        
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
