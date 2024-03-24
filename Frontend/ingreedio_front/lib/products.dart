@@ -6,13 +6,12 @@ enum Category
 }
 class Product
 {
-  Product.empty():id=0,name="",promotionUntil=DateTime(0),opinions=[],category=Category.cosmetics,ingredients=[],producer=Producer.fromAllData(companyName: "", nip: "", representativeName: "", representativeSurname: "", telephoneNumber: "");
+  Product.empty():id=0,name="",promotionUntil=DateTime(0),category=Category.cosmetics,ingredients=[],producer=Producer.fromAllData(companyName: "", nip: "", representativeName: "", representativeSurname: "", telephoneNumber: "");
   Product.fromAllData({
     required this.category,
     required this.id,
     required this.ingredients,
     required this.name,
-    required this.opinions,
     required this.producer,
     required this.promotionUntil
   });
@@ -21,7 +20,6 @@ class Product
   DateTime promotionUntil;
   Producer producer;
   List<Ingredient> ingredients;
-  List<Opinion> opinions;
   Category category;
   void addOpinion(String test,User user)
   {

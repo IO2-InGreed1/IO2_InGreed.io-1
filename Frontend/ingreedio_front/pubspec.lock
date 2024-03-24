@@ -227,6 +227,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  mockup:
+    dependency: "direct main"
+    description:
+      name: mockup
+      sha256: a06de69ee2fc13ee01bedc27a382ce043bee606faf53547b9490bafc2e13fa0c
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   node_preamble:
     dependency: transitive
     description:
@@ -450,3 +458,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.2.0 <4.0.0"
+  flutter: ">=1.17.0"

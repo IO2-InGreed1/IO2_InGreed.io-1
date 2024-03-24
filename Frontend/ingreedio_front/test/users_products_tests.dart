@@ -5,7 +5,7 @@ import 'package:ingreedio_front/users.dart';
 class TestInitializer
 {
   static Producer get producer=>Producer.fromAllData(companyName: "Test", nip: "0", representativeName: "Name", representativeSurname: "Surname", telephoneNumber: "000000000");
-  static Product get product=>Product.fromAllData(category: Category.cosmetics, id: 0, ingredients: [], name: "Test", opinions: [], producer: producer, promotionUntil: DateTime(0));
+  static Product get product=>Product.fromAllData(category: Category.cosmetics, id: 0, ingredients: [], name: "Test", producer: producer, promotionUntil: DateTime(0));
   static Client get client=>Client.fromAllData(id: 0, isBlocked: false, mail: "mail@mail.com", password: "myPassword", username: "User", preferences: [], favoriteProducts: []);
   static List<Preference> get preferences
   {
