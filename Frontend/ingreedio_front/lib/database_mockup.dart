@@ -2,7 +2,9 @@ import 'package:ingreedio_front/products.dart';
 import 'package:ingreedio_front/users.dart';
 abstract class Database
 {
-
+  void addClient(Client client);
+  void removeClient(Client client);
+  void removeOpinion(Opinion opinion);
 }
 class MockupDatabase extends Database
 {
@@ -92,6 +94,20 @@ class MockupDatabase extends Database
     opinions.add(
       Opinion.fromAllData(author: users[1], id: 5, product: products[1], score: 3, text: "XD3")
     );
+  }
+  
+  @override
+  void addClient(Client client) {
+    users.add(client);
+  }
+  @override
+  void removeClient(Client client) {
+    users.remove(client);
+  }
+  
+  @override
+  void removeOpinion(Opinion opinion) {
+    opinions.remove(opinion);
   }
 
 }

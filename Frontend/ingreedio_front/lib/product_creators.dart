@@ -9,7 +9,6 @@ class ProductCreator extends Creator<Product> {
   @override
   State<ProductCreator> createState() => _ProductCreatorState();
 }
-
 class _ProductCreatorState extends State<ProductCreator> {
   @override
   Widget build(BuildContext context) {

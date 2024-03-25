@@ -101,14 +101,17 @@ class Opinion
   double score;
   void calculateScore(double score)
   {
+    //TODO: this 
     throw Exception("not implemented");
   }
   void reportOpinion()
   {
+    //TODO: this 
     throw Exception("not implemented");
   }
   void rateOpinion()
   {
+    //TODO: this 
     throw Exception("not implemented");
   }
 }
