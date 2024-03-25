@@ -8,7 +8,6 @@ class ProducerCreator extends Creator<Producer> {
   @override
   State<ProducerCreator> createState() => _ProducerCreatorState();
 }
-
 class _ProducerCreatorState extends State<ProducerCreator> {
   @override
   Widget build(BuildContext context) {
