@@ -4,7 +4,7 @@ import 'package:ingreedio_front/creators.dart';
 import 'package:ingreedio_front/products.dart';
 
 class ProductCreator extends Creator<Product> {
-  ProductCreator({super.key, required super.item});
+  ProductCreator({super.key, required super.item,super.onChanged=doNothing});
 
   @override
   State<ProductCreator> createState() => _ProductCreatorState();
@@ -18,6 +18,7 @@ class _ProductCreatorState extends State<ProductCreator> {
         onSelected: (val)
         {
           if(val!=null) widget.item.category=val;
+          widget.onChanged(widget.item);
         },
         );
         Widget idInput=SizedBox(width: 40,
@@ -29,6 +30,7 @@ class _ProductCreatorState extends State<ProductCreator> {
               onChanged: (value){
               try{
                   widget.item.id=int.parse(value);
+                  widget.onChanged(widget.item);
                 }
               catch(e){}
                     },
@@ -37,7 +39,10 @@ class _ProductCreatorState extends State<ProductCreator> {
             Widget nameInput=SizedBox(width: 40,
               child: TextFormField(
               controller: TextEditingController()..text=widget.item.name,
-              onChanged: (value){widget.item.name=value;},
+              onChanged: (value){
+                widget.item.name=value;
+                widget.onChanged(widget.item);
+                },
                     ),
             );
     
