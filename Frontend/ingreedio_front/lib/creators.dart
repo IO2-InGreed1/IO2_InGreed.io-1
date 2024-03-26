@@ -13,20 +13,20 @@ class _BoolCreatorState extends State<BoolCreator> {
     return const Center(child: Text("Are you sure?"));
   }
 }
-class _OneItemContainer<T>
+class ItemWrapper<T>
 {
-  _OneItemContainer(this.item);
+  ItemWrapper(this.item);
   T item;
 }
 abstract class Creator<T> extends StatefulWidget {
-  Creator({super.key, required T item,this.onChanged=doNothing}):_container=_OneItemContainer(item);
+  Creator({super.key, required T item,this.onChanged=doNothing,ItemWrapper<T>? reference}):_container=reference ?? ItemWrapper(item);
   T get item=>_container.item;
   final void Function(T) onChanged;
   set item(T value){
     _container.item=value;
     onChanged(value);
   }
-  final _OneItemContainer<T> _container;
+  final ItemWrapper<T> _container;
 }
 class CreatorDialog<T> extends StatelessWidget {
   const CreatorDialog({super.key, required this.creator});
@@ -67,19 +67,13 @@ class DialogButton<T> extends StatelessWidget {
 }
 
 class ListCreator<T> extends Creator<List<T>> {
-  @override 
-  List<T> get item =>creatorList.map((e) => e.item).toList();
-  @override set item(List<T> value) {
-    throw Exception("Don't change value of item in ListCreator");
-  }
-  final Creator<T> Function() getNewCreator;
+  final Creator<T> Function(T) getItemCreator;
+  final T Function() getNewItem;
   final double width,heigth;
-  final List<Creator<T>> creatorList=List.empty(growable: true);
-  ListCreator({super.key, required super.item,required this.getNewCreator,this.width=60,this.heigth=70});
+  ListCreator({super.key, required super.item,required this.getItemCreator,this.width=60,this.heigth=70,required this.getNewItem});
   @override
   State<ListCreator> createState() => _ListCreatorState();
 }
-
 class _ListCreatorState extends State<ListCreator> {
   @override
   Widget build(BuildContext context) {
@@ -88,18 +82,40 @@ class _ListCreatorState extends State<ListCreator> {
       height: widget.heigth,
       child: ListView(
         children: [
-          ...widget.creatorList.map((e) => Row(children: [e,IconButton(onPressed: (){
+          ...widget.item.map((e) => Row(children: [widget.getItemCreator(e),IconButton(onPressed: (){
             setState(() {
-              widget.creatorList.remove(e);
+              widget.item.remove(e);
+              widget.onChanged(widget.item);
             });
           }, icon:const Icon(Icons.delete))],)),
           TextButton(onPressed: (){
             setState(() {
-              widget.creatorList.add(widget.getNewCreator());
+              widget.item.add(widget.getNewItem());
+              widget.onChanged(widget.item);
             });
           }, child:const Text("Add new item"))
         ],
       )
+    );
+  }
+}
+
+class Selector<T> extends Creator<T> {
+  final List<T> items;
+  Selector({super.key, required super.item,required this.items,required super.onChanged});
+  @override
+  State<Selector> createState() => _SelectorState();
+}
+class _SelectorState extends State<Selector> {
+  @override
+  Widget build(BuildContext context) {
+    return DropdownMenu(dropdownMenuEntries: widget.items.map((e) => DropdownMenuEntry(value: e, label: e.toString())).toList(),
+    initialSelection: widget.item,
+    onSelected: (value)
+    {
+      widget.item=value;
+      widget.onChanged(value);
+    },
     );
   }
 }

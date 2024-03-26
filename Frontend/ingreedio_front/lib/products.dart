@@ -49,6 +49,9 @@ class Ingredient
   String name;
   String iconUrl;
   Ingredient.fromAllData({required this.iconUrl,required this.id,required this.name});
+  @override String toString() {
+    return name;
+  }
 }
 class Preference
 {

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:ingreedio_front/creators.dart';
 //unsigned int
 class UnsignedIntCreator extends Creator<int> {
-  UnsignedIntCreator({super.key,super.item=0,super.onChanged=doNothing});
+  UnsignedIntCreator({super.key,super.item=0,super.onChanged=doNothing,super.reference});
 
   @override
   State<UnsignedIntCreator> createState() => _UnsignedIntCreatorState();
@@ -34,12 +34,11 @@ class _UnsignedIntCreatorState extends State<UnsignedIntCreator> {
 }
 //string 
 class StringCreator extends Creator<String> {
-  StringCreator({super.key,super.item="",super.onChanged=doNothing});
+  StringCreator({super.key,super.item="",super.onChanged=doNothing,super.reference});
 
   @override
   State<StringCreator> createState() => _StringCreatorState();
 }
-
 class _StringCreatorState extends State<StringCreator> {
   @override
   Widget build(BuildContext context) {
@@ -55,7 +54,7 @@ class _StringCreatorState extends State<StringCreator> {
 }
 //double
 class DoubleCreator extends Creator<double> {
-  DoubleCreator({super.key, super.item=0,super.onChanged=doNothing});
+  DoubleCreator({super.key, super.item=0,super.onChanged=doNothing,super.reference});
 
   @override
   State<DoubleCreator> createState() => _DoubleCreatorState();
