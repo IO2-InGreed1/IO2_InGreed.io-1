@@ -82,7 +82,7 @@ class Preference
     //TODO: this 
     throw Exception("not implemented");
   }
-  void removeprefered(Ingredient ingredient)
+  void removePrefered(Ingredient ingredient)
   {
     //TODO: this 
     throw Exception("not implemented");
@@ -102,6 +102,7 @@ class Opinion
   User author;
   String text;
   double score;
+  bool isReported=false;
   void calculateScore(double score)
   {
     //TODO: this 

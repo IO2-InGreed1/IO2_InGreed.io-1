@@ -1,26 +1,23 @@
+import 'package:ingreedio_front/database_mockup.dart';
 import 'package:ingreedio_front/products.dart';
 import 'users.dart';
 abstract class IModerator
 {
-  void lookAtReports(Product product)
+  List<Opinion> lookAtReports(Product product)
   {
-    //TODO: this
-    throw Exception("not implemented");
+    return DatabaseWrapper.instance.lookAtReports(product);
   }
-  void searchInvalidOpinions()
+  List<Opinion> searchInvalidOpinions()
   {
-    //TODO: this
-    throw Exception("not implemented");
+    return DatabaseWrapper.instance.searchInvalidOpinions();
   }
   void deleteOpinion(Opinion opinion)
   {
-    //TODO: this
-    throw Exception("not implemented");
+    DatabaseWrapper.instance.deleteOpinion(opinion);
   }
-  void searchAdviser(Opinion opinion)
+  User searchAdviser(Opinion opinion)
   {
-    //TODO: this
-    throw Exception("not implemented");
+    return DatabaseWrapper.instance.searchAdviser(opinion);
   }
 }
 class Moderator extends IModerator
@@ -30,8 +27,7 @@ class Moderator extends IModerator
   List<Opinion> editedOpinionList;
   void clearEditedOpinionList()
   {
-    //TODO: this
-    throw Exception("not implemented");
+    DatabaseWrapper.instance.clearEditedOpinionList(moderatorNumber);
   }
   void editionHistory(Opinion opinion)
   {

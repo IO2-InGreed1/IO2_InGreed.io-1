@@ -10,7 +10,23 @@ abstract class Database
   List<Ingredient> getAllIngredients();
   List<Opinion> getAllOpinions();
   List<Product> getAllProducts();
+  List<Opinion> lookAtReports(Product product);
+  List<Opinion> searchInvalidOpinions();
+  void deleteOpinion(Opinion opinion);
+  User searchAdviser(Opinion opinion);
+  void clearEditedOpinionList(int moderatorNumber);
 }
+
+class DatabaseWrapper {
+  static Database _instance = MockupDatabase();
+
+  static Database get instance => _instance;
+
+  static setInstance(Database instance) {
+    _instance = instance;
+  }
+}
+
 class MockupDatabase extends Database
 {
   MockupDatabase():opinions=[],clients=[],producers=[],products=[],ingredients=[];
@@ -138,6 +154,117 @@ class MockupDatabase extends Database
   @override
   List<Product> getAllProducts() {
     return products;
+  }
+  
+  @override
+  List<Opinion> lookAtReports(Product product) {
+    return opinions.where((opinion) => opinion.isReported && opinion.product == product).toList();
+  }
+  
+  @override
+  List<Opinion> searchInvalidOpinions() {
+    return opinions.where((opinion) => opinion.score<=1).toList(); //miało być wyszukiwanie kluczowych słów ale tak roboczo łatwiej
+  }
+  
+  @override
+  void deleteOpinion(Opinion opinion) {
+    opinions.remove(opinion);
+  }
+  
+  @override
+  User searchAdviser(Opinion opinion) {
+    return opinion.author;
+  }
+  
+  @override
+  void clearEditedOpinionList(int moderatorNumber) {
+    moderator
+  }
+
+}
+class RealDatabase extends Database
+{
+  static final RealDatabase _database = RealDatabase._internal();
+  factory RealDatabase() {
+    return _database;
+  }
+  RealDatabase._internal();
+  
+  @override
+  void addClient(Client client) {
+    //TODO: this
+    throw Exception("not implemented");
+  }
+  @override
+  void removeClient(Client client) {
+    //TODO: this
+    throw Exception("not implemented");
+  }
+  
+  @override
+  void removeOpinion(Opinion opinion) {
+    //TODO: this
+    throw Exception("not implemented");
+  }
+  
+  @override
+  List<Client> getAllClients() {
+    //TODO: this
+    throw Exception("not implemented");
+  }
+  
+  @override
+  List<Ingredient> getAllIngredients() {
+    //TODO: this
+    throw Exception("not implemented");
+  }
+  
+  @override
+  List<Opinion> getAllOpinions() {
+    //TODO: this
+    throw Exception("not implemented");
+  }
+  
+  @override
+  List<Producer> getAllProducers() {
+    //TODO: this
+    throw Exception("not implemented");
+  }
+  
+  @override
+  List<Product> getAllProducts() {
+    //TODO: this
+    throw Exception("not implemented");
+  }
+  
+  @override
+  List<Opinion> lookAtReports(Product product) {
+    // TODO: implement lookAtReports
+    throw Exception("not implemented");
+  }
+  
+  @override
+  List<Opinion> searchInvalidOpinions() {
+    // TODO: implement searchInvalidOpinions
+    throw UnimplementedError();
+  }
+  
+  @override
+  void deleteOpinion(Opinion opinion) {
+    // TODO: implement deleteOpinion
+    throw Exception("not implemented");
+  }
+  
+  @override
+  User searchAdviser(Opinion opinion) {
+    // TODO: implement searchAdviser
+    throw UnimplementedError();
+  }
+  
+  @override
+  void clearEditedOpinionList(int moderatorNumber) {
+    // TODO: implement clearEditedOpinionList
+        throw UnimplementedError();
   }
 
 }
