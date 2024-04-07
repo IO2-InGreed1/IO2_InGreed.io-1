@@ -3,8 +3,9 @@
     [Flags]
     public enum Category
     {
-        Food = 1,
-        Drinks = 2,
-        Cosmetics = 4
+        Other = 1,
+        Food = 2,
+        Drinks = 4,
+        Cosmetics = 8
     }
 }
