@@ -1,7 +1,6 @@
-﻿namespace InGreed.Domain.Models
+﻿namespace InGreed.Domain.Models;
+
+public class Base
 {
-    public class Base
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

@@ -1,7 +1,6 @@
-﻿namespace InGreed.Domain.Interfaces
-{
-    public interface IModerator
-    {
+﻿namespace InGreed.Domain.Interfaces;
 
-    }
+public interface IModerator
+{
+
 }
