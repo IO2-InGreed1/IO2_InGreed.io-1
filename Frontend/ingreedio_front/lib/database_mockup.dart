@@ -1,3 +1,4 @@
+import 'package:ingreedio_front/admins.dart';
 import 'package:ingreedio_front/products.dart';
 import 'package:ingreedio_front/users.dart';
 abstract class Database
@@ -29,15 +30,16 @@ class DatabaseWrapper {
 
 class MockupDatabase extends Database
 {
-  MockupDatabase():opinions=[],clients=[],producers=[],products=[],ingredients=[];
+  MockupDatabase():opinions=[],clients=[],producers=[],products=[],ingredients=[],moderators=[];
   List<Client> clients;
   List<Product> products;
   List<Producer> producers;
   List<Opinion> opinions;
   List<Ingredient> ingredients;
+  List<Moderator> moderators;
   MockupDatabase.filled():opinions=List.empty(growable: true),clients=List.empty(growable: true),
   producers=List.empty(growable: true),products=List.empty(growable: true),
-  ingredients=List.empty(growable: true)
+  ingredients=List.empty(growable: true), moderators=List.empty(growable: true)
   {
     ingredients.add(Ingredient.fromAllData(iconUrl: "https://media.istockphoto.com/id/184276818/photo/red-apple.jpg?s=612x612&w=0&k=20&c=NvO-bLsG0DJ_7Ii8SSVoKLurzjmV0Qi4eGfn6nW3l5w=", id: 0, name: "ing_1"));
     ingredients.add(Ingredient.fromAllData(iconUrl: "b", id: 1, name: "ing_2"));
@@ -115,6 +117,9 @@ class MockupDatabase extends Database
     opinions.add(
       Opinion.fromAllData(author: clients[1], id: 5, product: products[1], score: 3, text: "XD3")
     );
+    moderators.add(Moderator.fromAllData(moderatorNumber: 0, editedOpinionList: [opinions[0],opinions[2],opinions[4]]));
+    moderators.add(Moderator.fromAllData(moderatorNumber: 1, editedOpinionList: [opinions[1],opinions[3]]));
+  
   }
   
   @override
@@ -178,8 +183,11 @@ class MockupDatabase extends Database
   
   @override
   void clearEditedOpinionList(int moderatorNumber) {
-    moderator
+    moderators.firstWhere((moderator) => moderator.moderatorNumber==moderatorNumber).editedOpinionList.clear();
   }
+
+
+
 
 }
 class RealDatabase extends Database
