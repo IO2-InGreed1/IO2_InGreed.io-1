@@ -26,7 +26,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal
 
     - name: Publish
-      run: dotnet publish Src/InGreed.Api/InGreed.Api.csproj -c Release --nologo -o artifacts
+      run: dotnet publish Src/InGreed.Api/InGreed.Api.csproj -c Release --nologo -o artifacts --self-contained -r win-x64
 
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v2
