@@ -4,7 +4,7 @@ import 'package:ingreedio_front/creators.dart';
 import 'package:ingreedio_front/products.dart';
 
 class ProductCreator extends Creator<Product> {
-  ProductCreator({super.key, required super.reference,super.onChanged=doNothing});
+  const ProductCreator({super.key, required super.reference,super.onChanged=doNothing});
 
   @override
   State<ProductCreator> createState() => _ProductCreatorState();
@@ -26,18 +26,15 @@ class _ProductCreatorState extends State<ProductCreator> {
           widget.onChanged(widget.item);
         },
         );
-    Widget idInput=UnsignedIntCreator(onChanged: (value){
-          setState(() {
-            widget.item.id=value;
-          });
-        },);
+    Widget idInput=UnsignedIntCreator(
+            onChanged: (value){widget.item.id=value;},
+            item: widget.item.id,);
     Widget nameInput=StringCreator(
           onChanged: (value)
           {
-            setState(() {
             widget.item.name=value;
-            });
           },
+          item: widget.item.name,
         );
 
     return Column(

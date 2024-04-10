@@ -75,7 +75,8 @@ class _ListCreatorState extends State<ListCreator> {
       height: widget.heigth,
       child: ListView(
         children: [
-          ...widget.item.map((e) => Row(children: [widget.creator.getInstance(reference: e),IconButton(onPressed: (){
+          ...widget.item.map((e) => Row(children: [widget.creator.getInstance(reference: e)
+          ,IconButton(onPressed: (){
             setState(() {
               widget.item.remove(e);
               widget.onChanged(widget.item);
