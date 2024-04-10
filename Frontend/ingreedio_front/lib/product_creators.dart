@@ -4,10 +4,15 @@ import 'package:ingreedio_front/creators.dart';
 import 'package:ingreedio_front/products.dart';
 
 class ProductCreator extends Creator<Product> {
-  ProductCreator({super.key, required super.item,super.onChanged=doNothing});
+  ProductCreator({super.key, required super.reference,super.onChanged=doNothing});
 
   @override
   State<ProductCreator> createState() => _ProductCreatorState();
+  
+  @override
+  Creator<Product> getInstance({Key? key, Function(Product p1) onChanged = doNothing, required ItemWrapper<Product> reference}) {
+    return ProductCreator(reference: reference,key: key,onChanged: onChanged,);
+  }
 }
 class _ProductCreatorState extends State<ProductCreator> {
   @override

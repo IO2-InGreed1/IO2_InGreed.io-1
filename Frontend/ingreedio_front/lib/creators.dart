@@ -1,31 +1,19 @@
 import 'package:flutter/material.dart';
 void doNothing(dynamic){}
-class BoolCreator extends Creator<bool> {
-  BoolCreator({super.key, required super.item});
-
-  @override
-  State<BoolCreator> createState() => _BoolCreatorState();
-}
-
-class _BoolCreatorState extends State<BoolCreator> {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text("Are you sure?"));
-  }
-}
 class ItemWrapper<T>
 {
   ItemWrapper(this.item);
   T item;
 }
 abstract class Creator<T> extends StatefulWidget {
-  Creator({super.key, required T item,this.onChanged=doNothing,ItemWrapper<T>? reference}):_container=reference ?? ItemWrapper(item);
+  const Creator({super.key,this.onChanged=doNothing,required ItemWrapper<T> reference}):_container=reference;
   T get item=>_container.item;
   final void Function(T) onChanged;
   set item(T value){
     _container.item=value;
     onChanged(value);
   }
+  Creator<T> getInstance({Key? key,Function(T) onChanged=doNothing,required ItemWrapper<T> reference});
   final ItemWrapper<T> _container;
 }
 class CreatorDialog<T> extends StatelessWidget {
@@ -66,13 +54,18 @@ class DialogButton<T> extends StatelessWidget {
   }
 }
 
-class ListCreator<T> extends Creator<List<T>> {
-  final Creator<T> Function(T) getItemCreator;
+class ListCreator<T> extends Creator<List<ItemWrapper<T>>> {
   final T Function() getNewItem;
+  final Creator<T> creator;
   final double width,heigth;
-  ListCreator({super.key, required super.item,required this.getItemCreator,this.width=60,this.heigth=70,required this.getNewItem});
+  const ListCreator({required this.creator,super.key,this.width=60,this.heigth=70,required this.getNewItem,required super.reference,super.onChanged});
   @override
   State<ListCreator> createState() => _ListCreatorState();
+  
+  @override
+  Creator<List<ItemWrapper<T>>> getInstance({Key? key, Function(List<ItemWrapper<T>> p1) onChanged = doNothing,required ItemWrapper<List<ItemWrapper<T>>> reference}) {
+    return ListCreator(getNewItem: getNewItem, reference: reference,key: key,onChanged: onChanged, creator: creator,);
+  }
 }
 class _ListCreatorState extends State<ListCreator> {
   @override
@@ -82,7 +75,7 @@ class _ListCreatorState extends State<ListCreator> {
       height: widget.heigth,
       child: ListView(
         children: [
-          ...widget.item.map((e) => Row(children: [widget.getItemCreator(e),IconButton(onPressed: (){
+          ...widget.item.map((e) => Row(children: [widget.creator.getInstance(reference: e),IconButton(onPressed: (){
             setState(() {
               widget.item.remove(e);
               widget.onChanged(widget.item);
@@ -102,9 +95,14 @@ class _ListCreatorState extends State<ListCreator> {
 
 class Selector<T> extends Creator<T> {
   final List<T> items;
-  Selector({super.key, required super.item,required this.items,required super.onChanged});
+  Selector({super.key, required super.reference,required this.items,required super.onChanged});
   @override
   State<Selector> createState() => _SelectorState();
+  
+  @override
+  Creator<T> getInstance({Key? key, Function(T p1) onChanged = doNothing, required ItemWrapper<T> reference}) {
+    return Selector(reference: reference, items: items, onChanged: onChanged);
+  }
 }
 class _SelectorState extends State<Selector> {
   @override

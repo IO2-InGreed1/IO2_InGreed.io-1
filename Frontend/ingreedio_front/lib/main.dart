@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            DialogButton<Product>(creator: ProductCreator(item: Product.empty()), onFinished: (val){
+            DialogButton<Product>(creator: ProductCreator(reference:ItemWrapper<Product>(Product.empty())), onFinished: (val){
               setState(() {
                 products.add(val);
               });
