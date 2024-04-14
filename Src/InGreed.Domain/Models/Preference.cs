@@ -1,36 +1,11 @@
 ﻿namespace InGreed.Domain.Models;
 
-public class Preference : Base
+public class Preference
 {
+    public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
-    private List<Ingredient> _forbidden = new();
-    public List<Ingredient> Forbidden 
-    {
-        get
-        {
-            throw new NotImplementedException();
-        }
-        set
-        {
-            throw new NotFiniteNumberException();
-        }
-    }
-    private List<Ingredient> _preferred = new();
-    public List<Ingredient> Preferred
-    {
-        get
-        {
-            throw new NotImplementedException();
-        }
-        set
-        {
-            throw new NotImplementedException();
-        }
-    }
+    private List<Ingredient> Forbidden { get; } = new();
+    private List<Ingredient> Preferred { get; } = new();
+    
     public bool Active { get; set; } = new();
-
-    public void ChangeActivity()
-    {
-        throw new NotImplementedException();
-    }
 }

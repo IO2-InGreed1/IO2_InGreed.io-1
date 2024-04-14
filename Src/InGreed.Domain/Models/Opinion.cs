@@ -1,25 +1,11 @@
 ﻿namespace InGreed.Domain.Models;
 
-public class Opinion : Base
+public class Opinion
 {
-    public Product Product { get; set; }
-    public User Author {  get; set; }
+    public int Id { get; set; }
+    public Product Product { get; set; } = null!;
+    public User Author { get; set; } = null!;
     public string Content { get; set; } = string.Empty;
     public float Score { get; set; }
-
-    public void CalculateScore(float rating)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Report()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Rate(float rating)
-    {
-        throw new NotImplementedException();
-    }
 }
 

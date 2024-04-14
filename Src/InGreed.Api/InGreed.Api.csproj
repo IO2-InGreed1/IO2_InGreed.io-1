@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InGreed.Application\InGreed.Application.csproj" />
+    <ProjectReference Include="..\InGreed.Application\InGreed.Logic.csproj" />
     <ProjectReference Include="..\InGreed.Domain\InGreed.Domain.csproj" />
   </ItemGroup>
 
