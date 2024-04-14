@@ -19,7 +19,7 @@ abstract class Database
 }
 
 class DatabaseWrapper {
-  static Database _instance = MockupDatabase();
+  static Database _instance = MockupDatabase.filled();
 
   static Database get instance => _instance;
 

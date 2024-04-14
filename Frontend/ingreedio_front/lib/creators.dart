@@ -58,16 +58,16 @@ class ListCreator<T> extends Creator<List<ItemWrapper<T>>> {
   final T Function() getNewItem;
   final Creator<T> creator;
   final double width,heigth;
-  const ListCreator({required this.creator,super.key,this.width=60,this.heigth=70,required this.getNewItem,required super.reference,super.onChanged});
+  const ListCreator({required this.creator,super.key,this.width=300,this.heigth=300,required this.getNewItem,required super.reference,super.onChanged});
   @override
-  State<ListCreator> createState() => _ListCreatorState();
+  State<ListCreator> createState() => _ListCreatorState<T>();
   
   @override
   Creator<List<ItemWrapper<T>>> getInstance({Key? key, Function(List<ItemWrapper<T>> p1) onChanged = doNothing,required ItemWrapper<List<ItemWrapper<T>>> reference}) {
     return ListCreator(getNewItem: getNewItem, reference: reference,key: key,onChanged: onChanged, creator: creator,);
   }
 }
-class _ListCreatorState extends State<ListCreator> {
+class _ListCreatorState<T> extends State<ListCreator<T>> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -75,7 +75,7 @@ class _ListCreatorState extends State<ListCreator> {
       height: widget.heigth,
       child: ListView(
         children: [
-          ...widget.item.map((e) => Row(children: [widget.creator.getInstance(reference: e)
+          ...widget.item.map((e) => Row(children: [widget.creator.getInstance(reference: e,onChanged: (value){widget.onChanged(widget.item);})
           ,IconButton(onPressed: (){
             setState(() {
               widget.item.remove(e);
@@ -84,7 +84,7 @@ class _ListCreatorState extends State<ListCreator> {
           }, icon:const Icon(Icons.delete))],)),
           TextButton(onPressed: (){
             setState(() {
-              widget.item.add(widget.getNewItem());
+              widget.item.add(ItemWrapper<T>(widget.getNewItem()));
               widget.onChanged(widget.item);
             });
           }, child:const Text("Add new item"))
@@ -98,22 +98,25 @@ class Selector<T> extends Creator<T> {
   final List<T> items;
   Selector({super.key, required super.reference,required this.items,required super.onChanged});
   @override
-  State<Selector> createState() => _SelectorState();
+  State<Selector> createState() => _SelectorState<T>();
   
   @override
   Creator<T> getInstance({Key? key, Function(T p1) onChanged = doNothing, required ItemWrapper<T> reference}) {
     return Selector(reference: reference, items: items, onChanged: onChanged);
   }
 }
-class _SelectorState extends State<Selector> {
+class _SelectorState<T> extends State<Selector<T>> {
   @override
   Widget build(BuildContext context) {
     return DropdownMenu(dropdownMenuEntries: widget.items.map((e) => DropdownMenuEntry(value: e, label: e.toString())).toList(),
     initialSelection: widget.item,
     onSelected: (value)
     {
-      widget.item=value;
-      widget.onChanged(value);
+      if(value is T)
+      {
+        widget.item=value;
+        widget.onChanged(value);
+      }
     },
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators.dart';
 import 'package:ingreedio_front/login_screen.dart';
+import 'package:ingreedio_front/preference_creator.dart';
 import 'package:ingreedio_front/product_creators.dart';
 import 'package:ingreedio_front/products.dart';
 
@@ -46,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
-  List<Product> products=List.empty(growable: true);
+  List<Preference> products=List.empty(growable: true);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,12 +66,12 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            DialogButton<Product>(creator: ProductCreator(reference:ItemWrapper<Product>(Product.empty())), onFinished: (val){
+            DialogButton<Preference>(creator: PreferenceCreator(reference:ItemWrapper<Preference>(Preference.fromAllData(allergens: List.empty(growable: true), id: 1, isActive: false, name: "name", prefered: List.empty(growable: true)))), onFinished: (val){
               setState(() {
                 products.add(val);
               });
             }, child:const Text("XD")),
-          ...products.map((e) => Text(e.name)).toList()
+          ...products.map((e) => Column(children: e.prefered.map((e) => Text(e.name)).toList()..addAll(e.allergens.map((e) => Text(e.name)))..add(Text(e.name)))).toList()
           ],
         ),
         

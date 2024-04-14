@@ -16,7 +16,14 @@ class LoginPage extends StatefulWidget {
     password: '123456',
     username: 'joe', 
     preferences: List.empty(), 
-    favoriteProducts: List.empty())
+    favoriteProducts: List.empty()),
+    Client.fromAllData( id: 3,
+    isBlocked: false,
+    mail: 'bob@gmail.com',
+    password: '',
+    username: '', 
+    preferences: List.empty(), 
+    favoriteProducts: List.empty()),
   ];
 
   LoginPage({Key? key}) : super(key: key);
@@ -92,6 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
+                  return null;
                   if (value == null || value.isEmpty) {
                     return 'Please enter your username';
                   }
@@ -107,6 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
+                  return null;
                   if (value == null || value.isEmpty) {
                     return 'Please enter your password';
                   }
