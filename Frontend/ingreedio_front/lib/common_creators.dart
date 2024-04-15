@@ -15,7 +15,7 @@ class UnsignedIntCreator extends Creator<int> {
 class _UnsignedIntCreatorState extends State<UnsignedIntCreator> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(width: 40,
+    return SizedBox(width: 200,
               child: TextFormField(
               controller: TextEditingController()..text=widget.item.toString(),
               keyboardType: TextInputType.number,
@@ -51,13 +51,13 @@ class StringCreator extends Creator<String> {
 class _StringCreatorState extends State<StringCreator> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(width: 40,
+    return SizedBox(width: 200,
               child: TextFormField(
               controller: TextEditingController()..text=widget.item,
               onChanged: (value){
                 widget.item=value;
                 },
-                    ),
+              ),
             );
   }
 }
@@ -78,7 +78,7 @@ class _DoubleCreatorState extends State<DoubleCreator> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 60,
+      width: 200,
       child: TextFormField(
           keyboardType:const TextInputType.numberWithOptions(decimal: true),
           inputFormatters: <TextInputFormatter>[
