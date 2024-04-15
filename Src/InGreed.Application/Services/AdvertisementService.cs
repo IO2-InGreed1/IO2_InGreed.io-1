@@ -1,4 +1,4 @@
-﻿namespace InGreed.Application.Services;
+﻿namespace InGreed.Logic.Services;
 
 public class AdvertisementService
 {

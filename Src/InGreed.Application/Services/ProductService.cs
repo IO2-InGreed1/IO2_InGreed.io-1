@@ -1,8 +1,7 @@
-﻿
-using InGreed.Domain.Models;
+﻿using InGreed.Domain.Models;
 
-namespace InGreed.Application.Services;
+namespace InGreed.Logic.Services;
 
-public class ProductService
+public class ProductService 
 {
 }
