@@ -131,7 +131,6 @@ class _SelectorState<T> extends State<Selector<T>> {
   @override
   Widget build(BuildContext context) {
     return DropdownMenu(dropdownMenuEntries: widget.items.map((e) => DropdownMenuEntry(value: e, label: e.toString())).toList(),
-    initialSelection: widget.item,
     onSelected: (value)
     {
       if(value is T)
@@ -140,6 +139,7 @@ class _SelectorState<T> extends State<Selector<T>> {
         widget.onChanged(value);
       }
     },
+    enableFilter: true,
     );
   }
 }
