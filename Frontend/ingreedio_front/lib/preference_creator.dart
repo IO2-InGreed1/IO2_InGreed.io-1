@@ -21,11 +21,19 @@ class _PreferenceCreatorState extends State<PreferenceCreator> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment:MainAxisAlignment.center,
       children: [
-        StringCreator(
-          item: widget.item.name,
-          onChanged: (val){widget.item.name=val;},
+        Row(
+          mainAxisAlignment:MainAxisAlignment.center,
+          children: [
+            const Text("Name: "),
+            StringCreator(
+              item: widget.item.name,
+              onChanged: (val){widget.item.name=val;},
+            ),
+          ],
         ),
+        const Text("Allergens: "),
         ListCreator<Ingredient>(creator: 
           IngredientSelector.withItems(onChanged: (ingredient) {  }, 
           reference: ItemWrapper<Ingredient>( widget.ingredients.first), items: widget.ingredients,), 
@@ -36,6 +44,7 @@ class _PreferenceCreatorState extends State<PreferenceCreator> {
             widget.item.allergens=value.map((e) => e.item).toList();
           },
           ),
+          const Text("Prefferences: "),
           ListCreator<Ingredient>(creator: 
           IngredientSelector.withItems(onChanged: (ingredient) {  }, 
           reference: ItemWrapper<Ingredient>( widget.ingredients.first), items: widget.ingredients,), 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators.dart';
 import 'package:ingreedio_front/login_screen.dart';
 import 'package:ingreedio_front/preference_creator.dart';
-import 'package:ingreedio_front/product_creators.dart';
 import 'package:ingreedio_front/products.dart';
 
 void main() {
