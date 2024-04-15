@@ -57,19 +57,43 @@ class DialogButton<T> extends StatelessWidget {
 class ListCreator<T> extends Creator<List<ItemWrapper<T>>> {
   final T Function() getNewItem;
   final Creator<T> creator;
-  const ListCreator({required this.creator,super.key,required this.getNewItem,required super.reference,super.onChanged});
+  const ListCreator({required this.creator,super.key,required this.getNewItem,required super.reference,super.onChanged,this.hidable=true});
   @override
   State<ListCreator> createState() => _ListCreatorState<T>();
-  
+  final bool hidable;
   @override
   Creator<List<ItemWrapper<T>>> getInstance({Key? key, Function(List<ItemWrapper<T>> p1) onChanged = doNothing,required ItemWrapper<List<ItemWrapper<T>>> reference}) {
     return ListCreator(getNewItem: getNewItem, reference: reference,key: key,onChanged: onChanged, creator: creator,);
   }
 }
 class _ListCreatorState<T> extends State<ListCreator<T>> {
+  bool hidden=false;
   @override
   Widget build(BuildContext context) {
-    return Column(
+  List<Widget> widgets=List.empty(growable: true);
+   if(widget.hidable)
+   {
+    if(hidden)
+    {
+      widgets.add(TextButton(onPressed: 
+      (){
+        setState(() {
+          hidden=!hidden;
+        });
+      }, child: const Icon(Icons.arrow_downward)));
+      return Column(children: widgets,);
+    }
+    else 
+    {
+      widgets.add(TextButton(onPressed: 
+      (){
+        setState(() {
+          hidden=!hidden;
+        });
+      }, child: const Icon(Icons.arrow_upward)));
+    }
+   }
+   widgets.add(Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ...widget.item.map((e) => Row(mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +111,8 @@ class _ListCreatorState<T> extends State<ListCreator<T>> {
           });
         }, child:const Text("Add new item"))
       ],
-    );
+    ));
+  return Column(children: widgets,);
   }
 }
 
