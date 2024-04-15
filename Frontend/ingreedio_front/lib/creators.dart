@@ -57,8 +57,7 @@ class DialogButton<T> extends StatelessWidget {
 class ListCreator<T> extends Creator<List<ItemWrapper<T>>> {
   final T Function() getNewItem;
   final Creator<T> creator;
-  final double width,heigth;
-  const ListCreator({required this.creator,super.key,this.width=300,this.heigth=300,required this.getNewItem,required super.reference,super.onChanged});
+  const ListCreator({required this.creator,super.key,required this.getNewItem,required super.reference,super.onChanged});
   @override
   State<ListCreator> createState() => _ListCreatorState<T>();
   
@@ -70,26 +69,24 @@ class ListCreator<T> extends Creator<List<ItemWrapper<T>>> {
 class _ListCreatorState<T> extends State<ListCreator<T>> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.width,
-      height: widget.heigth,
-      child: ListView(
-        children: [
-          ...widget.item.map((e) => Row(children: [widget.creator.getInstance(reference: e,onChanged: (value){widget.onChanged(widget.item);})
-          ,IconButton(onPressed: (){
-            setState(() {
-              widget.item.remove(e);
-              widget.onChanged(widget.item);
-            });
-          }, icon:const Icon(Icons.delete))],)),
-          TextButton(onPressed: (){
-            setState(() {
-              widget.item.add(ItemWrapper<T>(widget.getNewItem()));
-              widget.onChanged(widget.item);
-            });
-          }, child:const Text("Add new item"))
-        ],
-      )
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ...widget.item.map((e) => Row(mainAxisAlignment: MainAxisAlignment.center,
+          children: [widget.creator.getInstance(reference: e,onChanged: (value){widget.onChanged(widget.item);})
+        ,IconButton(onPressed: (){
+          setState(() {
+            widget.item.remove(e);
+            widget.onChanged(widget.item);
+          });
+        }, icon:const Icon(Icons.delete))],)),
+        TextButton(onPressed: (){
+          setState(() {
+            widget.item.add(ItemWrapper<T>(widget.getNewItem()));
+            widget.onChanged(widget.item);
+          });
+        }, child:const Text("Add new item"))
+      ],
     );
   }
 }
