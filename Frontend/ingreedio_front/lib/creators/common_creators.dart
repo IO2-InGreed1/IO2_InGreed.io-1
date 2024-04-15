@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ingreedio_front/creators.dart';
+import 'package:ingreedio_front/creators/creators.dart';
 //unsigned int
 class UnsignedIntCreator extends Creator<int> {
   UnsignedIntCreator({super.key,super.onChanged=doNothing,int item=0}):super(reference: ItemWrapper<int>(item));

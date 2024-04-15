@@ -5,6 +5,18 @@ class ItemWrapper<T>
   ItemWrapper(this.item);
   T item;
 }
+class LabelWidget extends StatelessWidget {
+  const LabelWidget({super.key, required this.label, required this.child});
+  final Widget child;
+  final String label;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [Text(label),child],
+    );
+  }
+}
 abstract class Creator<T> extends StatefulWidget {
   const Creator({super.key,this.onChanged=doNothing,required ItemWrapper<T> reference}):_container=reference;
   T get item=>_container.item;

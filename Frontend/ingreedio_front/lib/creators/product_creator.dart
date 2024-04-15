@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ingreedio_front/common_creators.dart';
-import 'package:ingreedio_front/creators.dart';
+import 'package:ingreedio_front/creators/common_creators.dart';
+import 'package:ingreedio_front/creators/creators.dart';
+import 'package:ingreedio_front/creators/ingredient_creator.dart';
+import 'package:ingreedio_front/database_mockup.dart';
 import 'package:ingreedio_front/products.dart';
 
 class ProductCreator extends Creator<Product> {
@@ -36,10 +38,12 @@ class _ProductCreatorState extends State<ProductCreator> {
           },
           item: widget.item.name,
         );
-
+    Widget ingredientsInput=IngredientListSelector(reference:ItemWrapper(widget.item.ingredients),
+     ingredients: DatabaseWrapper.instance.getAllIngredients(),
+     onChanged: (value){widget.item.ingredients=value;},);
     return Column(
       children: [
-        catogoryInput,idInput,nameInput
+        catogoryInput,idInput,nameInput,ingredientsInput
       ],
     );
   }
