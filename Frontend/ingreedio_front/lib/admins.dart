@@ -5,7 +5,7 @@ abstract class IModerator
 {
   List<Opinion> lookAtReports(Product product)
   {
-    return DatabaseWrapper.instance.lookAtReports(product);
+    return DatabaseWrapper.instance.getReportedOpinions(product);
   }
   List<Opinion> searchInvalidOpinions()
   {

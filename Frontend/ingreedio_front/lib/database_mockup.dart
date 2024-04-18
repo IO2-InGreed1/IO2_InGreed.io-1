@@ -11,7 +11,7 @@ abstract class Database
   List<Ingredient> getAllIngredients();
   List<Opinion> getAllOpinions();
   List<Product> getAllProducts();
-  List<Opinion> lookAtReports(Product product);
+  List<Opinion> getReportedOpinions(Product product);
   List<Opinion> searchInvalidOpinions();
   void deleteOpinion(Opinion opinion);
   User searchAdviser(Opinion opinion);
@@ -162,7 +162,7 @@ class MockupDatabase extends Database
   }
   
   @override
-  List<Opinion> lookAtReports(Product product) {
+  List<Opinion> getReportedOpinions(Product product) {
     return opinions.where((opinion) => opinion.isReported && opinion.product == product).toList();
   }
   
@@ -246,7 +246,7 @@ class RealDatabase extends Database
   }
   
   @override
-  List<Opinion> lookAtReports(Product product) {
+  List<Opinion> getReportedOpinions(Product product) {
     // TODO: implement lookAtReports
     throw Exception("not implemented");
   }
