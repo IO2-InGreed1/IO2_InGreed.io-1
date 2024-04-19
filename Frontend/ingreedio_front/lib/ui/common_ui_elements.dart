@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class StandardDecorator extends StatelessWidget {
-  const StandardDecorator({super.key, required this.child,this.color=const Color.fromARGB(167, 231, 250, 29)});
+  const StandardDecorator({super.key, required this.child,this.color=const Color.fromARGB(167, 231, 250, 29),this.padding=7});
   final Widget child;
   final Color color;
+  final double padding;
   @override
   Widget build(BuildContext context) {
     return FittedBox(
@@ -20,7 +21,17 @@ class StandardDecorator extends StatelessWidget {
                   ),
                 ],
                 ),
-                child: child,
+                child: Column(children: [
+                  SizedBox(height: padding,),
+                  Row(
+                    children: [
+                      SizedBox(width: padding,),
+                      child,
+                      SizedBox(width: padding,)
+                    ],
+                  ),
+                  SizedBox(height: padding,),
+                ],),
       ),
     );
   }
