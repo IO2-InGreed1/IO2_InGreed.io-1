@@ -28,9 +28,6 @@ class _ProductCreatorState extends State<ProductCreator> {
           widget.onChanged(widget.item);
         },
         );
-    Widget idInput=UnsignedIntCreator(
-            onChanged: (value){widget.item.id=value;},
-            item: widget.item.id,);
     Widget nameInput=StringCreator(
           onChanged: (value)
           {
@@ -38,12 +35,27 @@ class _ProductCreatorState extends State<ProductCreator> {
           },
           item: widget.item.name,
         );
+        Widget descriptionInput=StringCreator(
+          onChanged: (value)
+          {
+            widget.item.description=value;
+          },
+          item: widget.item.name,
+          allowMultiline: true,
+        );
     Widget ingredientsInput=IngredientListSelector(reference:ItemWrapper(widget.item.ingredients),
      ingredients: DatabaseWrapper.instance.getAllIngredients(),
      onChanged: (value){widget.item.ingredients=value;},);
+    Widget padding=const SizedBox(height: 7,width: 7,);
     return Column(
       children: [
-        catogoryInput,idInput,nameInput,ingredientsInput
+        LabelWidget(label: "name: ",child: nameInput),
+        padding,
+        LabelWidget(label: "description: ",child: descriptionInput),
+        padding,
+        LabelWidget(label: "category: ",child: catogoryInput),
+        padding,
+        LabelWidget(label: "ingredients: ",child: ingredientsInput),
       ],
     );
   }

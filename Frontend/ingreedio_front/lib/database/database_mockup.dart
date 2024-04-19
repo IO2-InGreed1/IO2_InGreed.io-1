@@ -95,27 +95,27 @@ class MockupProductDatabase extends ProductDatabse
       "C3", nip: "2137", representativeName: "name3", representativeSurname: "surname1", telephoneNumber: "49-2")
     );
     products.add(
-      Product.fromAllData(category: Category.cosmetics, id: 1, ingredients: [ingredients[0],ingredients[1]], 
+      Product.fromAllData(description: "lorem ipsum1",category: Category.cosmetics, id: 1, ingredients: [ingredients[0],ingredients[1]], 
       name: "p1", producer: producers[0], promotionUntil: DateTime(0))
     );
     products.add(
-      Product.fromAllData(category: Category.cosmetics, id: 2, ingredients: [ingredients[2],ingredients[1]], 
+      Product.fromAllData(description: "lorem ipsum12",category: Category.cosmetics, id: 2, ingredients: [ingredients[2],ingredients[1]], 
       name: "p2", producer: producers[1], promotionUntil: DateTime(0))
       );
     products.add(
-      Product.fromAllData(category: Category.drink, id: 3, ingredients: [ingredients[3],ingredients[4]], 
+      Product.fromAllData(description: "lorem ipsum2",category: Category.drink, id: 3, ingredients: [ingredients[3],ingredients[4]], 
       name: "p3", producer: producers[2], promotionUntil: DateTime(0))
     );
     products.add(
-      Product.fromAllData(category: Category.food, id: 4, ingredients: [ingredients[3],ingredients[2]], 
+      Product.fromAllData(description: "lorem ipsum3",category: Category.food, id: 4, ingredients: [ingredients[3],ingredients[2]], 
       name: "p4", producer: producers[2], promotionUntil: DateTime(0))
     );
     products.add(
-      Product.fromAllData(category: Category.food, id: 5, ingredients: [ingredients[2],ingredients[0]], 
+      Product.fromAllData(description: "lorem ipsum4",category: Category.food, id: 5, ingredients: [ingredients[2],ingredients[0]], 
       name: "p5", producer: producers[2], promotionUntil: DateTime(20000))
     );
     products.add(
-      Product.fromAllData(category: Category.cosmetics, id: 6, ingredients: [ingredients[1],ingredients[4]], 
+      Product.fromAllData(description: "lorem ipsum5",category: Category.cosmetics, id: 6, ingredients: [ingredients[1],ingredients[4]], 
       name: "p6", producer: producers[0], promotionUntil: DateTime(0))
     );
   }

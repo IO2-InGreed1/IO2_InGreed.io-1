@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/creators/creators.dart';
+import 'package:ingreedio_front/creators/product_creator.dart';
 import 'package:ingreedio_front/login_screen.dart';
 import 'package:ingreedio_front/creators/preference_creator.dart';
+import 'package:ingreedio_front/products.dart';
 import 'package:ingreedio_front/users.dart';
-
 void main() {
   runApp(const MyApp());
 }
@@ -46,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
-  List<Preference> products=List.empty(growable: true);
+  List<Product> products=List.empty(growable: true);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Assets.resizedInGreedIcon(),
             const Text(
               'You have pushed the button this many times:',
             ),
@@ -65,12 +68,12 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            DialogButton<Preference>(creator: PreferenceCreator(reference:ItemWrapper<Preference>(Preference.fromAllData(client: Client.empty(),allergens: List.empty(growable: true), id: 1, isActive: false, name: "name", prefered: List.empty(growable: true)))), onFinished: (val){
+            DialogButton<Product>(creator: ProductCreator(reference: ItemWrapper(Product.empty()),), onFinished: (val){
               setState(() {
                 products.add(val);
               });
             }, child:const Text("XD")),
-          ...products.map((e) => Column(children: e.prefered.map((e) => Text(e.name)).toList()..addAll(e.allergens.map((e) => Text(e.name)))..add(Text(e.name)))).toList()
+          ...products.map((e) => e.iconWidget).toList()
           ],
         ),
         

@@ -6,15 +6,27 @@ class ItemWrapper<T>
   T item;
 }
 class LabelWidget extends StatelessWidget {
-  const LabelWidget({super.key, required this.label, required this.child});
+  const LabelWidget({super.key, required this.label, required this.child,this.padding=7,this.isHorizontal=true});
   final Widget child;
   final String label;
+  final double padding;
+  final bool isHorizontal;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [Text(label),child],
-    );
+    if(isHorizontal)
+    {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [Text(label),SizedBox(width: padding,),child],
+      );
+    }
+    else 
+    {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [Text(label),SizedBox(height: padding,),child],
+      );
+    }
   }
 }
 abstract class Creator<T> extends StatefulWidget {

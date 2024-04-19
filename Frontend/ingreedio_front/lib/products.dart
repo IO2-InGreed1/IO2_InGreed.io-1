@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:ingreedio_front/ui/product_widget.dart';
 import 'package:ingreedio_front/users.dart';
 
 enum Category
@@ -6,17 +8,19 @@ enum Category
 }
 class Product
 {
-  Product.empty():id=0,name="",promotionUntil=DateTime(0),category=Category.cosmetics,ingredients=[],producer=Producer.fromAllData(companyName: "", nip: "", representativeName: "", representativeSurname: "", telephoneNumber: "");
+  Product.empty():id=0,name="",description="",promotionUntil=DateTime(0),category=Category.cosmetics,ingredients=[],producer=Producer.fromAllData(companyName: "CompanyName", nip: "1", representativeName: "representativeName", representativeSurname: "representativeSurname", telephoneNumber: "123123123");
   Product.fromAllData({
     required this.category,
+    required this.description,
     required this.id,
     required this.ingredients,
     required this.name,
     required this.producer,
     required this.promotionUntil
   });
+  Widget get iconWidget=>ProductWidget(product: this);
   int id;
-  String name;
+  String name,description;
   DateTime promotionUntil;
   Producer producer;
   List<Ingredient> ingredients;

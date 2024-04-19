@@ -38,8 +38,9 @@ class _UnsignedIntCreatorState extends State<UnsignedIntCreator> {
 }
 //string 
 class StringCreator extends Creator<String> {
-  StringCreator({super.key,super.onChanged=doNothing,String item=""}):super(reference: ItemWrapper<String>(item));
-  const StringCreator.formReference({super.key,super.onChanged=doNothing,required super.reference});
+  StringCreator({super.key,super.onChanged=doNothing,String item="",this.allowMultiline=false}):super(reference: ItemWrapper<String>(item));
+  const StringCreator.formReference({super.key,super.onChanged=doNothing,required super.reference,this.allowMultiline=false});
+  final bool allowMultiline;
   @override
   State<StringCreator> createState() => _StringCreatorState();
   
@@ -57,6 +58,7 @@ class _StringCreatorState extends State<StringCreator> {
               onChanged: (value){
                 widget.item=value;
                 },
+                maxLines: widget.allowMultiline?null:1,
               ),
             );
   }
