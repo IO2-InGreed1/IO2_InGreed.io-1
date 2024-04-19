@@ -53,46 +53,6 @@ class Ingredient
     return name;
   }
 }
-class Preference
-{
-  int id;
-  String name;
-  List<Ingredient> allergens;
-  List<Ingredient> prefered;
-  bool isActive;
-  Preference.fromAllData({
-    required this.allergens,
-    required this.id,
-    required this.isActive,
-    required this.name,
-    required this.prefered
-  });
-  void addAllergen(Ingredient ingredient)
-  {
-    //TODO: this 
-    throw Exception("not implemented");
-  }
-  void addprefered(Ingredient ingredient)
-  {
-    //TODO: this 
-    throw Exception("not implemented");
-  }
-  void removeAllergen(Ingredient ingredient)
-  {
-    //TODO: this 
-    throw Exception("not implemented");
-  }
-  void removePrefered(Ingredient ingredient)
-  {
-    //TODO: this 
-    throw Exception("not implemented");
-  }
-  void changeActivity()
-  {
-    //TODO: this 
-    throw Exception("not implemented");
-  }
-}
 class Opinion
 {
   Opinion.fromAllData({required this.author,required this.id,required this.product,

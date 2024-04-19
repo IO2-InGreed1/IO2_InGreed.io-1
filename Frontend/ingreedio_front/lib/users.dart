@@ -59,9 +59,8 @@ class Client extends User
   required super.mail, 
   required super.password, 
   required super.username,
-  required this.preferences,
   required this.favoriteProducts}) : super.fromAllData();
-  List<Preference> preferences;
+  Client.empty():favoriteProducts=[],super.fromAllData(id: 0, isBlocked: false, mail: "mail", password: "password", username: "username");
   List<Product> favoriteProducts;
   void findProducts(List<Ingredient> ingredients)
   {
@@ -76,6 +75,48 @@ class Client extends User
   void removePreferance(Preference preference)
   {
     //TODO: this
+    throw Exception("not implemented");
+  }
+}
+class Preference
+{
+  int id;
+  String name;
+  Client client;
+  List<Ingredient> allergens;
+  List<Ingredient> prefered;
+  bool isActive;
+  Preference.fromAllData({
+    required this.allergens,
+    required this.id,
+    required this.isActive,
+    required this.name,
+    required this.prefered,
+    required this.client
+  });
+  void addAllergen(Ingredient ingredient)
+  {
+    //TODO: this 
+    throw Exception("not implemented");
+  }
+  void addprefered(Ingredient ingredient)
+  {
+    //TODO: this 
+    throw Exception("not implemented");
+  }
+  void removeAllergen(Ingredient ingredient)
+  {
+    //TODO: this 
+    throw Exception("not implemented");
+  }
+  void removePrefered(Ingredient ingredient)
+  {
+    //TODO: this 
+    throw Exception("not implemented");
+  }
+  void changeActivity()
+  {
+    //TODO: this 
     throw Exception("not implemented");
   }
 }

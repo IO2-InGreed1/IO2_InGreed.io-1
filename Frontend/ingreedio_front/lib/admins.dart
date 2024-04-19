@@ -1,4 +1,4 @@
-import 'package:ingreedio_front/database_mockup.dart';
+import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/products.dart';
 import 'users.dart';
 abstract class IModerator
@@ -13,11 +13,11 @@ abstract class IModerator
   }
   void deleteOpinion(Opinion opinion)
   {
-    DatabaseWrapper.instance.deleteOpinion(opinion);
+    DatabaseWrapper.instance.removeOpinion(opinion);
   }
   User searchAdviser(Opinion opinion)
   {
-    return DatabaseWrapper.instance.searchAdviser(opinion);
+    return opinion.author;
   }
 }
 class Moderator extends IModerator

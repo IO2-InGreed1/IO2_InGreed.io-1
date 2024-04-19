@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/creators.dart';
-import 'package:ingreedio_front/database_mockup.dart';
+import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/products.dart';
 
 class IngredientSelector extends Selector<Ingredient> {

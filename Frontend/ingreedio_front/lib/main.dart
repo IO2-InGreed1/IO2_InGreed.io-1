@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/login_screen.dart';
 import 'package:ingreedio_front/creators/preference_creator.dart';
-import 'package:ingreedio_front/products.dart';
+import 'package:ingreedio_front/users.dart';
 
 void main() {
   runApp(const MyApp());
@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            DialogButton<Preference>(creator: PreferenceCreator(reference:ItemWrapper<Preference>(Preference.fromAllData(allergens: List.empty(growable: true), id: 1, isActive: false, name: "name", prefered: List.empty(growable: true)))), onFinished: (val){
+            DialogButton<Preference>(creator: PreferenceCreator(reference:ItemWrapper<Preference>(Preference.fromAllData(client: Client.empty(),allergens: List.empty(growable: true), id: 1, isActive: false, name: "name", prefered: List.empty(growable: true)))), onFinished: (val){
               setState(() {
                 products.add(val);
               });
