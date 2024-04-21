@@ -1,10 +1,16 @@
-﻿using InGreed.Application.Interfaces;
+﻿using InGreed.DataAccess.Interfaces;
+using InGreed.Application.Interfaces;
 using InGreed.Domain.Models;
 
 namespace InGreed.Application.Services;
 
 public class ProductService : IProductService
 {
+    IProductDA _productDA;
+    public ProductService(IProductDA productDA)
+    {
+        _productDA = productDA;
+    }
     public void Add(Product product)
     {
         throw new NotImplementedException();
