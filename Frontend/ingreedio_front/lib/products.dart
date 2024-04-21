@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/ui/product_widget.dart';
 import 'package:ingreedio_front/users.dart';
 
@@ -27,7 +28,7 @@ class Product
   });
   Widget get iconWidget=>ProductIconWidget(product: this);
   Widget get productWidget=>ProductWidget(product: this);
-  Widget get image=>const Text("here goes image");
+  Widget get image=>Assets.placeholderImage;
   int id;
   String name,description;
   DateTime promotionUntil;

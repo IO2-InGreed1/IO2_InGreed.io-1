@@ -60,7 +60,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/inGreedLogo.png
+    - assets/in_greed_logo.png
+    - assets/placeholder_image.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
