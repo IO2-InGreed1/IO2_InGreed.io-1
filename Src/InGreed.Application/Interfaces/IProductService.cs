@@ -7,6 +7,7 @@ public interface IProductService
     IEnumerable<Product> GetAll();
     Product GetProductById(int productId);
     void Add(Product product);
+    void Delete(Product product);
     void Promote(int productId, DateTime until);
     void CancelPromotion(int productId);
     void AddOpinion(Product product, Opinion opinion);

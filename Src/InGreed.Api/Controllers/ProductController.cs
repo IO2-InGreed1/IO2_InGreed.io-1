@@ -19,7 +19,7 @@ public class ProductController : ControllerBase
     [HttpPost]
     public ActionResult<Product> Create([FromBody] Product product)
     {
-        if (product == null) return BadRequest();
+        if (product is null) return BadRequest();
         service.Add(product);
         return Ok(product);
     }
@@ -27,13 +27,21 @@ public class ProductController : ControllerBase
     [HttpPost("{id}/opinions")]
     public ActionResult<Product> AddOpinion(int id, [FromBody]Opinion opinion)
     {
-        throw new NotImplementedException();
+        if (opinion is null) return BadRequest();
+        Product product;
+        try { product = service.GetProductById(id); }
+        catch(ArgumentException e) { return NotFound(e.Message); }
+        service.AddOpinion(product, opinion);
+        return Ok();
     }
 
     [HttpDelete]
     public ActionResult<Product> Delete([FromBody] Product product)
     {
-        throw new NotImplementedException();
+        if (product is null) return BadRequest();
+        try { service.Delete(product); }
+        catch(ArgumentException e) { return NotFound(e.Message); }
+        return Ok();
     }
 
     [HttpGet]

@@ -25,6 +25,11 @@ public class ProductService : IProductService
         throw new NotImplementedException();
     }
 
+    public void Delete(Product product)
+    {
+        throw new NotImplementedException();
+    }
+
     public void DeleteOpinion(Product product, Opinion opinion)
     {
         throw new NotImplementedException();
