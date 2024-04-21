@@ -1,6 +1,8 @@
-﻿using InGreed.Domain.Enums;
+﻿using InGreed.DataAccess.Interfaces;
+using InGreed.Domain.Enums;
 using InGreed.Domain.Models;
 using InGreed.Logic.Services;
+using Moq;
 
 namespace InGreed.Test
 {
@@ -11,6 +13,7 @@ namespace InGreed.Test
         User NonExistingUser { get; set; } = null!;
 
         AccountService AccountService { get; set; } = null!;
+        IUserDA MockUserDA { get; set; } = null!;
 
         [TestInitialize]
         public void Setup()
@@ -33,7 +36,15 @@ namespace InGreed.Test
                 Role = Role.User
             };
 
-            AccountService = new AccountService();
+            var mock = new Mock<IUserDA>();
+            mock.Setup(userDa => userDa.CreateUser(ExistingUser)).Throws(new Exception("Existing User"));
+            mock.Setup(userDa => userDa.CreateUser(NonExistingUser));
+            mock.Setup(userDa => userDa.GetUserByEmail(It.IsIn<string>(ExistingUser.Email))).Returns(ExistingUser);
+            mock.Setup(userDa => userDa.GetUserByEmail(It.IsNotIn<string>(ExistingUser.Email))).Throws(new Exception("Non existing User"));
+
+            MockUserDA = mock.Object;
+
+            AccountService = new AccountService(MockUserDA);
         }
 
         [TestMethod]

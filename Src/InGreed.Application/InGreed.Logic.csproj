@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\InGreed.DataAccess\InGreed.DataAccess.csproj" />
     <ProjectReference Include="..\InGreed.Domain\InGreed.Domain.csproj" />
   </ItemGroup>
 
