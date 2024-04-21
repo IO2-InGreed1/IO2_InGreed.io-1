@@ -11,7 +11,7 @@ public class ProductService : IProductService
     {
         _productDA = productDA;
     }
-    public void Add(Product product)
+    public void Create(Product product)
     {
         throw new NotImplementedException();
     }
@@ -31,7 +31,7 @@ public class ProductService : IProductService
         throw new NotImplementedException();
     }
 
-    public void Delete(Product product)
+    public void Delete(int productId)
     {
         throw new NotImplementedException();
     }

@@ -1,4 +1,5 @@
 ﻿using InGreed.Application.Interfaces;
+using InGreed.Application.Services;
 using InGreed.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ public class ProductController : ControllerBase
     public ActionResult<Product> Create([FromBody] Product product)
     {
         if (product is null) return BadRequest();
-        service.Add(product);
+        service.Create(product);
         return Ok(product);
     }
 
@@ -36,11 +37,11 @@ public class ProductController : ControllerBase
         return Ok(opinion);
     }
 
-    [HttpDelete]
-    public ActionResult<Product> Delete([FromBody] Product product)
+    [HttpDelete("{id}")]
+    public ActionResult<Product> Delete(int id)
     {
-        if (product is null) return BadRequest();
-        try { service.Delete(product); }
+        Product product;
+        try { product = service.GetProductById(id); service.Delete(id); }
         catch(ArgumentException e) { return NotFound(e.Message); }
         return Ok(product);
     }

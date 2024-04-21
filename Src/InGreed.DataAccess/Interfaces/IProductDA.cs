@@ -4,6 +4,7 @@ namespace InGreed.DataAccess.Interfaces;
 
 public interface IProductDA
 {
+    IEnumerable<Product> GetAll();
     Product GetById(int productId);
     IEnumerable<Product> GetByIngredient(int ingredientId);
     void Create(Product product);

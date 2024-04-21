@@ -11,7 +11,9 @@ public class ProductServiceTests
 {
     Product ExistingProductWithIngredientsAndOpinions1 { get; set; } = null!;
     Product ExistingProduct2 { get; set; } = null!;
-    List<Product> Products { get; set;} = null!;
+
+    Product NonExistentProduct { get; set; } = null!;
+    List<Product> products { get; set;} = null!;
 
     Ingredient Ingredient1 { get; set; } = null!;
     Ingredient Ingredient2 { get; set; } = null!;
@@ -25,7 +27,7 @@ public class ProductServiceTests
     ProductService ProductService { get; set; } = null!;
     IProductDA MockProductDA { get; set; } = null!;
 
-    DateTime dt = new DateTime(2024, 04, 21);
+    DateTime dt = new DateTime(2020, 01, 01);
 
     [TestInitialize]
     public void Setup()
@@ -69,15 +71,54 @@ public class ProductServiceTests
             Id = 2,
             Name = "Prod no 2"
         };
+        NonExistentProduct = new Product
+        {
+            Id = 3,
+            Name = "Prod no 2 - wasn't existing before"
+        };
 
-        Products.Add(ExistingProductWithIngredientsAndOpinions1);
-        Products.Add(ExistingProduct2);
+        products.Add(ExistingProductWithIngredientsAndOpinions1);
+        products.Add(ExistingProduct2);
 
         var mock = new Mock<IProductDA>();
+        mock.Setup(productDa => productDa.GetAll()).Returns(products);
+        mock.Setup(productDa => productDa.GetById(1)).Returns(ExistingProductWithIngredientsAndOpinions1);
+        mock.Setup(productDa => productDa.GetById(2)).Returns(ExistingProduct2);
+        mock.Setup(productDa => productDa.Create(NonExistentProduct));
+        mock.Setup(productDa => productDa.Create(ExistingProductWithIngredientsAndOpinions1)).Throws(new Exception("Product is already exising"));
+        mock.Setup(productDa => productDa.Create(ExistingProduct2)).Throws(new Exception("Product is already exising"));
+        mock.Setup(productDa => productDa.Delete(1));
+        mock.Setup(productDa => productDa.Delete(2));
+        mock.Setup(productDa => productDa.Delete(3)).Throws(new Exception("Product isn't existing"));
 
         MockProductDA = mock.Object;
 
         ProductService = new ProductService(MockProductDA);
+    }
+
+    [TestMethod]
+    public void CreateProduct_ExistingProduct_ShouldThrowException()
+    {
+        // Arrange
+
+        // Act
+        var exception = Assert.ThrowsException<Exception>(() => ProductService.Create(NonExistentProduct));
+
+        // Assert
+        Assert.AreEqual("Product is already exising", exception.Message);
+    }
+
+    [TestMethod]
+    public void DeleteProduct_NotExistingProduct_ShouldThrowException()
+    {
+        // Arrange
+        int testedId = 3;
+
+        // Act
+        var exception = Assert.ThrowsException<Exception>(() => ProductService.Delete(testedId));
+
+        // Assert
+        Assert.AreEqual("Product isn't existing", exception.Message);
     }
 
     [TestMethod]
@@ -90,7 +131,7 @@ public class ProductServiceTests
         result = ProductService.GetAll().ToList();
 
         // Assert
-        Assert.AreEqual(Products, result);
+        Assert.AreEqual(products, result);
     }
 
     [TestMethod]
@@ -114,6 +155,19 @@ public class ProductServiceTests
 
         // Act
         var exception = Assert.ThrowsException<ArgumentException>(() => ProductService.GetProductById(testedId));
+
+        // Assert
+        Assert.AreEqual("Product with this Id doesn't exist", exception.Message);
+    }
+
+    [TestMethod]
+    public void PromoteProduct_NonexistentProduct_ShouldThrowArgumentException()
+    {
+        // Arrange
+        int testedId = 3;
+
+        // Act
+        var exception = Assert.ThrowsException<ArgumentException>(() => ProductService.Promote(testedId, dt));
 
         // Assert
         Assert.AreEqual("Product with this Id doesn't exist", exception.Message);
@@ -150,19 +204,6 @@ public class ProductServiceTests
     }
 
     [TestMethod]
-    public void PromoteProduct_NonexistentProduct_ShouldThrowArgumentException()
-    {
-        // Arrange
-        int testedId = 3;
-
-        // Act
-        var exception = Assert.ThrowsException<ArgumentException>(() => ProductService.Promote(testedId, dt));
-
-        // Assert
-        Assert.AreEqual("Product with this Id doesn't exist", exception.Message);
-    }
-
-    [TestMethod]
     public void CancelPromotion_NonexistentProduct_ShouldThrowArgumentException()
     {
         // Arrange
@@ -176,11 +217,25 @@ public class ProductServiceTests
     }
 
     [TestMethod]
-    public void CancelPromotion_ExistingProduct_ShouldCancelPromotion()
+    public void CancelPromotion_ExistingProductWitouthPromotion_ShouldThrowArgumentException()
+    {
+        // Arrange
+        int testedId = 1;
+
+        // Act
+        var exception = Assert.ThrowsException<ArgumentException>(() => ProductService.CancelPromotion(testedId));
+
+        // Assert
+        Assert.AreEqual("This product is not promoted", exception.Message);
+    }
+
+    [TestMethod]
+    public void CancelPromotion_ExistingProductWithPromotion_ShouldCancelPromotion()
     {
         // Arrange
         int testedId = 1;
         Product testedProduct = ExistingProductWithIngredientsAndOpinions1;
+        testedProduct.PromotedUntil = dt;
 
         // Act
         ProductService.CancelPromotion(testedId);
@@ -338,7 +393,7 @@ public class ProductServiceTests
     }
 
     [TestMethod]
-    public void GetOpinions_NonexistantProduct_ShouldThrowArgumentException()
+    public void GetOpinions_NonexistentProduct_ShouldThrowArgumentException()
     {
         // Arrange
 
@@ -363,7 +418,7 @@ public class ProductServiceTests
     }
 
     [TestMethod]
-    public void GetIngredients_NonexistantProduct_ShouldThrowArgumentException()
+    public void GetIngredients_NonexistentProduct_ShouldThrowArgumentException()
     {
         // Arrange
 
