@@ -7,10 +7,12 @@ namespace InGreed.Logic.Services;
 public class AccountService : IAccountService
 {
     IUserDA _userDA;
+    ITokenService _tokenService;
 
-    public AccountService(IUserDA userDA)
+    public AccountService(IUserDA userDA, ITokenService tokenService)
     {
         _userDA = userDA;
+        _tokenService = tokenService;
     }
 
     public string Login(User user)
@@ -38,11 +40,23 @@ public class AccountService : IAccountService
             }
         }
 
-        return "";
+        return _tokenService.GenerateToken(user);
     }
 
     public string Register(User user)
     {
-        throw new NotImplementedException();
+        try
+        {
+            _userDA.CreateUser(user);
+        }
+        catch (Exception ex)
+        {
+            if(ex.Message == "Existing User")
+            {
+                throw new ArgumentException("User already registered"); 
+            }
+        }
+
+        return _tokenService.GenerateToken(user);
     }
 }

@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InGreed.Logic", "Src\InGree
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InGreed.Domain", "Src\InGreed.Domain\InGreed.Domain.csproj", "{5E3C3722-BA4C-4ECB-AB40-C3F4E68E03E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InGreed.DataAccess", "Src\InGreed.DataAccess\InGreed.DataAccess.csproj", "{68EECB25-7CE3-432A-9DCE-5CFC168D2FD2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InGreed.DataAccess", "Src\InGreed.DataAccess\InGreed.DataAccess.csproj", "{68EECB25-7CE3-432A-9DCE-5CFC168D2FD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
