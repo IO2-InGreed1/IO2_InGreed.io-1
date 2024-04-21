@@ -9,13 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3E74B73E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InGreed.Api", "Src\InGreed.Api\InGreed.Api.csproj", "{7596A273-2360-44FB-9096-E28B50402F6B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InGreed.Test", "Tests\InGreed.Test\InGreed.Test.csproj", "{4044E09C-1E3D-4457-B70B-0840F1D7CC73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InGreed.Logic.Tests", "Tests\InGreed.Test\InGreed.Logic.Tests.csproj", "{4044E09C-1E3D-4457-B70B-0840F1D7CC73}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InGreed.Logic", "Src\InGreed.Application\InGreed.Logic.csproj", "{ADFC9AF9-C861-4FCB-A8EF-9517B89E70F8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InGreed.Domain", "Src\InGreed.Domain\InGreed.Domain.csproj", "{5E3C3722-BA4C-4ECB-AB40-C3F4E68E03E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InGreed.DataAccess", "Src\InGreed.DataAccess\InGreed.DataAccess.csproj", "{68EECB25-7CE3-432A-9DCE-5CFC168D2FD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InGreed.DataAccess", "Src\InGreed.DataAccess\InGreed.DataAccess.csproj", "{68EECB25-7CE3-432A-9DCE-5CFC168D2FD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

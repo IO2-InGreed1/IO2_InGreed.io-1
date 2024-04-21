@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\InGreed.Domain\InGreed.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
