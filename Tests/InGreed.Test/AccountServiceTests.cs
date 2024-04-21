@@ -73,12 +73,27 @@ namespace InGreed.Test
         }
 
         [TestMethod]
-        public void UserLogin_IncorrectCredentials_ShouldThrowArgumentException()
+        public void UserLogin_IncorrectEmail_ShouldThrowArgumentException()
         {
             var testMethod = () => AccountService.Login(NonExistingUser);
 
             var exception = Assert.ThrowsException<ArgumentException>(testMethod);
-            Assert.AreEqual("Invalid Credential", exception.Message);
+            Assert.AreEqual("Invalid Credentials", exception.Message);
+        }
+        
+        [TestMethod]
+        public void UserLogin_IncorrectPassword_ShouldThrowArgumentException()
+        {
+            var userWithInvalidPassword = new User
+            {
+                Email = ExistingUser.Email,
+                Password = ""
+            };
+
+            var testMethod = () => AccountService.Login(userWithInvalidPassword);
+
+            var exception = Assert.ThrowsException<ArgumentException>(testMethod);
+            Assert.AreEqual("Invalid Credentials", exception.Message);
         }
     }
 }
