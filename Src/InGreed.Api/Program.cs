@@ -1,7 +1,11 @@
+using InGreed.DataAccess;
+using InGreed.Logic;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddDataAccess();
+builder.Services.AddLogic();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

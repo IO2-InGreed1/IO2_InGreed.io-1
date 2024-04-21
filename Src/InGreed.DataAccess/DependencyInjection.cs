@@ -1,5 +1,11 @@
-﻿namespace InGreed.DataAccess;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-public class DependencyInjection
+namespace InGreed.DataAccess;
+
+public static class DependencyInjection
 {
+    public static IServiceCollection AddDataAccess(this IServiceCollection services)
+    {
+        return services;
+    }
 }
