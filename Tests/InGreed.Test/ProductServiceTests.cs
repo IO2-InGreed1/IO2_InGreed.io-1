@@ -12,39 +12,45 @@ public class ProductServiceTests
     Product ExistingProductWithIngredientsAndOpinions1 { get; set; } = null!;
     Product ExistingProduct2 { get; set; } = null!;
     List<Product> Products { get; set;} = null!;
-    Product NonExistingProduct { get; set; } = null!;
 
+    Ingredient Ingredient1 { get; set; } = null!;
+    Ingredient Ingredient2 { get; set; } = null!;
     List<Ingredient> ingredients { get; set; } = null!;
 
+
+    Opinion Opinion1 { get; set; } = null!;
+    Opinion Opinion2 { get; set; } = null!;
     List<Opinion> opinions { get; set; } = null!;
 
     ProductService ProductService { get; set; } = null!;
     IProductDA MockProductDA { get; set; } = null!;
 
+    DateTime dt = new DateTime(2024, 04, 21);
+
     [TestInitialize]
     public void Setup()
     {
-        Ingredient Ingredient1 = new Ingredient()
+        Ingredient1 = new Ingredient()
         {
             Id=1,
             Name = "Ingredient no 1"
         };
-        Ingredient Ingredient2 = new Ingredient()
+        Ingredient2 = new Ingredient()
         {
-            Id = 1,
+            Id = 2,
             Name = "Ingredient no 2"
         };
         ingredients.Add(Ingredient1);
         ingredients.Add(Ingredient2);
 
-        Opinion Opinion1 = new Opinion()
+        Opinion1 = new Opinion()
         {
             Id = 1,
             Content = "Opinion no 1"
         };
-        Opinion Opinion2 = new Opinion()
+        Opinion2 = new Opinion()
         {
-            Id = 1,
+            Id = 2,
             Content = "Opinion no 2"
         };
         opinions.Add(Opinion1);
@@ -53,21 +59,15 @@ public class ProductServiceTests
         ExistingProductWithIngredientsAndOpinions1 = new Product
         {
             Id = 1,
-            Name = "I exist!",
+            Name = "Prod no 1",
         };
         ExistingProductWithIngredientsAndOpinions1.Ingredients.Add(Ingredient1);
-        ExistingProductWithIngredientsAndOpinions1.Ingredients.Add(Ingredient2);
         ExistingProductWithIngredientsAndOpinions1.Opinions.Add(Opinion1);
-        ExistingProductWithIngredientsAndOpinions1.Opinions.Add(Opinion2);
 
         ExistingProduct2 = new Product
         {
             Id = 2,
-            Name = "I also exist!"
-        };
-        NonExistingProduct = new Product
-        {
-            Name = "I do not exist!"
+            Name = "Prod no 2"
         };
 
         Products.Add(ExistingProductWithIngredientsAndOpinions1);
@@ -110,43 +110,95 @@ public class ProductServiceTests
     public void GetProductByID_NonexistentProduct_ShouldThrowArgumentException()
     {
         // Arrange
+        int testedId = 3;
 
         // Act
+        var exception = Assert.ThrowsException<ArgumentException>(() => ProductService.GetProductById(testedId));
 
         // Assert
-
+        Assert.AreEqual("Product with this Id doesn't exist", exception.Message);
     }
 
     [TestMethod]
     public void PromoteProduct_ExistingNotPromotedProduct_ShouldChangeProductStateToPromoted()
     {
         // Arrange
+        int testedId = 1;
+        Product testedProduct = ExistingProductWithIngredientsAndOpinions1;
+
         // Act
+        ProductService.Promote(testedId, dt);
+
         // Assert
+        Assert.AreEqual(dt, testedProduct.PromotedUntil);
     }
 
     [TestMethod]
     public void PromoteProduct_ExistingPromotedProduct_ShouldKeepProductPromotedState()
     {
         // Arrange
+        DateTime now = DateTime.Now;
+        int testedId = 1;
+        Product testedProduct = ExistingProductWithIngredientsAndOpinions1;
+        testedProduct.PromotedUntil = dt;
+
         // Act
+        ProductService.Promote(testedId, now);
+
         // Assert
+        Assert.AreEqual(now, testedProduct.PromotedUntil);
     }
 
     [TestMethod]
     public void PromoteProduct_NonexistentProduct_ShouldThrowArgumentException()
     {
         // Arrange
+        int testedId = 3;
+
         // Act
+        var exception = Assert.ThrowsException<ArgumentException>(() => ProductService.Promote(testedId, dt));
+
         // Assert
+        Assert.AreEqual("Product with this Id doesn't exist", exception.Message);
+    }
+
+    [TestMethod]
+    public void CancelPromotion_NonexistentProduct_ShouldThrowArgumentException()
+    {
+        // Arrange
+        int testedId = 3;
+
+        // Act
+        var exception = Assert.ThrowsException<ArgumentException>(() => ProductService.CancelPromotion(testedId));
+
+        // Assert
+        Assert.AreEqual("Product with this Id doesn't exist", exception.Message);
+    }
+
+    [TestMethod]
+    public void CancelPromotion_ExistingProduct_ShouldCancelPromotion()
+    {
+        // Arrange
+        int testedId = 1;
+        Product testedProduct = ExistingProductWithIngredientsAndOpinions1;
+
+        // Act
+        ProductService.CancelPromotion(testedId);
+
+        // Assert
+        Assert.IsNull(testedProduct.PromotedUntil);
     }
 
     [TestMethod]
     public void AddOpinion_ExistingProductExistingOpinion_ShouldAddOpinionToProductOpinions()
     {
         // Arrange
+        Product testedProduct = ExistingProductWithIngredientsAndOpinions1;
         // Act
+        ProductService.AddOpinion(ExistingProductWithIngredientsAndOpinions1, Opinion2);
+
         // Assert
+        Assert.AreEqual(opinions, testedProduct.Opinions);
     }
 
     [TestMethod]
@@ -177,8 +229,14 @@ public class ProductServiceTests
     public void DeleteOpinion_ExistingProductExistingOpinion_ShouldDeleteOpinionFromProductopinions()
     {
         // Arrange
+        opinions.Remove(Opinion1);
+        List<Opinion> listWithDeletedOpinion = opinions;
+        Product testedProduct = ExistingProductWithIngredientsAndOpinions1;
         // Act
+        ProductService.DeleteOpinion(ExistingProductWithIngredientsAndOpinions1, Opinion1);
+
         // Assert
+        Assert.AreEqual(listWithDeletedOpinion, testedProduct.Opinions);
     }
 
     [TestMethod]
@@ -209,8 +267,12 @@ public class ProductServiceTests
     public void AddIngredient_ExistingProductExistingIngredient_ShouldAddIngredientToProductIngredients()
     {
         // Arrange
+        Product testedProduct = ExistingProductWithIngredientsAndOpinions1;
         // Act
+        ProductService.AddIngredient(ExistingProductWithIngredientsAndOpinions1, Ingredient2);
+
         // Assert
+        Assert.AreEqual(ingredients, testedProduct.Ingredients);
     }
 
     [TestMethod]
@@ -241,8 +303,14 @@ public class ProductServiceTests
     public void RemoveIngredient_ExistingProductExistingIngredient_ShouldRemoveIngredientFromProductIngredients()
     {
         // Arrange
+        ingredients.Remove(Ingredient1);
+        List<Ingredient> listWithDeletedIngredient = ingredients;
+        Product testedProduct = ExistingProductWithIngredientsAndOpinions1;
         // Act
+        ProductService.RemoveIngredient(ExistingProductWithIngredientsAndOpinions1, Ingredient1);
+
         // Assert
+        Assert.AreEqual(listWithDeletedIngredient, testedProduct.Ingredients);
     }
     
     [TestMethod]
@@ -270,7 +338,19 @@ public class ProductServiceTests
     }
 
     [TestMethod]
-    public void GetOpinions_ShouldReturnListOfAllOpinions()
+    public void GetOpinions_NonexistantProduct_ShouldThrowArgumentException()
+    {
+        // Arrange
+
+        // Act
+        var exception = Assert.ThrowsException<ArgumentException>(() => ProductService.GetOpinions(null));
+
+        // Assert
+        Assert.AreEqual("This product doesn't exist", exception.Message);
+    }
+
+    [TestMethod]
+    public void GetOpinions_ExistingProduct_ShouldReturnListOfAllOpinions()
     {
         // Arrange
         List<Opinion> result;
@@ -283,7 +363,19 @@ public class ProductServiceTests
     }
 
     [TestMethod]
-    public void GetIngredients_ShouldReturnListOfAllOpinions()
+    public void GetIngredients_NonexistantProduct_ShouldThrowArgumentException()
+    {
+        // Arrange
+
+        // Act
+        var exception = Assert.ThrowsException<ArgumentException>(() => ProductService.GetIngredients(null));
+
+        // Assert
+        Assert.AreEqual("This product doesn't exist", exception.Message);
+    }
+
+    [TestMethod]
+    public void GetIngredients_ExistingProduct_ShouldReturnListOfAllOpinions()
     {
         // Arrange
         List<Ingredient> result;
