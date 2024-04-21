@@ -40,12 +40,17 @@ public class ProductService : IProductService
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Product> GetAllProducts()
+    public Product GetProductById(int productId)
     {
         throw new NotImplementedException();
     }
 
-    public Product GetProductById(int productId)
+    public IEnumerable<Opinion> GetOpinions(Product product)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<Ingredient> GetIngredients(Product product)
     {
         throw new NotImplementedException();
     }

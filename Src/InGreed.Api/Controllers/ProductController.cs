@@ -2,6 +2,7 @@
 using InGreed.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace InGreed.Api.Controllers;
 
@@ -32,7 +33,7 @@ public class ProductController : ControllerBase
         try { product = service.GetProductById(id); }
         catch(ArgumentException e) { return NotFound(e.Message); }
         service.AddOpinion(product, opinion);
-        return Ok();
+        return Ok(opinion);
     }
 
     [HttpDelete]
@@ -41,31 +42,53 @@ public class ProductController : ControllerBase
         if (product is null) return BadRequest();
         try { service.Delete(product); }
         catch(ArgumentException e) { return NotFound(e.Message); }
-        return Ok();
+        return Ok(product);
     }
 
     [HttpGet]
     public ActionResult<List<Product>> Get()
     {
-        throw new NotImplementedException();
+        List<Product> products = new List<Product>();
+        try { products = service.GetAll().ToList(); }
+        catch (ArgumentException e) { return NotFound(e.Message); }
+        return Ok(products);
     }
 
     [HttpGet("{id}")]
     public ActionResult<Product> GetById(int id)
     {
-        throw new NotImplementedException();
+        Product product;
+        try { product = service.GetProductById(id); }
+        catch (ArgumentException e) { return NotFound(e.Message); }
+        return Ok(product);
     }
 
     [HttpGet("{id}/opinions")]
     public ActionResult<List<Opinion>> GetOpinions(int id)
     {
-        throw new NotImplementedException();
+        Product product;
+        try { product = service.GetProductById(id); }
+        catch (ArgumentException e) { return NotFound(e.Message); }
+
+        List<Opinion> opinions = new List<Opinion>();
+        try { opinions = service.GetOpinions(product).ToList(); }
+        catch (ArgumentException e) { return NotFound(e.Message); }
+
+        return Ok(opinions);
     }
 
     [HttpGet("{id}/ingredients")]
     public ActionResult<List<Ingredient>> GetIngredients(int id)
     {
-        throw new NotImplementedException();
+        Product product;
+        try { product = service.GetProductById(id); }
+        catch (ArgumentException e) { return NotFound(e.Message); }
+
+        List<Ingredient> ingredients = new List<Ingredient>();
+        try { ingredients = service.GetIngredients(product).ToList(); }
+        catch (ArgumentException e) { return NotFound(e.Message); }
+
+        return Ok(ingredients);
     }
 
 }
