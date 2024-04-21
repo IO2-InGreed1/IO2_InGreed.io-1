@@ -3,13 +3,9 @@ import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/product_creator.dart';
 import 'package:ingreedio_front/login_screen.dart';
-import 'package:ingreedio_front/creators/preference_creator.dart';
-import 'package:ingreedio_front/products.dart';
-import 'package:ingreedio_front/users.dart';
-void main() {
+import 'package:ingreedio_front/products.dart';void main() {
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

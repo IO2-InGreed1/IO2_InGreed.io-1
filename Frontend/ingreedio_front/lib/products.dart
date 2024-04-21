@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:ingreedio_front/ui/product_widget.dart';
 import 'package:ingreedio_front/users.dart';
 
@@ -8,6 +9,12 @@ enum Category
 }
 class Product
 {
+  @override
+  bool operator==(Object other)
+  {
+    if(other is! Product) return false;
+    return other.id==id&&other.name==name&&other.category==category&&other.description==description;
+  }
   Product.empty():id=0,name="",description="",promotionUntil=DateTime(0),category=Category.cosmetics,ingredients=[],producer=Producer.fromAllData(companyName: "CompanyName", nip: "1", representativeName: "representativeName", representativeSurname: "representativeSurname", telephoneNumber: "123123123");
   Product.fromAllData({
     required this.category,
@@ -18,7 +25,9 @@ class Product
     required this.producer,
     required this.promotionUntil
   });
-  Widget get iconWidget=>ProductWidget(product: this);
+  Widget get iconWidget=>ProductIconWidget(product: this);
+  Widget get productWidget=>ProductWidget(product: this);
+  Widget get image=>const Text("here goes image");
   int id;
   String name,description;
   DateTime promotionUntil;
@@ -45,10 +54,20 @@ class Product
     //TODO: this 
     throw Exception("not implemented");
   }
+  
+  @override
+  int get hashCode => id+name.hashCode*description.hashCode;
+  
 
 }
 class Ingredient
 {
+  @override
+  bool operator==(Object other)
+  {
+    if(other is! Ingredient) return false;
+    return other.id==id&&other.name==name;
+  }
   int id;
   String name;
   String iconUrl;
@@ -56,6 +75,10 @@ class Ingredient
   @override String toString() {
     return name;
   }
+  
+  @override
+  int get hashCode => id+name.hashCode;
+  
 }
 class Opinion
 {
