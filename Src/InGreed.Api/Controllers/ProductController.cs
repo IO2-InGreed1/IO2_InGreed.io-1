@@ -7,4 +7,5 @@ namespace InGreed.Api.Controllers;
 [ApiController]
 public class ProductController : ControllerBase
 {
+
 }
