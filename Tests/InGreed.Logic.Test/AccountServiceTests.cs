@@ -7,79 +7,60 @@ using Moq;
 
 namespace InGreed.Test
 {
-    // TODO: Refactor
     public class AccountServiceTests
     {
-        string CorrectToken { get; set; } = string.Empty;
-        User ExistingUser { get; set; } = null!;
-        User NonExistingUser { get; set; } = null!;
+        User testingUser;
+        string correctToken;
 
-        AccountService AccountService { get; set; } = null!;
-        IUserDA MockUserDA { get; set; } = null!;
-        ITokenService MockTokenService { get; set; } = null!;
-
-        void InitializeUserDA()
-        {
-            var mock = new Mock<IUserDA>();
-            mock.Setup(userDa => userDa.CreateUser(ExistingUser)).Throws(new Exception("Existing User"));
-            mock.Setup(userDa => userDa.CreateUser(NonExistingUser));
-            mock.Setup(userDa => userDa.GetUserByEmail(It.IsIn<string>(ExistingUser.Email))).Returns(ExistingUser);
-            mock.Setup(userDa => userDa.GetUserByEmail(It.IsNotIn<string>(ExistingUser.Email))).Throws(new Exception("Non existing User"));
-
-            MockUserDA = mock.Object;
-        }
-
-        void InitializeTokenService()
-        {
-            var mock = new Mock<ITokenService>();
-            mock.Setup(tokenService => tokenService.GenerateToken(ExistingUser)).Returns(CorrectToken);
-            mock.Setup(tokenService => tokenService.GenerateToken(NonExistingUser)).Returns(CorrectToken);
-
-            MockTokenService = mock.Object;
-        }
+        Mock<IUserDA> userDAMock;
+        Mock<ITokenService> tokenServiceMock;
 
         public AccountServiceTests()
         {
-            ExistingUser = new User
+            testingUser = new User
             {
                 Id = 1,
                 Banned = false,
-                Email = "Existing@test.com",
-                Password = "Existing",
-                Username = "ExistingTest",
-                Role = Role.User
-            };
-            NonExistingUser = new User
-            {
-                Banned = false,
-                Email = "NonExisting@test.com",
-                Password = "NonExisting",
-                Username = "NonExistingTest",
+                Email = "test@test.com",
+                Password = "test",
+                Username = "test",
                 Role = Role.User
             };
 
-            CorrectToken = "CorrectToken";
-
-            InitializeUserDA();
-            InitializeTokenService();
-
-            AccountService = new AccountService(MockUserDA, MockTokenService);
+            correctToken = "Correct Token";
+            
+            userDAMock = new Mock<IUserDA>();
+            tokenServiceMock = new Mock<ITokenService>();
         }
 
         [Fact]
         public void UserRegister_CorrectUser_ShouldReturnValidToken()
         {
-            var result = AccountService.Register(NonExistingUser);
+            //Arrange
+            tokenServiceMock.Setup(ts => ts.GenerateToken(testingUser)).Returns(correctToken);
+            userDAMock.Setup(uda => uda.CreateUser(testingUser));
+            var accountService = new AccountService(userDAMock.Object, tokenServiceMock.Object);
 
+            //Act
+            var result = accountService.Register(testingUser);
+
+            //Assert
             Assert.NotNull(result);
-            Assert.Equal(CorrectToken, result);
+            Assert.Equal(correctToken, result);
         }
 
         [Fact]
         public void UserRegister_ExistingUsername_ShouldThrowArgumentException()
         {
-            var testMethod = () => AccountService.Register(ExistingUser);
+            //Arrange
+            tokenServiceMock.Verify(ts => ts.GenerateToken(It.IsAny<User>()), Times.Never);
+            userDAMock.Setup(uda => uda.CreateUser(testingUser)).Throws(new Exception("Existing User"));
+            var accountService = new AccountService(userDAMock.Object, tokenServiceMock.Object);
 
+            //Act
+            var testMethod = () => accountService.Register(testingUser);
+
+            //Assert
             var exception = Assert.Throws<ArgumentException>(testMethod);
             Assert.Equal("User already registered", exception.Message);
         }
@@ -87,17 +68,31 @@ namespace InGreed.Test
         [Fact]
         public void UserLogin_CorrectCredentials_ShouldReturnValidToken()
         {
-            var result = AccountService.Login(ExistingUser);
+            //Arrange
+            tokenServiceMock.Setup(ts => ts.GenerateToken(testingUser)).Returns(correctToken);
+            userDAMock.Setup(uda => uda.GetUserByEmail(testingUser.Email)).Returns(testingUser);
+            var accountService = new AccountService(userDAMock.Object, tokenServiceMock.Object);
 
+            //Act
+            var result = accountService.Login(testingUser);
+
+            //Assert
             Assert.NotNull(result);
-            Assert.Equal(CorrectToken, result);
+            Assert.Equal(correctToken, result);
         }
 
         [Fact]
         public void UserLogin_IncorrectEmail_ShouldThrowArgumentException()
         {
-            var testMethod = () => AccountService.Login(NonExistingUser);
+            //Arrange
+            tokenServiceMock.Verify(ts => ts.GenerateToken(It.IsAny<User>()), Times.Never);
+            userDAMock.Setup(uda => uda.GetUserByEmail(testingUser.Email)).Throws(new Exception("Non existing User"));
+            var accountService = new AccountService(userDAMock.Object, tokenServiceMock.Object);
 
+            //Act
+            var testMethod = () => accountService.Login(testingUser);
+
+            //Assert
             var exception = Assert.Throws<ArgumentException>(testMethod);
             Assert.Equal("Invalid Credentials", exception.Message);
         }
@@ -105,14 +100,21 @@ namespace InGreed.Test
         [Fact]
         public void UserLogin_IncorrectPassword_ShouldThrowArgumentException()
         {
-            var userWithInvalidPassword = new User
+            //Arrange
+            var returnedUser = new User()
             {
-                Email = ExistingUser.Email,
-                Password = ""
+                Id = testingUser.Id,
+                Email = testingUser.Email,
+                Password = $"{testingUser.Password} incorrect"
             };
+            tokenServiceMock.Verify(ts => ts.GenerateToken(It.IsAny<User>()), Times.Never);
+            userDAMock.Setup(uda => uda.GetUserByEmail(returnedUser.Email)).Returns(testingUser);
+            var accountService = new AccountService(userDAMock.Object, tokenServiceMock.Object);
 
-            var testMethod = () => AccountService.Login(userWithInvalidPassword);
+            //Act
+            var testMethod = () => accountService.Login(returnedUser);
 
+            //Assert
             var exception = Assert.Throws<ArgumentException>(testMethod);
             Assert.Equal("Invalid Credentials", exception.Message);
         }
