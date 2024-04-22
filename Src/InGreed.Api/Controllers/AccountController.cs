@@ -1,4 +1,5 @@
 ﻿using InGreed.Api.Contracts.Authorization;
+using InGreed.Api.Mappers;
 using InGreed.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +10,11 @@ namespace InGreed.Api.Controllers;
 public class AccountController : ControllerBase
 {
     IAccountService _accountService;
-    public AccountController(IAccountService accountService)
+    IContractsToModelsMapper _contractsToModelsMapper;
+    public AccountController(IAccountService accountService, IContractsToModelsMapper contractsToModelsMapper)
     {
         _accountService = accountService;
+        _contractsToModelsMapper = contractsToModelsMapper;
     }
 
     [HttpPost("register")]
@@ -23,9 +26,9 @@ public class AccountController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login(LoginRequest request)
     {
-        //var token = _accountService.Login(request);
-        //AuthorizationResponse response = new(token);
-        //return Ok(response);
-        return Ok();
+        var user = _contractsToModelsMapper.LoginRequestToUser(request);
+        var token = _accountService.Login(user);
+        AuthorizationResponse response = new(token);
+        return Ok(response);
     }
 }

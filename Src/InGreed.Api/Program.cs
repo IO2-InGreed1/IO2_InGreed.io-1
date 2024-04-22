@@ -1,3 +1,4 @@
+using InGreed.Api.Mappers;
 using InGreed.DataAccess;
 using InGreed.Logic;
 
@@ -10,6 +11,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IContractsToModelsMapper, ContractsToModelsMapper>();
 
 var app = builder.Build();
 
