@@ -76,25 +76,25 @@ namespace InGreed.Api.Tests
         [TestMethod]
         public void UserRegister_CorrectUser_ShouldReturnStatusOk()
         {
-            var request = new LoginRequest(nonExistingUser.Email, nonExistingUser.Password);
+            var request = new RegisterRequest(nonExistingUser.Email, nonExistingUser.Username, nonExistingUser.Password);
 
-            var response = _accountController.Login(request);
+            var response = _accountController.Register(request);
         }
 
         [TestMethod]
         public void UserRegister_ExistingUser_ShouldReturnStatusConflict()
         {
-            var request = new LoginRequest(existingUser.Email, existingUser.Password);
+            var request = new RegisterRequest(existingUser.Email, existingUser.Username, existingUser.Password);
 
-            var response = _accountController.Login(request);
+            var response = _accountController.Register(request);
         }
 
         [TestMethod]
         public void UserRegister_IncorrectCredentials_ShouldReturnStatusBadRequest()
         {
-            var request = new LoginRequest(nonExistingUser.Email, existingUser.Password);
+            var request = new RegisterRequest(nonExistingUser.Email, nonExistingUser.Username, existingUser.Password);
 
-            var response = _accountController.Login(request);
+            var response = _accountController.Register(request);
         }
     }
 }
