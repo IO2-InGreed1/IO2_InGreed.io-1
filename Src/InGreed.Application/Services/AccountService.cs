@@ -27,6 +27,7 @@ public class AccountService : IAccountService
             {
                 throw new ArgumentException("Invalid Credentials");
             }
+            return _tokenService.GenerateToken(user);
         }
         catch (Exception ex)
         {
@@ -34,13 +35,8 @@ public class AccountService : IAccountService
             {
                 throw new ArgumentException("Invalid Credentials");
             }
-            else
-            {
-                throw;
-            }
+            throw;
         }
-
-        return _tokenService.GenerateToken(user);
     }
 
     public string Register(User user)
@@ -48,6 +44,7 @@ public class AccountService : IAccountService
         try
         {
             _userDA.CreateUser(user);
+            return _tokenService.GenerateToken(user);
         }
         catch (Exception ex)
         {
@@ -55,8 +52,7 @@ public class AccountService : IAccountService
             {
                 throw new ArgumentException("User already registered"); 
             }
+            throw;
         }
-
-        return _tokenService.GenerateToken(user);
     }
 }
