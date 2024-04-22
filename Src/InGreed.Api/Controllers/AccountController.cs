@@ -23,9 +23,9 @@ public class AccountController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login(LoginRequest request)
     {
-
-        var token = _accountService.Login(request);
-        AuthorizationResponse response = new(token)
-        return Ok(response);
+        //var token = _accountService.Login(request);
+        //AuthorizationResponse response = new(token);
+        //return Ok(response);
+        return Ok();
     }
 }
