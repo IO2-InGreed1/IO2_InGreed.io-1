@@ -7,7 +7,6 @@ using Moq;
 
 namespace InGreed.Test
 {
-    [TestClass]
     public class AccountServiceTests
     {
         string CorrectToken { get; set; } = string.Empty;
@@ -38,8 +37,7 @@ namespace InGreed.Test
             MockTokenService = mock.Object;
         }
 
-        [TestInitialize]
-        public void Setup()
+        public AccountServiceTests()
         {
             ExistingUser = new User
             {
@@ -67,43 +65,43 @@ namespace InGreed.Test
             AccountService = new AccountService(MockUserDA, MockTokenService);
         }
 
-        [TestMethod]
+        [Fact]
         public void UserRegister_CorrectUser_ShouldReturnValidToken()
         {
             var result = AccountService.Register(NonExistingUser);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(CorrectToken, result);
+            Assert.NotNull(result);
+            Assert.Equal(CorrectToken, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void UserRegister_ExistingUsername_ShouldThrowArgumentException()
         {
             var testMethod = () => AccountService.Register(ExistingUser);
 
-            var exception = Assert.ThrowsException<ArgumentException>(testMethod);
-            Assert.AreEqual("User already registered", exception.Message);
+            var exception = Assert.Throws<ArgumentException>(testMethod);
+            Assert.Equal("User already registered", exception.Message);
         }
 
-        [TestMethod]
+        [Fact]
         public void UserLogin_CorrectCredentials_ShouldReturnValidToken()
         {
             var result = AccountService.Login(ExistingUser);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(CorrectToken, result);
+            Assert.NotNull(result);
+            Assert.Equal(CorrectToken, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void UserLogin_IncorrectEmail_ShouldThrowArgumentException()
         {
             var testMethod = () => AccountService.Login(NonExistingUser);
 
-            var exception = Assert.ThrowsException<ArgumentException>(testMethod);
-            Assert.AreEqual("Invalid Credentials", exception.Message);
+            var exception = Assert.Throws<ArgumentException>(testMethod);
+            Assert.Equal("Invalid Credentials", exception.Message);
         }
         
-        [TestMethod]
+        [Fact]
         public void UserLogin_IncorrectPassword_ShouldThrowArgumentException()
         {
             var userWithInvalidPassword = new User
@@ -114,8 +112,8 @@ namespace InGreed.Test
 
             var testMethod = () => AccountService.Login(userWithInvalidPassword);
 
-            var exception = Assert.ThrowsException<ArgumentException>(testMethod);
-            Assert.AreEqual("Invalid Credentials", exception.Message);
+            var exception = Assert.Throws<ArgumentException>(testMethod);
+            Assert.Equal("Invalid Credentials", exception.Message);
         }
     }
 }

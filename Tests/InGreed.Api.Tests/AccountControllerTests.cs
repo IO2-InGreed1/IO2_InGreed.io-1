@@ -3,12 +3,10 @@ using InGreed.Api.Controllers;
 using InGreed.Domain.Enums;
 using InGreed.Domain.Models;
 using InGreed.Logic.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 
 namespace InGreed.Api.Tests
 {
-    [TestClass]
     public class AccountControllerTests
     {
         AccountController _accountController = null!;
@@ -29,8 +27,7 @@ namespace InGreed.Api.Tests
             _accountService = mock.Object;
         }
 
-        [TestInitialize]
-        public void Setup()
+        public AccountControllerTests()
         {
             existingUser = new User
             {
@@ -57,7 +54,7 @@ namespace InGreed.Api.Tests
             _accountController = new AccountController(_accountService);
         }
 
-        [TestMethod]
+        [Fact]
         public void UserLogin_CorrectCredentials_ShouldReturnStatusOk()
         {
             var request = new LoginRequest(existingUser.Email, existingUser.Password);
@@ -65,7 +62,7 @@ namespace InGreed.Api.Tests
             var response = _accountController.Login(request);
         }
 
-        [TestMethod]
+        [Fact]
         public void UserLogin_IncorrectCredentials_ShouldReturnStatusForbidden()
         {
             var request = new LoginRequest(nonExistingUser.Email, nonExistingUser.Password);
@@ -73,7 +70,7 @@ namespace InGreed.Api.Tests
             var response = _accountController.Login(request);
         }
 
-        [TestMethod]
+        [Fact]
         public void UserRegister_CorrectUser_ShouldReturnStatusOk()
         {
             var request = new RegisterRequest(nonExistingUser.Email, nonExistingUser.Username, nonExistingUser.Password);
@@ -81,7 +78,7 @@ namespace InGreed.Api.Tests
             var response = _accountController.Register(request);
         }
 
-        [TestMethod]
+        [Fact]
         public void UserRegister_ExistingUser_ShouldReturnStatusConflict()
         {
             var request = new RegisterRequest(existingUser.Email, existingUser.Username, existingUser.Password);
@@ -89,7 +86,7 @@ namespace InGreed.Api.Tests
             var response = _accountController.Register(request);
         }
 
-        [TestMethod]
+        [Fact]
         public void UserRegister_IncorrectCredentials_ShouldReturnStatusBadRequest()
         {
             var request = new RegisterRequest(nonExistingUser.Email, nonExistingUser.Username, existingUser.Password);
