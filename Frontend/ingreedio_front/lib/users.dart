@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/products.dart';
 
 mixin class IProducer
@@ -62,6 +64,7 @@ class Client extends User
   required this.favoriteProducts}) : super.fromAllData();
   Client.empty():favoriteProducts=[],super.fromAllData(id: 0, isBlocked: false, mail: "mail", password: "password", username: "username");
   List<Product> favoriteProducts;
+  Widget get image=> Assets.placeholderImage;
   void findProducts(List<Ingredient> ingredients)
   {
     //TODO: this
