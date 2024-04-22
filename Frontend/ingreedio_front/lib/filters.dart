@@ -1,33 +1,12 @@
 import 'package:ingreedio_front/products.dart';
-
-abstract class Filter<T>
+enum OrderType
 {
-  bool filterItem(T item);
-  List<T> filterList(Iterable<T> items)
-  {
-    List<T> odp=List.empty(growable: true);
-    for (var element in items) {if(filterItem(element)) odp.add(element);}
-    return odp;
-  }
+  normal,byScoreAscending,byScoreDescending,
 }
-enum FilterType
+class ProductFilter
 {
-  inclusive,exclusive
-}
-class IngredientProductFilter extends Filter<Product>
-{
-  IngredientProductFilter(this.ingredient,{this.filterType=FilterType.inclusive});
-  Ingredient ingredient;
-  FilterType filterType;
-  @override
-  bool filterItem(Product item) {
-    switch(filterType)
-    {
-      case FilterType.inclusive:
-        return item.ingredients.contains(item);
-      case FilterType.exclusive:
-        return !item.ingredients.contains(item);
-    }
-  }
-  
+  String nameFilter="";
+  List<Ingredient> preference=List.empty(growable: true);
+  List<Ingredient> allergens=List.empty(growable: true);
+  OrderType orderType=OrderType.normal;
 }
