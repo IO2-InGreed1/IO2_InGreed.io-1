@@ -5,13 +5,13 @@ import 'package:ingreedio_front/users.dart';
 class TestInitializer
 {
   static Producer get producer=>Producer.fromAllData(companyName: "Test", nip: "0", representativeName: "Name", representativeSurname: "Surname", telephoneNumber: "000000000");
-  static Product get product=>Product.fromAllData(category: Category.cosmetics, id: 0, ingredients: [], name: "Test", producer: producer, promotionUntil: DateTime(0));
-  static Client get client=>Client.fromAllData(id: 0, isBlocked: false, mail: "mail@mail.com", password: "myPassword", username: "User", preferences: [], favoriteProducts: []);
+  static Product get product=>Product.fromAllData(category: Category.cosmetics, id: 0, ingredients: [], name: "Test", producer: producer, promotionUntil: DateTime(0),description: "desc");
+  static Client get client=>Client.fromAllData(id: 0, isBlocked: false, mail: "mail@mail.com", password: "myPassword", username: "User", favoriteProducts: []);
   static List<Preference> get preferences
   {
-    Preference p1=Preference.fromAllData(allergens: [], id: 0, isActive: true, name: "preferance 1", prefered: [commonIngredients[1],commonIngredients[2]]);
-    Preference p2=Preference.fromAllData(allergens: [commonIngredients[1]], id: 1, isActive: false, name: "preferance 2", prefered: [commonIngredients[3],commonIngredients[0]]);
-    Preference p3=Preference.fromAllData(allergens: [commonIngredients[0],commonIngredients[3]], id: 2, isActive: false, name: "preferance 3", prefered: [commonIngredients[2],commonIngredients[1]]);
+    Preference p1=Preference.fromAllData(client: client,allergens: [], id: 0, isActive: true, name: "preferance 1", prefered: [commonIngredients[1],commonIngredients[2]]);
+    Preference p2=Preference.fromAllData(client: client,allergens: [commonIngredients[1]], id: 1, isActive: false, name: "preferance 2", prefered: [commonIngredients[3],commonIngredients[0]]);
+    Preference p3=Preference.fromAllData(client: client,allergens: [commonIngredients[0],commonIngredients[3]], id: 2, isActive: false, name: "preferance 3", prefered: [commonIngredients[2],commonIngredients[1]]);
     return [p1,p2,p3];
   }
   static List<Ingredient> get commonIngredients
@@ -42,16 +42,6 @@ void main() {
     producer.promoteProduct(product,time);
     //Assert
     expect(product.promotionUntil, equals(time));
-  });
-  test('Client.removePreferance() removes user preference, when preference exists', () {
-    //Arrange
-    Client client=TestInitializer.client;
-    Preference preference=TestInitializer.preferences[0];
-    client.preferences=TestInitializer.preferences;
-    //Act
-    client.removePreferance(preference);
-    //Assert
-    expect(client.preferences, equals([TestInitializer.preferences[1],TestInitializer.preferences[2]]));
   });
   //(un)blocking user tests
   test('ControlPanel.blockUser() blocks not-blocked user', () {
