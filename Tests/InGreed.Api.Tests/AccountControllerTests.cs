@@ -3,10 +3,13 @@ using InGreed.Api.Controllers;
 using InGreed.Domain.Enums;
 using InGreed.Domain.Models;
 using InGreed.Logic.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System.Net;
 
 namespace InGreed.Api.Tests
 {
+    // TODO: Refactor
     public class AccountControllerTests
     {
         AccountController _accountController = null!;
@@ -60,6 +63,11 @@ namespace InGreed.Api.Tests
             var request = new LoginRequest(existingUser.Email, existingUser.Password);
 
             var response = _accountController.Login(request);
+
+            var actionResult = Assert.IsType<OkObjectResult>(response);
+            var responseContent = Assert.IsType<AuthorizationResponse>(actionResult.Value);
+            Assert.NotNull(responseContent.authorizationToken);
+            Assert.NotEqual(string.Empty, responseContent.authorizationToken);
         }
 
         [Fact]
@@ -68,6 +76,8 @@ namespace InGreed.Api.Tests
             var request = new LoginRequest(nonExistingUser.Email, nonExistingUser.Password);
 
             var response = _accountController.Login(request);
+
+            Assert.IsType<ForbidResult>(response);
         }
 
         [Fact]
@@ -76,6 +86,11 @@ namespace InGreed.Api.Tests
             var request = new RegisterRequest(nonExistingUser.Email, nonExistingUser.Username, nonExistingUser.Password);
 
             var response = _accountController.Register(request);
+
+            var actionResult = Assert.IsType<OkObjectResult>(response);
+            var responseContent = Assert.IsType<AuthorizationResponse>(actionResult.Value);
+            Assert.NotNull(responseContent.authorizationToken);
+            Assert.NotEqual(string.Empty, responseContent.authorizationToken);
         }
 
         [Fact]
@@ -84,6 +99,8 @@ namespace InGreed.Api.Tests
             var request = new RegisterRequest(existingUser.Email, existingUser.Username, existingUser.Password);
 
             var response = _accountController.Register(request);
+
+            Assert.IsType<ConflictResult>(response);
         }
 
         [Fact]
@@ -92,6 +109,8 @@ namespace InGreed.Api.Tests
             var request = new RegisterRequest(nonExistingUser.Email, nonExistingUser.Username, existingUser.Password);
 
             var response = _accountController.Register(request);
+
+            Assert.IsType<BadRequestResult>(response);
         }
     }
 }

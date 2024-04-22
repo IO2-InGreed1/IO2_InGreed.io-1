@@ -7,6 +7,7 @@ using Moq;
 
 namespace InGreed.Test
 {
+    // TODO: Refactor
     public class AccountServiceTests
     {
         string CorrectToken { get; set; } = string.Empty;
