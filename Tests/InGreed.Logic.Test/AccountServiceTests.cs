@@ -7,6 +7,7 @@ using Moq;
 
 namespace InGreed.Test
 {
+    // TODO: Add test in case user is banned
     public class AccountServiceTests
     {
         User testingUser;
@@ -39,10 +40,10 @@ namespace InGreed.Test
             //Arrange
             tokenServiceMock.Setup(ts => ts.GenerateToken(testingUser)).Returns(correctToken);
             userDAMock.Setup(uda => uda.CreateUser(testingUser));
-            var accountService = new AccountService(userDAMock.Object, tokenServiceMock.Object);
+            var sut = new AccountService(userDAMock.Object, tokenServiceMock.Object);
 
             //Act
-            var result = accountService.Register(testingUser);
+            var result = sut.Register(testingUser);
 
             //Assert
             Assert.NotNull(result);
@@ -55,10 +56,10 @@ namespace InGreed.Test
             //Arrange
             tokenServiceMock.Verify(ts => ts.GenerateToken(It.IsAny<User>()), Times.Never);
             userDAMock.Setup(uda => uda.CreateUser(testingUser)).Throws(new Exception("Existing User"));
-            var accountService = new AccountService(userDAMock.Object, tokenServiceMock.Object);
+            var sut = new AccountService(userDAMock.Object, tokenServiceMock.Object);
 
             //Act
-            var testMethod = () => accountService.Register(testingUser);
+            var testMethod = () => sut.Register(testingUser);
 
             //Assert
             var exception = Assert.Throws<ArgumentException>(testMethod);
@@ -71,10 +72,10 @@ namespace InGreed.Test
             //Arrange
             tokenServiceMock.Setup(ts => ts.GenerateToken(testingUser)).Returns(correctToken);
             userDAMock.Setup(uda => uda.GetUserByEmail(testingUser.Email)).Returns(testingUser);
-            var accountService = new AccountService(userDAMock.Object, tokenServiceMock.Object);
+            var sut = new AccountService(userDAMock.Object, tokenServiceMock.Object);
 
             //Act
-            var result = accountService.Login(testingUser);
+            var result = sut.Login(testingUser);
 
             //Assert
             Assert.NotNull(result);
@@ -87,10 +88,10 @@ namespace InGreed.Test
             //Arrange
             tokenServiceMock.Verify(ts => ts.GenerateToken(It.IsAny<User>()), Times.Never);
             userDAMock.Setup(uda => uda.GetUserByEmail(testingUser.Email)).Throws(new Exception("Non existing User"));
-            var accountService = new AccountService(userDAMock.Object, tokenServiceMock.Object);
+            var sut = new AccountService(userDAMock.Object, tokenServiceMock.Object);
 
             //Act
-            var testMethod = () => accountService.Login(testingUser);
+            var testMethod = () => sut.Login(testingUser);
 
             //Assert
             var exception = Assert.Throws<ArgumentException>(testMethod);
@@ -109,10 +110,10 @@ namespace InGreed.Test
             };
             tokenServiceMock.Verify(ts => ts.GenerateToken(It.IsAny<User>()), Times.Never);
             userDAMock.Setup(uda => uda.GetUserByEmail(returnedUser.Email)).Returns(testingUser);
-            var accountService = new AccountService(userDAMock.Object, tokenServiceMock.Object);
+            var sut = new AccountService(userDAMock.Object, tokenServiceMock.Object);
 
             //Act
-            var testMethod = () => accountService.Login(returnedUser);
+            var testMethod = () => sut.Login(returnedUser);
 
             //Assert
             var exception = Assert.Throws<ArgumentException>(testMethod);

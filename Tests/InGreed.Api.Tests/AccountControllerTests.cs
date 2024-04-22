@@ -42,10 +42,10 @@ namespace InGreed.Api.Tests
             var request = new LoginRequest(testingUser.Email, testingUser.Password);
             contractsToModelsMapperMock.Setup(ctm => ctm.LoginRequestToUser(request)).Returns(testingUser);
             accountServiceMock.Setup(ac => ac.Login(testingUser)).Returns(correctToken);
-            var accountController = new AccountController(accountServiceMock.Object, contractsToModelsMapperMock.Object);
+            var sut = new AccountController(accountServiceMock.Object, contractsToModelsMapperMock.Object);
 
             //Act
-            var response = accountController.Login(request);
+            var response = sut.Login(request);
 
             //Assert
             var actionResult = Assert.IsType<OkObjectResult>(response);
@@ -61,10 +61,10 @@ namespace InGreed.Api.Tests
             var request = new LoginRequest(testingUser.Email, testingUser.Password);
             contractsToModelsMapperMock.Setup(ctm => ctm.LoginRequestToUser(request)).Returns(testingUser);
             accountServiceMock.Setup(ac => ac.Login(testingUser)).Throws(new ArgumentException("Invalid Credentials"));
-            var accountController = new AccountController(accountServiceMock.Object, contractsToModelsMapperMock.Object);
+            var sut = new AccountController(accountServiceMock.Object, contractsToModelsMapperMock.Object);
 
             //Act
-            var response = accountController.Login(request);
+            var response = sut.Login(request);
 
             //Assert
             Assert.IsType<ForbidResult>(response);
@@ -77,10 +77,10 @@ namespace InGreed.Api.Tests
             var request = new RegisterRequest(testingUser.Email, testingUser.Username, testingUser.Password);
             contractsToModelsMapperMock.Setup(ctm => ctm.RegisterRequestToUser(request)).Returns(testingUser);
             accountServiceMock.Setup(ac => ac.Register(testingUser)).Returns(correctToken);
-            var accountController = new AccountController(accountServiceMock.Object, contractsToModelsMapperMock.Object);
+            var sut = new AccountController(accountServiceMock.Object, contractsToModelsMapperMock.Object);
 
             //Act
-            var response = accountController.Register(request);
+            var response = sut.Register(request);
 
             //Assert
             var actionResult = Assert.IsType<OkObjectResult>(response);
@@ -96,10 +96,10 @@ namespace InGreed.Api.Tests
             var request = new RegisterRequest(testingUser.Email, testingUser.Username, testingUser.Password);
             contractsToModelsMapperMock.Setup(ctm => ctm.RegisterRequestToUser(request)).Returns(testingUser);
             accountServiceMock.Setup(ac => ac.Register(testingUser)).Throws(new ArgumentException("User already registered"));
-            var accountController = new AccountController(accountServiceMock.Object, contractsToModelsMapperMock.Object);
+            var sut = new AccountController(accountServiceMock.Object, contractsToModelsMapperMock.Object);
 
             //Act
-            var response = accountController.Register(request);
+            var response = sut.Register(request);
 
             //Assert
             Assert.IsType<BadRequestResult>(response);

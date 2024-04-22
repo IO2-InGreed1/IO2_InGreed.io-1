@@ -20,15 +20,32 @@ public class AccountController : ControllerBase
     [HttpPost("register")]
     public IActionResult Register(RegisterRequest request)
     {
-        throw new NotImplementedException();
+        var user = _contractsToModelsMapper.RegisterRequestToUser(request);
+        try
+        {
+            var token = _accountService.Register(user);
+            AuthorizationResponse response = new(token);
+            return Ok(response);
+        }
+        catch
+        {
+            return BadRequest();
+        }
     }
 
     [HttpPost("login")]
     public IActionResult Login(LoginRequest request)
     {
         var user = _contractsToModelsMapper.LoginRequestToUser(request);
-        var token = _accountService.Login(user);
-        AuthorizationResponse response = new(token);
-        return Ok(response);
+        try
+        {
+            var token = _accountService.Login(user);
+            AuthorizationResponse response = new(token);
+            return Ok(response);
+        }
+        catch
+        {
+            return Forbid();
+        }
     }
 }
