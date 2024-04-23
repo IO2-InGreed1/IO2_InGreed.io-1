@@ -8,9 +8,9 @@ public class FakeUserDA : IUserDA
 {
     private List<User> _users = new()
     {
-        new(1, "example1@mail.com", "1", "User 1", Role.User, false),
-        new(2, "example2@mail.com", "2", "User 2", Role.Moderator, false),
-        new(3, "example3@mail.com", "3", "User 3", Role.Producent, false)
+        new(){Id = 1, Email = "example1@mail.com", Password = "1", Username = "User 1", Role = Role.User, Banned = false },
+        new(){Id = 2, Email = "example2@mail.com", Password = "2", Username = "User 2", Role = Role.Moderator, Banned = false },
+        new(){Id = 3, Email = "example3@mail.com", Password = "3", Username = "User 3", Role = Role.Producent, Banned =false }
     };
 
     public void CreateUser(User user)
