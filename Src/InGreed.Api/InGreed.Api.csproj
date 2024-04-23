@@ -13,8 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InGreed.Application\InGreed.Logic.csproj" />
+    <ProjectReference Include="..\InGreed.DataAccess\InGreed.DataAccess.csproj" />
     <ProjectReference Include="..\InGreed.Domain\InGreed.Domain.csproj" />
+    <ProjectReference Include="..\InGreed.Logic\InGreed.Logic.csproj" />
   </ItemGroup>
 
 </Project>
