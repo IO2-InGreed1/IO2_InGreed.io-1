@@ -21,10 +21,10 @@ public class ProductController : ControllerBase
     public ActionResult<Product> Create([FromBody] Product product)
     {
         if (product is null) return BadRequest();
-        service.Create(product);
+        service.CreateProduct(product);
         return Ok(product);
     }
-
+    /*
     [HttpPost("{id}/opinions")]
     public ActionResult<Product> AddOpinion(int id, [FromBody]Opinion opinion)
     {
@@ -35,18 +35,18 @@ public class ProductController : ControllerBase
         service.AddOpinion(product, opinion);
         return Ok(opinion);
     }
-
+    
     [HttpDelete("{id}")]
     public ActionResult<Product> Delete(int id)
     {
         Product product;
-        try { product = service.GetProductById(id); service.Delete(id); }
+        try { product = service.GetProductById(id); service.DeleteProduct(id); }
         catch(ArgumentException e) { return NotFound(e.Message); }
         return Ok(product);
     }
-
+    */
     [HttpGet]
-    public ActionResult<List<Product>> Get()
+    public ActionResult<List<Product>> GetAllProducts()
     {
         List<Product> products = new List<Product>();
         try { products = service.GetAllProducts().ToList(); }
@@ -62,7 +62,7 @@ public class ProductController : ControllerBase
         catch (ArgumentException e) { return NotFound(e.Message); }
         return Ok(product);
     }
-
+    /*
     [HttpGet("{id}/opinions")]
     public ActionResult<List<Opinion>> GetOpinions(int id)
     {
@@ -90,5 +90,5 @@ public class ProductController : ControllerBase
 
         return Ok(ingredients);
     }
-
+    */
 }
