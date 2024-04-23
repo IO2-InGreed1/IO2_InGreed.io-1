@@ -1,6 +1,5 @@
-﻿using InGreed.Application.Interfaces;
-using InGreed.Application.Services;
-using InGreed.Domain.Models;
+﻿using InGreed.Domain.Models;
+using InGreed.Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -50,7 +49,7 @@ public class ProductController : ControllerBase
     public ActionResult<List<Product>> Get()
     {
         List<Product> products = new List<Product>();
-        try { products = service.GetAll().ToList(); }
+        try { products = service.GetAllProducts().ToList(); }
         catch (ArgumentException e) { return NotFound(e.Message); }
         return Ok(products);
     }

@@ -1,8 +1,8 @@
 ﻿using InGreed.DataAccess.Interfaces;
-using InGreed.Application.Interfaces;
+using InGreed.Logic.Interfaces;
 using InGreed.Domain.Models;
 
-namespace InGreed.Application.Services;
+namespace InGreed.Logic.Services;
 
 public class ProductService : IProductService
 {
@@ -67,6 +67,16 @@ public class ProductService : IProductService
     }
 
     public void RemoveIngredient(Product product, Ingredient ingredient)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<Product> GetAllProducts()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void PromoteProduct(int productId)
     {
         throw new NotImplementedException();
     }

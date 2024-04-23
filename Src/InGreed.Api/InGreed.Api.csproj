@@ -8,12 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Riok.Mapperly" Version="3.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InGreed.Application\InGreed.Application.csproj" />
+    <ProjectReference Include="..\InGreed.DataAccess\InGreed.DataAccess.csproj" />
     <ProjectReference Include="..\InGreed.Domain\InGreed.Domain.csproj" />
+    <ProjectReference Include="..\InGreed.Logic\InGreed.Logic.csproj" />
   </ItemGroup>
 
 </Project>
