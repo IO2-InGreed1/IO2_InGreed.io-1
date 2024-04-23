@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\..\Src\InGreed.Application\InGreed.Logic.csproj" />
+    <ProjectReference Include="..\..\Src\InGreed.Logic\InGreed.Logic.csproj" />
   </ItemGroup>
 
   <ItemGroup>

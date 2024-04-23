@@ -5,7 +5,7 @@ using InGreed.Logic.Interfaces;
 using InGreed.Logic.Services;
 using Moq;
 
-namespace InGreed.Test
+namespace InGreed.Logic.Test
 {
     // TODO: Add test in case user is banned
     public class AccountServiceTests
