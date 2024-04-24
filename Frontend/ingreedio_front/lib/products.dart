@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ingreedio_front/assets.dart';
+import 'package:ingreedio_front/ui/opinion_widget.dart';
 import 'package:ingreedio_front/ui/product_widget.dart';
 import 'package:ingreedio_front/users.dart';
 
@@ -87,10 +88,11 @@ class Opinion
   required this.score,required this.text});
   int id;
   Product product;
-  User author;
+  Client author;
   String text;
   double score;
   bool isReported=false;
+  Widget get widget=>OpinionWidget(opinion: this);
   void calculateScore(double score)
   {
     //TODO: this 

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:ingreedio_front/users.dart';
 
-class ClientWidget extends StatelessWidget {
-  const ClientWidget({super.key,required this.client});
+class ClientProfileWidget extends StatelessWidget {
+  const ClientProfileWidget({super.key,required this.client});
   final Client client;
   @override
   Widget build(BuildContext context) {
@@ -16,6 +16,20 @@ class ClientWidget extends StatelessWidget {
           Text(client.mail,selectionColor: Colors.white,style:const TextStyle(fontWeight: FontWeight.normal)),
         ],
       ),
+    );
+  }
+}
+class ClientWidget extends StatelessWidget {
+  const ClientWidget({super.key,required this.client});
+  final Client client;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(width: 20,child: client.image),
+        Text(client.username,selectionColor: Colors.black,style:const TextStyle(fontWeight: FontWeight.bold))
+      ],
     );
   }
 }

@@ -99,4 +99,3 @@ class _DoubleCreatorState extends State<DoubleCreator> {
     );
   }
 }
-

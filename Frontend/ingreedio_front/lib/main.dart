@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/product_creator.dart';
+import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/login_screen.dart';
 import 'package:ingreedio_front/products.dart';
 import 'package:ingreedio_front/ui/product_widget.dart';void main() {
@@ -45,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
-  List<Product> products=List.empty(growable: true);
+  List<Product> products=DatabaseWrapper.instance.getAllProducts();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,24 +55,26 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Assets.resizedInGreedIcon(),
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            DialogButton<Product>(creator: ProductCreator(reference: ItemWrapper(Product.empty()),), onFinished: (val){
-              setState(() {
-                products.add(val);
-              });
-            }, child:const Text("XD")),
-          expandableProductList(products, context)
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Assets.resizedInGreedIcon(),
+              const Text(
+                'You have pushed the button this many times:',
+              ),
+              Text(
+                '$_counter',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              DialogButton<Product>(creator: ProductCreator(reference: ItemWrapper(Product.empty()),), onFinished: (val){
+                setState(() {
+                  products.add(val);
+                });
+              }, child:const Text("XD")),
+            expandableProductList(products, context)
+            ],
+          ),
         ),
         
       ),
