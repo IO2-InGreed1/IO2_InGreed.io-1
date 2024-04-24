@@ -25,23 +25,27 @@ class _ProductAndOpinionWidgetState extends State<ProductAndOpinionWidget> {
         double height=constraints.maxHeight;
         double maxWidth=4*height/5;
         if(width>maxWidth) width=maxWidth;
-        return SizedBox(
-          width: width,
-          child: SingleChildScrollView(
-            child: Column
-            (
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: 
-              [
-                widget.product.productWidget,
-                ...list.map((e) => e.widget),
-                DialogButton(creator: creator, onFinished: (value)
-                {
-                  DatabaseWrapper.instance.opinionDatabase.addOpinion(value);
-                  setState(() {});
-                }, 
-                child:const Text("Add opinion"))
-              ],
+        return Center(
+          child: SizedBox(
+            width: width,
+            child: SingleChildScrollView(
+              child: Column
+              (
+                children: 
+                [
+                  widget.product.productWidget,
+                  ...list.map((e) => Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: e.widget,
+                  )),
+                  DialogButton(creator: creator, onFinished: (value)
+                  {
+                    DatabaseWrapper.instance.opinionDatabase.addOpinion(value);
+                    setState(() {});
+                  }, 
+                  child:const Text("Add opinion"))
+                ],
+              ),
             ),
           ),
         );
