@@ -12,18 +12,18 @@ public class ProductService : IProductService
         _productDA = productDA;
     }
 
-    public int CreateProduct(Product product)
+    public int? CreateProduct(Product product)
     {
-        throw new NotImplementedException();
+        return _productDA.CreateProduct(product);
     }
 
     public IEnumerable<Product> GetAllProducts()
     {
-        throw new NotImplementedException();
+        return _productDA.GetAllProducts();
     }
 
-    public Product GetProductById(int productId)
+    public Product? GetProductById(int productId)
     {
-        throw new NotImplementedException();
+        return _productDA.GetProductById(productId);
     }
 }

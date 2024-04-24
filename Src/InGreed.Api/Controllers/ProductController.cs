@@ -20,7 +20,7 @@ public class ProductController : ControllerBase
     [HttpPost]
     public ActionResult<Product> Create([FromBody] Product product)
     {
-        if (product is null) return BadRequest();
+        if (product is null) return BadRequest("Null entered as input");
         service.CreateProduct(product);
 
         // should return location of the created resource as first argument
@@ -30,18 +30,16 @@ public class ProductController : ControllerBase
     [HttpGet]
     public ActionResult<List<Product>> GetAllProducts()
     {
-        List<Product> products = new List<Product>();
-        products = service.GetAllProducts().ToList();
-        if(products == null) { return NotFound(); }
+        List<Product> products = service.GetAllProducts().ToList();
+        if(products is null) { return NotFound("List of products not found"); }
         return Ok(products);
     }
 
     [HttpGet("{id}")]
     public ActionResult<Product> GetById(int id)
     {
-        Product product;
-        product = service.GetProductById(id);
-        if (product == null) { return NotFound(); }
+        Product? product = service.GetProductById(id);
+        if (product is null) { return NotFound("Product with given Id not found"); }
         return Ok(product);
     }
 }
