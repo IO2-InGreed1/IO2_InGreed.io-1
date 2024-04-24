@@ -12,9 +12,10 @@ public class ProductService : IProductService
         _productDA = productDA;
     }
 
-    public int? CreateProduct(Product product)
+    public int CreateProduct(Product product)
     {
-        return _productDA.CreateProduct(product);
+        try { return _productDA.CreateProduct(product); }
+        catch (Exception ex) { throw new ArgumentException(ex.Message); }
     }
 
     public IEnumerable<Product> GetAllProducts()
@@ -22,8 +23,9 @@ public class ProductService : IProductService
         return _productDA.GetAll();
     }
 
-    public Product? GetProductById(int productId)
+    public Product GetProductById(int productId)
     {
-        return _productDA.GetProductById(productId);
+        try { return _productDA.GetProductById(productId); }
+        catch(Exception ex) { throw new ArgumentException(ex.Message); }
     }
 }

@@ -20,26 +20,25 @@ public class ProductController : ControllerBase
     [HttpPost]
     public ActionResult<Product> Create([FromBody] Product product)
     {
-        if (product is null) return BadRequest("Null entered as input");
+        if (product is null) return BadRequest();
         service.CreateProduct(product);
-
-        // should return location of the created resource as first argument
-        return Created(String.Empty, product);
+        return Ok(product);
     }
-
     [HttpGet]
     public ActionResult<List<Product>> GetAllProducts()
     {
-        List<Product> products = service.GetAllProducts().ToList();
-        if(products is null) { return NotFound("List of products not found"); }
+        List<Product> products = new List<Product>();
+        try { products = service.GetAllProducts().ToList(); }
+        catch (ArgumentException e) { return NotFound(e.Message); }
         return Ok(products);
     }
 
     [HttpGet("{id}")]
     public ActionResult<Product> GetById(int id)
     {
-        Product? product = service.GetProductById(id);
-        if (product is null) { return NotFound("Product with given Id not found"); }
+        Product product;
+        try { product = service.GetProductById(id); }
+        catch (ArgumentException e) { return NotFound(e.Message); }
         return Ok(product);
     }
 }

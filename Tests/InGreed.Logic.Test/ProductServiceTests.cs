@@ -44,24 +44,6 @@ public class ProductServiceTests
     }
 
     [Fact]
-    public void CreateProduct_ExistingProduct_ShouldReturnNull()
-    {
-        // Arrange
-        Product product1 = new Product()
-        {
-            Id = 1
-        };
-        mockProductDA.Setup(pda => pda.CreateProduct(product1)).Returns(value: null);
-        var productService = new ProductService(mockProductDA.Object);
-
-        // Act
-        var result = productService.CreateProduct(product1);
-
-        // Assert
-        Assert.Null(result);
-    }
-
-    [Fact]
     public void GetAllProducts_ShouldReturnListOfAllProducts()
     {
         // Arrange
@@ -104,20 +86,5 @@ public class ProductServiceTests
 
         // Assert
         Assert.Equal(product1, result);
-    }
-
-    [Fact]
-    public void GetProductByID_NonexistentProduct_ShouldReturnNull()
-    {
-        // Arrange
-        int testedId = 1;
-        mockProductDA.Setup(pda => pda.GetProductById(testedId)).Returns(value: null);
-        var productService = new ProductService(mockProductDA.Object);
-
-        // Act
-        var result = productService.GetProductById(testedId);
-
-        // Assert
-        Assert.Null(result);
     }
 }
