@@ -19,19 +19,33 @@ class _ProductAndOpinionWidgetState extends State<ProductAndOpinionWidget> {
   Widget build(BuildContext context) {
     var list=DatabaseWrapper.instance.opinionDatabase.getProductOpinions(widget.product);
     var creator=OpinionCreator(reference:ItemWrapper(Opinion.fromAllData(author: widget.user, id: 0, product: widget.product, score: 2.5, text: "")),);
-    return Column
-    (
-      children: 
-      [
-        widget.product.productWidget,
-        ...list.map((e) => e.widget),
-        DialogButton(creator: creator, onFinished: (value)
-        {
-          DatabaseWrapper.instance.opinionDatabase.addOpinion(value);
-          setState(() {});
-        }, 
-        child:const Text("Add opinion"))
-      ],
+    return LayoutBuilder(
+      builder: (context,constraints) {
+        double width=constraints.maxWidth;
+        double height=constraints.maxHeight;
+        double maxWidth=4*height/5;
+        if(width>maxWidth) width=maxWidth;
+        return SizedBox(
+          width: width,
+          child: SingleChildScrollView(
+            child: Column
+            (
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: 
+              [
+                widget.product.productWidget,
+                ...list.map((e) => e.widget),
+                DialogButton(creator: creator, onFinished: (value)
+                {
+                  DatabaseWrapper.instance.opinionDatabase.addOpinion(value);
+                  setState(() {});
+                }, 
+                child:const Text("Add opinion"))
+              ],
+            ),
+          ),
+        );
+      }
     );
   }
 }
