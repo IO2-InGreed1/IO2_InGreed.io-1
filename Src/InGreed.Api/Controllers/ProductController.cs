@@ -22,35 +22,17 @@ public class ProductController : ControllerBase
     {
         if (product is null) return BadRequest();
         service.CreateProduct(product);
-        return Ok(product);
+
+        // should return location of the created resource as first argument
+        return Created(String.Empty, product);
     }
-    /*
-    [HttpPost("{id}/opinions")]
-    public ActionResult<Product> AddOpinion(int id, [FromBody]Opinion opinion)
-    {
-        if (opinion is null) return BadRequest();
-        Product product;
-        try { product = service.GetProductById(id); }
-        catch(ArgumentException e) { return NotFound(e.Message); }
-        service.AddOpinion(product, opinion);
-        return Ok(opinion);
-    }
-    
-    [HttpDelete("{id}")]
-    public ActionResult<Product> Delete(int id)
-    {
-        Product product;
-        try { product = service.GetProductById(id); service.DeleteProduct(id); }
-        catch(ArgumentException e) { return NotFound(e.Message); }
-        return Ok(product);
-    }
-    */
+
     [HttpGet]
     public ActionResult<List<Product>> GetAllProducts()
     {
         List<Product> products = new List<Product>();
-        try { products = service.GetAllProducts().ToList(); }
-        catch (ArgumentException e) { return NotFound(e.Message); }
+        products = service.GetAllProducts().ToList();
+        if(products == null) { return NotFound(); }
         return Ok(products);
     }
 
@@ -58,37 +40,8 @@ public class ProductController : ControllerBase
     public ActionResult<Product> GetById(int id)
     {
         Product product;
-        try { product = service.GetProductById(id); }
-        catch (ArgumentException e) { return NotFound(e.Message); }
+        product = service.GetProductById(id);
+        if (product == null) { return NotFound(); }
         return Ok(product);
     }
-    /*
-    [HttpGet("{id}/opinions")]
-    public ActionResult<List<Opinion>> GetOpinions(int id)
-    {
-        Product product;
-        try { product = service.GetProductById(id); }
-        catch (ArgumentException e) { return NotFound(e.Message); }
-
-        List<Opinion> opinions = new List<Opinion>();
-        try { opinions = service.GetOpinions(product).ToList(); }
-        catch (ArgumentException e) { return NotFound(e.Message); }
-
-        return Ok(opinions);
-    }
-
-    [HttpGet("{id}/ingredients")]
-    public ActionResult<List<Ingredient>> GetIngredients(int id)
-    {
-        Product product;
-        try { product = service.GetProductById(id); }
-        catch (ArgumentException e) { return NotFound(e.Message); }
-
-        List<Ingredient> ingredients = new List<Ingredient>();
-        try { ingredients = service.GetIngredients(product).ToList(); }
-        catch (ArgumentException e) { return NotFound(e.Message); }
-
-        return Ok(ingredients);
-    }
-    */
 }
