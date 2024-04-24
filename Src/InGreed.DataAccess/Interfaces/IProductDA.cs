@@ -7,5 +7,5 @@ public interface IProductDA
     Product? GetProductById(int productId);
     int? CreateProduct(Product product);
     void ModifyProduct(int productIdToModify, Product product);
-    IEnumerable<Product> GetAllProducts();
+    IEnumerable<Product> GetAll();
 }

@@ -19,7 +19,7 @@ public class ProductService : IProductService
 
     public IEnumerable<Product> GetAllProducts()
     {
-        return _productDA.GetAllProducts();
+        return _productDA.GetAll();
     }
 
     public Product? GetProductById(int productId)

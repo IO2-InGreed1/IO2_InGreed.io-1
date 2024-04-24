@@ -77,7 +77,7 @@ public class ProductServiceTests
         products.Add(product1);
         products.Add(product2);
 
-        mockProductDA.Setup(pda => pda.GetAllProducts()).Returns(products);
+        mockProductDA.Setup(pda => pda.GetAll()).Returns(products);
         var productService = new ProductService(mockProductDA.Object);
 
         // Act
