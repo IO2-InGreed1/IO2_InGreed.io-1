@@ -1,12 +1,24 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/product_creator.dart';
 import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/login_screen.dart';
 import 'package:ingreedio_front/products.dart';
-import 'package:ingreedio_front/ui/product_widget.dart';void main() {
+import 'package:ingreedio_front/ui/product_widget.dart';
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: kIsWeb
+        ? HydratedStorage.webStorageDirectory
+        : await getApplicationDocumentsDirectory(),
+  );
   runApp(const MyApp());
+}
+
+getApplicationDocumentsDirectory() {
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
