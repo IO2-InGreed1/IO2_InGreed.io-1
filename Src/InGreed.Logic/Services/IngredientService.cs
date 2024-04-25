@@ -15,12 +15,12 @@ public class IngredientService : IIngredientService
         throw new NotImplementedException();
     }
 
-    public Ingredient GetById(int ingredientId)
+    public Ingredient? GetById(int ingredientId)
     {
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Ingredient> GetByProduct(int productId)
+    public IEnumerable<Ingredient>? GetByProduct(int productId)
     {
         throw new NotImplementedException();
     }

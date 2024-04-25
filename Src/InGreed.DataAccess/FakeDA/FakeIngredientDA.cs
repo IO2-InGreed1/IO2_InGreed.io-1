@@ -5,33 +5,43 @@ namespace InGreed.DataAccess.FakeDA;
 
 public class FakeIngredientDA : IIngredientDA
 {
+    private List<Ingredient> _ingredients = new()
+    {
+        new() { Id = 1, IconURL = string.Empty, Name = "Ender Pearl" },
+        new() { Id = 2, IconURL = string.Empty, Name = "Nether Wart" },
+        new() { Id = 3, IconURL = string.Empty, Name = "Bone Meal" }
+    };
+    private int currentId = 3;
+
     public void AddToProduct(int ingredientId, int productId)
     {
-        throw new NotImplementedException();
+        
     }
 
     public int Create(Ingredient ingredient)
     {
-        throw new NotImplementedException();
+        ingredient.Id = ++currentId;
+        _ingredients.Add(ingredient);
+        return currentId;
     }
 
     public IEnumerable<Ingredient> GetAll()
     {
-        throw new NotImplementedException();
+        return _ingredients;
     }
 
-    public Ingredient GetById(int ingredientId)
+    public Ingredient? GetById(int ingredientId)
     {
-        throw new NotImplementedException();
+        return _ingredients.Find(p => p.Id == ingredientId);
     }
 
-    public IEnumerable<Ingredient> GetByProduct(int productId)
+    public IEnumerable<Ingredient>? GetByProduct(int productId)
     {
-        throw new NotImplementedException();
+        return null;
     }
 
     public void RemoveFromProuct(int ingredientId, int productId)
     {
-        throw new NotImplementedException();
+
     }
 }
