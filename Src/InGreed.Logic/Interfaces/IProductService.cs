@@ -7,4 +7,5 @@ public interface IProductService
     IEnumerable<Product> GetAllProducts();
     Product GetProductById(int productId);
     int CreateProduct(Product product);
+    void ModifyProduct(int productIdToModify, Product product);
 }

@@ -44,6 +44,46 @@ public class ProductServiceTests
     }
 
     [Fact]
+    public void ModifyProduct_ExistingProduct_ShouldModifyProduct()
+    {
+        // Arrange
+        Product oldProduct = new Product()
+        {
+            Id = 1,
+            Name = "Old name"
+        };
+        Product newProduct = new Product()
+        {
+            Id = 2,
+            Name = "New name",
+            Category = Category.Drinks
+        };
+        int testedId = 1;
+        mockProductDA.Setup(pda => pda.ModifyProduct(It.IsAny<int>(), It.IsAny<Product>())).Callback<int, Product>((i, obj) => {
+            oldProduct.Name = obj.Name;
+            oldProduct.PromotedUntil = obj.PromotedUntil;
+            oldProduct.Category = obj.Category;
+            oldProduct.Ingredients.Clear();
+            foreach (Ingredient ingredient in obj.Ingredients) oldProduct.Ingredients.Add(ingredient);
+            oldProduct.Opinions.Clear();
+            foreach (Opinion opinion in obj.Opinions) oldProduct.Opinions.Add(opinion);
+        });
+        var productService = new ProductService(mockProductDA.Object);
+
+        // Act 
+        productService.ModifyProduct(testedId, newProduct);
+
+        // Assert
+        mockProductDA.Verify(pda => pda.ModifyProduct(It.IsAny<int>(), It.IsAny<Product>()), Times.Once());
+        Assert.Equal(testedId, oldProduct.Id);
+        Assert.Equal(oldProduct.Name, newProduct.Name);
+        Assert.Equal(oldProduct.PromotedUntil, newProduct.PromotedUntil);
+        Assert.Equal(oldProduct.Category, newProduct.Category);
+        Assert.Equal(oldProduct.Ingredients, newProduct.Ingredients);
+        Assert.Equal(oldProduct.Opinions, newProduct.Opinions);
+    }
+
+    [Fact]
     public void GetAllProducts_ShouldReturnListOfAllProducts()
     {
         // Arrange

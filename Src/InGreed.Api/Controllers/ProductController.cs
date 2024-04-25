@@ -24,6 +24,13 @@ public class ProductController : ControllerBase
         service.CreateProduct(product);
         return Ok(product);
     }
+    [HttpPut]
+    public ActionResult<Product> Modify(int productToModifyId, [FromBody] Product product)
+    {
+        if (product is null) return BadRequest();
+        service.ModifyProduct(productToModifyId, product);
+        return Ok(product);
+    }
     [HttpGet]
     public ActionResult<List<Product>> GetAllProducts()
     {

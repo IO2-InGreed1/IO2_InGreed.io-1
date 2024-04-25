@@ -18,6 +18,11 @@ public class ProductService : IProductService
         catch (Exception ex) { throw new ArgumentException(ex.Message); }
     }
 
+    public void ModifyProduct(int productIdToModify, Product product)
+    {
+        _productDA.ModifyProduct(productIdToModify, product);
+    }
+
     public IEnumerable<Product> GetAllProducts()
     {
         return _productDA.GetAll();
