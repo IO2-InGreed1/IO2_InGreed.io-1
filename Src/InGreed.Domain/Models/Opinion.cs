@@ -3,8 +3,8 @@
 public class Opinion
 {
     public int Id { get; set; }
-    public Product Product { get; set; } = null!;
-    public User Author { get; set; } = null!;
+    public int productId { get; set; }
+    public int authorId { get; set; }
     public string Content { get; set; } = string.Empty;
     public float Score { get; set; } = default(float);
 }
