@@ -9,14 +9,6 @@ namespace InGreed.Logic.Test;
 
 public class ProductServiceTests
 {
-    Product ExistingProductWithIngredientsAndOpinions1 { get; set; } = null!;
-    Product ExistingProduct2 { get; set; } = null!;
-
-    Product NonExistentProduct { get; set; } = null!;
-
-    ProductService mockProductService { get; set; } = null!;
-    IProductDA productMockDA { get; set; } = null!;
-
     Mock<IProductDA> mockProductDA;
 
     public ProductServiceTests()
