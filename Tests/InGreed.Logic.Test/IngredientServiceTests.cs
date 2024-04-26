@@ -1,22 +1,134 @@
-﻿namespace InGreed.Logic.Tests;
+﻿using InGreed.DataAccess.Interfaces;
+using InGreed.Logic.Services;
+using Moq;
+
+namespace InGreed.Logic.Tests;
 
 public class IngredientServiceTests
 {
-    public IngredientServiceTests() { }
+    private Mock<IIngredientDA> ingredientDAMock;
+    public IngredientServiceTests() 
+    {
+        ingredientDAMock = new();
+    }
 
-    // TODO:
-    // GetAll_ShouldReturnAllIngredients
-    // GetByProduct_ExistingProduct_ShouldReturnCorrectProductIngredients
-    // GetByProduct_NonexistentProduct_ShouldReturnNull
-    // GetById_Existingingredient_ShouldReturnCorrectingredient
-    // GetById_NonexistentIngredient_ShouldReturnNull
-    // AddToProduct_NonexistentIngredientExistingProduct_ShouldAddNewIngredientAndAssignItToProduct
-    // AddToProduct_NonexistentIngredientNonexistentProduct_ShouldDoNothing
-    // AddToProduct_ExistingIngredientExistingProduct_ShouldAssignExistingIngredientToProduct
-    // AddToProduct_ExistingIngredientNonexistentProduct_ShouldDoNothing
-    // RemoveFromProduct_NonexistentIngredientExistingProduct_ShouldNotUpdateProductIngredients
-    // RemoveFromProduct_NonexistentIngredientNonexistentProduct_ShouldDoNothing
-    // RemoveFromProduct_ExistingIngredientFromTheProduct_ShouldRemoveTheingredientFromProductIngredients
-    // RemoveFromProduct_ExistingIngredientNotFromTheProduct_ShouldNotUpdateProductIngredients
-    // RemoveFromProduct_ExistingIngredientNonexistentProduct_ShouldDoNothing
+    [Fact]
+    public void GetAll_ShouldReturnAllIngredients() 
+    {
+        // Arrange
+        IngredientService sut = new(ingredientDAMock.Object);
+
+        // Act
+        // Assert
+    }
+
+    [Fact]
+    public void GetById_Existingingredient_ShouldReturnCorrectIngredient() 
+    {
+        // Arrange
+        IngredientService sut = new(ingredientDAMock.Object);
+
+        // Act
+        // Assert
+    }
+
+    [Fact]
+    public void GetById_NonexistentIngredient_ShouldReturnNull() 
+    {
+        // Arrange
+        IngredientService sut = new(ingredientDAMock.Object);
+
+        // Act
+        // Assert
+    }
+
+    [Fact]
+    public void AddToProduct_NonexistentIngredientExistingProduct_ShouldAddNewIngredientAndAssignItToProduct() 
+    {
+        // Arrange
+        IngredientService sut = new(ingredientDAMock.Object);
+
+        // Act
+        // Assert
+    }
+
+    [Fact]
+    public void AddToProduct_NonexistentIngredientNonexistentProduct_ShouldNotModifyingredientsNorProducts() 
+    {
+        // Arrange
+        IngredientService sut = new(ingredientDAMock.Object);
+
+        // Act
+        // Assert
+    }
+
+    [Fact]
+    public void AddToProduct_ExistingIngredientExistingProduct_ShouldAssignExistingIngredientToProduct() 
+    {
+        // Arrange
+        IngredientService sut = new(ingredientDAMock.Object);
+
+        // Act
+        // Assert
+    }
+
+    [Fact]
+    public void AddToProduct_ExistingIngredientNonexistentProduct_ShouldNotModifyingredientsNorProducts() 
+    {
+        // Arrange
+        IngredientService sut = new(ingredientDAMock.Object);
+
+        // Act
+        // Assert
+    }
+
+    [Fact]
+    public void RemoveFromProduct_NonexistentIngredientExistingProduct_ShouldNotUpdateProductIngredients() 
+    {
+        // Arrange
+        IngredientService sut = new(ingredientDAMock.Object);
+
+        // Act
+        // Assert
+    }
+
+    [Fact]
+    public void RemoveFromProduct_NonexistentIngredientNonexistentProduct_ShouldNotModifyingredientsNorProducts() 
+    {
+        // Arrange
+        IngredientService sut = new(ingredientDAMock.Object);
+
+        // Act
+        // Assert
+    }
+
+    [Fact]
+    public void RemoveFromProduct_ExistingIngredientFromTheProduct_ShouldRemoveTheingredientFromProductIngredients() 
+    {
+        // Arrange
+        IngredientService sut = new(ingredientDAMock.Object);
+
+        // Act
+        // Assert
+    }
+
+    [Fact]
+    public void RemoveFromProduct_ExistingIngredientNotFromTheProduct_ShouldNotUpdateProductIngredients() 
+    {
+        // Arrange
+        IngredientService sut = new(ingredientDAMock.Object);
+
+        // Act
+        // Assert
+    }
+
+    [Fact]
+    public void RemoveFromProduct_ExistingIngredientNonexistentProduct_ShouldNotModifyingredientsNorProducts() 
+    {
+        // Arrange
+        IngredientService sut = new(ingredientDAMock.Object);
+
+        // Act
+        // Assert
+    }
 }

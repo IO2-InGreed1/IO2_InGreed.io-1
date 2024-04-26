@@ -35,11 +35,6 @@ public class FakeIngredientDA : IIngredientDA
         return _ingredients.Find(p => p.Id == ingredientId);
     }
 
-    public IEnumerable<Ingredient>? GetByProduct(int productId)
-    {
-        return null;
-    }
-
     public void RemoveFromProuct(int ingredientId, int productId)
     {
 

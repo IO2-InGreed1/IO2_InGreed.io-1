@@ -25,10 +25,4 @@ public class IngredientController : ControllerBase
     {
         throw new NotImplementedException();
     }
-
-    [HttpGet("xD")]
-    public IActionResult GetByProduct(int productId)
-    {
-        throw new NotImplementedException();
-    }
 }
