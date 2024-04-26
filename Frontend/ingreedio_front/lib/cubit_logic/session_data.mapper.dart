@@ -13,6 +13,7 @@ class SessionDataMapper extends ClassMapperBase<SessionData> {
   static SessionDataMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = SessionDataMapper._());
+      ClientMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -23,14 +24,29 @@ class SessionDataMapper extends ClassMapperBase<SessionData> {
   static String _$userToken(SessionData v) => v.userToken;
   static const Field<SessionData, String> _f$userToken =
       Field('userToken', _$userToken);
+  static Client? _$currentClient(SessionData v) => v.currentClient;
+  static const Field<SessionData, Client> _f$currentClient =
+      Field('currentClient', _$currentClient);
+  static String _$navigatorPath(SessionData v) => v.navigatorPath;
+  static const Field<SessionData, String> _f$navigatorPath =
+      Field('navigatorPath', _$navigatorPath);
+  static Database _$database(SessionData v) => v.database;
+  static const Field<SessionData, Database> _f$database =
+      Field('database', _$database, mode: FieldMode.member);
 
   @override
   final MappableFields<SessionData> fields = const {
     #userToken: _f$userToken,
+    #currentClient: _f$currentClient,
+    #navigatorPath: _f$navigatorPath,
+    #database: _f$database,
   };
 
   static SessionData _instantiate(DecodingData data) {
-    return SessionData.fromAllData(userToken: data.dec(_f$userToken));
+    return SessionData.fromAllData(
+        userToken: data.dec(_f$userToken),
+        currentClient: data.dec(_f$currentClient),
+        navigatorPath: data.dec(_f$navigatorPath));
   }
 
   @override
@@ -84,7 +100,8 @@ extension SessionDataValueCopy<$R, $Out>
 
 abstract class SessionDataCopyWith<$R, $In extends SessionData, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({String? userToken});
+  ClientCopyWith<$R, Client, Client>? get currentClient;
+  $R call({String? userToken, Client? currentClient, String? navigatorPath});
   SessionDataCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -97,11 +114,23 @@ class _SessionDataCopyWithImpl<$R, $Out>
   late final ClassMapperBase<SessionData> $mapper =
       SessionDataMapper.ensureInitialized();
   @override
-  $R call({String? userToken}) =>
-      $apply(FieldCopyWithData({if (userToken != null) #userToken: userToken}));
+  ClientCopyWith<$R, Client, Client>? get currentClient =>
+      $value.currentClient?.copyWith.$chain((v) => call(currentClient: v));
+  @override
+  $R call(
+          {String? userToken,
+          Object? currentClient = $none,
+          String? navigatorPath}) =>
+      $apply(FieldCopyWithData({
+        if (userToken != null) #userToken: userToken,
+        if (currentClient != $none) #currentClient: currentClient,
+        if (navigatorPath != null) #navigatorPath: navigatorPath
+      }));
   @override
   SessionData $make(CopyWithData data) => SessionData.fromAllData(
-      userToken: data.get(#userToken, or: $value.userToken));
+      userToken: data.get(#userToken, or: $value.userToken),
+      currentClient: data.get(#currentClient, or: $value.currentClient),
+      navigatorPath: data.get(#navigatorPath, or: $value.navigatorPath));
 
   @override
   SessionDataCopyWith<$R2, SessionData, $Out2> $chain<$R2, $Out2>(

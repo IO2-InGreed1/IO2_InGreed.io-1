@@ -1,8 +1,9 @@
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/ui/client_widget.dart';
-
+part 'users.mapper.dart';
 mixin class IProducer
 {
   void promoteProduct(Product product,DateTime date)
@@ -21,8 +22,10 @@ mixin class IProducer
     throw Exception("not implemented");
   }
 }
-abstract class User
+@MappableClass(discriminatorKey: "Type",discriminatorValue: "User")
+abstract class User with UserMappable
 {
+  @MappableConstructor()
   User.fromAllData({
     required this.id,
     required this.isBlocked,
@@ -56,8 +59,10 @@ class Producer extends IProducer
     required this.telephoneNumber,
   });
 }
-class Client extends User
+@MappableClass(discriminatorKey: "Type",discriminatorValue: "Client")
+class Client extends User with ClientMappable
 {
+  @MappableConstructor()
   Client.fromAllData({required super.id,
   required super.isBlocked, 
   required super.mail, 

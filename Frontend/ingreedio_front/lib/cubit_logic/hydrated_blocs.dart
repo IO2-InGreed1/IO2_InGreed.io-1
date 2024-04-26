@@ -5,7 +5,13 @@ import 'package:ingreedio_front/cubit_logic/session_data.dart';
 
 class SessionCubit extends HydratedCubit<SessionData>
 {
-
+  void clearData(BuildContext context)
+  {
+    emit(SessionData.empty());
+    while(Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
+  }
   SessionCubit(super.state);
   static SessionCubit fromContext(BuildContext context)
   {

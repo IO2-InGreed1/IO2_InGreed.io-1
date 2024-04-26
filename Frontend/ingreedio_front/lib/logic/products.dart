@@ -1,15 +1,17 @@
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/ui/opinion_widget.dart';
 import 'package:ingreedio_front/ui/product_widget.dart';
 import 'package:ingreedio_front/logic/users.dart';
-
+part 'products.mapper.dart';
 enum Category
 {
   food,cosmetics,drink
 }
-class Product
+@MappableClass()
+class Product with ProductMappable
 {
   @override
   bool operator==(Object other)
@@ -18,6 +20,7 @@ class Product
     return other.id==id&&other.name==name&&other.category==category&&other.description==description;
   }
   Product.empty():id=0,name="",description="",promotionUntil=DateTime(0),category=Category.cosmetics,ingredients=[],producer=Producer.fromAllData(companyName: "CompanyName", nip: "1", representativeName: "representativeName", representativeSurname: "representativeSurname", telephoneNumber: "123123123");
+  @MappableConstructor()
   Product.fromAllData({
     required this.category,
     required this.description,
@@ -62,7 +65,8 @@ class Product
   
 
 }
-class Ingredient
+@MappableClass()
+class Ingredient with IngredientMappable
 {
   @override
   bool operator==(Object other)
@@ -73,6 +77,7 @@ class Ingredient
   int id;
   String name;
   String iconUrl;
+  @MappableConstructor()
   Ingredient.fromAllData({required this.iconUrl,required this.id,required this.name});
   @override String toString() {
     return name;
@@ -82,6 +87,7 @@ class Ingredient
   int get hashCode => id+name.hashCode;
   
 }
+
 class Opinion
 {
   Opinion.fromAllData({required this.author,required this.id,required this.product,
