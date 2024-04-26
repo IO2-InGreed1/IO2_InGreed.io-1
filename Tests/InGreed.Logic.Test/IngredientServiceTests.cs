@@ -14,8 +14,9 @@ public class IngredientServiceTests
     // AddToProduct_NonexistentIngredientNonexistentProduct_ShouldDoNothing
     // AddToProduct_ExistingIngredientExistingProduct_ShouldAssignExistingIngredientToProduct
     // AddToProduct_ExistingIngredientNonexistentProduct_ShouldDoNothing
-    // RemoveFromProduct_
-    // RemoveFromProduct_
-    // RemoveFromProduct_
-    // RemoveFromProduct_
+    // RemoveFromProduct_NonexistentIngredientExistingProduct_ShouldNotUpdateProductIngredients
+    // RemoveFromProduct_NonexistentIngredientNonexistentProduct_ShouldDoNothing
+    // RemoveFromProduct_ExistingIngredientFromTheProduct_ShouldRemoveTheingredientFromProductIngredients
+    // RemoveFromProduct_ExistingIngredientNotFromTheProduct_ShouldNotUpdateProductIngredients
+    // RemoveFromProduct_ExistingIngredientNonexistentProduct_ShouldDoNothing
 }
