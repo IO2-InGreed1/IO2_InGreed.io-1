@@ -13,7 +13,7 @@ public class FakeIngredientDA : IIngredientDA
     };
     private int currentId = 3;
 
-    public void AddToProduct(int ingredientId, int productId)
+    public void AddToProduct(int ingredient, int productId)
     {
         
     }

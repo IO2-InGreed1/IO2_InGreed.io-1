@@ -7,6 +7,6 @@ public interface IIngredientService
     IEnumerable<Ingredient> GetAll();
     IEnumerable<Ingredient>? GetByProduct(int productId);
     Ingredient? GetById(int ingredientId);
-    void AddToProduct(int ingredientId, int productId);
+    void AddToProduct(Ingredient ingredient, int productId);
     void RemoveFromProuct(int ingredientId, int productId);
 }

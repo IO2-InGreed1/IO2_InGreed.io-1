@@ -5,7 +5,7 @@ namespace InGreed.Logic.Services;
 
 public class IngredientService : IIngredientService
 {
-    public void AddToProduct(int ingredientId, int productId)
+    public void AddToProduct(Ingredient ingredient, int productId)
     {
         throw new NotImplementedException();
     }

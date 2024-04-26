@@ -10,10 +10,10 @@ public class IngredientServiceTests
     // GetByProduct_NonexistentProduct_ShouldReturnNull
     // GetById_Existingingredient_ShouldReturnCorrectingredient
     // GetById_NonexistentIngredient_ShouldReturnNull
-    // AddToProduct_
-    // AddToProduct_
-    // AddToProduct_
-    // AddToProduct_
+    // AddToProduct_NonexistentIngredientExistingProduct_ShouldAddNewIngredientAndAssignItToProduct
+    // AddToProduct_NonexistentIngredientNonexistentProduct_ShouldDoNothing
+    // AddToProduct_ExistingIngredientExistingProduct_ShouldAssignExistingIngredientToProduct
+    // AddToProduct_ExistingIngredientNonexistentProduct_ShouldDoNothing
     // RemoveFromProduct_
     // RemoveFromProduct_
     // RemoveFromProduct_
