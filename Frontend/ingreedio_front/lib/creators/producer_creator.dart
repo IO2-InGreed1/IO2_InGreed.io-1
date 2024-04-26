@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/common_creators.dart';
 import 'package:ingreedio_front/creators/creators.dart';
-import 'package:ingreedio_front/users.dart';
+import 'package:ingreedio_front/logic/users.dart';
 
 class ProducerCreator extends Creator<Producer> {
   const ProducerCreator({super.key, required super.reference,super.onChanged=doNothing});

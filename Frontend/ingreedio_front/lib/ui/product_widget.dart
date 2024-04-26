@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/opinion_creator.dart';
 import 'package:ingreedio_front/cubit_logic/hydrated_blocs.dart';
-import 'package:ingreedio_front/products.dart';
+import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:ingreedio_front/ui/ingredient_widget.dart';
-import 'package:ingreedio_front/users.dart';
+import 'package:ingreedio_front/logic/users.dart';
 class ProductAndOpinionWidget extends StatefulWidget {
   const ProductAndOpinionWidget({super.key,required this.product,required this.user});
   final Client user;
@@ -106,17 +106,56 @@ class ProductWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.baseline,
                 textBaseline: TextBaseline.alphabetic,
                 children: [
-                  Text(product.description),
+                  StandardDecorator(child: Text(product.description)),
                   padding,
                   LabelWidget(label: "Brand: ", child: Text(product.producer.companyName)),
                   padding,
                   LabelWidget(label: "Ingredients: ", child: IngredientListWidget(ingredients: product.ingredients,)),
+                  padding,
+                  getFavoriteButton((p0) { 
+                    
+                  }, false),
                 ],
               )
             ],
           )
         ],
       ),
+    );
+  }
+}
+ToggleButton getFavoriteButton(void Function(bool) onChanged,bool initial)
+{
+  return ToggleButton(item: initial,
+    buttonOff:const Icon(Icons.favorite_border,color: Colors.red,),
+    buttonOn: const Icon(Icons.favorite,color: Colors.red,),
+    onChanged: onChanged,);
+}
+class ToggleButton extends Creator<bool> {
+  const ToggleButton.fromReference({super.key, required super.reference,super.onChanged,required this.buttonOff,required this.buttonOn});
+  ToggleButton({super.key,required bool item,super.onChanged,required this.buttonOff,required this.buttonOn}):super(reference: ItemWrapper(item));
+  final Widget buttonOn;
+  final Widget buttonOff;
+  @override
+  State<ToggleButton> createState() => _ToggleButtonState();
+  
+  @override
+  Creator<bool> getInstance({Key? key, Function(bool p1) onChanged = doNothing, required ItemWrapper<bool> reference}) {
+    return ToggleButton.fromReference(reference: reference,onChanged: onChanged,key: key,buttonOff: buttonOff,buttonOn: buttonOn,);
+  }
+}
+
+class _ToggleButtonState extends State<ToggleButton> {
+  @override
+  Widget build(BuildContext context) {
+    Widget current=widget.item?widget.buttonOn:widget.buttonOff;
+    return GestureDetector(
+      onTap: (){
+        setState(() {
+        widget.item=!widget.item;
+        });
+      },
+      child: current,
     );
   }
 }

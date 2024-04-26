@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:ingreedio_front/products.dart';
+import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 
 class OpinionWidget extends StatelessWidget {

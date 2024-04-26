@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/common_creators.dart';
 import 'package:ingreedio_front/creators/creators.dart';
-import 'package:ingreedio_front/users.dart';
+import 'package:ingreedio_front/logic/users.dart';
 
 class ClientCreator extends Creator<Client> {
   const ClientCreator({super.key, required super.reference,super.onChanged});
@@ -25,7 +25,7 @@ class _ClientCreatorState extends State<ClientCreator> {
               onChanged: (value){widget.item.username=value;},
             )),
             LabelWidget(label: "Password", child: StringCreator(
-              item: widget.item.password,
+              item: widget.item.password==null?"":widget.item.password!,
               onChanged: (value){widget.item.password=value;},
             )),
             LabelWidget(label: "Email", child: StringCreator(

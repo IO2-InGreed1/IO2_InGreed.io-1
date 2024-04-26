@@ -1,4 +1,4 @@
-import 'package:ingreedio_front/products.dart';
+import 'package:ingreedio_front/logic/products.dart';
 enum OrderType
 {
   normal,byScoreAscending,byScoreDescending,

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/common_creators.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/ingredient_creator.dart';
-import 'package:ingreedio_front/products.dart';
-import 'package:ingreedio_front/users.dart';
+import 'package:ingreedio_front/logic/products.dart';
+import 'package:ingreedio_front/logic/users.dart';
 
 class PreferenceCreator extends Creator<Preference> {
   const PreferenceCreator({super.key, required super.reference,super.onChanged,required this.ingredients});

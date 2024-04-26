@@ -1,7 +1,7 @@
 
 import 'dart:core';
-import 'package:ingreedio_front/products.dart';
-import 'package:ingreedio_front/users.dart';
+import 'package:ingreedio_front/logic/products.dart';
+import 'package:ingreedio_front/logic/users.dart';
 abstract class Database
 {
   ProductDatabse get productDatabse;

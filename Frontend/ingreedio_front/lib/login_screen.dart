@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ingreedio_front/users.dart';
+import 'package:ingreedio_front/logic/users.dart';
 
 class LoginPage extends StatefulWidget {
   final List<Client> users=[

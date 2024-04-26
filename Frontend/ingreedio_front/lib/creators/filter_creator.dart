@@ -3,7 +3,7 @@ import 'package:ingreedio_front/creators/common_creators.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/ingredient_creator.dart';
 import 'package:ingreedio_front/cubit_logic/hydrated_blocs.dart';
-import 'package:ingreedio_front/filters.dart';
+import 'package:ingreedio_front/logic/filters.dart';
 class FilterCreator extends Creator<ProductFilter> {
   const FilterCreator({super.key, required super.reference,super.onChanged});
 

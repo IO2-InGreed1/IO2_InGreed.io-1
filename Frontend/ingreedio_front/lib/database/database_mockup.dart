@@ -1,7 +1,7 @@
-import 'package:ingreedio_front/admins.dart';
+import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/database/databse.dart';
-import 'package:ingreedio_front/products.dart';
-import 'package:ingreedio_front/users.dart';
+import 'package:ingreedio_front/logic/products.dart';
+import 'package:ingreedio_front/logic/users.dart';
 
 class MockupUserDatabase extends UserDatabse
 {

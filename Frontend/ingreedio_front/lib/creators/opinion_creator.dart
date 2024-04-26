@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:ingreedio_front/creators/common_creators.dart';
 import 'package:ingreedio_front/creators/creators.dart';
-import 'package:ingreedio_front/products.dart';
+import 'package:ingreedio_front/logic/products.dart';
 class DoubleRatingCreator extends Creator<double> {
   const DoubleRatingCreator({this.minValue=0,this.maxValue=5,super.key, required super.reference,super.onChanged});
   final double minValue,maxValue;

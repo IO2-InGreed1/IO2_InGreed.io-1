@@ -2,6 +2,20 @@ import 'package:flutter/material.dart';
 
 class StandardDecorator extends StatelessWidget {
   const StandardDecorator({super.key, required this.child,this.color=const Color.fromARGB(167, 231, 250, 29),this.padding=7});
+
+  StandardDecorator.column({super.key,required List<Widget> children,
+  this.color=const Color.fromARGB(167, 231, 250, 29),
+  this.padding=7,
+  MainAxisAlignment mainAxisAlignment=MainAxisAlignment.start,
+  CrossAxisAlignment crossAxisAlignment=CrossAxisAlignment.center,
+  TextBaseline? textBaseline,
+  TextDirection? textDirection,
+  }):child=Column(mainAxisAlignment: mainAxisAlignment,
+  crossAxisAlignment: crossAxisAlignment,
+  textBaseline: textBaseline,
+  textDirection: textDirection,
+  children: children,);
+
   final Widget child;
   final Color color;
   final double padding;

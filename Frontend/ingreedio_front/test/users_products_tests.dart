@@ -1,7 +1,7 @@
 import 'package:test/test.dart';
-import 'package:ingreedio_front/admins.dart';
-import 'package:ingreedio_front/products.dart';
-import 'package:ingreedio_front/users.dart';
+import 'package:ingreedio_front/logic/admins.dart';
+import 'package:ingreedio_front/logic/products.dart';
+import 'package:ingreedio_front/logic/users.dart';
 class TestInitializer
 {
   static Producer get producer=>Producer.fromAllData(companyName: "Test", nip: "0", representativeName: "Name", representativeSurname: "Surname", telephoneNumber: "000000000");

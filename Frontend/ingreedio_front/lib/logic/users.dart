@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/assets.dart';
-import 'package:ingreedio_front/products.dart';
+import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/ui/client_widget.dart';
 
 mixin class IProducer
@@ -31,7 +31,8 @@ abstract class User
     required this.username
   });
   int id;
-  String mail,password,username;
+  String mail,username;
+  String? password;
   bool isBlocked;
   void logIn()
   {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/creators.dart';
-import 'package:ingreedio_front/products.dart';
+import 'package:ingreedio_front/logic/products.dart';
 
 class IngredientSelector extends Selector<Ingredient> {
   IngredientSelector.withItems({super.key, required super.onChanged,required super.reference,required super.items});

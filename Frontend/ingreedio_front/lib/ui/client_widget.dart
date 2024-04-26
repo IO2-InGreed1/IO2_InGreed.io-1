@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
-import 'package:ingreedio_front/users.dart';
+import 'package:ingreedio_front/logic/users.dart';
 
 class ClientProfileWidget extends StatelessWidget {
   const ClientProfileWidget({super.key,required this.client});
