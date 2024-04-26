@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/common_creators.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/ingredient_creator.dart';
-import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/products.dart';
 import 'package:ingreedio_front/users.dart';
 
 class PreferenceCreator extends Creator<Preference> {
-  PreferenceCreator({super.key, required super.reference,super.onChanged}):ingredients=DatabaseWrapper.instance.getAllIngredients();
+  const PreferenceCreator({super.key, required super.reference,super.onChanged,required this.ingredients});
   final List<Ingredient> ingredients;
   @override
   State<PreferenceCreator> createState() => _PreferenceCreatorState();
   
   @override
   Creator<Preference> getInstance({Key? key, Function(Preference p1) onChanged = doNothing, required ItemWrapper<Preference> reference}) {
-    return PreferenceCreator(reference: reference,onChanged: onChanged,key: key);
+    return PreferenceCreator(reference: reference,onChanged: onChanged,key: key,ingredients: ingredients,);
   }
 }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/common_creators.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/ingredient_creator.dart';
-import 'package:ingreedio_front/database/databse.dart';
+import 'package:ingreedio_front/cubit_logic/hydrated_blocs.dart';
 import 'package:ingreedio_front/products.dart';
 
 class ProductCreator extends Creator<Product> {
@@ -44,7 +44,7 @@ class _ProductCreatorState extends State<ProductCreator> {
           allowMultiline: true,
         );
     Widget ingredientsInput=IngredientListSelector(reference:ItemWrapper(widget.item.ingredients),
-     ingredients: DatabaseWrapper.instance.getAllIngredients(),
+     ingredients: SessionCubit.fromContext(context).state.database.getAllIngredients(),
      onChanged: (value){widget.item.ingredients=value;},);
     Widget padding=const SizedBox(height: 7,width: 7,);
     return Column(

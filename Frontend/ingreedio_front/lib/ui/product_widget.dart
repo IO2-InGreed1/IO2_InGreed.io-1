@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/opinion_creator.dart';
-import 'package:ingreedio_front/database/databse.dart';
+import 'package:ingreedio_front/cubit_logic/hydrated_blocs.dart';
 import 'package:ingreedio_front/products.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:ingreedio_front/ui/ingredient_widget.dart';
@@ -17,7 +17,7 @@ class ProductAndOpinionWidget extends StatefulWidget {
 class _ProductAndOpinionWidgetState extends State<ProductAndOpinionWidget> {
   @override
   Widget build(BuildContext context) {
-    var list=DatabaseWrapper.instance.opinionDatabase.getProductOpinions(widget.product);
+    var list=SessionCubit.fromContext(context).state.database.opinionDatabase.getProductOpinions(widget.product);
     var creator=OpinionCreator(reference:ItemWrapper(Opinion.fromAllData(author: widget.user, id: 0, product: widget.product, score: 2.5, text: "")),);
     return LayoutBuilder(
       builder: (context,constraints) {
@@ -40,7 +40,7 @@ class _ProductAndOpinionWidgetState extends State<ProductAndOpinionWidget> {
                   )),
                   DialogButton(creator: creator, onFinished: (value)
                   {
-                    DatabaseWrapper.instance.opinionDatabase.addOpinion(value);
+                    SessionCubit.fromContext(context).state.database.opinionDatabase.addOpinion(value);
                     setState(() {});
                   }, 
                   child:const Text("Add opinion"))

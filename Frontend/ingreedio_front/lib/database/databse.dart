@@ -1,18 +1,7 @@
 
 import 'dart:core';
-import 'package:ingreedio_front/database/database_mockup.dart';
 import 'package:ingreedio_front/products.dart';
 import 'package:ingreedio_front/users.dart';
-
-class DatabaseWrapper {
-  static Database _instance = MockupDatabase.filled();
-
-  static Database get instance => _instance;
-
-  static setInstance(Database instance) {
-    _instance = instance;
-  }
-}
 abstract class Database
 {
   ProductDatabse get productDatabse;

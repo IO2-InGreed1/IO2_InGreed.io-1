@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/common_creators.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/ingredient_creator.dart';
-import 'package:ingreedio_front/database/databse.dart';
+import 'package:ingreedio_front/cubit_logic/hydrated_blocs.dart';
 import 'package:ingreedio_front/filters.dart';
 class FilterCreator extends Creator<ProductFilter> {
   const FilterCreator({super.key, required super.reference,super.onChanged});
@@ -22,11 +22,11 @@ class _FilterWidgetState extends State<FilterCreator> {
     return Column(
       children: [
         LabelWidget(label: "product name: ", child: StringCreator(item: widget.item.nameFilter,onChanged:(value)=> widget.item.nameFilter=value,)),
-        LabelWidget(label: "wanted ingredients: ", child: IngredientListSelector(ingredients: DatabaseWrapper.instance.getAllIngredients(),
+        LabelWidget(label: "wanted ingredients: ", child: IngredientListSelector(ingredients: SessionCubit.fromContext(context).state.database.getAllIngredients(),
         reference: ItemWrapper(widget.item.preference),
         ),     
         ),
-        LabelWidget(label: "not wanted ingredients: ", child: IngredientListSelector(ingredients: DatabaseWrapper.instance.getAllIngredients(),
+        LabelWidget(label: "not wanted ingredients: ", child: IngredientListSelector(ingredients: SessionCubit.fromContext(context).state.database.getAllIngredients(),
         reference: ItemWrapper(widget.item.allergens),
         ),     
         ),

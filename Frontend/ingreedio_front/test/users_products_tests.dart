@@ -80,13 +80,4 @@ void main() {
     //Assert
     expect(user.isBlocked, equals(true));
   });
-  test('Moderator.clearEditedOpinionList() clears edited opinions list', () {
-    //Arrange
-    Moderator moderator=TestInitializer.moderator;
-    moderator.editedOpinionList=TestInitializer.opinions;
-    //Act
-    moderator.clearEditedOpinionList();
-    //Assert
-    expect(moderator.editedOpinionList, equals([]));
-  });
 }

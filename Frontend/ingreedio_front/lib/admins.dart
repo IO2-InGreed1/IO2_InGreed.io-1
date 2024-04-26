@@ -1,20 +1,7 @@
-import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/products.dart';
 import 'users.dart';
 abstract class IModerator
 {
-  List<Opinion> lookAtReports(Product product)
-  {
-    return DatabaseWrapper.instance.getReportedOpinions(product);
-  }
-  List<Opinion> searchInvalidOpinions()
-  {
-    return DatabaseWrapper.instance.searchInvalidOpinions();
-  }
-  void deleteOpinion(Opinion opinion)
-  {
-    DatabaseWrapper.instance.removeOpinion(opinion);
-  }
   User searchAdviser(Opinion opinion)
   {
     return opinion.author;
@@ -25,10 +12,6 @@ class Moderator extends IModerator
   Moderator.fromAllData({required this.moderatorNumber,required this.editedOpinionList});
   int moderatorNumber;
   List<Opinion> editedOpinionList;
-  void clearEditedOpinionList()
-  {
-    DatabaseWrapper.instance.clearEditedOpinionList(moderatorNumber);
-  }
   void editionHistory(Opinion opinion)
   {
     //TODO: this
