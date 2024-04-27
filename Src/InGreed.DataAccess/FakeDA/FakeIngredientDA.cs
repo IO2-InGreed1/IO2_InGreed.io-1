@@ -15,7 +15,7 @@ public class FakeIngredientDA : IIngredientDA
 
     public void AddToProduct(int ingredient, int productId)
     {
-        
+        throw new NotImplementedException();
     }
 
     public int Create(Ingredient ingredient)
@@ -37,6 +37,6 @@ public class FakeIngredientDA : IIngredientDA
 
     public void RemoveFromProuct(int ingredientId, int productId)
     {
-
+        throw new NotImplementedException();
     }
 }
