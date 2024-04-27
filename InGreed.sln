@@ -21,6 +21,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InGreed.DataAccess.Tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InGreed.Logic", "Src\InGreed.Logic\InGreed.Logic.csproj", "{B991E4A8-8A2C-40F8-87FB-1B6769532A5E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{922E964F-2B18-4A10-A907-7E83E9001DA9}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{F3282E6A-AB4E-49F3-A468-E45BC1170973}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\ListAllUsersDiagram.png = Docs\ListAllUsersDiagram.png
+		Docs\LoginDiagram.jpg = Docs\LoginDiagram.jpg
+		Docs\RegisterDiagram.jpg = Docs\RegisterDiagram.jpg
+		Docs\RemoveUserDiagram.png = Docs\RemoveUserDiagram.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
