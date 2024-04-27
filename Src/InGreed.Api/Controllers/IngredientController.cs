@@ -1,3 +1,4 @@
+using InGreed.Domain.Models;
 using InGreed.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,12 +18,16 @@ public class IngredientController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
-        throw new NotImplementedException();
+        Ingredient? result = _ingredientService.GetById(id);
+        if (result is null) return BadRequest();
+        return Ok(result);
     }
 
     [HttpGet]
     public IActionResult GetAll()
     {
-        throw new NotImplementedException();
+        List<Ingredient> result = _ingredientService.GetAll().ToList();
+        if (result is null) return BadRequest();
+        return Ok(result);
     }
 }

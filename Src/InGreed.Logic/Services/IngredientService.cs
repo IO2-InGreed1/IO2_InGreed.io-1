@@ -7,9 +7,12 @@ namespace InGreed.Logic.Services;
 public class IngredientService : IIngredientService
 {
     private IIngredientDA _ingredientDA;
-    public IngredientService(IIngredientDA ingredientDA)
+    private IProductDA _productDA;
+
+    public IngredientService(IIngredientDA ingredientDA, IProductDA productDA)
     {
         _ingredientDA = ingredientDA;
+        _productDA = productDA;
     }
 
     public void AddToProduct(Ingredient ingredient, int productId)
@@ -19,12 +22,12 @@ public class IngredientService : IIngredientService
 
     public IEnumerable<Ingredient> GetAll()
     {
-        throw new NotImplementedException();
+        return _ingredientDA.GetAll();
     }
 
     public Ingredient? GetById(int ingredientId)
     {
-        throw new NotImplementedException();
+        return _ingredientDA.GetById(ingredientId);
     }
 
     public void RemoveFromProuct(int ingredientId, int productId)

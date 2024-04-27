@@ -9,12 +9,15 @@ public class IngredientServiceTests
 {
     private Ingredient testingIngredient;
     private Mock<IIngredientDA> ingredientDAMock;
+    private Mock<IProductDA> productDAMock;
     private readonly int id = 1;
     private readonly int badId = 2;
+
     public IngredientServiceTests() 
     {
+        productDAMock = new();
         ingredientDAMock = new();
-        testingIngredient = new() { Id = id, Name = "Oak Sapling", IconURL = String.Empty };
+        testingIngredient = new() { Id = id, Name = "test", IconURL = String.Empty };
     }
 
     [Fact]
@@ -23,7 +26,7 @@ public class IngredientServiceTests
         // Arrange
         List<Ingredient> ingredients = new() { testingIngredient };
         ingredientDAMock.Setup(ida => ida.GetAll()).Returns(ingredients);
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
         var result = sut.GetAll();
@@ -38,7 +41,7 @@ public class IngredientServiceTests
         // Arrange
         ingredientDAMock.Setup(ida => ida.GetById(id)).Returns(testingIngredient);
         ingredientDAMock.Setup(ida => ida.GetById(badId)).Returns(value: null);
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
         var result = sut.GetById(id);
@@ -53,20 +56,20 @@ public class IngredientServiceTests
         // Arrange
         ingredientDAMock.Setup(ida => ida.GetById(id)).Returns(testingIngredient);
         ingredientDAMock.Setup(ida => ida.GetById(badId)).Returns(value: null);
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
-        var result = sut.GetById(id);
+        var result = sut.GetById(badId);
 
         // Assert
-        Assert.Equal(result, null);
+        Assert.Null(result);
     }
 
     [Fact]
     public void AddToProduct_NonexistentIngredientExistingProduct_ShouldAddNewIngredientAndAssignItToProduct() 
     {
         // Arrange
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
 
@@ -79,7 +82,7 @@ public class IngredientServiceTests
     public void AddToProduct_NonexistentIngredientNonexistentProduct_ShouldNotModifyingredientsNorProducts() 
     {
         // Arrange
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
 
@@ -92,7 +95,7 @@ public class IngredientServiceTests
     public void AddToProduct_ExistingIngredientExistingProduct_ShouldAssignExistingIngredientToProduct() 
     {
         // Arrange
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
 
@@ -105,7 +108,7 @@ public class IngredientServiceTests
     public void AddToProduct_ExistingIngredientNonexistentProduct_ShouldNotModifyingredientsNorProducts() 
     {
         // Arrange
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
 
@@ -118,7 +121,7 @@ public class IngredientServiceTests
     public void RemoveFromProduct_NonexistentIngredientExistingProduct_ShouldNotUpdateProductIngredients() 
     {
         // Arrange
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
 
@@ -131,7 +134,7 @@ public class IngredientServiceTests
     public void RemoveFromProduct_NonexistentIngredientNonexistentProduct_ShouldNotModifyingredientsNorProducts() 
     {
         // Arrange
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
 
@@ -144,7 +147,7 @@ public class IngredientServiceTests
     public void RemoveFromProduct_ExistingIngredientFromTheProduct_ShouldRemoveTheingredientFromProductIngredients() 
     {
         // Arrange
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
 
@@ -157,7 +160,7 @@ public class IngredientServiceTests
     public void RemoveFromProduct_ExistingIngredientNotFromTheProduct_ShouldNotUpdateProductIngredients() 
     {
         // Arrange
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
 
@@ -170,7 +173,7 @@ public class IngredientServiceTests
     public void RemoveFromProduct_ExistingIngredientNonexistentProduct_ShouldNotModifyingredientsNorProducts() 
     {
         // Arrange
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
 
