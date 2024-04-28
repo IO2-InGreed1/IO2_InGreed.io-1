@@ -25,7 +25,7 @@ class _IngredientListCreatorState extends State<IngredientListSelector> {
             reference: ItemWrapper<Ingredient>( widget.ingredients.first),
             items: widget.ingredients,), 
           getNewItem: (){return widget.ingredients.first;},
-          reference: ItemWrapper(List<ItemWrapper<Ingredient>>.empty(growable: true)),
+          reference: ItemWrapper(widget.item.map((e) => ItemWrapper(e)).toList(growable: true)),
           onChanged: (value)
           {
             widget.item=value.map((e) => e.item).toList();

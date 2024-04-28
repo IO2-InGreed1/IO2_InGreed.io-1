@@ -9,8 +9,9 @@ import 'package:ingreedio_front/cubit_logic/session_data.dart';
 import 'package:ingreedio_front/login_screen.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/ui/product_widget.dart';
+import 'package:ingreedio_front/ui/search_screen.dart';
 import 'package:path_provider/path_provider.dart';
-import 'cubit_logic/hydrated_blocs.dart';
+import 'cubit_logic/session_cubit.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HydratedBloc.storage = await HydratedStorage.build(
@@ -64,33 +65,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   Widget build(BuildContext context) {
-  List<Product> products=SessionCubit.fromContext(context).state.database.getAllProducts();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
+      body:const Center(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Assets.resizedInGreedIcon(),
-              const Text(
-                'You have pushed the button this many times:',
-              ),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              DialogButton<Product>(creator: ProductCreator(reference: ItemWrapper(Product.empty()),), onFinished: (val){
-                setState(() {
-                  products.add(val);
-                });
-              }, child:const Text("XD")),
-            expandableProductList(products, context)
-            ],
-          ),
+          child: SearchScreen(),
         ),
         
       ),

@@ -1,5 +1,6 @@
 import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/database/databse.dart';
+import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
 
@@ -150,6 +151,35 @@ class MockupProductDatabase extends ProductDatabse
   @override
   bool removeProduct(Product product) {
     return products.remove(product);
+  }
+
+  @override
+  List<Product> filterProducts(int from,int to,ProductFilter filter) {
+    var pom= products.where((element) 
+    {
+      for(int i=0;i<element.ingredients.length;i++)
+      {
+        if(filter.allergens.contains(element.ingredients[i])) return false;
+      }
+      return true;
+    }
+    ).where((element) {
+      if(filter.preference.isEmpty) return true;
+      for(int i=0;i<filter.preference.length;i++)
+      {
+        if(element.ingredients.contains(filter.preference[i])) return true;
+      }
+      return false;
+    }).where((element) {
+      return element.name.contains(filter.nameFilter);
+    }).toList();
+  List<Product> odp=List.empty(growable: true);
+  for(int i=from;i<to;i++)
+  {
+    if(pom.length<=i) break;
+    odp.add(pom[i]);
+  }
+  return odp;
   }
 }
 class MockupIngredientDatabase extends IngredientDatabase

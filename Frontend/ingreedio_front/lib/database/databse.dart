@@ -1,5 +1,7 @@
 
+import 'dart:collection';
 import 'dart:core';
+import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
 abstract class Database
@@ -52,6 +54,7 @@ abstract class ProductDatabse
   bool addProduct(Product product);
   bool removeProduct(Product product);
   List<Product> getAllProducts();
+  List<Product> filterProducts(int from,int to,ProductFilter filter);
   List<Producer> getAllProducers();
   bool addProducer(Producer producer);
   bool removeProducer(Producer producer);
