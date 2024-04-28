@@ -30,4 +30,16 @@ public class IngredientController : ControllerBase
         if (result is null) return BadRequest();
         return Ok(result);
     }
+
+    [HttpPost]
+    public IActionResult AddToProduct(Ingredient ingredient, int productId)
+    {
+        throw new NotImplementedException();
+    }
+
+    [HttpPut("{ingredientId}/remove-from-product")]
+    public IActionResult RemoveFromProduct(int ingredientId, int productId)
+    {
+        throw new NotImplementedException();
+    }
 }

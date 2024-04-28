@@ -15,11 +15,6 @@ public class IngredientService : IIngredientService
         _productDA = productDA;
     }
 
-    public void AddToProduct(Ingredient ingredient, int productId)
-    {
-        throw new NotImplementedException();
-    }
-
     public IEnumerable<Ingredient> GetAll()
     {
         return _ingredientDA.GetAll();
@@ -28,6 +23,11 @@ public class IngredientService : IIngredientService
     public Ingredient? GetById(int ingredientId)
     {
         return _ingredientDA.GetById(ingredientId);
+    }
+
+    public void AddToProduct(Ingredient ingredient, int productId)
+    {
+        throw new NotImplementedException();
     }
 
     public void RemoveFromProuct(int ingredientId, int productId)

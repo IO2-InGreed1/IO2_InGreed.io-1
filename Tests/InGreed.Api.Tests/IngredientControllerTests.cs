@@ -51,7 +51,7 @@ public class IngredientControllerTests
     }
 
     [Fact]
-    public void GetAdd_NonexistentIngredient_ShouldReturnStatusBadRequest()
+    public void GetAll_NonexistentIngredient_ShouldReturnStatusBadRequest()
     {
         // Arrange
         ingredientServiceMock.Setup(isa => isa.GetById(id)).Returns(value:null);
@@ -61,6 +61,71 @@ public class IngredientControllerTests
         var response = sut.GetById(id);
 
         // Assert
-        var actionResult = Assert.IsType<BadRequestResult>(response);
+        Assert.IsType<BadRequestResult>(response);
+    }
+
+    [Fact]
+    public void AddToProduct_ExistingProduct_ShouldReturnStatusOk()
+    {
+        // Arrange
+        IngredientController sut = new(ingredientServiceMock.Object);
+
+        // Act
+        var response = sut.AddToProduct(testingIngredient, id);
+
+        // Assert
+        var actionResult = Assert.IsType<OkObjectResult>(response);
+    }
+
+    [Fact]
+    public void AddToProduct_NonexistentProduct_ShouldReturnStatusBadRequest()
+    {
+        // Arrange
+        IngredientController sut = new(ingredientServiceMock.Object);
+
+        // Act
+        var response = sut.AddToProduct(testingIngredient, id);
+
+        // Assert
+        Assert.IsType<BadRequestResult>(response);
+    }
+
+    [Fact]
+    public void RemoveFromProduct_ExistingIngredientExistingProduct_ShouldReturnStatusOk()
+    {
+        // Arrange
+        IngredientController sut = new(ingredientServiceMock.Object);
+
+        // Act
+        var response = sut.RemoveFromProduct(id, id);
+
+        // Assert
+        var actionResult = Assert.IsType<OkObjectResult>(response);
+    }
+
+    [Fact]
+    public void RemoveFromProduct_NonexistentIngredient_ShouldReturnStatusBadRequest()
+    {
+        // Arrange
+        IngredientController sut = new(ingredientServiceMock.Object);
+
+        // Act
+        var response = sut.RemoveFromProduct(id, id);
+
+        // Assert
+        Assert.IsType<BadRequestResult>(response);
+    }
+
+    [Fact]
+    public void RemoveFromProduct_NonexistentProduct_ShouldReturnStatusBadRequest()
+    {
+        // Arrange
+        IngredientController sut = new(ingredientServiceMock.Object);
+
+        // Act
+        var response = sut.RemoveFromProduct(id, id);
+
+        // Assert
+        Assert.IsType<BadRequestResult>(response);
     }
 }
