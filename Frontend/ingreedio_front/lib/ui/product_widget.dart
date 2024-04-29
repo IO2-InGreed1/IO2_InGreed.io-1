@@ -18,7 +18,6 @@ class ProductAndOpinionWidget extends StatefulWidget {
 class _ProductAndOpinionWidgetState extends State<ProductAndOpinionWidget> {
   @override
   Widget build(BuildContext context) {
-    var list=SessionCubit.fromContext(context).state.database.opinionDatabase.getProductOpinions(widget.product);
     var creator=OpinionCreator(reference:ItemWrapper(Opinion.fromAllData(author: widget.user, id: 0, product: widget.product, score: 2.5, text: "")),);
     return LayoutBuilder(
       builder: (context,constraints) {
