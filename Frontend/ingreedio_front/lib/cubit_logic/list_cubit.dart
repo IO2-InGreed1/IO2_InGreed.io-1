@@ -19,10 +19,10 @@ abstract class ListCubit<T> extends Cubit<List<T>?>
   }
   ListCubit.empty():super(null);
   List<T> getItems(int from,int to,Filter<T> filter,BuildContext context);
-  Future<void> loadData(int from,int to,Filter<T> filter,BuildContext context) async
+  Future<void> loadData(int from,int to,Filter<T> filter,BuildContext context,{bool reset=false}) async
   {
     emit(null);
-    if(!(filter==lastFilter))
+    if(filter!=lastFilter||reset)
     {
       items={};
       lastFilter=filter.clone();

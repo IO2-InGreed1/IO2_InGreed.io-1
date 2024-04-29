@@ -15,7 +15,7 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
   set filter(Filter<T> value);
   Creator<Filter<T>> get filterCreator;
   set filterCreator(Creator<Filter<T>> value);
-  int from=0,count=5;
+  int from=0,count=5,maks=1000*1000*1000;
   ListCubit<T> get providerCubit;
   set providerCubit(ListCubit<T> value);
   @override
@@ -42,15 +42,12 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
           children: [
             TextButton(onPressed: (){
               setState(() {
-                if(from>0)
-                {
-                  from-=count;
-                }
+                if(from>0) from-=count;
               });
             }, child: const Text("previous")),
             TextButton(onPressed: (){
               setState(() {
-                  from+=count;
+                if(from+count<maks) from+=count;
               });
             }, child: const Text("next")),
             ],
