@@ -140,9 +140,9 @@ class _ListCreatorState<T> extends State<ListCreator<T>> {
   }
 }
 
-class Selector<T> extends Creator<T> {
+class Selector<T extends Enum> extends Creator<T> {
   final List<T> items;
-  Selector({super.key, required super.reference,required this.items,required super.onChanged});
+  const Selector({super.key, required super.reference,required this.items,required super.onChanged});
   @override
   State<Selector> createState() => _SelectorState<T>();
   
@@ -151,10 +151,10 @@ class Selector<T> extends Creator<T> {
     return Selector(reference: reference, items: items, onChanged: onChanged);
   }
 }
-class _SelectorState<T> extends State<Selector<T>> {
+class _SelectorState<T extends Enum> extends State<Selector<T>> {
   @override
   Widget build(BuildContext context) {
-    return DropdownMenu(dropdownMenuEntries: widget.items.map((e) => DropdownMenuEntry(value: e, label: e.toString())).toList(),
+    return DropdownMenu(dropdownMenuEntries: widget.items.map((e) => DropdownMenuEntry(value: e, label: e.name)).toList(),
     onSelected: (value)
     {
       if(value is T)
