@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ingreedio_front/creators/creators.dart';
@@ -52,7 +54,7 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
             }, child: const Text("next")),
             ],
         ),
-        Text(from.toString()),
+        Text("${from+1}-${from+count}"),
       ],
     )
     );
