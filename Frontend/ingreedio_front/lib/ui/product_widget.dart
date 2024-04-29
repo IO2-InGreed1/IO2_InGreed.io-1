@@ -6,6 +6,7 @@ import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:ingreedio_front/ui/ingredient_widget.dart';
 import 'package:ingreedio_front/logic/users.dart';
+import 'opinion_search_screen.dart';
 class ProductAndOpinionWidget extends StatefulWidget {
   const ProductAndOpinionWidget({super.key,required this.product,required this.user});
   final Client user;
@@ -34,10 +35,7 @@ class _ProductAndOpinionWidgetState extends State<ProductAndOpinionWidget> {
                 children: 
                 [
                   widget.product.productWidget,
-                  ...list.map((e) => Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: e.widget,
-                  )),
+                  OpinionSearchScreen(product: widget.product),
                   DialogButton(creator: creator, onFinished: (value)
                   {
                     SessionCubit.fromContext(context).state.database.opinionDatabase.addOpinion(value);

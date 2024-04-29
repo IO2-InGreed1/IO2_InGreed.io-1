@@ -244,6 +244,24 @@ class MockupOpinionDatabase extends OpinionDatabase
     return opinions.where((element) => (element.isReported==true)&&element.product==product).toList();
   }
   
+  @override
+  List<Opinion> getOpinionsFiltered(int from,int to,Product product, OpinionFilter filter) {
+    var pom= getProductOpinions(product);
+    List<Opinion> odp=List.empty(growable: true);
+    for(int i=from;i<to;i++)
+    {
+      if(pom.length>i) 
+      {
+        odp.add(pom[i]);
+      } 
+      else 
+      {
+        break;
+      }
+    }
+    return odp;
+  }
+  
 }
 class MockupDatabase extends Database
 {

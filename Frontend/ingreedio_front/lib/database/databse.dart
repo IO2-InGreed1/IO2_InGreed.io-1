@@ -77,6 +77,7 @@ abstract class OpinionDatabase
   List<Opinion> getProductOpinions(Product product);
   List<Opinion> getReportedOpinions();
   List<Opinion> getReportedProductOpinions(Product product);
+  List<Opinion> getOpinionsFiltered(int from,int to,Product product,OpinionFilter filter);
 }
 abstract class IngredientDatabase
 {

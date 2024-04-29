@@ -1,5 +1,10 @@
 import 'package:ingreedio_front/logic/products.dart';
-enum OrderType
+enum ProductOrderType
+{
+  normal,byScoreAscending,byScoreDescending,
+}
+
+enum OpinionOrderType
 {
   normal,byScoreAscending,byScoreDescending,
 }
@@ -10,17 +15,17 @@ abstract class Filter<T>
   bool operator==(Object other)
   {
     if(other is! Filter<T>) return false;
-    throw Exception("Not implemented operation");
+    throw Exception("not implemented ==");
   }
   @override
-  int get hashCode => throw Exception("Not implemented operation");
+  int get hashCode;
 }
 class ProductFilter extends Filter<Product>
 {
   String nameFilter="";
   List<Ingredient> preference=List.empty(growable: true);
   List<Ingredient> allergens=List.empty(growable: true);
-  OrderType orderType=OrderType.normal;
+  ProductOrderType orderType=ProductOrderType.normal;
   @override
   ProductFilter clone()
   {
@@ -44,7 +49,25 @@ class ProductFilter extends Filter<Product>
   
   @override
   int get hashCode => nameFilter.hashCode+allergens.hashCode*preference.hashCode;
+
   
+}
+class OpinionFilter extends Filter<Opinion>
+{
+  OpinionOrderType orderType=OpinionOrderType.normal;
+  @override
+  Filter<Opinion> clone() {
+    var odp=OpinionFilter();
+    odp.orderType=orderType;
+    return odp;
+  }
+  @override int get hashCode=>orderType.toString().hashCode;
+  
+  @override
+  bool operator ==(Object other) {
+    if(other is! OpinionFilter) return false;
+    return other.orderType==orderType;
+  }
 }
 bool compareLists<T>(List<T> l1,List<T> l2)
 {

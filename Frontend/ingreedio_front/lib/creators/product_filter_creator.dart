@@ -43,7 +43,7 @@ class _ProductFilterCreatorState extends State<ProductFilterCreator> {
         ),
         ]),
         
-        LabelWidget(label: "order by: ", child:Selector(reference: ItemWrapper(widget.item.orderType), items: OrderType.values, onChanged: (value)=>widget.item.orderType=value)
+        LabelWidget(label: "order by: ", child:Selector<ProductOrderType>(reference: ItemWrapper(widget.item.orderType), items: ProductOrderType.values, onChanged: (value)=>widget.item.orderType=value)
         ),
       ],
     );

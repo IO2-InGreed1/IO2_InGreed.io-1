@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/creators.dart';
-import 'package:ingreedio_front/creators/filter_creator.dart';
+import 'package:ingreedio_front/creators/product_filter_creator.dart';
 import 'package:ingreedio_front/cubit_logic/list_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/products_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
