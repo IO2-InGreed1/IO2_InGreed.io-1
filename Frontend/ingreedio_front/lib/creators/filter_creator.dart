@@ -4,19 +4,19 @@ import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/ingredient_creator.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
-class FilterCreator extends Creator<ProductFilter> {
-  const FilterCreator({super.key, required super.reference,super.onChanged,required this.ingredients});
+class ProductFilterCreator extends Creator<ProductFilter> {
+  const ProductFilterCreator({super.key, required super.reference,super.onChanged,required this.ingredients});
   final List<Ingredient> ingredients;
   @override
-  State<FilterCreator> createState() => _FilterWidgetState();
+  State<ProductFilterCreator> createState() => _ProductFilterCreatorState();
   
   @override
   Creator<ProductFilter> getInstance({Key? key, Function(ProductFilter p1) onChanged = doNothing, required ItemWrapper<ProductFilter> reference}) {
-    return FilterCreator(reference: reference,key: key,onChanged: onChanged,ingredients: ingredients,);
+    return ProductFilterCreator(reference: reference,key: key,onChanged: onChanged,ingredients: ingredients,);
   }
 }
 
-class _FilterWidgetState extends State<FilterCreator> {
+class _ProductFilterCreatorState extends State<ProductFilterCreator> {
   @override
   Widget build(BuildContext context) {
     return Column(

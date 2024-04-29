@@ -167,9 +167,9 @@ class MockupProductDatabase extends ProductDatabse
       if(filter.preference.isEmpty) return true;
       for(int i=0;i<filter.preference.length;i++)
       {
-        if(element.ingredients.contains(filter.preference[i])) return true;
+        if(!element.ingredients.contains(filter.preference[i])) return false;
       }
-      return false;
+      return true;
     }).where((element) {
       return element.name.contains(filter.nameFilter);
     }).toList();

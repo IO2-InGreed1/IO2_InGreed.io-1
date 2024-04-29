@@ -3,12 +3,25 @@ enum OrderType
 {
   normal,byScoreAscending,byScoreDescending,
 }
-class ProductFilter
+abstract class Filter<T>
+{
+  Filter<T> clone();
+  @override 
+  bool operator==(Object other)
+  {
+    if(other is! Filter<T>) return false;
+    throw Exception("Not implemented operation");
+  }
+  @override
+  int get hashCode => throw Exception("Not implemented operation");
+}
+class ProductFilter extends Filter<Product>
 {
   String nameFilter="";
   List<Ingredient> preference=List.empty(growable: true);
   List<Ingredient> allergens=List.empty(growable: true);
   OrderType orderType=OrderType.normal;
+  @override
   ProductFilter clone()
   {
     ProductFilter odp=ProductFilter();

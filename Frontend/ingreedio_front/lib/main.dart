@@ -2,14 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:ingreedio_front/assets.dart';
-import 'package:ingreedio_front/creators/creators.dart';
-import 'package:ingreedio_front/creators/product_creator.dart';
 import 'package:ingreedio_front/cubit_logic/session_data.dart';
 import 'package:ingreedio_front/login_screen.dart';
-import 'package:ingreedio_front/logic/products.dart';
-import 'package:ingreedio_front/ui/product_widget.dart';
-import 'package:ingreedio_front/ui/search_screen.dart';
+import 'package:ingreedio_front/ui/product_search_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'cubit_logic/session_cubit.dart';
 Future<void> main() async {
@@ -56,13 +51,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,15 +60,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body:const Center(
         child: SingleChildScrollView(
-          child: SearchScreen(),
+          child: ProductSearchScreen(),
         ),
         
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), 
     );
   }
 }

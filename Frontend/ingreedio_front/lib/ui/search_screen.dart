@@ -1,32 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ingreedio_front/creators/creators.dart';
-import 'package:ingreedio_front/creators/filter_creator.dart';
-import 'package:ingreedio_front/cubit_logic/products_cubit.dart';
-import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
+import 'package:ingreedio_front/cubit_logic/list_cubit.dart';
 import 'package:ingreedio_front/logic/filters.dart';
-import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
-import 'package:ingreedio_front/ui/product_widget.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-class SearchScreen extends StatefulWidget {
+abstract class SearchScreen<T> extends StatefulWidget {
   const SearchScreen({super.key});
-
-  @override
-  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
-  ProductFilter filter=ProductFilter();
+abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
+  Widget getListWidget(List<T> obj,BuildContext context);
+  Filter<T> get filter;
+  set filter(Filter<T> value);
+  Creator<Filter<T>> get filterCreator;
+  set filterCreator(Creator<Filter<T>> value);
   int from=0,count=5;
-  ProductCubit productCubit=ProductCubit.empty();
+  ListCubit<T> get providerCubit;
+  set providerCubit(ListCubit<T> value);
   @override
   Widget build(BuildContext context) {
-    SessionCubit sessionCubit=SessionCubit.fromContext(context);
-    List<Ingredient> ingredients=sessionCubit.state.database.getAllIngredients();
-    FilterCreator filterCreator=FilterCreator(reference: ItemWrapper(filter), ingredients: ingredients,);
-    productCubit.loadData(from,from+count,filter,context);
-    return BlocProvider(create: (context)=>productCubit,
+    providerCubit.loadData(from,from+count,filter,context);
+    return BlocProvider(create: (context)=>providerCubit,
     child: Column(children: 
       [
         StandardDecorator(child: filterCreator),
@@ -35,12 +30,12 @@ class _SearchScreenState extends State<SearchScreen> {
             filter=filterCreator.item;
           });
         }, child: const Text("reload")),
-        BlocBuilder<ProductCubit,List<Product>?>(builder: (context,state){
+        BlocBuilder<ListCubit<T>,List<T>?>(builder: (context,state){
           if(state==null)
           {
             return LoadingAnimationWidget.discreteCircle(color: Colors.green, size: 70,);
           }
-          return expandableProductList(state, context);
+          return getListWidget(state, context);
         }),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
