@@ -1,4 +1,5 @@
 import 'package:ingreedio_front/logic/products.dart';
+import 'package:ingreedio_front/logic/users.dart';
 enum ProductOrderType
 {
   normal,byScoreAscending,byScoreDescending,
@@ -23,6 +24,7 @@ abstract class Filter<T>
 class ProductFilter extends Filter<Product>
 {
   String nameFilter="";
+  Producer? producer;
   List<Ingredient> preference=List.empty(growable: true);
   List<Ingredient> allergens=List.empty(growable: true);
   ProductOrderType orderType=ProductOrderType.normal;
@@ -34,6 +36,7 @@ class ProductFilter extends Filter<Product>
     odp.nameFilter=nameFilter;
     odp.orderType=orderType;
     odp.preference.addAll(preference);
+    odp.producer=producer;
     return odp;
   }
   @override

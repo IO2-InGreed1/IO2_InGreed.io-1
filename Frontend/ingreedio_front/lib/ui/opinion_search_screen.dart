@@ -34,15 +34,14 @@ class _OpinionSearchScreenState extends SearchScreenState<Opinion> {
   {
     if(_providerCubit==null) throw Exception("provider cubit not initialized");
     return _providerCubit!;
+  }  
+  @override
+  set providerCubit(ListCubit<Opinion> value) {
+    _providerCubit=value as OpinionCubit;
   }
 
   @override
   Widget getListWidget(List<Opinion> obj, BuildContext context) {
     return Column(children: obj.map((e) => e.widget).toList());
-  }
-  
-  @override
-  set providerCubit(ListCubit<Opinion> value) {
-    _providerCubit=value as OpinionCubit;
   }
 }

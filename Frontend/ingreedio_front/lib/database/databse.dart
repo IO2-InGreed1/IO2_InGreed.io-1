@@ -51,6 +51,7 @@ abstract class ProductDatabse
 {
   bool addProduct(Product product);
   bool removeProduct(Product product);
+  bool editProduct(Product product,Product editedProduct);
   List<Product> getAllProducts();
   List<Product> filterProducts(int from,int to,ProductFilter filter);
   List<Producer> getAllProducers();

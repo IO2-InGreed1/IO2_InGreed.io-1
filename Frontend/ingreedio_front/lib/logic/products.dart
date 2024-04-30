@@ -30,6 +30,7 @@ class Product with ProductMappable
     required this.producer,
     required this.promotionUntil
   });
+  Product.clone(Product product):this.fromAllData(category: product.category, description: product.description, id: product.id, ingredients: product.ingredients.map((e) => e).toList(), name: product.name, producer: product.producer, promotionUntil: product.promotionUntil);
   Widget get iconWidget=>ProductIconWidget(product: this);
   Widget get productWidget=>ProductWidget(product: this);
   Widget get image=>Assets.placeholderImage;

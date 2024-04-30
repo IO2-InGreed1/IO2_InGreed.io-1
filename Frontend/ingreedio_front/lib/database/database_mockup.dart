@@ -172,7 +172,10 @@ class MockupProductDatabase extends ProductDatabse
       return true;
     }).where((element) {
       return element.name.contains(filter.nameFilter);
-    }).toList();
+    }).where((element) {
+      if(filter.producer==null) return true;
+      return filter.producer==element.producer;
+      }).toList();
   List<Product> odp=List.empty(growable: true);
   for(int i=from;i<to;i++)
   {
@@ -180,6 +183,17 @@ class MockupProductDatabase extends ProductDatabse
     odp.add(pom[i]);
   }
   return odp;
+  }
+  
+  @override
+  bool editProduct(Product product, Product editedProduct) {
+    if(!removeProduct(product)) return false;
+    if(!addProduct(editedProduct))
+    {
+      addProduct(product);
+      return false;
+    }
+    return true;
   }
 }
 class MockupIngredientDatabase extends IngredientDatabase

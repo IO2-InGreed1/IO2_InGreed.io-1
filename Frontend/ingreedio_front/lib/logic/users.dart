@@ -58,6 +58,16 @@ class Producer extends IProducer
     required this.representativeSurname,
     required this.telephoneNumber,
   });
+  @override 
+  bool operator==(Object other)
+  {
+    if(other is! Producer) return false;
+    return companyName==other.companyName&&nip==other.nip&&representativeName==other.representativeName&&representativeSurname==other.representativeSurname&&telephoneNumber==other.telephoneNumber;
+  }
+  
+  @override
+  int get hashCode => companyName.hashCode+nip.hashCode+representativeName.hashCode+representativeSurname.hashCode*telephoneNumber.hashCode;
+  
 }
 @MappableClass(discriminatorKey: "Type",discriminatorValue: "Client")
 class Client extends User with ClientMappable

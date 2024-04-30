@@ -11,11 +11,15 @@ abstract class SearchScreen<T> extends StatefulWidget {
 
 abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
   Widget getListWidget(List<T> obj,BuildContext context);
+  //filters
   Filter<T> get filter;
   set filter(Filter<T> value);
+  //filter creators
   Creator<Filter<T>> get filterCreator;
   set filterCreator(Creator<Filter<T>> value);
+  //search screen data
   int from=0,count=5,maks=1000*1000*1000;
+  //cubit
   ListCubit<T> get providerCubit;
   set providerCubit(ListCubit<T> value);
   @override
