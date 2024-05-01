@@ -107,18 +107,17 @@ class Client extends User with ClientMappable
   }
   
   @override
-  // TODO: implement hashCode
   int get hashCode => isBlocked.hashCode+username.hashCode+mail.hashCode;
   
 }
 class Preference
 {
   int id;
-  String name;
+  String name="";
   Client client;
-  List<Ingredient> allergens;
-  List<Ingredient> prefered;
-  bool isActive;
+  List<Ingredient> allergens=List.empty(growable: true);
+  List<Ingredient> prefered=List.empty(growable: true);
+  bool isActive=false;
   Preference.fromAllData({
     required this.allergens,
     required this.id,
@@ -127,6 +126,11 @@ class Preference
     required this.prefered,
     required this.client
   });
+  Preference clone()
+  {
+    return Preference.fromAllData(allergens:copyList(allergens), id: id, isActive: isActive, name: name, prefered: copyList(prefered), client: client);
+  }
+  Preference.forClient(Client c):id=0,client=c;
   void addAllergen(Ingredient ingredient)
   {
     //TODO: this 
@@ -152,4 +156,12 @@ class Preference
     //TODO: this 
     throw Exception("not implemented");
   }
+}
+List<T> copyList<T>(List<T> list)
+{
+  List<T> odp=List.empty(growable: true);
+  for(int i=0;i<list.length;i++) {
+    odp.add(list[i]);
+  }
+  return odp;
 }

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/logic/filters.dart';
@@ -88,6 +87,13 @@ class MockupUserDatabase extends UserDatabse
     {
       if(clients[index].favoriteProducts.contains(product)) clients[index].favoriteProducts.remove(product);
     }
+    return true;
+  }
+  
+  @override
+  bool editPreference(Preference oldPreference, Preference editedPreference) {
+    if(preferences.contains(oldPreference)) preferences.remove(oldPreference);
+    if(!preferences.contains(editedPreference)) preferences.add(editedPreference);
     return true;
   }
 }

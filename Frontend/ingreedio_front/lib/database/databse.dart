@@ -66,6 +66,7 @@ abstract class UserDatabse
   List<Preference> getUserPreferences(Client client);
   bool setFavoutiteProduct(Client client,Product product,bool state);
   bool addPreference(Preference preference);
+  bool editPreference(Preference oldPreference,Preference editedPreference);
   bool removePreference(Preference preference);
 }
 abstract class OpinionDatabase

@@ -64,17 +64,41 @@ class CreatorDialog<T> extends StatelessWidget {
     );
   }
 }
+bool alwaysAllow()=>true;
 class DialogButton<T> extends StatelessWidget {
-  const DialogButton({super.key, required this.creator, required this.onFinished, required this.child});
+  const DialogButton({super.key, required this.creator, required this.onFinished, required this.child,this.canClick=alwaysAllow});
   final Creator<T> creator;
   final void Function(T) onFinished;
+  final bool Function() canClick;
   final Widget child;
   @override
   Widget build(BuildContext context) {
     return TextButton(onPressed: (){
+      if(canClick())
+      {
       showDialog(context: context, builder: CreatorDialog<T>(creator: creator).build).then((value) {
         if(value is T) onFinished(value);
         });
+      }
+    }, child: child);
+  }
+}
+class DialogEditButton<T> extends StatelessWidget {
+  const DialogEditButton({super.key, required this.creator, required this.onFinished, required this.child,required this.onClicked});
+  final Creator<T> creator;
+  final void Function(T) onFinished;
+  final T? Function() onClicked;
+  final Widget child;
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(onPressed: (){
+      T? value=onClicked();
+      if(value is T)
+      {
+      showDialog(context: context, builder: CreatorDialog<T>(creator: creator.getInstance(reference: ItemWrapper(value),onChanged: creator.onChanged)).build).then((value) {
+        if(value is T) onFinished(value);
+        });
+      }
     }, child: child);
   }
 }

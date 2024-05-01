@@ -39,6 +39,12 @@ class ProductFilter extends Filter<Product>
     odp.producer=producer;
     return odp;
   }
+  ProductFilter();
+  ProductFilter.formPreference(Preference pref)
+  {
+    allergens=pref.allergens;
+    preference=pref.prefered;
+  }
   @override
   bool operator==(Object other)
   {
