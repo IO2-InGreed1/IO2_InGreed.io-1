@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/logic/filters.dart';
@@ -73,6 +74,21 @@ class MockupUserDatabase extends UserDatabse
   @override
   bool removePreference(Preference preference) {
     return preferences.remove(preference);
+  }
+  
+  @override
+  bool setFavoutiteProduct(Client client, Product product, bool state) {
+    int index=clients.indexOf(client);
+    if(index<0) return false;
+    if(state)
+    {
+      if(!clients[index].favoriteProducts.contains(product)) clients[index].favoriteProducts.add(product);
+    }
+    if(state)
+    {
+      if(clients[index].favoriteProducts.contains(product)) clients[index].favoriteProducts.remove(product);
+    }
+    return true;
   }
 }
 class MockupProductDatabase extends ProductDatabse

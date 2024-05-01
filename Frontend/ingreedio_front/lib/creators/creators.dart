@@ -29,6 +29,7 @@ class LabelWidget extends StatelessWidget {
     }
   }
 }
+
 abstract class Creator<T> extends StatefulWidget {
   const Creator({super.key,this.onChanged=doNothing,required ItemWrapper<T> reference}):_container=reference;
   T get item=>_container.item;
@@ -78,22 +79,47 @@ class DialogButton<T> extends StatelessWidget {
   }
 }
 
-class ListCreator<T> extends Creator<List<ItemWrapper<T>>> {
-  final T Function() getNewItem;
-  final Creator<T> creator;
-  const ListCreator({required this.creator,super.key,required this.getNewItem,required super.reference,super.onChanged,this.hidable=true});
+class ListCreator<T> extends Creator<List<ItemWrapper<T?>>> {
+  final Creator<T?> creator;
+  const ListCreator({required this.creator,super.key,required super.reference,super.onChanged,this.hidable=true});
   @override
   State<ListCreator> createState() => _ListCreatorState<T>();
   final bool hidable;
   @override
-  Creator<List<ItemWrapper<T>>> getInstance({Key? key, Function(List<ItemWrapper<T>> p1) onChanged = doNothing,required ItemWrapper<List<ItemWrapper<T>>> reference}) {
-    return ListCreator(getNewItem: getNewItem, reference: reference,key: key,onChanged: onChanged, creator: creator,);
+  Creator<List<ItemWrapper<T?>>> getInstance({Key? key, Function(List<ItemWrapper<T?>> p1) onChanged = doNothing,required ItemWrapper<List<ItemWrapper<T?>>> reference}) {
+    return ListCreator(reference: reference,key: key,onChanged: onChanged, creator: creator,);
   }
 }
-class _ListCreatorState<T> extends State<ListCreator<T>> {
+class _ListCreatorState<T> extends State<ListCreator<T?>> {
   bool hidden=false;
+  List<Widget> itemsToList()
+  {
+    List<Widget> widgets=List.empty(growable: true);
+    for(int i=0;i<widget.item.length;i++)
+    {
+      widgets.add(
+        Row(mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            widget.creator.getInstance(
+              reference: widget.item[i],
+              onChanged: (value)
+              {
+                widget.onChanged(widget.item);
+              }),
+              IconButton(onPressed: ()
+              {
+                setState(() {
+                  widget.item.removeAt(i);
+                  widget.onChanged(widget.item);
+                });
+              },
+              icon:const Icon(Icons.delete))],));
+    }
+    return widgets;
+  }
   @override
   Widget build(BuildContext context) {
+
   List<Widget> widgets=List.empty(growable: true);
    if(widget.hidable)
    {
@@ -120,22 +146,16 @@ class _ListCreatorState<T> extends State<ListCreator<T>> {
    widgets.add(Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ...widget.item.map((e) => Row(mainAxisAlignment: MainAxisAlignment.center,
-          children: [widget.creator.getInstance(reference: e,onChanged: (value){widget.onChanged(widget.item);})
-        ,IconButton(onPressed: (){
-          setState(() {
-            widget.item.remove(e);
-            widget.onChanged(widget.item);
-          });
-        }, icon:const Icon(Icons.delete))],)),
+        ...itemsToList(),
         TextButton(onPressed: (){
           setState(() {
-            widget.item.add(ItemWrapper<T>(widget.getNewItem()));
+            widget.item.add(ItemWrapper<T?>(null));
             widget.onChanged(widget.item);
           });
         }, child:const Text("Add new item"))
       ],
-    ));
+    )
+    );
   return Column(children: widgets,);
   }
 }
@@ -165,5 +185,24 @@ class _SelectorState<T extends Enum> extends State<Selector<T>> {
     },
     enableFilter: true,
     );
+  }
+}
+
+class ConfirmCreator extends Creator<bool> {
+  ConfirmCreator({super.key,}):super(reference: ItemWrapper(true));
+
+  @override
+  State<ConfirmCreator> createState() => _ConfirmCreatorState();
+  
+  @override
+  Creator<bool> getInstance({Key? key, Function(bool p1) onChanged = doNothing, required ItemWrapper<bool> reference}) {
+    return ConfirmCreator(key: key,);
+  }
+}
+
+class _ConfirmCreatorState extends State<ConfirmCreator> {
+  @override
+  Widget build(BuildContext context) {
+    return const Text("Are you sure?");
   }
 }

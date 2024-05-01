@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/product_creator.dart';
 import 'package:ingreedio_front/creators/product_filter_creator.dart';
@@ -8,6 +10,7 @@ import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
+import 'package:ingreedio_front/main.dart';
 import 'package:ingreedio_front/ui/product_widget.dart';
 import 'package:ingreedio_front/ui/search_screen.dart';
 class ProductSearchScreen extends SearchScreen<Product> {
@@ -55,6 +58,7 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
 class ProductEditScreen extends SearchScreen<Product> {
   final Producer producer;
   const ProductEditScreen({super.key,required this.producer});
+  ProductEditScreen.fromCubit({super.key,required SessionCubit cubit}):producer=cubit.state.currentProducer!;
 
   @override
   State<SearchScreen<Product>> createState() => _ProductEditScreenState();
@@ -65,7 +69,20 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
   @override
   Widget build(BuildContext context) {
     (filter as ProductFilter).producer=myWidget.producer;
-    return super.build(context);
+    return Column(
+      children: [
+        super.build(context),
+        DialogButton<Product>(
+          creator: ProductCreator(reference: ItemWrapper(Product.empty()..producer=myWidget.producer),),
+          onFinished: (value){
+            setState(() {
+            (providerCubit as ProductCubit).addProduct(value, context);
+            refresh();
+            });
+            },
+          child:const Text("Add new product"))
+      ],
+    );
   }
   @override
   Widget getListWidget(List<Product> obj, BuildContext context) {
@@ -73,9 +90,14 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
       children: obj.map((e)
         {
           return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: 
             [
-              e.iconWidget,
+              GestureDetector(child: e.iconWidget,
+              onTap: (){
+                Navigator.push(context, widgetShower(ProductAndOpinionWidget(product: e)));
+              },
+              ),
               DialogButton<Product>
               (
                 creator: 
@@ -83,11 +105,16 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
                 onFinished: (product) { (providerCubit as ProductCubit).editProduct(e, product, context);},
                 child: const Text("edit"),
               ),
-              DialogButton<Product>
+              DialogButton
               (
-                creator: 
-                ProductCreator(reference: ItemWrapper(Product.clone(e)),),
-                onFinished: (product) { (providerCubit as ProductCubit).removeProduct(e, context);},
+                creator: ConfirmCreator(),
+                onFinished: (product) { 
+                  setState(() {
+                    (providerCubit as ProductCubit).removeProduct(e, context);
+                    lastData=null;
+                    providerCubit.loadData(from,from+count,filter,context,reset: true);
+                  });
+                  },
                 child: const Text("delete"),
               )
 

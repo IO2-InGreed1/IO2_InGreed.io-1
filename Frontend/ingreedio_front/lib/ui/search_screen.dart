@@ -10,6 +10,14 @@ abstract class SearchScreen<T> extends StatefulWidget {
 }
 
 abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
+  void refresh()
+  {
+    setState(() 
+    {
+      lastData=null;
+      providerCubit.loadData(from,from+count,filter,context,reset: true);
+    });
+  }
   Widget getListWidget(List<T> obj,BuildContext context);
   //filters
   Filter<T> get filter;
@@ -30,11 +38,28 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
     child: Column(children: 
       [
         StandardDecorator(child: filterCreator),
-        TextButton(onPressed: (){
-          setState(() {
-            filter=filterCreator.item.clone();
-          });
-        }, child: const Text("apply filter")),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: ()
+              {
+                setState(() {
+                filter=filterCreator.item.clone();
+                });
+              }, 
+              child: const Text("apply filter")
+            ),
+            
+            TextButton(
+              onPressed: ()
+              {
+                refresh();
+              }, 
+              child: const Text("reload")
+            ),
+          ],
+        ),
         BlocBuilder<ListCubit<T>,SearchScreenData<T>?>(builder: (context,state)
         {
           if(lastData!=null&&filter!=lastData!.filter) lastData=null;

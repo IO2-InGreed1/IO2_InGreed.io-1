@@ -64,6 +64,7 @@ abstract class UserDatabse
   bool removeClient(Client client);
   List<Client> getAllClients();
   List<Preference> getUserPreferences(Client client);
+  bool setFavoutiteProduct(Client client,Product product,bool state);
   bool addPreference(Preference preference);
   bool removePreference(Preference preference);
 }

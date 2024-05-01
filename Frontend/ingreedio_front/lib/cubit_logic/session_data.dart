@@ -8,8 +8,9 @@ class SessionData with SessionDataMappable
 {
   SessionData.empty():userToken="";
   @MappableConstructor()
-  SessionData.fromAllData({required this.userToken,required this.currentClient,required this.navigatorPath});
+  SessionData.fromAllData({required this.userToken,required this.currentClient,required this.navigatorPath,required this.currentProducer});
   String userToken,navigatorPath="/";
   Database database=MockupDatabase.filled();
   Client? currentClient;
+  Producer? currentProducer;
 }

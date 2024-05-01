@@ -51,6 +51,6 @@ abstract class ListCubit<T> extends Cubit<SearchScreenData<T>?>
       }
       newItems.add(items[i] as T); 
     }
-    emit(SearchScreenData(from, to, newItems,filter));
+    emit(SearchScreenData(from, to, newItems,filter.clone()));
   }
 }

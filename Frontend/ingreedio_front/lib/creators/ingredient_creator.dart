@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/logic/products.dart';
 
-class IngredientSelector extends Creator<Ingredient> {
+class IngredientSelector extends Creator<Ingredient?> {
   final List<Ingredient> items;
-  const IngredientSelector.withItems({super.key, required super.onChanged,required super.reference,required this.items});
-  
+  const IngredientSelector.withItems({super.key, required super.onChanged,required super.reference,required this.items,this.showFitstValue=false});
+  final bool showFitstValue;
   @override
   State<IngredientSelector> createState() {
     return _IngredientSelectorState();
   }
   
   @override
-  Creator<Ingredient> getInstance({Key? key, Function(Ingredient p1) onChanged = doNothing, required ItemWrapper<Ingredient> reference}) {
+  Creator<Ingredient?> getInstance({Key? key, Function(Ingredient? p1) onChanged = doNothing, required ItemWrapper<Ingredient?> reference}) {
     return IngredientSelector.withItems(onChanged: onChanged, reference: reference, items: items);
   }
 }
@@ -20,7 +20,7 @@ class _IngredientSelectorState extends State<IngredientSelector>
 {
   @override
   Widget build(BuildContext context) {
-    return DropdownMenu(dropdownMenuEntries: widget.items.map((e) => DropdownMenuEntry(value: e, label: e.name)).toList(),
+    return DropdownMenu<Ingredient>(dropdownMenuEntries: widget.items.map((e) => DropdownMenuEntry(value: e, label: e.name)).toList(),
     onSelected: (value)
     {
       if(value is Ingredient)
@@ -30,6 +30,7 @@ class _IngredientSelectorState extends State<IngredientSelector>
       }
     },
     enableFilter: true,
+    initialSelection: widget.item,
     );
   }
   
@@ -51,13 +52,17 @@ class _IngredientListCreatorState extends State<IngredientListSelector> {
   Widget build(BuildContext context) {
     return ListCreator<Ingredient>(creator: 
           IngredientSelector.withItems(onChanged: (ingredient) {  }, 
-            reference: ItemWrapper<Ingredient>( widget.ingredients.first),
+            reference: ItemWrapper<Ingredient?>(null),
             items: widget.ingredients,), 
-          getNewItem: (){return widget.ingredients.first;},
-          reference: ItemWrapper(widget.item.map((e) => ItemWrapper(e)).toList(growable: true)),
+          reference: ItemWrapper(widget.item.map((e) => ItemWrapper<Ingredient?>(e)).toList(growable: true)),
           onChanged: (value)
           {
-            widget.item=value.map((e) => e.item).toList();
+            List<Ingredient> odp=List.empty(growable: true);
+            for(int i=0;i<value.length;i++) 
+            {
+              if(value[i].item!=null) odp.add(value[i].item!);
+            }
+            widget.item=odp;
           },
           );
   }

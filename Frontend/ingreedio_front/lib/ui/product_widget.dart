@@ -8,14 +8,46 @@ import 'package:ingreedio_front/ui/ingredient_widget.dart';
 import 'package:ingreedio_front/logic/users.dart';
 import 'opinion_search_screen.dart';
 class ProductAndOpinionWidget extends StatefulWidget {
-  const ProductAndOpinionWidget({super.key,required this.product,required this.user});
-  final Client user;
+  const ProductAndOpinionWidget({super.key,required this.product});
   final Product product;
   @override
   State<ProductAndOpinionWidget> createState() => _ProductAndOpinionWidgetState();
 }
-
 class _ProductAndOpinionWidgetState extends State<ProductAndOpinionWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context,constraints) {
+        double width=constraints.maxWidth;
+        double height=constraints.maxHeight;
+        double maxWidth=4*height/5;
+        if(width>maxWidth) width=maxWidth;
+        return Center(
+          child: SizedBox(
+            width: width,
+            child: SingleChildScrollView(
+              child: Column
+              (
+                children: 
+                [
+                  widget.product.productWidget,
+                  OpinionSearchScreen(product: widget.product),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
+    );
+  }
+}
+class ProductAndOpinionClientWidget extends ProductAndOpinionWidget {
+  const ProductAndOpinionClientWidget({super.key,required super.product,required this.user});
+  final Client user;
+  @override
+  State<ProductAndOpinionClientWidget> createState() => _ProductAndOpinionClientWidget();
+}
+class _ProductAndOpinionClientWidget extends State<ProductAndOpinionClientWidget> {
   @override
   Widget build(BuildContext context) {
     var creator=OpinionCreator(reference:ItemWrapper(Opinion.fromAllData(author: widget.user, id: 0, product: widget.product, score: 2.5, text: "")),);
@@ -57,7 +89,7 @@ Widget expandableProductList(List<Product> products,BuildContext context)
     products.map((e){
     return GestureDetector(onTap: (){
       Navigator.push(context, MaterialPageRoute(
-        builder:(context)=>Scaffold(body: ProductAndOpinionWidget(product: e,user: Client.empty(),),appBar: AppBar(),)
+        builder:(context)=>Scaffold(body: ProductAndOpinionClientWidget(product: e,user: Client.empty(),),appBar: AppBar(),)
         ));
       },child: e.iconWidget);}
     ).toList(),
@@ -109,9 +141,20 @@ class ProductWidget extends StatelessWidget {
                   padding,
                   LabelWidget(label: "Ingredients: ", child: IngredientListWidget(ingredients: product.ingredients,)),
                   padding,
-                  getFavoriteButton((p0) { 
+                  SessionCubit.fromContext(context).state.currentClient!=null?getFavoriteButton((p0) {
+                    Client currentClient=SessionCubit.fromContext(context).state.currentClient!;
+                    if(p0)
+                    {
+                      currentClient.favoriteProducts.add(product);
+                    }
+                    else 
+                    {
+                      currentClient.favoriteProducts.remove(product);
+                    }
                     
-                  }, false),
+                      SessionCubit.fromContext(context).state.database.userDatabse.setFavoutiteProduct(currentClient, product, p0);
+                  }, SessionCubit.fromContext(context).state.currentClient!.favoriteProducts.contains(product)
+                  ):const Text(""),
                 ],
               )
             ],

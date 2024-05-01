@@ -30,6 +30,9 @@ class SessionDataMapper extends ClassMapperBase<SessionData> {
   static String _$navigatorPath(SessionData v) => v.navigatorPath;
   static const Field<SessionData, String> _f$navigatorPath =
       Field('navigatorPath', _$navigatorPath);
+  static Producer? _$currentProducer(SessionData v) => v.currentProducer;
+  static const Field<SessionData, Producer> _f$currentProducer =
+      Field('currentProducer', _$currentProducer);
   static Database _$database(SessionData v) => v.database;
   static const Field<SessionData, Database> _f$database =
       Field('database', _$database, mode: FieldMode.member);
@@ -39,6 +42,7 @@ class SessionDataMapper extends ClassMapperBase<SessionData> {
     #userToken: _f$userToken,
     #currentClient: _f$currentClient,
     #navigatorPath: _f$navigatorPath,
+    #currentProducer: _f$currentProducer,
     #database: _f$database,
   };
 
@@ -46,7 +50,8 @@ class SessionDataMapper extends ClassMapperBase<SessionData> {
     return SessionData.fromAllData(
         userToken: data.dec(_f$userToken),
         currentClient: data.dec(_f$currentClient),
-        navigatorPath: data.dec(_f$navigatorPath));
+        navigatorPath: data.dec(_f$navigatorPath),
+        currentProducer: data.dec(_f$currentProducer));
   }
 
   @override
@@ -101,7 +106,11 @@ extension SessionDataValueCopy<$R, $Out>
 abstract class SessionDataCopyWith<$R, $In extends SessionData, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ClientCopyWith<$R, Client, Client>? get currentClient;
-  $R call({String? userToken, Client? currentClient, String? navigatorPath});
+  $R call(
+      {String? userToken,
+      Client? currentClient,
+      String? navigatorPath,
+      Producer? currentProducer});
   SessionDataCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -120,17 +129,20 @@ class _SessionDataCopyWithImpl<$R, $Out>
   $R call(
           {String? userToken,
           Object? currentClient = $none,
-          String? navigatorPath}) =>
+          String? navigatorPath,
+          Object? currentProducer = $none}) =>
       $apply(FieldCopyWithData({
         if (userToken != null) #userToken: userToken,
         if (currentClient != $none) #currentClient: currentClient,
-        if (navigatorPath != null) #navigatorPath: navigatorPath
+        if (navigatorPath != null) #navigatorPath: navigatorPath,
+        if (currentProducer != $none) #currentProducer: currentProducer
       }));
   @override
   SessionData $make(CopyWithData data) => SessionData.fromAllData(
       userToken: data.get(#userToken, or: $value.userToken),
       currentClient: data.get(#currentClient, or: $value.currentClient),
-      navigatorPath: data.get(#navigatorPath, or: $value.navigatorPath));
+      navigatorPath: data.get(#navigatorPath, or: $value.navigatorPath),
+      currentProducer: data.get(#currentProducer, or: $value.currentProducer));
 
   @override
   SessionDataCopyWith<$R2, SessionData, $Out2> $chain<$R2, $Out2>(

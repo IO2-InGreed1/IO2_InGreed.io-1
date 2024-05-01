@@ -34,27 +34,21 @@ class _PreferenceCreatorState extends State<PreferenceCreator> {
           ],
         ),
         const Text("Allergens: "),
-        ListCreator<Ingredient>(creator: 
-          IngredientSelector.withItems(onChanged: (ingredient) {  }, 
-          reference: ItemWrapper<Ingredient>( widget.ingredients.first), items: widget.ingredients,), 
-          getNewItem: (){return widget.ingredients.first;},
-          reference: ItemWrapper(List<ItemWrapper<Ingredient>>.empty(growable: true)),
-          onChanged: (value)
-          {
-            widget.item.allergens=value.map((e) => e.item).toList();
-          },
-          ),
+        IngredientListSelector(ingredients: widget.ingredients,
+            reference: ItemWrapper(widget.item.prefered),
+            onChanged: (value)
+            {
+              widget.item.prefered=value;
+            },
+            ),     
           const Text("Prefferences: "),
-          ListCreator<Ingredient>(creator: 
-          IngredientSelector.withItems(onChanged: (ingredient) {  }, 
-          reference: ItemWrapper<Ingredient>( widget.ingredients.first), items: widget.ingredients,), 
-          getNewItem: (){return widget.ingredients.first;},
-          reference: ItemWrapper(List<ItemWrapper<Ingredient>>.empty(growable: true)),
-          onChanged: (value)
-          {
-            widget.item.prefered=value.map((e) => e.item).toList();
-          },
-          ),
+          IngredientListSelector(ingredients: widget.ingredients,
+            reference: ItemWrapper(widget.item.allergens),
+            onChanged: (value)
+            {
+              widget.item.allergens=value;
+            },
+            ),     
       ],
     );
   }

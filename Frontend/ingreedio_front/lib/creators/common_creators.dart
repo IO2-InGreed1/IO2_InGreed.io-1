@@ -75,7 +75,6 @@ class DoubleCreator extends Creator<double> {
     return DoubleCreator.formReference(reference: reference,key: key,onChanged: onChanged,);
   }
 }
-
 class _DoubleCreatorState extends State<DoubleCreator> {
   @override
   Widget build(BuildContext context) {

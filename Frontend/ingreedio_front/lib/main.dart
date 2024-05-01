@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:ingreedio_front/cubit_logic/session_data.dart';
+import 'package:ingreedio_front/database/database_mockup.dart';
 import 'package:ingreedio_front/login_screen.dart';
 import 'package:ingreedio_front/ui/product_search_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'cubit_logic/session_cubit.dart';
+MaterialPageRoute widgetShower(Widget child)
+{
+  return MaterialPageRoute(builder:(context)=>Scaffold(body: SingleChildScrollView(child: child),appBar: AppBar(),));
+}
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HydratedBloc.storage = await HydratedStorage.build(
@@ -58,9 +63,36 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body:const Center(
+      body:Center(
         child: SingleChildScrollView(
-          child: ProductSearchScreen(),
+          child: Column(
+            children: [
+              TextButton(
+                onPressed: ()
+                {
+                  SessionCubit.fromContext(context).state.currentClient=MockupDatabase.filled().getAllClients().first;
+                  SessionCubit.fromContext(context).state.currentProducer=null;
+                  Navigator.push(context,widgetShower(const ProductSearchScreen()));
+                }, 
+                child: const Text("Client pov")),
+              TextButton(
+                onPressed: ()
+                {
+                  SessionCubit.fromContext(context).state.currentClient=null;
+                  SessionCubit.fromContext(context).state.currentProducer=MockupDatabase.filled().productDatabse.getAllProducers().first;
+                  Navigator.push(context,widgetShower(ProductEditScreen.fromCubit(cubit: SessionCubit.fromContext(context),)));
+                },
+                child: const Text("Producer pov")),
+              TextButton(
+                onPressed: ()
+                {
+                  SessionCubit.fromContext(context).state.currentClient=null;
+                  SessionCubit.fromContext(context).state.currentProducer=null;
+                  Navigator.push(context,widgetShower(const Text("Wsadź tu swój widget panie Piotrze")));
+                }, 
+                child: const Text("Admin pov")),
+            ],
+          )
         ),
         
       ),
