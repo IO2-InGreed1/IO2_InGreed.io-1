@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:ingreedio_front/logic/filters.dart';
-
-abstract class ListCubit<T> extends Cubit<List<T>?>
+class SearchScreenData<T>
+{
+  SearchScreenData(this.from,this.to,this.data,this.filter);
+  Filter<T> filter;
+  SearchScreenData clone()
+  {
+    return SearchScreenData(from, to, data,filter.clone());
+  }
+  int from,to;
+  List<T> data;
+}
+abstract class ListCubit<T> extends Cubit<SearchScreenData<T>?>
 {
   Map<int,T> items={};
   Filter<T> get lastFilter;
@@ -11,9 +21,9 @@ abstract class ListCubit<T> extends Cubit<List<T>?>
   {
     if(state!= null)
     {
-      for(int i=0;i<state!.length;i++)
+      for(int i=0;i<state!.data.length;i++)
       {
-       items[i]=state![i];
+       items[i]=state!.data[i];
       }
     }
   }
@@ -41,6 +51,6 @@ abstract class ListCubit<T> extends Cubit<List<T>?>
       }
       newItems.add(items[i] as T); 
     }
-    emit(newItems);
+    emit(SearchScreenData(from, to, newItems,filter));
   }
 }

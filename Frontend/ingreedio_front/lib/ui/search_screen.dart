@@ -19,6 +19,7 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
   set filterCreator(Creator<Filter<T>> value);
   //search screen data
   int from=0,count=5,maks=1000*1000*1000;
+  SearchScreenData<T>? lastData;
   //cubit
   ListCubit<T> get providerCubit;
   set providerCubit(ListCubit<T> value);
@@ -31,15 +32,22 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
         StandardDecorator(child: filterCreator),
         TextButton(onPressed: (){
           setState(() {
-            filter=filterCreator.item;
+            filter=filterCreator.item.clone();
           });
-        }, child: const Text("reload")),
-        BlocBuilder<ListCubit<T>,List<T>?>(builder: (context,state){
-          if(state==null)
+        }, child: const Text("apply filter")),
+        BlocBuilder<ListCubit<T>,SearchScreenData<T>?>(builder: (context,state)
+        {
+          if(lastData!=null&&filter!=lastData!.filter) lastData=null;
+          if(lastData!=null&&lastData!.from==from&&lastData!.to==from+count)
+          {
+            return getListWidget(lastData!.data, context);
+          }
+          if(state==null||state.from!=from||state.to!=from+count||state.filter!=filter)
           {
             return LoadingAnimationWidget.discreteCircle(color: Colors.green, size: 70,);
           }
-          return getListWidget(state, context);
+          lastData=state;
+          return getListWidget(state.data, context);
         }),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

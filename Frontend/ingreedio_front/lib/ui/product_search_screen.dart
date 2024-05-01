@@ -35,8 +35,11 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
   @override
   Widget build(BuildContext context)
   {
-    List<Ingredient> ingredients=SessionCubit.fromContext(context).state.database.ingredientDatabase.getAllIngredients();
-    filterCreator=ProductFilterCreator(reference: ItemWrapper(filter.clone() as ProductFilter), ingredients: ingredients);
+    if(_filterCreator==null)
+    {
+      List<Ingredient> ingredients=SessionCubit.fromContext(context).state.database.ingredientDatabase.getAllIngredients();
+      filterCreator=ProductFilterCreator(reference: ItemWrapper(filter.clone() as ProductFilter), ingredients: ingredients);
+    }
     return super.build(context);
   }
 
