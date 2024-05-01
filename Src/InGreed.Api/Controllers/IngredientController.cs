@@ -1,3 +1,4 @@
+using InGreed.Api.Contracts.Ingredient;
 using InGreed.Domain.Models;
 using InGreed.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,12 @@ public class IngredientController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    public IActionResult GetById(GetByIdRequest request)
     {
-        Ingredient? result = _ingredientService.GetById(id);
+        Ingredient? result = _ingredientService.GetById(request.id);
         if (result is null) return BadRequest();
-        return Ok(result);
+        GetByIdResponse response = new(result);
+        return Ok(response);
     }
 
     [HttpGet]
@@ -28,17 +30,18 @@ public class IngredientController : ControllerBase
     {
         List<Ingredient> result = _ingredientService.GetAll().ToList();
         if (result is null) return BadRequest();
-        return Ok(result);
+        GetAllResponse response = new(result);
+        return Ok(response);
     }
 
     [HttpPost]
-    public IActionResult AddToProduct(Ingredient ingredient, int productId)
+    public IActionResult AddToProduct(AdditionRequest request)
     {
         throw new NotImplementedException();
     }
 
     [HttpPut("{ingredientId}/remove-from-product")]
-    public IActionResult RemoveFromProduct(int ingredientId, int productId)
+    public IActionResult RemoveFromProduct(RemovalRequest request)
     {
         throw new NotImplementedException();
     }
