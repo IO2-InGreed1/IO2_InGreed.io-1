@@ -3,6 +3,7 @@ using InGreed.Logic.Interfaces;
 using InGreed.Domain.Models;
 using Moq;
 using Microsoft.AspNetCore.Mvc;
+using InGreed.Api.Contracts.Ingredient;
 
 namespace InGreed.Api.Tests;
 
@@ -31,7 +32,8 @@ public class IngredientControllerTests
 
         // Assert
         var actionResult = Assert.IsType<OkObjectResult>(response);
-        var responseContent = Assert.IsType<List<Ingredient>>(actionResult.Value);
+        var responseContent = Assert.IsType<GetAllResponse>(actionResult.Value);
+        Assert.Equal(responseContent.ingredients, ingredients);
     }
 
     [Fact]
@@ -40,25 +42,27 @@ public class IngredientControllerTests
         // Arrange
         ingredientServiceMock.Setup(isa => isa.GetById(id)).Returns(testingIngredient);
         IngredientController sut = new(ingredientServiceMock.Object);
+        GetByIdRequest request = new(id);
 
         // Act
-        var response = sut.GetById(id);
+        var response = sut.GetById(request);
 
         // Assert
         var actionResult = Assert.IsType<OkObjectResult>(response);
-        var responseContent = Assert.IsType<Ingredient>(actionResult.Value);
-        Assert.Equal(responseContent, testingIngredient);
+        var responseContent = Assert.IsType<GetByIdResponse>(actionResult.Value);
+        Assert.Equal(responseContent.ingredient, testingIngredient);
     }
 
     [Fact]
-    public void GetAll_NonexistentIngredient_ShouldReturnStatusBadRequest()
+    public void GetById_NonexistentIngredient_ShouldReturnStatusBadRequest()
     {
         // Arrange
         ingredientServiceMock.Setup(isa => isa.GetById(id)).Returns(value:null);
         IngredientController sut = new(ingredientServiceMock.Object);
+        GetByIdRequest request = new(id);
 
         // Act
-        var response = sut.GetById(id);
+        var response = sut.GetById(request);
 
         // Assert
         Assert.IsType<BadRequestResult>(response);
@@ -69,9 +73,10 @@ public class IngredientControllerTests
     {
         // Arrange
         IngredientController sut = new(ingredientServiceMock.Object);
+        AdditionRequest request = new(testingIngredient, id);
 
         // Act
-        var response = sut.AddToProduct(testingIngredient, id);
+        var response = sut.AddToProduct(request);
 
         // Assert
         var actionResult = Assert.IsType<OkObjectResult>(response);
@@ -82,9 +87,10 @@ public class IngredientControllerTests
     {
         // Arrange
         IngredientController sut = new(ingredientServiceMock.Object);
+        AdditionRequest request = new(testingIngredient, id);
 
         // Act
-        var response = sut.AddToProduct(testingIngredient, id);
+        var response = sut.AddToProduct(request);
 
         // Assert
         Assert.IsType<BadRequestResult>(response);
@@ -95,9 +101,10 @@ public class IngredientControllerTests
     {
         // Arrange
         IngredientController sut = new(ingredientServiceMock.Object);
+        RemovalRequest request = new(id, id);
 
         // Act
-        var response = sut.RemoveFromProduct(id, id);
+        var response = sut.RemoveFromProduct(request);
 
         // Assert
         var actionResult = Assert.IsType<OkObjectResult>(response);
@@ -108,9 +115,10 @@ public class IngredientControllerTests
     {
         // Arrange
         IngredientController sut = new(ingredientServiceMock.Object);
+        RemovalRequest request = new(id, id);
 
         // Act
-        var response = sut.RemoveFromProduct(id, id);
+        var response = sut.RemoveFromProduct(request);
 
         // Assert
         Assert.IsType<BadRequestResult>(response);
@@ -121,9 +129,10 @@ public class IngredientControllerTests
     {
         // Arrange
         IngredientController sut = new(ingredientServiceMock.Object);
+        RemovalRequest request = new(id, id);
 
         // Act
-        var response = sut.RemoveFromProduct(id, id);
+        var response = sut.RemoveFromProduct(request);
 
         // Assert
         Assert.IsType<BadRequestResult>(response);
