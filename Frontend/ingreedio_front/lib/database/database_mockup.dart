@@ -84,7 +84,7 @@ class MockupUserDatabase extends UserDatabse
     {
       if(!clients[index].favoriteProducts.contains(product)) clients[index].favoriteProducts.add(product);
     }
-    if(state)
+    else
     {
       if(clients[index].favoriteProducts.contains(product)) clients[index].favoriteProducts.remove(product);
     }

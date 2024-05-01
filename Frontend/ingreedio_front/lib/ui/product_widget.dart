@@ -151,8 +151,7 @@ class ProductWidget extends StatelessWidget {
                     {
                       currentClient.favoriteProducts.remove(product);
                     }
-                    
-                      SessionCubit.fromContext(context).state.database.userDatabse.setFavoutiteProduct(currentClient, product, p0);
+                    SessionCubit.fromContext(context).state.database.userDatabse.setFavoutiteProduct(currentClient, product, p0);
                   }, SessionCubit.fromContext(context).state.currentClient!.favoriteProducts.contains(product)
                   ):const Text(""),
                 ],

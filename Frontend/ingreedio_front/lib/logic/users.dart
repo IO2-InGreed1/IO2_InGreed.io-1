@@ -84,6 +84,12 @@ class Client extends User with ClientMappable
   Widget get image=> Assets.placeholderImage;
   Widget get clientProfileWidget=>ClientProfileWidget(client: this,);
   Widget get clientWidget=>ClientWidget(client: this,);
+  @override 
+  bool operator==(Object other)
+  {
+    if(other is! Client) return false;
+    return other.isBlocked==isBlocked&&other.id==id&&other.username==username&&other.mail==mail;
+  }
   void findProducts(List<Ingredient> ingredients)
   {
     //TODO: this
@@ -99,6 +105,11 @@ class Client extends User with ClientMappable
     //TODO: this
     throw Exception("not implemented");
   }
+  
+  @override
+  // TODO: implement hashCode
+  int get hashCode => isBlocked.hashCode+username.hashCode+mail.hashCode;
+  
 }
 class Preference
 {

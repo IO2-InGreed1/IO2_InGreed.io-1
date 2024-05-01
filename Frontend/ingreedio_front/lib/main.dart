@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
               TextButton(
                 onPressed: ()
                 {
-                  SessionCubit.fromContext(context).state.currentClient=MockupDatabase.filled().getAllClients().first;
+                  SessionCubit.fromContext(context).state.currentClient=SessionCubit.fromContext(context).state.database.getAllClients().first;
                   SessionCubit.fromContext(context).state.currentProducer=null;
                   Navigator.push(context,widgetShower(const ProductSearchScreen()));
                 }, 
