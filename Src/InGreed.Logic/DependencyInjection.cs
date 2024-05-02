@@ -10,6 +10,7 @@ public static class DependencyInjection
     {
         return services
             .AddScoped<IAccountService, AccountService>()
-            .AddScoped<ITokenService, FakeTokenService>();
+            .AddScoped<ITokenService, JwtTokenService>()
+            .AddScoped<IDateTimeProvider, DefaultDateTimeProvider>();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using InGreed.Domain.Models;
+using InGreed.Logic.Interfaces;
 using InGreed.Logic.Services;
 using Moq;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,6 +11,7 @@ public class JwtTokenServiceTests
     JwtSecurityTokenHandler _jwtSecurityTokenHandler { get; } = new();
 
     User testingUser;
+    Mock<IDateTimeProvider> dateTimeProviderMock;
 
     public JwtTokenServiceTests()
     {
@@ -19,13 +21,16 @@ public class JwtTokenServiceTests
             Email = "test@test.com",
             Username = "Test"
         };
+
+        dateTimeProviderMock = new Mock<IDateTimeProvider>();
+        dateTimeProviderMock.Setup(dt => dt.Now).Returns(new DateTime(2024, 5, 2));
     }
 
     [Fact]
     public void GenerateToken_UserIsNull_ReturnEmptyToken()
     {
         //Arrange
-        var sut = new JwtTokenService();
+        var sut = new JwtTokenService(dateTimeProviderMock.Object);
 
         //Act
         var token = sut.GenerateToken(null);
@@ -38,33 +43,35 @@ public class JwtTokenServiceTests
     public void GenerateToken_UserIsCorrect_ReturnValidToken()
     {
         //Arrange
-        var sut = new JwtTokenService();
+        var dateTimeProvider = dateTimeProviderMock.Object;
+        var sut = new JwtTokenService(dateTimeProvider);
 
         //Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
         
         //Assert
-        Assert.True(token.ValidTo > DateTime.Now);
+        Assert.True(token.ValidTo > dateTimeProvider.Now);
     }
 
     [Fact]
     public void GenerateToken_UserIsCorrect_TokenValidForMaxHour()
     {
         //Arrange
-        var sut = new JwtTokenService();
+        var dateTimeProvider = dateTimeProviderMock.Object;
+        var sut = new JwtTokenService(dateTimeProvider);
 
         //Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
 
         //Assert
-        Assert.True(token.ValidTo < DateTime.Now.AddHours(1));
+        Assert.True(token.ValidTo < dateTimeProvider.Now.AddHours(1));
     }
 
     [Fact]
     public void GenerateToken_UserIsCorrect_TokenHasValidUsername()
     {
         //Arrange
-        var sut = new JwtTokenService();
+        var sut = new JwtTokenService(dateTimeProviderMock.Object);
 
         //Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
@@ -79,7 +86,7 @@ public class JwtTokenServiceTests
     public void GenerateToken_UserIsCorrect_TokenHasValidEmail()
     {
         //Arrange
-        var sut = new JwtTokenService();
+        var sut = new JwtTokenService(dateTimeProviderMock.Object);
 
         //Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
