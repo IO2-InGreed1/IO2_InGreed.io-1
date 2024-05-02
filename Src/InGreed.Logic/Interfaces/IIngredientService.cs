@@ -8,5 +8,5 @@ public interface IIngredientService
     IEnumerable<Ingredient> GetAll();
     Ingredient? GetById(int ingredientId);
     IngredientServiceAddResponse AddToProduct(Ingredient ingredient, int productId);
-    IngredientServiceRemoveResponse RemoveFromProuct(int ingredientId, int productId);
+    IngredientServiceRemoveResponse RemoveFromProduct(int ingredientId, int productId);
 }

@@ -72,7 +72,7 @@ public class IngredientServiceTests
         IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
-
+        var result = sut.AddToProduct(testingIngredient, id);
 
         // Assert
 
@@ -85,7 +85,7 @@ public class IngredientServiceTests
         IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
-
+        var result = sut.AddToProduct(testingIngredient, id);
 
         // Assert
 
@@ -98,7 +98,7 @@ public class IngredientServiceTests
         IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
-
+        var result = sut.AddToProduct(testingIngredient, id);
 
         // Assert
 
@@ -111,7 +111,7 @@ public class IngredientServiceTests
         IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
-
+        var result = sut.AddToProduct(testingIngredient, id);
 
         // Assert
 
@@ -124,7 +124,7 @@ public class IngredientServiceTests
         IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
-
+        var result = sut.RemoveFromProduct(id, id);
 
         // Assert
 
@@ -137,7 +137,7 @@ public class IngredientServiceTests
         IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
-
+        var result = sut.RemoveFromProduct(id, id);
 
         // Assert
 
@@ -150,7 +150,7 @@ public class IngredientServiceTests
         IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
-
+        var result = sut.RemoveFromProduct(id, id);
 
         // Assert
 
@@ -163,7 +163,7 @@ public class IngredientServiceTests
         IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
-
+        var result = sut.RemoveFromProduct(id, id);
 
         // Assert
 
@@ -176,7 +176,7 @@ public class IngredientServiceTests
         IngredientService sut = new(ingredientDAMock.Object, productDAMock.Object);
 
         // Act
-
+        var result = sut.RemoveFromProduct(id, id);
 
         // Assert
 

@@ -1,4 +1,5 @@
-﻿using InGreed.DataAccess.Interfaces;
+﻿using InGreed.DataAccess.Enums;
+using InGreed.DataAccess.Interfaces;
 using InGreed.Domain.Models;
 
 namespace InGreed.DataAccess.FakeDA;
@@ -13,9 +14,9 @@ public class FakeIngredientDA : IIngredientDA
     };
     private int currentId = 3;
 
-    public void AddToProduct(int ingredient, int productId)
+    public IngredientDAAddResponse AddToProduct(int ingredient, int productId)
     {
-        throw new NotImplementedException();
+        return IngredientDAAddResponse.Success;
     }
 
     public int Create(Ingredient ingredient)
@@ -35,8 +36,8 @@ public class FakeIngredientDA : IIngredientDA
         return _ingredients.Find(p => p.Id == ingredientId);
     }
 
-    public void RemoveFromProuct(int ingredientId, int productId)
+    public IngredientDARemoveResponse RemoveFromProduct(int ingredientId, int productId)
     {
-        throw new NotImplementedException();
+        return IngredientDARemoveResponse.Success;
     }
 }

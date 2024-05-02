@@ -31,7 +31,7 @@ public class IngredientService : IIngredientService
         throw new NotImplementedException();
     }
 
-    public IngredientServiceRemoveResponse RemoveFromProuct(int ingredientId, int productId)
+    public IngredientServiceRemoveResponse RemoveFromProduct(int ingredientId, int productId)
     {
         throw new NotImplementedException();
     }
