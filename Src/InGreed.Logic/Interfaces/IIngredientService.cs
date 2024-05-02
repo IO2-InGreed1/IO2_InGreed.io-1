@@ -1,4 +1,5 @@
 ﻿using InGreed.Domain.Models;
+using InGreed.Logic.Enums;
 
 namespace InGreed.Logic.Interfaces;
 
@@ -6,6 +7,6 @@ public interface IIngredientService
 {
     IEnumerable<Ingredient> GetAll();
     Ingredient? GetById(int ingredientId);
-    void AddToProduct(Ingredient ingredient, int productId);
-    void RemoveFromProuct(int ingredientId, int productId);
+    IngredientServiceAddResponse AddToProduct(Ingredient ingredient, int productId);
+    IngredientServiceAddResponse RemoveFromProuct(int ingredientId, int productId);
 }

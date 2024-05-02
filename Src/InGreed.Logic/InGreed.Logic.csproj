@@ -15,8 +15,4 @@
     <ProjectReference Include="..\InGreed.Domain\InGreed.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Enums\" />
-  </ItemGroup>
-
 </Project>

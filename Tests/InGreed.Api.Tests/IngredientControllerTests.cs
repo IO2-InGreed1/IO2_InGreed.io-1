@@ -4,6 +4,7 @@ using InGreed.Domain.Models;
 using Moq;
 using Microsoft.AspNetCore.Mvc;
 using InGreed.Api.Contracts.Ingredient;
+using InGreed.Logic.Enums;
 
 namespace InGreed.Api.Tests;
 
@@ -72,6 +73,7 @@ public class IngredientControllerTests
     public void AddToProduct_ExistingProduct_ShouldReturnStatusOk()
     {
         // Arrange
+        ingredientServiceMock.Setup(isa => isa.AddToProduct(testingIngredient, id)).Returns(IngredientServiceAddResponse.Ok);
         IngredientController sut = new(ingredientServiceMock.Object);
         AdditionRequest request = new(testingIngredient, id);
 
@@ -79,13 +81,14 @@ public class IngredientControllerTests
         var response = sut.AddToProduct(request);
 
         // Assert
-        var actionResult = Assert.IsType<OkObjectResult>(response);
+        Assert.IsType<OkObjectResult>(response);
     }
 
     [Fact]
     public void AddToProduct_NonexistentProduct_ShouldReturnStatusBadRequest()
     {
         // Arrange
+        ingredientServiceMock.Setup(isa => isa.AddToProduct(testingIngredient, id)).Returns(IngredientServiceAddResponse.BadRequest);
         IngredientController sut = new(ingredientServiceMock.Object);
         AdditionRequest request = new(testingIngredient, id);
 
@@ -100,6 +103,7 @@ public class IngredientControllerTests
     public void RemoveFromProduct_ExistingIngredientExistingProduct_ShouldReturnStatusOk()
     {
         // Arrange
+        ingredientServiceMock.Setup(isa => isa.RemoveFromProuct(id, id)).Returns(IngredientServiceAddResponse.Ok);
         IngredientController sut = new(ingredientServiceMock.Object);
         RemovalRequest request = new(id, id);
 
@@ -107,27 +111,14 @@ public class IngredientControllerTests
         var response = sut.RemoveFromProduct(request);
 
         // Assert
-        var actionResult = Assert.IsType<OkObjectResult>(response);
+        Assert.IsType<OkObjectResult>(response);
     }
 
     [Fact]
-    public void RemoveFromProduct_NonexistentIngredient_ShouldReturnStatusBadRequest()
+    public void RemoveFromProduct_NonexistentIngredientOrProduct_ShouldReturnStatusBadRequest()
     {
         // Arrange
-        IngredientController sut = new(ingredientServiceMock.Object);
-        RemovalRequest request = new(id, id);
-
-        // Act
-        var response = sut.RemoveFromProduct(request);
-
-        // Assert
-        Assert.IsType<BadRequestResult>(response);
-    }
-
-    [Fact]
-    public void RemoveFromProduct_NonexistentProduct_ShouldReturnStatusBadRequest()
-    {
-        // Arrange
+        ingredientServiceMock.Setup(isa => isa.RemoveFromProuct(id, id)).Returns(IngredientServiceAddResponse.BadRequest);
         IngredientController sut = new(ingredientServiceMock.Object);
         RemovalRequest request = new(id, id);
 

@@ -1,5 +1,6 @@
 ﻿using InGreed.DataAccess.Interfaces;
 using InGreed.Domain.Models;
+using InGreed.Logic.Enums;
 using InGreed.Logic.Interfaces;
 
 namespace InGreed.Logic.Services;
@@ -25,12 +26,12 @@ public class IngredientService : IIngredientService
         return _ingredientDA.GetById(ingredientId);
     }
 
-    public void AddToProduct(Ingredient ingredient, int productId)
+    public IngredientServiceAddResponse AddToProduct(Ingredient ingredient, int productId)
     {
         throw new NotImplementedException();
     }
 
-    public void RemoveFromProuct(int ingredientId, int productId)
+    public IngredientServiceAddResponse RemoveFromProuct(int ingredientId, int productId)
     {
         throw new NotImplementedException();
     }

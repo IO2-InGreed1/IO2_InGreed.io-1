@@ -2,6 +2,7 @@ using InGreed.Api.Contracts.Ingredient;
 using InGreed.Domain.Models;
 using InGreed.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using InGreed.Logic.Enums;
 
 namespace InGreed.Api.Controllers;
 
@@ -37,7 +38,8 @@ public class IngredientController : ControllerBase
     [HttpPost]
     public IActionResult AddToProduct(AdditionRequest request)
     {
-        throw new NotImplementedException();
+        IngredientServiceAddResponse result = _ingredientService.AddToProduct(request.ingredient, request.productId);
+        if (result == IngredientServiceAddResponse.Ok) return Ok();
     }
 
     [HttpPut("{ingredientId}/remove-from-product")]
