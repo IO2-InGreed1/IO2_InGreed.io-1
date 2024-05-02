@@ -39,12 +39,31 @@ public class IngredientController : ControllerBase
     public IActionResult AddToProduct(AdditionRequest request)
     {
         IngredientServiceAddResponse result = _ingredientService.AddToProduct(request.ingredient, request.productId);
-        if (result == IngredientServiceAddResponse.Ok) return Ok();
+        switch (result)
+        {
+            case IngredientServiceAddResponse.NonexistentProduct:
+                return NotFound($"There is no product with an id {request.productId}.");
+            case IngredientServiceAddResponse.Success:
+                return Ok();
+            default:
+                return BadRequest("Unexpected error.");
+        }
     }
 
     [HttpPut("{ingredientId}/remove-from-product")]
     public IActionResult RemoveFromProduct(RemovalRequest request)
     {
-        throw new NotImplementedException();
+        IngredientServiceRemoveResponse result = _ingredientService.RemoveFromProuct(request.ingredientId, request.productId);
+        switch (result) 
+        {
+            case IngredientServiceRemoveResponse.Success:
+                return Ok();
+            case IngredientServiceRemoveResponse.IngredientNotFromProduct:
+                return NotFound($"Product {request.productId} does not contain an Ingredient with an id {request.ingredientId}.");
+            case IngredientServiceRemoveResponse.NonexistentProduct:
+                return NotFound($"There is no product with an id {request.productId}.");
+            default:
+                return BadRequest("Unexpected error.");
+        }
     }
 }

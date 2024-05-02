@@ -73,7 +73,7 @@ public class IngredientControllerTests
     public void AddToProduct_ExistingProduct_ShouldReturnStatusOk()
     {
         // Arrange
-        ingredientServiceMock.Setup(isa => isa.AddToProduct(testingIngredient, id)).Returns(IngredientServiceAddResponse.Ok);
+        ingredientServiceMock.Setup(isa => isa.AddToProduct(testingIngredient, id)).Returns(IngredientServiceAddResponse.Success);
         IngredientController sut = new(ingredientServiceMock.Object);
         AdditionRequest request = new(testingIngredient, id);
 
@@ -81,14 +81,14 @@ public class IngredientControllerTests
         var response = sut.AddToProduct(request);
 
         // Assert
-        Assert.IsType<OkObjectResult>(response);
+        Assert.IsType<OkResult>(response);
     }
 
     [Fact]
     public void AddToProduct_NonexistentProduct_ShouldReturnStatusBadRequest()
     {
         // Arrange
-        ingredientServiceMock.Setup(isa => isa.AddToProduct(testingIngredient, id)).Returns(IngredientServiceAddResponse.BadRequest);
+        ingredientServiceMock.Setup(isa => isa.AddToProduct(testingIngredient, id)).Returns(IngredientServiceAddResponse.NonexistentProduct);
         IngredientController sut = new(ingredientServiceMock.Object);
         AdditionRequest request = new(testingIngredient, id);
 
@@ -96,14 +96,16 @@ public class IngredientControllerTests
         var response = sut.AddToProduct(request);
 
         // Assert
-        Assert.IsType<BadRequestResult>(response);
+        var actionResult = Assert.IsType<NotFoundObjectResult>(response);
+        var responseContent = Assert.IsType<string>(actionResult.Value);
+        Assert.Equal($"There is no product with an id {id}.", responseContent);
     }
 
     [Fact]
     public void RemoveFromProduct_ExistingIngredientExistingProduct_ShouldReturnStatusOk()
     {
         // Arrange
-        ingredientServiceMock.Setup(isa => isa.RemoveFromProuct(id, id)).Returns(IngredientServiceAddResponse.Ok);
+        ingredientServiceMock.Setup(isa => isa.RemoveFromProuct(id, id)).Returns(IngredientServiceRemoveResponse.Success);
         IngredientController sut = new(ingredientServiceMock.Object);
         RemovalRequest request = new(id, id);
 
@@ -111,14 +113,14 @@ public class IngredientControllerTests
         var response = sut.RemoveFromProduct(request);
 
         // Assert
-        Assert.IsType<OkObjectResult>(response);
+        Assert.IsType<OkResult>(response);
     }
 
     [Fact]
-    public void RemoveFromProduct_NonexistentIngredientOrProduct_ShouldReturnStatusBadRequest()
+    public void RemoveFromProduct_NonexistentProduct_ShouldReturnStatusNotFound()
     {
         // Arrange
-        ingredientServiceMock.Setup(isa => isa.RemoveFromProuct(id, id)).Returns(IngredientServiceAddResponse.BadRequest);
+        ingredientServiceMock.Setup(isa => isa.RemoveFromProuct(id, id)).Returns(IngredientServiceRemoveResponse.NonexistentProduct);
         IngredientController sut = new(ingredientServiceMock.Object);
         RemovalRequest request = new(id, id);
 
@@ -126,6 +128,25 @@ public class IngredientControllerTests
         var response = sut.RemoveFromProduct(request);
 
         // Assert
-        Assert.IsType<BadRequestResult>(response);
+        var actionResult = Assert.IsType<NotFoundObjectResult>(response);
+        var responseContent = Assert.IsType<string>(actionResult.Value);
+        Assert.Equal($"There is no product with an id {id}.", responseContent);
+    }
+
+    [Fact]
+    public void RemoveFromProduct_IngredientNotFromProduct_ShouldReturnStatusNotFound()
+    {
+        // Arrange
+        ingredientServiceMock.Setup(isa => isa.RemoveFromProuct(id, id)).Returns(IngredientServiceRemoveResponse.IngredientNotFromProduct);
+        IngredientController sut = new(ingredientServiceMock.Object);
+        RemovalRequest request = new(id, id);
+
+        // Act
+        var response = sut.RemoveFromProduct(request);
+
+        // Assert
+        var actionResult = Assert.IsType<NotFoundObjectResult>(response);
+        var responseContent = Assert.IsType<string>(actionResult.Value);
+        Assert.Equal($"Product {id} does not contain an Ingredient with an id {id}.", responseContent);
     }
 }
