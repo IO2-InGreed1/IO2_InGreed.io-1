@@ -53,7 +53,7 @@ public class IngredientController : ControllerBase
     [HttpPut("{ingredientId}/remove-from-product")]
     public IActionResult RemoveFromProduct(RemovalRequest request)
     {
-        IngredientServiceRemoveResponse result = _ingredientService.RemoveFromProuct(request.ingredientId, request.productId);
+        IngredientServiceRemoveResponse result = _ingredientService.RemoveFromProduct(request.ingredientId, request.productId);
         switch (result) 
         {
             case IngredientServiceRemoveResponse.Success:

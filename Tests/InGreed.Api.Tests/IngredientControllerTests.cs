@@ -105,7 +105,7 @@ public class IngredientControllerTests
     public void RemoveFromProduct_ExistingIngredientExistingProduct_ShouldReturnStatusOk()
     {
         // Arrange
-        ingredientServiceMock.Setup(isa => isa.RemoveFromProuct(id, id)).Returns(IngredientServiceRemoveResponse.Success);
+        ingredientServiceMock.Setup(isa => isa.RemoveFromProduct(id, id)).Returns(IngredientServiceRemoveResponse.Success);
         IngredientController sut = new(ingredientServiceMock.Object);
         RemovalRequest request = new(id, id);
 
@@ -120,7 +120,7 @@ public class IngredientControllerTests
     public void RemoveFromProduct_NonexistentProduct_ShouldReturnStatusNotFound()
     {
         // Arrange
-        ingredientServiceMock.Setup(isa => isa.RemoveFromProuct(id, id)).Returns(IngredientServiceRemoveResponse.NonexistentProduct);
+        ingredientServiceMock.Setup(isa => isa.RemoveFromProduct(id, id)).Returns(IngredientServiceRemoveResponse.NonexistentProduct);
         IngredientController sut = new(ingredientServiceMock.Object);
         RemovalRequest request = new(id, id);
 
@@ -137,7 +137,7 @@ public class IngredientControllerTests
     public void RemoveFromProduct_IngredientNotFromProduct_ShouldReturnStatusNotFound()
     {
         // Arrange
-        ingredientServiceMock.Setup(isa => isa.RemoveFromProuct(id, id)).Returns(IngredientServiceRemoveResponse.IngredientNotFromProduct);
+        ingredientServiceMock.Setup(isa => isa.RemoveFromProduct(id, id)).Returns(IngredientServiceRemoveResponse.IngredientNotFromProduct);
         IngredientController sut = new(ingredientServiceMock.Object);
         RemovalRequest request = new(id, id);
 
