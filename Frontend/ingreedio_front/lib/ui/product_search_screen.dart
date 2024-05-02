@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/preference_creator.dart';
 import 'package:ingreedio_front/creators/preference_selector.dart';
@@ -13,6 +12,7 @@ import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
 import 'package:ingreedio_front/main.dart';
+import 'package:ingreedio_front/ui/datetime_widget.dart';
 import 'package:ingreedio_front/ui/product_widget.dart';
 import 'package:ingreedio_front/ui/search_screen.dart';
 class ProductSearchScreen extends SearchScreen<Product> {
@@ -180,7 +180,26 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
                   });
                   },
                 child: const Text("delete"),
-              )
+              ),
+              TextButton(
+                onPressed: () async {
+                 DateTime? dateTime = await showOmniDateTimePicker(context: context,
+                 type: OmniDateTimePickerType.date,
+                 firstDate: e.promotionUntil.isAfter(DateTime.now())?e.promotionUntil:DateTime.now(),
+                 lastDate: (e.promotionUntil.isAfter(DateTime.now())?e.promotionUntil:DateTime.now()).add(const Duration(days: 356*20)),
+                 initialDate: e.promotionUntil.isAfter(DateTime.now())?e.promotionUntil:DateTime.now(),
+                 );
+                Product edit=Product.clone(e);
+                if(dateTime!=null)
+                {
+                  edit.promotionUntil=dateTime;
+                  setState(() {
+                    SessionCubit.fromContext(context).state.database.productDatabse.editProduct(e, edit);
+                    e.promotionUntil=dateTime;
+                  });
+                }
+                },
+                child: PromotionWidget(dateTime: e.promotionUntil)),
 
             ],
           );
