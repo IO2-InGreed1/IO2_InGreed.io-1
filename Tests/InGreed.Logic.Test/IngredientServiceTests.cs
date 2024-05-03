@@ -4,6 +4,7 @@ using InGreed.Domain.Models;
 using Moq;
 using InGreed.Logic.Enums;
 using InGreed.DataAccess.Enums;
+using InGreed.Logic.Mappers;
 
 namespace InGreed.Logic.Tests;
 
@@ -11,13 +12,15 @@ public class IngredientServiceTests
 {
     private Ingredient testingIngredient;
     private Mock<IIngredientDA> ingredientDAMock;
+    private IngredientDBtoServiceResponseMapper mapper;
     private readonly int id = 1;
     private readonly int badId = 2;
 
     public IngredientServiceTests() 
     {
         ingredientDAMock = new();
-        testingIngredient = new() { Id = id, Name = "test", IconURL = String.Empty };
+        testingIngredient = new() { Id = id, Name = "test", IconURL = string.Empty };
+        mapper = new();
     }
 
     [Fact]
@@ -26,7 +29,7 @@ public class IngredientServiceTests
         // Arrange
         List<Ingredient> ingredients = new() { testingIngredient };
         ingredientDAMock.Setup(ida => ida.GetAll()).Returns(ingredients);
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, mapper);
 
         // Act
         var result = sut.GetAll();
@@ -41,7 +44,7 @@ public class IngredientServiceTests
         // Arrange
         ingredientDAMock.Setup(ida => ida.GetById(id)).Returns(testingIngredient);
         ingredientDAMock.Setup(ida => ida.GetById(badId)).Returns(value: null);
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, mapper);
 
         // Act
         var result = sut.GetById(id);
@@ -56,7 +59,7 @@ public class IngredientServiceTests
         // Arrange
         ingredientDAMock.Setup(ida => ida.GetById(id)).Returns(testingIngredient);
         ingredientDAMock.Setup(ida => ida.GetById(badId)).Returns(value: null);
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, mapper);
 
         // Act
         var result = sut.GetById(badId);
@@ -72,7 +75,7 @@ public class IngredientServiceTests
         ingredientDAMock.Setup(ida => ida.Create(testingIngredient)).Returns(id);
         ingredientDAMock.Setup(ida => ida.GetById(id)).Returns(value: null);
         ingredientDAMock.Setup(ida => ida.AddToProduct(id, id)).Returns(IngredientDAAddResponse.Success);
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, mapper);
 
         // Act
         var result = sut.AddToProduct(testingIngredient, id);
@@ -88,7 +91,7 @@ public class IngredientServiceTests
         ingredientDAMock.Setup(ida => ida.Create(testingIngredient)).Returns(id);
         ingredientDAMock.Setup(ida => ida.GetById(id)).Returns(value: null);
         ingredientDAMock.Setup(ida => ida.AddToProduct(id, id)).Returns(IngredientDAAddResponse.NonexistentProduct);
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, mapper);
 
         // Act
         var result = sut.AddToProduct(testingIngredient, id);
@@ -103,7 +106,7 @@ public class IngredientServiceTests
         // Arrange
         ingredientDAMock.Setup(ida => ida.GetById(id)).Returns(testingIngredient);
         ingredientDAMock.Setup(ida => ida.AddToProduct(id, id)).Returns(IngredientDAAddResponse.Success);
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, mapper);
 
         // Act
         var result = sut.AddToProduct(testingIngredient, id);
@@ -118,7 +121,7 @@ public class IngredientServiceTests
         // Arrange
         ingredientDAMock.Setup(ida => ida.GetById(id)).Returns(testingIngredient);
         ingredientDAMock.Setup(ida => ida.AddToProduct(id, id)).Returns(IngredientDAAddResponse.NonexistentProduct);
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, mapper);
 
         // Act
         var result = sut.AddToProduct(testingIngredient, id);
@@ -133,7 +136,7 @@ public class IngredientServiceTests
         // Arrange
         ingredientDAMock.Setup(ida => ida.GetById(id)).Returns(value: null);
         ingredientDAMock.Setup(ida => ida.RemoveFromProduct(id, id)).Returns(IngredientDARemoveResponse.IngredientNotFromProduct);
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, mapper);
 
         // Act
         var result = sut.RemoveFromProduct(id, id);
@@ -148,7 +151,7 @@ public class IngredientServiceTests
         // Arrange
         ingredientDAMock.Setup(ida => ida.GetById(id)).Returns(value: null);
         ingredientDAMock.Setup(ida => ida.RemoveFromProduct(id, id)).Returns(IngredientDARemoveResponse.NonexistentProduct);
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, mapper);
 
         // Act
         var result = sut.RemoveFromProduct(id, id);
@@ -163,7 +166,7 @@ public class IngredientServiceTests
         // Arrange
         ingredientDAMock.Setup(ida => ida.GetById(id)).Returns(testingIngredient);
         ingredientDAMock.Setup(ida => ida.RemoveFromProduct(id, id)).Returns(IngredientDARemoveResponse.Success);
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, mapper);
 
         // Act
         var result = sut.RemoveFromProduct(id, id);
@@ -178,7 +181,7 @@ public class IngredientServiceTests
         // Arrange
         ingredientDAMock.Setup(ida => ida.GetById(id)).Returns(testingIngredient);
         ingredientDAMock.Setup(ida => ida.RemoveFromProduct(id, id)).Returns(IngredientDARemoveResponse.IngredientNotFromProduct);
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, mapper);
 
         // Act
         var result = sut.RemoveFromProduct(id, id);
@@ -193,7 +196,7 @@ public class IngredientServiceTests
         // Arrange
         ingredientDAMock.Setup(ida => ida.GetById(id)).Returns(testingIngredient);
         ingredientDAMock.Setup(ida => ida.RemoveFromProduct(id, id)).Returns(IngredientDARemoveResponse.NonexistentProduct);
-        IngredientService sut = new(ingredientDAMock.Object);
+        IngredientService sut = new(ingredientDAMock.Object, mapper);
 
         // Act
         var result = sut.RemoveFromProduct(id, id);

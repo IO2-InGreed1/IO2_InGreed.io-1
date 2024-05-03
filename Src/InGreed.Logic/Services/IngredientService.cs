@@ -3,16 +3,19 @@ using InGreed.DataAccess.Interfaces;
 using InGreed.Domain.Models;
 using InGreed.Logic.Enums;
 using InGreed.Logic.Interfaces;
+using InGreed.Logic.Mappers;
 
 namespace InGreed.Logic.Services;
 
 public class IngredientService : IIngredientService
 {
     private IIngredientDA _ingredientDA;
+    private IIngredientDBtoServiceResponseMapper _dbtoServiceResponseMapper;
 
-    public IngredientService(IIngredientDA ingredientDA)
+    public IngredientService(IIngredientDA ingredientDA, IIngredientDBtoServiceResponseMapper mapper)
     {
         _ingredientDA = ingredientDA;
+        _dbtoServiceResponseMapper = mapper;
     }
 
     public IEnumerable<Ingredient> GetAll()
@@ -29,30 +32,12 @@ public class IngredientService : IIngredientService
     {
         if (_ingredientDA.GetById(ingredient.Id) is null) ingredient.Id = _ingredientDA.Create(ingredient);
         var response = _ingredientDA.AddToProduct(ingredient.Id, productId);
-        switch(response)
-        {
-            case IngredientDAAddResponse.Success:
-                return IngredientServiceAddResponse.Success;
-            case IngredientDAAddResponse.NonexistentProduct:
-                return IngredientServiceAddResponse.NonexistentProduct;
-            default:
-                return IngredientServiceAddResponse.Unknown;
-        }
+        return _dbtoServiceResponseMapper.AddResponseMapper(response);
     }
 
     public IngredientServiceRemoveResponse RemoveFromProduct(int ingredientId, int productId)
     {
         var response = _ingredientDA.RemoveFromProduct(ingredientId, productId);
-        switch (response)
-        {
-            case IngredientDARemoveResponse.Success:
-                return IngredientServiceRemoveResponse.Success;
-            case IngredientDARemoveResponse.NonexistentProduct:
-                return IngredientServiceRemoveResponse.NonexistentProduct;
-            case IngredientDARemoveResponse.IngredientNotFromProduct:
-                return IngredientServiceRemoveResponse.IngredientNotFromProduct;
-            default:
-                return IngredientServiceRemoveResponse.Unknown;
-        }
+        return _dbtoServiceResponseMapper.RemoveResponseMapper(response);
     }
 }

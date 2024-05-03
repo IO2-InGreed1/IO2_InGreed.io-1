@@ -43,10 +43,9 @@ public class IngredientControllerTests
         // Arrange
         ingredientServiceMock.Setup(isa => isa.GetById(id)).Returns(testingIngredient);
         IngredientController sut = new(ingredientServiceMock.Object);
-        GetByIdRequest request = new(id);
 
         // Act
-        var response = sut.GetById(request);
+        var response = sut.GetById(id);
 
         // Assert
         var actionResult = Assert.IsType<OkObjectResult>(response);
@@ -60,10 +59,9 @@ public class IngredientControllerTests
         // Arrange
         ingredientServiceMock.Setup(isa => isa.GetById(id)).Returns(value:null);
         IngredientController sut = new(ingredientServiceMock.Object);
-        GetByIdRequest request = new(id);
 
         // Act
-        var response = sut.GetById(request);
+        var response = sut.GetById(id);
 
         // Assert
         Assert.IsType<BadRequestResult>(response);
@@ -75,10 +73,10 @@ public class IngredientControllerTests
         // Arrange
         ingredientServiceMock.Setup(isa => isa.AddToProduct(testingIngredient, id)).Returns(IngredientServiceAddResponse.Success);
         IngredientController sut = new(ingredientServiceMock.Object);
-        AdditionRequest request = new(testingIngredient, id);
+        AdditionRequest request = new(testingIngredient);
 
         // Act
-        var response = sut.AddToProduct(request);
+        var response = sut.AddToProduct(request, id);
 
         // Assert
         Assert.IsType<OkResult>(response);
@@ -90,10 +88,10 @@ public class IngredientControllerTests
         // Arrange
         ingredientServiceMock.Setup(isa => isa.AddToProduct(testingIngredient, id)).Returns(IngredientServiceAddResponse.NonexistentProduct);
         IngredientController sut = new(ingredientServiceMock.Object);
-        AdditionRequest request = new(testingIngredient, id);
+        AdditionRequest request = new(testingIngredient);
 
         // Act
-        var response = sut.AddToProduct(request);
+        var response = sut.AddToProduct(request, id);
 
         // Assert
         var actionResult = Assert.IsType<NotFoundObjectResult>(response);
@@ -107,10 +105,9 @@ public class IngredientControllerTests
         // Arrange
         ingredientServiceMock.Setup(isa => isa.RemoveFromProduct(id, id)).Returns(IngredientServiceRemoveResponse.Success);
         IngredientController sut = new(ingredientServiceMock.Object);
-        RemovalRequest request = new(id, id);
 
         // Act
-        var response = sut.RemoveFromProduct(request);
+        var response = sut.RemoveFromProduct(id, id);
 
         // Assert
         Assert.IsType<OkResult>(response);
@@ -122,10 +119,9 @@ public class IngredientControllerTests
         // Arrange
         ingredientServiceMock.Setup(isa => isa.RemoveFromProduct(id, id)).Returns(IngredientServiceRemoveResponse.NonexistentProduct);
         IngredientController sut = new(ingredientServiceMock.Object);
-        RemovalRequest request = new(id, id);
 
         // Act
-        var response = sut.RemoveFromProduct(request);
+        var response = sut.RemoveFromProduct(id, id);
 
         // Assert
         var actionResult = Assert.IsType<NotFoundObjectResult>(response);
@@ -139,10 +135,9 @@ public class IngredientControllerTests
         // Arrange
         ingredientServiceMock.Setup(isa => isa.RemoveFromProduct(id, id)).Returns(IngredientServiceRemoveResponse.IngredientNotFromProduct);
         IngredientController sut = new(ingredientServiceMock.Object);
-        RemovalRequest request = new(id, id);
 
         // Act
-        var response = sut.RemoveFromProduct(request);
+        var response = sut.RemoveFromProduct(id, id);
 
         // Assert
         var actionResult = Assert.IsType<NotFoundObjectResult>(response);

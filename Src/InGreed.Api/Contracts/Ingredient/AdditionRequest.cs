@@ -1,3 +1,3 @@
 namespace InGreed.Api.Contracts.Ingredient;
 
-public record AdditionRequest(Domain.Models.Ingredient ingredient, int productId);
+public record AdditionRequest(Domain.Models.Ingredient ingredient);

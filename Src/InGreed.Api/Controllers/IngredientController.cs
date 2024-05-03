@@ -18,9 +18,9 @@ public class IngredientController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById(GetByIdRequest request)
+    public IActionResult GetById(int id)
     {
-        Ingredient? result = _ingredientService.GetById(request.id);
+        Ingredient? result = _ingredientService.GetById(id);
         if (result is null) return BadRequest();
         GetByIdResponse response = new(result);
         return Ok(response);
@@ -36,13 +36,13 @@ public class IngredientController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult AddToProduct(AdditionRequest request)
+    public IActionResult AddToProduct(AdditionRequest request, int productId)
     {
-        IngredientServiceAddResponse result = _ingredientService.AddToProduct(request.ingredient, request.productId);
+        IngredientServiceAddResponse result = _ingredientService.AddToProduct(request.ingredient, productId);
         switch (result)
         {
             case IngredientServiceAddResponse.NonexistentProduct:
-                return NotFound($"There is no product with an id {request.productId}.");
+                return NotFound($"There is no product with an id {productId}.");
             case IngredientServiceAddResponse.Success:
                 return Ok();
             default:
@@ -50,18 +50,18 @@ public class IngredientController : ControllerBase
         }
     }
 
-    [HttpPut("{ingredientId}/remove-from-product")]
-    public IActionResult RemoveFromProduct(RemovalRequest request)
+    [HttpPut("{ingredientId}/remove-from-product-{productId}")]
+    public IActionResult RemoveFromProduct(int ingredientId, int productId)
     {
-        IngredientServiceRemoveResponse result = _ingredientService.RemoveFromProduct(request.ingredientId, request.productId);
+        IngredientServiceRemoveResponse result = _ingredientService.RemoveFromProduct(ingredientId, productId);
         switch (result) 
         {
             case IngredientServiceRemoveResponse.Success:
                 return Ok();
             case IngredientServiceRemoveResponse.IngredientNotFromProduct:
-                return NotFound($"Product {request.productId} does not contain an Ingredient with an id {request.ingredientId}.");
+                return NotFound($"Product {productId} does not contain an Ingredient with an id {ingredientId}.");
             case IngredientServiceRemoveResponse.NonexistentProduct:
-                return NotFound($"There is no product with an id {request.productId}.");
+                return NotFound($"There is no product with an id {productId}.");
             default:
                 return BadRequest("Unexpected error.");
         }

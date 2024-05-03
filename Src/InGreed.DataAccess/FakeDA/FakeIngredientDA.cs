@@ -6,7 +6,7 @@ namespace InGreed.DataAccess.FakeDA;
 
 public class FakeIngredientDA : IIngredientDA
 {
-    private List<Ingredient> _ingredients = new()
+    private static List<Ingredient> _ingredients = new()
     {
         new() { Id = 1, IconURL = string.Empty, Name = "Ender Pearl" },
         new() { Id = 2, IconURL = string.Empty, Name = "Nether Wart" },
@@ -21,6 +21,7 @@ public class FakeIngredientDA : IIngredientDA
 
     public int Create(Ingredient ingredient)
     {
+        if (GetById(ingredient.Id) is not null) return 0;
         ingredient.Id = ++currentId;
         _ingredients.Add(ingredient);
         return currentId;
