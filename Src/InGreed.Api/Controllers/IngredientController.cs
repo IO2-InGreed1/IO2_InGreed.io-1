@@ -2,7 +2,7 @@ using InGreed.Api.Contracts.Ingredient;
 using InGreed.Domain.Models;
 using InGreed.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using InGreed.Logic.Enums;
+using InGreed.Logic.Enums.Ingredient;
 
 namespace InGreed.Api.Controllers;
 

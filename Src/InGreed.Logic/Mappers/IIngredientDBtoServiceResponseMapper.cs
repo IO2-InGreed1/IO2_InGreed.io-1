@@ -1,5 +1,5 @@
 ﻿using InGreed.DataAccess.Enums;
-using InGreed.Logic.Enums;
+using InGreed.Logic.Enums.Ingredient;
 
 namespace InGreed.Logic.Mappers;
 

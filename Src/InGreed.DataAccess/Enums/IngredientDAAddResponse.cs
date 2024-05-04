@@ -1,3 +1,8 @@
 ﻿namespace InGreed.DataAccess.Enums;
 
-public enum IngredientDAAddResponse { Success, NonexistentProduct }
+[Flags]
+public enum IngredientDAAddResponse 
+{ 
+    Success = 0, 
+    NonexistentProduct = 1 
+}
