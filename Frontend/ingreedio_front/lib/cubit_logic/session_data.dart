@@ -2,6 +2,7 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/logic/users.dart';
 import '../database/database_mockup.dart';
+import '../logic/products.dart';
 part 'session_data.mapper.dart';
 @MappableClass()
 class SessionData with SessionDataMappable
@@ -13,4 +14,10 @@ class SessionData with SessionDataMappable
   Database database=MockupDatabase.filled();
   Client? currentClient;
   Producer? currentProducer;
+  List<Ingredient>? _ingredients;
+  List<Ingredient> get ingredients
+  {
+    _ingredients ??= database.ingredientDatabase.getAllIngredients();
+    return _ingredients!;
+  }
 }

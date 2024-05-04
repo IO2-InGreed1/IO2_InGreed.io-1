@@ -44,7 +44,7 @@ class _ProductCreatorState extends State<ProductCreator> {
           allowMultiline: true,
         );
     Widget ingredientsInput=IngredientListSelector(reference:ItemWrapper(widget.item.ingredients),
-     ingredients: SessionCubit.fromContext(context).state.database.getAllIngredients(),
+     ingredients: SessionCubit.fromContext(context).state.ingredients,
      onChanged: (value){widget.item.ingredients=value;},);
     Widget padding=const SizedBox(height: 7,width: 7,);
     return Column(

@@ -28,10 +28,7 @@ abstract class Database
   {
     return productDatabse.getAllProducers();
   }
-  List<Ingredient> getAllIngredients()
-  {
-    return ingredientDatabase.getAllIngredients();
-  }
+
   List<Opinion> getAllOpinions()
   {
     return opinionDatabase.getAllOpinions();
