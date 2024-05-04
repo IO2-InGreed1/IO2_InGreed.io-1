@@ -1,5 +1,5 @@
-using InGreed.Api.Contracts.Ingredient;
-using InGreed.Domain.Models;
+using InGreed.Api.Contracts.Preference;
+using InGreed.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InGreed.Api.Controllers;
@@ -8,9 +8,10 @@ namespace InGreed.Api.Controllers;
 [ApiController]
 public class PreferenceController : ControllerBase
 {
-    public PreferenceController()
+    private readonly IPreferenceService service;
+    public PreferenceController(IPreferenceService service)
     {
-
+        this.service = service;
     }
 
     [HttpGet("{id}")]
@@ -26,7 +27,7 @@ public class PreferenceController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult Modify(Preference preference, int preferenceToModify) 
+    public IActionResult Modify(ModifyRequest request, int preferenceToModify) 
     {
         throw new NotImplementedException();
     }

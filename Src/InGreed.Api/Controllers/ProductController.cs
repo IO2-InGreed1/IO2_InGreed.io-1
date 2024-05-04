@@ -17,21 +17,21 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<Product> Create(CreateRequest request)
+    public IActionResult Create(CreateRequest request)
     {
         if (request.product is null) return BadRequest();
         service.CreateProduct(request.product);
         return Ok(request.product);
     }
     [HttpPut]
-    public ActionResult<Product> Modify(ModifyRequest request, int productToModifyId)
+    public IActionResult Modify(ModifyRequest request, int productToModifyId)
     {
         if (request.product is null) return BadRequest();
         service.ModifyProduct(productToModifyId, request.product);
         return Ok(request.product);
     }
     [HttpGet]
-    public ActionResult<List<Product>> GetAllProducts()
+    public IActionResult GetAllProducts()
     {
         List<Product> products = new List<Product>();
         try { products = service.GetAllProducts().ToList(); }
@@ -40,7 +40,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public ActionResult<Product> GetById(int id)
+    public IActionResult GetById(int id)
     {
         Product product;
         try { product = service.GetProductById(id); }
