@@ -14,6 +14,7 @@ public static class DependencyInjection
             .AddScoped<ITokenService, FakeTokenService>()
             .AddScoped<IIngredientService, IngredientService>()
             .AddScoped<IProductService, ProductService>()
+            .AddScoped<IPreferenceService, PreferenceService>()
             .AddScoped<IIngredientDBtoServiceResponseMapper, IngredientDBtoServiceResponseMapper>();
     }
 }

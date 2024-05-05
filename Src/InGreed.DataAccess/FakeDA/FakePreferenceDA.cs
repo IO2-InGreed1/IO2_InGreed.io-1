@@ -27,7 +27,13 @@ public class FakePreferenceDA : IPreferenceDA
         return currentId;
     }
 
-    public Preference GetById(int preferenceId)
+    public void Delete(int preferenceId)
+    {
+        Preference? toRemove = GetById(preferenceId);
+        if (toRemove is not null) _preferences.Remove(toRemove);
+    }
+
+    public Preference? GetById(int preferenceId)
     {
         return _preferences.Find(p => p.Id == preferenceId)!; 
     }

@@ -14,14 +14,8 @@ public class PreferenceController : ControllerBase
         this.service = service;
     }
 
-    [HttpGet("{id}")]
-    public IActionResult GetById(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    [HttpGet("user-{userId}")]
-    public IActionResult GetByUser(int userId)
+    [HttpGet]
+    public IActionResult GetByUser()
     {
         throw new NotImplementedException();
     }

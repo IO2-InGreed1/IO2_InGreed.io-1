@@ -17,7 +17,7 @@ public class PreferenceControllerTests
     }
 
     [Fact]
-    public void GetById_ExistingPreference_ShouldReturnStatusOk()
+    public void GetByUser_AuthorisedUser_ShouldReturnStatusOk()
     {
         // Act
 
@@ -30,33 +30,7 @@ public class PreferenceControllerTests
     }
 
     [Fact]
-    public void GetById_NonexistingPreference_ShouldReturnStatusNotFound()
-    {
-        // Act
-
-
-        // Arrange
-
-
-        // Assert
-
-    }
-
-    [Fact]
-    public void GetByUser_ExistingUser_ShouldReturnStatusOk()
-    {
-        // Act
-
-
-        // Arrange
-
-
-        // Assert
-
-    }
-
-    [Fact]
-    public void GetByUser_NonexistentUser_ShouldReturnStatusNotFound()
+    public void GetByUser_UnauthorisedUser_ShouldReturnStatusForbidden()
     {
         // Act
 
