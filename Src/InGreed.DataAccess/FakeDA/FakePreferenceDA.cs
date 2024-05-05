@@ -44,11 +44,17 @@ public class FakePreferenceDA : IPreferenceDA
         if (!Contains(currentId)) return;
         Preference toModify = GetById(preferenceToModify);
         toModify.Active = preference.Active;
-        toModify.Name = preference.Name;
+        if (preference.Name is not null) toModify.Name = preference.Name;
         toModify.OwnerId = preference.OwnerId;
-        toModify.Forbidden.Clear();
-        foreach (Ingredient forbidden in preference.Forbidden) toModify.Forbidden.Add(forbidden);
-        toModify.Preferred.Clear();
-        foreach (Ingredient preferred in preference.Preferred) toModify.Preferred.Add(preferred);
+        if (preference.Forbidden is not null)
+        {
+            toModify.Forbidden.Clear();
+            foreach (Ingredient forbidden in preference.Forbidden) toModify.Forbidden.Add(forbidden);
+        }
+        if (preference.Preferred is not null)
+        {
+            toModify.Preferred.Clear();
+            foreach (Ingredient preferred in preference.Preferred) toModify.Preferred.Add(preferred);
+        }
     }
 }

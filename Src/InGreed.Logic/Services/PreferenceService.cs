@@ -21,7 +21,7 @@ public class PreferenceService : IPreferenceService
         throw new NotImplementedException();
     }
 
-    public void Modify(Preference preference, int preferenceToModify)
+    public PreferenceServiceModifyResponse Modify(Preference preference, int preferenceToModify)
     {
         throw new NotImplementedException();
     }

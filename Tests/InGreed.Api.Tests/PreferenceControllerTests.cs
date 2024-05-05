@@ -69,7 +69,33 @@ public class PreferenceControllerTests
     }
 
     [Fact]
-    public void Modify_ShouldReturnStatusOk()
+    public void Modify_ValidModification_ShouldReturnStatusOk()
+    {
+        // Act
+
+
+        // Arrange
+
+
+        // Assert
+
+    }
+
+    [Fact]
+    public void Modify_InvalidUserId_ShouldReturnStatusBadRequest()
+    {
+        // Act
+
+
+        // Arrange
+
+
+        // Assert
+
+    }
+
+    [Fact]
+    public void Modify_ContradictoryPreference_ShouldReturnStatusBadRequest()
     {
         // Act
 
