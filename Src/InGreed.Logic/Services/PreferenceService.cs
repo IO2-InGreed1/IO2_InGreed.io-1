@@ -16,7 +16,7 @@ public class PreferenceService : IPreferenceService
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Preference> GetByUser(int userId)
+    public IEnumerable<Preference>? GetByUser(int userId)
     {
         throw new NotImplementedException();
     }

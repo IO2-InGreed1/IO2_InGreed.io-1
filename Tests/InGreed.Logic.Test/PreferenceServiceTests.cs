@@ -16,4 +16,81 @@ public class PreferenceServiceTests
         preferenceDAMock = new();
     }
 
+    [Fact]
+    public void GetById_ExistingPreference_ShouldReturnCorrectPreference()
+    {
+        // Arrange
+
+
+        // Act
+
+
+        // Assert
+
+    }
+
+    [Fact]
+    public void GetById_NonexistentgPreference_ShouldReturnNull()
+    {
+        // Arrange
+
+
+        // Act
+
+
+        // Assert
+
+    }
+
+    [Fact]
+    public void GetByUser_ExistingUser_ShouldReturnUserPreferences()
+    {
+        // Arrange
+
+
+        // Act
+
+
+        // Assert
+
+    }
+
+    [Fact]
+    public void GetByUser_NonexistingUser_ShouldReturnNull()
+    {
+        // Arrange
+
+
+        // Act
+
+
+        // Assert
+
+    }
+
+    [Fact]
+    public void Delete_ExistingPreference_ShouldReturnSuccessResponse()
+    {
+        // Arrange
+
+
+        // Act
+
+
+        // Assert
+
+    }
+
+    [Fact]
+    public void Delete_NonexistentPreference_ShouldReturnNonexistentPreferenceResponse()
+    {
+        // Arrange
+
+
+        // Act
+
+
+        // Assert
+
+    }
 }
