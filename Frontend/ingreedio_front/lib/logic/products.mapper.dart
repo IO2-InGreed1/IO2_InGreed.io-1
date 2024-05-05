@@ -184,9 +184,9 @@ class IngredientMapper extends ClassMapperBase<Ingredient> {
   @override
   final String id = 'Ingredient';
 
-  static String _$iconUrl(Ingredient v) => v.iconUrl;
-  static const Field<Ingredient, String> _f$iconUrl =
-      Field('iconUrl', _$iconUrl);
+  static String _$iconURL(Ingredient v) => v.iconURL;
+  static const Field<Ingredient, String> _f$iconURL =
+      Field('iconURL', _$iconURL);
   static int _$id(Ingredient v) => v.id;
   static const Field<Ingredient, int> _f$id = Field('id', _$id);
   static String _$name(Ingredient v) => v.name;
@@ -194,14 +194,14 @@ class IngredientMapper extends ClassMapperBase<Ingredient> {
 
   @override
   final MappableFields<Ingredient> fields = const {
-    #iconUrl: _f$iconUrl,
+    #iconURL: _f$iconURL,
     #id: _f$id,
     #name: _f$name,
   };
 
   static Ingredient _instantiate(DecodingData data) {
     return Ingredient.fromAllData(
-        iconUrl: data.dec(_f$iconUrl),
+        iconURL: data.dec(_f$iconURL),
         id: data.dec(_f$id),
         name: data.dec(_f$name));
   }
@@ -257,7 +257,7 @@ extension IngredientValueCopy<$R, $Out>
 
 abstract class IngredientCopyWith<$R, $In extends Ingredient, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({String? iconUrl, int? id, String? name});
+  $R call({String? iconURL, int? id, String? name});
   IngredientCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -270,15 +270,15 @@ class _IngredientCopyWithImpl<$R, $Out>
   late final ClassMapperBase<Ingredient> $mapper =
       IngredientMapper.ensureInitialized();
   @override
-  $R call({String? iconUrl, int? id, String? name}) =>
+  $R call({String? iconURL, int? id, String? name}) =>
       $apply(FieldCopyWithData({
-        if (iconUrl != null) #iconUrl: iconUrl,
+        if (iconURL != null) #iconURL: iconURL,
         if (id != null) #id: id,
         if (name != null) #name: name
       }));
   @override
   Ingredient $make(CopyWithData data) => Ingredient.fromAllData(
-      iconUrl: data.get(#iconUrl, or: $value.iconUrl),
+      iconURL: data.get(#iconURL, or: $value.iconURL),
       id: data.get(#id, or: $value.id),
       name: data.get(#name, or: $value.name));
 

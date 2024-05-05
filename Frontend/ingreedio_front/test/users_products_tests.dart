@@ -16,11 +16,11 @@ class TestInitializer
   }
   static List<Ingredient> get commonIngredients
   {
-    Ingredient i1=Ingredient.fromAllData(iconUrl: "", id: 0, name: "i1");
-    Ingredient i2=Ingredient.fromAllData(iconUrl: "", id: 1, name: "i2");
-    Ingredient i3=Ingredient.fromAllData(iconUrl: "", id: 2, name: "i3");
-    Ingredient i4=Ingredient.fromAllData(iconUrl: "", id: 3, name: "i4");
-    Ingredient i5=Ingredient.fromAllData(iconUrl: "", id: 4, name: "i5");
+    Ingredient i1=Ingredient.fromAllData(iconURL: "", id: 0, name: "i1");
+    Ingredient i2=Ingredient.fromAllData(iconURL: "", id: 1, name: "i2");
+    Ingredient i3=Ingredient.fromAllData(iconURL: "", id: 2, name: "i3");
+    Ingredient i4=Ingredient.fromAllData(iconURL: "", id: 3, name: "i4");
+    Ingredient i5=Ingredient.fromAllData(iconURL: "", id: 4, name: "i5");
     return [i1,i2,i3,i4,i5];
   }
   static Moderator get moderator=>Moderator.fromAllData(moderatorNumber: 0, editedOpinionList: []);

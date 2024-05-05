@@ -4,20 +4,24 @@ import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
-const String requestAdress="localhost5000/api/";
+const String requestAdress="http://localhost5000/api/";
 Future<String> getResponse(String request) async 
 {
-  var client = HttpClient();
+  HttpClient client=HttpClient();
   try {
-    HttpClientRequest request = await client.get('localhost', 80, '/file.txt');
-    HttpClientResponse response = await request.close();
-    final stringData = await response.transform(utf8.decoder).join();
-    return stringData;
+    var uri = Uri.parse(
+      requestAdress+request
+    );
+    var req = await client.getUrl(uri);
+    var res=await req.close();
+    String responseBody = await res.transform(utf8.decoder).join();
+    client.close();
+    return responseBody;
   } 
   catch(e)
   {
     client.close();
-    throw(Exception("connection failed, message:$e"));
+    throw(Exception("connection failed, message: \n $e"));
   }
   finally 
   {
@@ -78,13 +82,19 @@ class RealUserDatabase extends UserDatabse
 }
 class RealIngredientDatabase extends IngredientDatabase
 {
+  static List<Ingredient> parseIngredientList(String response)
+  {
+    Map<String,dynamic> map=json.decode(response);
+    List<dynamic> pom=map["ingredients"];
+    List<Ingredient> odp=List.empty(growable: true);
+    for (var element in pom) {odp.add(IngredientMapper.fromMap(element as Map<String,dynamic>));}
+    return odp;
+  }
   @override
   Future<List<Ingredient>> getAllIngredients() async {
-    String request="${requestAdress}Ingredient";
+    String request="ingredient";
     String odp=await getResponse(request);
-    IngredientMapper.fromJson(odp);
-    //TODO: fix
-    throw UnimplementedError();
+    return parseIngredientList(odp);
   }
 
 }

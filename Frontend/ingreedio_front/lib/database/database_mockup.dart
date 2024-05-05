@@ -223,11 +223,11 @@ class MockupIngredientDatabase extends IngredientDatabase
   List<Ingredient> ingredients;
   MockupIngredientDatabase.filled():ingredients=List.empty(growable: true)
   {
-    ingredients.add(Ingredient.fromAllData(iconUrl: "https://media.istockphoto.com/id/184276818/photo/red-apple.jpg?s=612x612&w=0&k=20&c=NvO-bLsG0DJ_7Ii8SSVoKLurzjmV0Qi4eGfn6nW3l5w=", id: 0, name: "ing_1"));
-    ingredients.add(Ingredient.fromAllData(iconUrl: "b", id: 1, name: "ing_2"));
-    ingredients.add(Ingredient.fromAllData(iconUrl: "c", id: 2, name: "ing_3"));
-    ingredients.add(Ingredient.fromAllData(iconUrl: "d", id: 3, name: "ing_4"));
-    ingredients.add(Ingredient.fromAllData(iconUrl: "e", id: 4, name: "ing_5"));
+    ingredients.add(Ingredient.fromAllData(iconURL: "https://media.istockphoto.com/id/184276818/photo/red-apple.jpg?s=612x612&w=0&k=20&c=NvO-bLsG0DJ_7Ii8SSVoKLurzjmV0Qi4eGfn6nW3l5w=", id: 0, name: "ing_1"));
+    ingredients.add(Ingredient.fromAllData(iconURL: "b", id: 1, name: "ing_2"));
+    ingredients.add(Ingredient.fromAllData(iconURL: "c", id: 2, name: "ing_3"));
+    ingredients.add(Ingredient.fromAllData(iconURL: "d", id: 3, name: "ing_4"));
+    ingredients.add(Ingredient.fromAllData(iconURL: "e", id: 4, name: "ing_5"));
     
   }
   @override
@@ -319,6 +319,7 @@ class MockupDatabase extends Database
 
   @override
   IngredientDatabase get ingredientDatabase => _ingredientDatabase;
+  set ingredientDatabase(IngredientDatabase value) => _ingredientDatabase=value;
 
   @override
   OpinionDatabase get opinionDatabase => _opinionDatabase;
