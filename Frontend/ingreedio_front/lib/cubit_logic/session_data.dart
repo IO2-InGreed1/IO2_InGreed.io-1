@@ -15,9 +15,8 @@ class SessionData with SessionDataMappable
   Client? currentClient;
   Producer? currentProducer;
   List<Ingredient>? _ingredients;
-  List<Ingredient> get ingredients
-  {
-    _ingredients ??= database.ingredientDatabase.getAllIngredients();
+  Future<List<Ingredient>> get ingredients async {
+    _ingredients ??=await database.ingredientDatabase.getAllIngredients();
     return _ingredients!;
   }
 }

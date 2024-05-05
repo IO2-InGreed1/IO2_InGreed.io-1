@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ingreedio_front/cubit_logic/cubit_consumer.dart';
+import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/preference_creator.dart';
@@ -40,29 +42,27 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
   @override
   Widget build(BuildContext context)
   {
+    return IngredientConsumer(child: (context,ingredients)
+    {
     if(_filterCreator==null)
     {
-      List<Ingredient> ingredients=SessionCubit.fromContext(context).state.ingredients;
-      filterCreator=ProductFilterCreator(reference: ItemWrapper(filter.clone() as ProductFilter), ingredients: ingredients)..item.preference=[Ingredient.fromAllData(iconUrl: "a", id: 1, name: "XD1")];
+      filterCreator=ProductFilterCreator(reference: ItemWrapper(filter.clone() as ProductFilter))..item.preference=[Ingredient.fromAllData(iconUrl: "a", id: 1, name: "XD1")];
     }
     Client? currentClient=SessionCubit.fromContext(context).state.currentClient;
     List<Widget> widgets=List.empty(growable: true);
     if(currentClient!=null)
     {
       var pref=PreferenceSelector(reference: ItemWrapper(null), 
-        preferences: SessionCubit.fromContext(context).state.database.userDatabse.getUserPreferences(currentClient),
         );
         widgets.add(pref);
         widgets.add(DialogButton<Preference>(creator: 
-        PreferenceCreator(ingredients: (filterCreator as ProductFilterCreator).ingredients,
+        PreferenceCreator(
         reference:ItemWrapper(Preference.forClient(currentClient),),
         ), 
         onFinished: (value)
         {
           setState(() {
-            pref.preferences.add(value);
-            value.client=currentClient;
-             SessionCubit.fromContext(context).state.database.userDatabse.addPreference(value);
+            PreferenceCubit.fromContext(context).addPreference(context,value);
           });
         }, 
         child:const Text("add new preference")));
@@ -71,22 +71,20 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
           if(value!=null)
           {
             setState(() {
-              filterCreator=ProductFilterCreator(reference: ItemWrapper(ProductFilter.formPreference(value)), ingredients: (filterCreator as ProductFilterCreator).ingredients);
+              filterCreator=ProductFilterCreator(reference: ItemWrapper(ProductFilter.formPreference(value)));
             });
           }
         }, child:const Text("Activate preference")));
 
         widgets.add(DialogEditButton<Preference>(creator: 
-        PreferenceCreator(ingredients: (filterCreator as ProductFilterCreator).ingredients,
+        PreferenceCreator(
         reference:ItemWrapper(Preference.forClient(currentClient),),
         ), 
         onFinished: (value)
         {
           setState(() {
             value.client=currentClient;
-            SessionCubit.fromContext(context).state.database.userDatabse.editPreference(pref.item!,value);
-            pref.preferences.remove(pref.item);
-            pref.preferences.add(value);
+            PreferenceCubit.fromContext(context).editPreference(context,pref.item!,value);
           });
         }, 
         onClicked: () {
@@ -99,15 +97,14 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
           if(value!=null)
           {
             setState(() {
-            SessionCubit.fromContext(context).state.database.userDatabse.removePreference(pref.item!);
-            pref.preferences.remove(pref.item);
-            pref.item=null;
+            PreferenceCubit.fromContext(context).removePreference(context,pref.item!);
           });
           }
         }, child:const Text("Delete preference")));
     }
     widgets.add(super.build(context));
     return Column(mainAxisAlignment: MainAxisAlignment.center,children: widgets,);
+    });
   }
 
   @override

@@ -1,64 +1,89 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
-
+const String requestAdress="localhost5000/api/";
+Future<String> getResponse(String request) async 
+{
+  var client = HttpClient();
+  try {
+    HttpClientRequest request = await client.get('localhost', 80, '/file.txt');
+    HttpClientResponse response = await request.close();
+    final stringData = await response.transform(utf8.decoder).join();
+    return stringData;
+  } 
+  catch(e)
+  {
+    client.close();
+    throw(Exception("connection failed, message:$e"));
+  }
+  finally 
+  {
+    client.close();
+  }
+}
 class RealUserDatabase extends UserDatabse
 {
   @override
-  bool addClient(Client client) {
+  Future<bool> addClient(Client client) async {
     // TODO: implement addClient
     throw UnimplementedError();
   }
 
   @override
-  bool addPreference(Preference preference) {
+  Future<bool> addPreference(Preference preference) async {
     // TODO: implement addPreference
     throw UnimplementedError();
   }
 
   @override
-  bool editPreference(Preference oldPreference, Preference editedPreference) {
+  Future<bool> editPreference(Preference oldPreference, Preference editedPreference) async {
     // TODO: implement editPreference
     throw UnimplementedError();
   }
 
   @override
-  List<Client> getAllClients() {
+  Future<List<Client>> getAllClients() async {
     // TODO: implement getAllClients
     throw UnimplementedError();
   }
 
   @override
-  List<Preference> getUserPreferences(Client client) {
+  Future<List<Preference>> getUserPreferences(Client client) async {
     // TODO: implement getUserPreferences
     throw UnimplementedError();
   }
 
   @override
-  bool removeClient(Client client) {
+  Future<bool> removeClient(Client client) async {
     // TODO: implement removeClient
     throw UnimplementedError();
   }
 
   @override
-  bool removePreference(Preference preference) {
+  Future<bool> removePreference(Preference preference)  async{
     // TODO: implement removePreference
     throw UnimplementedError();
   }
 
   @override
-  bool setFavoutiteProduct(Client client, Product product, bool state) {
+  Future<bool> setFavoutiteProduct(Client client, Product product, bool state) async {
     // TODO: implement setFavoutiteProduct
     throw UnimplementedError();
   }
+  
 
 }
 class RealIngredientDatabase extends IngredientDatabase
 {
   @override
-  List<Ingredient> getAllIngredients() {
-    // TODO: implement getAllIngredients
+  Future<List<Ingredient>> getAllIngredients() async {
+    String request="${requestAdress}Ingredient";
+    String odp=await getResponse(request);
+    IngredientMapper.fromJson(odp);
+    //TODO: fix
     throw UnimplementedError();
   }
 
@@ -66,102 +91,104 @@ class RealIngredientDatabase extends IngredientDatabase
 class RealProductDatabase extends ProductDatabse
 {
   @override
-  bool addProducer(Producer producer) {
+  Future<bool> addProducer(Producer producer) async {
     // TODO: implement addProducer
     throw UnimplementedError();
   }
 
   @override
-  bool addProduct(Product product) {
+  Future<bool> addProduct(Product product) async {
     // TODO: implement addProduct
     throw UnimplementedError();
   }
 
   @override
-  bool editProduct(Product product, Product editedProduct) {
+  Future<bool> editProduct(Product product, Product editedProduct) async {
     // TODO: implement editProduct
     throw UnimplementedError();
   }
 
   @override
-  List<Product> filterProducts(int from, int to, ProductFilter filter) {
+  Future<List<Product>> filterProducts(int from, int to, ProductFilter filter) async {
     // TODO: implement filterProducts
     throw UnimplementedError();
   }
 
   @override
-  List<Producer> getAllProducers() {
+  Future<List<Producer>> getAllProducers()  async{
     // TODO: implement getAllProducers
     throw UnimplementedError();
   }
 
   @override
-  List<Product> getAllProducts() {
+  Future<List<Product>> getAllProducts() async {
     // TODO: implement getAllProducts
     throw UnimplementedError();
   }
 
   @override
-  bool removeProducer(Producer producer) {
+  Future<bool> removeProducer(Producer producer) async {
     // TODO: implement removeProducer
     throw UnimplementedError();
   }
 
   @override
-  bool removeProduct(Product product) {
+  Future<bool> removeProduct(Product product) async{
     // TODO: implement removeProduct
     throw UnimplementedError();
   }
+ 
 
 }
 class RealOpinionDatabase extends OpinionDatabase
 {
   @override
-  bool addOpinion(Opinion opinion) {
+  Future<bool> addOpinion(Opinion opinion) async {
     // TODO: implement addOpinion
     throw UnimplementedError();
   }
 
   @override
-  List<Opinion> getAllOpinions() {
+  Future<List<Opinion>> getAllOpinions() async {
     // TODO: implement getAllOpinions
     throw UnimplementedError();
   }
 
   @override
-  List<Opinion> getClientOpinions(Client client) {
+  Future<List<Opinion>> getClientOpinions(Client client) async {
     // TODO: implement getClientOpinions
     throw UnimplementedError();
   }
 
   @override
-  List<Opinion> getOpinionsFiltered(int from, int to, Product product, OpinionFilter filter) {
+  Future<List<Opinion>> getOpinionsFiltered(int from, int to, Product product, OpinionFilter filter) async {
     // TODO: implement getOpinionsFiltered
     throw UnimplementedError();
   }
 
   @override
-  List<Opinion> getProductOpinions(Product product) {
+  Future<List<Opinion>> getProductOpinions(Product product) async {
     // TODO: implement getProductOpinions
     throw UnimplementedError();
   }
 
   @override
-  List<Opinion> getReportedOpinions() {
+  Future<List<Opinion>> getReportedOpinions() async {
     // TODO: implement getReportedOpinions
     throw UnimplementedError();
   }
 
   @override
-  List<Opinion> getReportedProductOpinions(Product product) {
+  Future<List<Opinion>> getReportedProductOpinions(Product product) async {
     // TODO: implement getReportedProductOpinions
     throw UnimplementedError();
   }
 
   @override
-  bool removeOpinion(Opinion opinion) {
+  Future<bool> removeOpinion(Opinion opinion) async {
     // TODO: implement removeOpinion
     throw UnimplementedError();
   }
+  
   
 }

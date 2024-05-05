@@ -57,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  buffer:
+    dependency: transitive
+    description:
+      name: buffer
+      sha256: "389da2ec2c16283c8787e0adaede82b1842102f8c8aae2f49003a766c5c6b3d1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.3"
   build:
     dependency: transitive
     description:
@@ -217,6 +225,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.6"
+  executor:
+    dependency: transitive
+    description:
+      name: executor
+      sha256: "87d935b31b2bdf7fe2af0b77dd8ffe8864eaade25715e9c68bc49497e48c9851"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.3"
   fake_async:
     dependency: transitive
     description:
@@ -323,6 +339,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.3"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      sha256: "761a297c042deedc1ffbb156d6e2af13886bb305c2a343a4d972504cd67dd938"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
+  http_client:
+    dependency: "direct main"
+    description:
+      name: http_client
+      sha256: f62a0ec75b41e75acb228eee759d4a838086449548f1dd78ac0751b551f9a632
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.3"
   http_multi_server:
     dependency: transitive
     description:

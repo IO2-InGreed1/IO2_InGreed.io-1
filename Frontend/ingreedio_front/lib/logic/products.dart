@@ -40,27 +40,6 @@ class Product with ProductMappable
   Producer producer;
   List<Ingredient> ingredients;
   Category category;
-  void addOpinion(String test,User user)
-  {
-    //TODO: this 
-    throw Exception("not implemented");
-  }
-  void addIngredient(Ingredient ingredient)
-  {
-    //TODO: this 
-    throw Exception("not implemented");
-  }
-  void removeIngredient(Ingredient ingredient)
-  {
-    //TODO: this 
-    throw Exception("not implemented");
-  }
-  void promoteUntil(DateTime time)
-  {
-    //TODO: this 
-    throw Exception("not implemented");
-  }
-  
   @override
   int get hashCode => id+name.hashCode*description.hashCode;
   
@@ -100,19 +79,4 @@ class Opinion
   double score;
   bool isReported=false;
   Widget get widget=>OpinionWidget(opinion: this);
-  void calculateScore(double score)
-  {
-    //TODO: this 
-    throw Exception("not implemented");
-  }
-  void reportOpinion()
-  {
-    //TODO: this 
-    throw Exception("not implemented");
-  }
-  void rateOpinion()
-  {
-    //TODO: this 
-    throw Exception("not implemented");
-  }
 }

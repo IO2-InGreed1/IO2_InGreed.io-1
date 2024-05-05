@@ -6,10 +6,10 @@ import 'package:ingreedio_front/logic/users.dart';
 
 class MockupUserDatabase extends UserDatabse
 {
-  MockupUserDatabase.filled(IngredientDatabase ingredientDatabase,ProductDatabse productDatabse):clients=List.empty(growable: true),preferences=List.empty(growable: true),moderators=List.empty(growable: true)
+  MockupUserDatabase.filled(IngredientDatabase ingredientDatabase,MockupProductDatabase productDatabse):clients=List.empty(growable: true),preferences=List.empty(growable: true),moderators=List.empty(growable: true)
   {
-    List<Ingredient> ingredients=ingredientDatabase.getAllIngredients();
-    List<Product> products=productDatabse.getAllProducts();
+    List<Ingredient> ingredients=MockupIngredientDatabase.filled().ingredients;
+    List<Product> products=productDatabse.products;
     clients.add(
       Client.fromAllData(id: 0, isBlocked: false, mail: 
       "mail", password: "p1", username: "u1", favoriteProducts: [])
@@ -44,39 +44,39 @@ class MockupUserDatabase extends UserDatabse
   List<Preference> preferences;
   List<Moderator> moderators;
   @override
-  bool addClient(Client client) {
+  Future<bool> addClient(Client client) async {
     clients.add(client);
     return true;
   }
 
   @override
-  List<Client> getAllClients() {
+  Future<List<Client>> getAllClients() async {
     return clients;
   }
 
   @override
-  bool removeClient(Client client) {
+  Future<bool> removeClient(Client client) async {
     return clients.remove(client);
   }
   
   @override
-  bool addPreference(Preference preference) {
+  Future<bool> addPreference(Preference preference) async {
     preferences.add(preference);
     return true;
   }
   
   @override
-  List<Preference> getUserPreferences(Client client) {
+  Future<List<Preference>> getUserPreferences(Client client) async {
     return preferences.where((element) => element.client==client).toList();
   }
   
   @override
-  bool removePreference(Preference preference) {
+  Future<bool> removePreference(Preference preference) async {
     return preferences.remove(preference);
   }
   
   @override
-  bool setFavoutiteProduct(Client client, Product product, bool state) {
+  Future<bool> setFavoutiteProduct(Client client, Product product, bool state) async {
     int index=clients.indexOf(client);
     if(index<0) return false;
     if(state)
@@ -91,7 +91,7 @@ class MockupUserDatabase extends UserDatabse
   }
   
   @override
-  bool editPreference(Preference oldPreference, Preference editedPreference) {
+  Future<bool> editPreference(Preference oldPreference, Preference editedPreference) async {
     if(preferences.contains(oldPreference)) preferences.remove(oldPreference);
     if(!preferences.contains(editedPreference)) preferences.add(editedPreference);
     return true;
@@ -101,10 +101,10 @@ class MockupProductDatabase extends ProductDatabse
 {
   List<Product> products;
   List<Producer> producers;
-  MockupProductDatabase.filled(IngredientDatabase ingredientDatabase):producers=List.empty(growable: true),
+  MockupProductDatabase.filled(MockupIngredientDatabase ingredientDatabase):producers=List.empty(growable: true),
   products=List.empty(growable: true)
   {
-    List<Ingredient> ingredients=ingredientDatabase.getAllIngredients();
+    List<Ingredient> ingredients=ingredientDatabase.ingredients;
     producers.add(
       Producer.fromAllData(companyName: 
       "C1", nip: "123", representativeName: "name1", representativeSurname: "surname1", telephoneNumber: "49")
@@ -144,39 +144,39 @@ class MockupProductDatabase extends ProductDatabse
   }
   
   @override
-  bool addProducer(Producer producer) {
+  Future<bool> addProducer(Producer producer) async {
     producers.add(producer);
     return true;
   }
   
   @override
-  bool addProduct(Product product) {
+  Future<bool> addProduct(Product product) async {
     products.add(product);
     return true;
   }
   
   @override
-  List<Producer> getAllProducers() {
+  Future<List<Producer>> getAllProducers() async {
     return producers;
   }
   
   @override
-  List<Product> getAllProducts() {
+  Future<List<Product>> getAllProducts() async {
     return products;
   }
   
   @override
-  bool removeProducer(Producer producer) {
+  Future<bool> removeProducer(Producer producer) async {
     return producers.remove(producer);
   }
   
   @override
-  bool removeProduct(Product product) {
+  Future<bool> removeProduct(Product product) async {
     return products.remove(product);
   }
 
   @override
-  List<Product> filterProducts(int from,int to,ProductFilter filter) {
+  Future<List<Product>> filterProducts(int from,int to,ProductFilter filter) async {
     var pom= products.where((element) 
     {
       for(int i=0;i<element.ingredients.length;i++)
@@ -208,9 +208,9 @@ class MockupProductDatabase extends ProductDatabse
   }
   
   @override
-  bool editProduct(Product product, Product editedProduct) {
-    if(!removeProduct(product)) return false;
-    if(!addProduct(editedProduct))
+  Future<bool> editProduct(Product product, Product editedProduct) async {
+    if(!(await removeProduct(product))) return false;
+    if(!(await addProduct(editedProduct)))
     {
       addProduct(product);
       return false;
@@ -231,58 +231,58 @@ class MockupIngredientDatabase extends IngredientDatabase
     
   }
   @override
-  List<Ingredient> getAllIngredients() {
+  Future<List<Ingredient>> getAllIngredients()async {
     return ingredients;
   }
 
 }
 class MockupOpinionDatabase extends OpinionDatabase
 {
-  MockupOpinionDatabase.filled(ProductDatabse productDatabse,UserDatabse userDatabse):opinions=List.empty(growable: true)
+  MockupOpinionDatabase.filled(MockupProductDatabase productDatabse,MockupUserDatabase userDatabse):opinions=List.empty(growable: true)
   {
-    opinions.add(Opinion.fromAllData(author: userDatabse.getAllClients()[1], id: 0, product: productDatabse.getAllProducts()[0], score: 1, text: "opinia"));
+    opinions.add(Opinion.fromAllData(author: userDatabse.clients[1], id: 0, product: productDatabse.products[0], score: 1, text: "opinia"));
   }
   List<Opinion> opinions;
   @override
-  bool addOpinion(Opinion opinion) {
+  Future<bool> addOpinion(Opinion opinion) async {
     opinions.add(opinion);
     return true;
   }
 
   @override
-  List<Opinion> getAllOpinions() {
+  Future<List<Opinion>> getAllOpinions() async {
     return opinions;
   }
 
   @override
-  List<Opinion> getClientOpinions(Client client) {
+  Future<List<Opinion>> getClientOpinions(Client client) async {
     return opinions.where((element) => element.author==client).toList();
   }
 
   @override
-  List<Opinion> getProductOpinions(Product product) {
+  Future<List<Opinion>> getProductOpinions(Product product) async {
     return opinions.where((element) => element.product==product).toList();
   }
 
   @override
-  bool removeOpinion(Opinion opinion) {
+  Future<bool> removeOpinion(Opinion opinion) async {
     return opinions.remove(opinion);
   }
   
   @override
-  List<Opinion> getReportedOpinions() {
+  Future<List<Opinion>> getReportedOpinions() async {
     return opinions.where((element) => element.isReported==true).toList();
   }
   
   @override
-  List<Opinion> getReportedProductOpinions(Product product) {
+  Future<List<Opinion>> getReportedProductOpinions(Product product) async {
     
     return opinions.where((element) => (element.isReported==true)&&element.product==product).toList();
   }
   
   @override
-  List<Opinion> getOpinionsFiltered(int from,int to,Product product, OpinionFilter filter) {
-    var pom= getProductOpinions(product);
+  Future<List<Opinion>> getOpinionsFiltered(int from,int to,Product product, OpinionFilter filter) async {
+    var pom=await getProductOpinions(product);
     List<Opinion> odp=List.empty(growable: true);
     for(int i=from;i<to;i++)
     {
@@ -308,9 +308,9 @@ class MockupDatabase extends Database
   MockupDatabase.filled()
   {
     _ingredientDatabase=MockupIngredientDatabase.filled();
-    _productDatabse=MockupProductDatabase.filled(ingredientDatabase);
-    _userDatabse=MockupUserDatabase.filled(ingredientDatabase, productDatabse);
-    _opinionDatabase=MockupOpinionDatabase.filled(productDatabse, userDatabse);
+    _productDatabse=MockupProductDatabase.filled(ingredientDatabase as MockupIngredientDatabase);
+    _userDatabse=MockupUserDatabase.filled(ingredientDatabase, productDatabse as MockupProductDatabase);
+    _opinionDatabase=MockupOpinionDatabase.filled(productDatabse as MockupProductDatabase, userDatabse as MockupUserDatabase);
   }
   @override
   void clearEditedOpinionList(int moderatorNumber) {
@@ -327,7 +327,7 @@ class MockupDatabase extends Database
   ProductDatabse get productDatabse => _productDatabse;
 
   @override
-  List<Opinion> searchInvalidOpinions() {
+  Future<List<Opinion>> searchInvalidOpinions() {
     return opinionDatabase.getAllOpinions();
   }
 

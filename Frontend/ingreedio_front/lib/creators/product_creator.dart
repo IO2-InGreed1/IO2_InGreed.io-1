@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/common_creators.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/ingredient_creator.dart';
-import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
+import 'package:ingreedio_front/cubit_logic/cubit_consumer.dart';
 import 'package:ingreedio_front/logic/products.dart';
 
 class ProductCreator extends Creator<Product> {
@@ -19,6 +19,7 @@ class ProductCreator extends Creator<Product> {
 class _ProductCreatorState extends State<ProductCreator> {
   @override
   Widget build(BuildContext context) {
+    return IngredientConsumer(child: (context,ingredients){
     Widget catogoryInput=DropdownMenu<Category>(
       initialSelection: widget.item.category,
         dropdownMenuEntries: Category.values.map((e) => DropdownMenuEntry(value: e, label: e.name)).toList(),
@@ -44,7 +45,7 @@ class _ProductCreatorState extends State<ProductCreator> {
           allowMultiline: true,
         );
     Widget ingredientsInput=IngredientListSelector(reference:ItemWrapper(widget.item.ingredients),
-     ingredients: SessionCubit.fromContext(context).state.ingredients,
+     ingredients: ingredients ?? [],
      onChanged: (value){widget.item.ingredients=value;},);
     Widget padding=const SizedBox(height: 7,width: 7,);
     return Column(
@@ -58,5 +59,6 @@ class _ProductCreatorState extends State<ProductCreator> {
         LabelWidget(label: "ingredients: ",child: ingredientsInput),
       ],
     );
+    });
   }
 }

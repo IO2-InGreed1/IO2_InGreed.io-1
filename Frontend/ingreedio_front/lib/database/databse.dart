@@ -8,76 +8,76 @@ abstract class Database
   UserDatabse get userDatabse;
   IngredientDatabase get ingredientDatabase;
   OpinionDatabase get opinionDatabase;
-  bool addClient(Client client)
+  Future<bool> addClient(Client client)
   {
     return userDatabse.addClient(client);
   }
-  bool removeClient(Client client)
+  Future<bool> removeClient(Client client)
   {
     return userDatabse.removeClient(client);
   }
-  bool removeOpinion(Opinion opinion)
+  Future<bool> removeOpinion(Opinion opinion)
   {
     return opinionDatabase.removeOpinion(opinion);
   }
-  List<Client> getAllClients()
+  Future<List<Client>> getAllClients()
   {
     return userDatabse.getAllClients();
   }
-  List<Producer> getAllProducers()
+  Future<List<Producer>> getAllProducers()
   {
     return productDatabse.getAllProducers();
   }
 
-  List<Opinion> getAllOpinions()
+  Future<List<Opinion>> getAllOpinions()
   {
     return opinionDatabase.getAllOpinions();
   }
-  List<Product> getAllProducts()
+  Future<List<Product>> getAllProducts()
   {
     return productDatabse.getAllProducts();
   }
-  List<Opinion> getReportedOpinions(Product product)
+  Future<List<Opinion>> getReportedOpinions(Product product)
   {
     return opinionDatabase.getReportedProductOpinions(product);
   }
-  List<Opinion> searchInvalidOpinions();
+  Future<List<Opinion>> searchInvalidOpinions();
   void clearEditedOpinionList(int moderatorNumber);
 }
 abstract class ProductDatabse
 {
-  bool addProduct(Product product);
-  bool removeProduct(Product product);
-  bool editProduct(Product product,Product editedProduct);
-  List<Product> getAllProducts();
-  List<Product> filterProducts(int from,int to,ProductFilter filter);
-  List<Producer> getAllProducers();
-  bool addProducer(Producer producer);
-  bool removeProducer(Producer producer);
+  Future<bool> addProduct(Product product);
+  Future<bool> removeProduct(Product product);
+  Future<bool> editProduct(Product product,Product editedProduct);
+  Future<List<Product>> getAllProducts();
+  Future<List<Product>> filterProducts(int from,int to,ProductFilter filter);
+  Future<List<Producer>> getAllProducers();
+  Future<bool> addProducer(Producer producer);
+  Future<bool> removeProducer(Producer producer);
 }
 abstract class UserDatabse
 {
-  bool addClient(Client client);
-  bool removeClient(Client client);
-  List<Client> getAllClients();
-  List<Preference> getUserPreferences(Client client);
-  bool setFavoutiteProduct(Client client,Product product,bool state);
-  bool addPreference(Preference preference);
-  bool editPreference(Preference oldPreference,Preference editedPreference);
-  bool removePreference(Preference preference);
+  Future<bool> addClient(Client client);
+  Future<bool> removeClient(Client client);
+  Future<List<Client>> getAllClients();
+  Future<List<Preference>> getUserPreferences(Client client);
+  Future<bool> setFavoutiteProduct(Client client,Product product,bool state);
+  Future<bool> addPreference(Preference preference);
+  Future<bool> editPreference(Preference oldPreference,Preference editedPreference);
+  Future<bool> removePreference(Preference preference);
 }
 abstract class OpinionDatabase
 {
-  List<Opinion> getAllOpinions();
-  bool addOpinion(Opinion opinion);
-  bool removeOpinion(Opinion opinion);
-  List<Opinion> getClientOpinions(Client client);
-  List<Opinion> getProductOpinions(Product product);
-  List<Opinion> getReportedOpinions();
-  List<Opinion> getReportedProductOpinions(Product product);
-  List<Opinion> getOpinionsFiltered(int from,int to,Product product,OpinionFilter filter);
+  Future<List<Opinion>> getAllOpinions();
+  Future<bool> addOpinion(Opinion opinion);
+  Future<bool> removeOpinion(Opinion opinion);
+  Future<List<Opinion>> getClientOpinions(Client client);
+  Future<List<Opinion>> getProductOpinions(Product product);
+  Future<List<Opinion>> getReportedOpinions();
+  Future<List<Opinion>> getReportedProductOpinions(Product product);
+  Future<List<Opinion>> getOpinionsFiltered(int from,int to,Product product,OpinionFilter filter);
 }
 abstract class IngredientDatabase
 {
-  List<Ingredient> getAllIngredients();
+  Future<List<Ingredient>> getAllIngredients();
 }

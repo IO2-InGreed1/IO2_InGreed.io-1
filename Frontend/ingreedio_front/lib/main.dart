@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:ingreedio_front/cubit_logic/ingredient_cubit.dart';
+import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/session_data.dart';
 import 'package:ingreedio_front/database/database_mockup.dart';
 import 'package:ingreedio_front/login_screen.dart';
@@ -30,17 +32,20 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       lazy: false,
       create: (_) => SessionCubit(SessionData.empty()),
-      child: MaterialApp(
-        routes: {
-        '/': (context) => LoginPage(),
-        '/home': (context) => const MyHomePage(title: 'Flutter Demo Home Page',),
-        },
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+      child: BlocProvider(
+        create: (BuildContext context)=>IngredientCubit.empty()..loadIngredients(context),
+        child: MaterialApp(
+          routes: {
+          '/': (context) => LoginPage(),
+          '/home': (context) => const MyHomePage(title: 'Flutter Demo Home Page',),
+          },
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+        
         ),
-      
       ),
     );
   }
@@ -70,16 +75,19 @@ class _MyHomePageState extends State<MyHomePage> {
               TextButton(
                 onPressed: ()
                 {
-                  SessionCubit.fromContext(context).state.currentClient=SessionCubit.fromContext(context).state.database.getAllClients().first;
+                  var client=MockupUserDatabase.filled(MockupIngredientDatabase.filled(), MockupProductDatabase.filled(MockupIngredientDatabase.filled())).clients.first;
+                  SessionCubit.fromContext(context).state.currentClient=client;
                   SessionCubit.fromContext(context).state.currentProducer=null;
-                  Navigator.push(context,widgetShower(const ProductSearchScreen()));
+                  Navigator.push(context,widgetShower(BlocProvider(create: (BuildContext context)=>PreferenceCubit(null)..loadPreferences(context, client),
+                  child: const ProductSearchScreen())));
                 }, 
                 child: const Text("Client pov")),
               TextButton(
                 onPressed: ()
                 {
+                  var producer=MockupProductDatabase.filled(MockupIngredientDatabase.filled()).producers.first;
                   SessionCubit.fromContext(context).state.currentClient=null;
-                  SessionCubit.fromContext(context).state.currentProducer=MockupDatabase.filled().productDatabse.getAllProducers().first;
+                  SessionCubit.fromContext(context).state.currentProducer=producer;
                   Navigator.push(context,widgetShower(ProductEditScreen.fromCubit(cubit: SessionCubit.fromContext(context),)));
                 },
                 child: const Text("Producer pov")),
