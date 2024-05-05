@@ -23,13 +23,15 @@ public class JwtTokenService : ITokenService
             return string.Empty;
         }
 
+        var timeNow = new DateTimeOffset(_dateTimeProvider.Now);
+
         var claims = new Claim[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
             new Claim(JwtRegisteredClaimNames.Name, user.Username),
-            new Claim(JwtRegisteredClaimNames.Nbf, _dateTimeProvider.Now.toun),
-            new Claim(JwtRegisteredClaimNames.Exp, _dateTimeProvider.Now.AddHours(1).ToLongDateString())
+            new Claim(JwtRegisteredClaimNames.Nbf, timeNow.ToUnixTimeMilliseconds().ToString()),
+            new Claim(JwtRegisteredClaimNames.Exp, timeNow.AddHours(1).ToUnixTimeMilliseconds().ToString())
         };
         var jwtToken = new JwtSecurityToken(
         claims: claims,

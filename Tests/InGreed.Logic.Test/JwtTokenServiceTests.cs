@@ -89,7 +89,7 @@ public class JwtTokenServiceTests
         //Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
         var claims = token.Claims;
-        var username = claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Name));
+        var username = claims.FirstOrDefault(c => c.Type.Equals(JwtRegisteredClaimNames.Name));
 
         //Assert
         Assert.Equal(testingUser.Username, username?.Value);
@@ -104,7 +104,7 @@ public class JwtTokenServiceTests
         //Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
         var claims = token.Claims;
-        var email = claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email));
+        var email = claims.FirstOrDefault(c => c.Type.Equals(JwtRegisteredClaimNames.Email));
 
         //Assert
         Assert.Equal(testingUser.Email, email?.Value);
@@ -119,7 +119,7 @@ public class JwtTokenServiceTests
         //Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
         var claims = token.Claims;
-        var id = claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier));
+        var id = claims.FirstOrDefault(c => c.Type.Equals(JwtRegisteredClaimNames.Sub));
 
         //Assert
         Assert.NotNull(id);
