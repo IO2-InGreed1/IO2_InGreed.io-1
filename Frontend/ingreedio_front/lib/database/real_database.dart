@@ -4,7 +4,7 @@ import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
-const String requestAdress="http://localhost5000/api/";
+const String requestAdress="http://127.0.0.1:5000/api/";
 Future<String> getResponse(String request) async 
 {
   HttpClient client=HttpClient();

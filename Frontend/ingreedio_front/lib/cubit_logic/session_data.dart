@@ -11,7 +11,7 @@ class SessionData with SessionDataMappable
   @MappableConstructor()
   SessionData.fromAllData({required this.userToken,required this.currentClient,required this.navigatorPath,required this.currentProducer});
   String userToken,navigatorPath="/";
-  Database database=MockupDatabase.filled();
+  Database database=MockupDatabase.filled();//..ingredientDatabase=RealIngredientDatabase();
   Client? currentClient;
   Producer? currentProducer;
   List<Ingredient>? _ingredients;
