@@ -1,11 +1,6 @@
 using InGreed.Api.Mappers;
 using InGreed.DataAccess;
-using InGreed.DataAccess.FakeDA;
-using InGreed.DataAccess.Interfaces;
 using InGreed.Logic;
-using InGreed.Logic.Interfaces;
-using InGreed.Logic.Mappers;
-using InGreed.Logic.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,16 +12,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IUserDA, FakeUserDA>();
-builder.Services.AddScoped<IIngredientDA, FakeIngredientDA>();
-builder.Services.AddScoped<IProductDA, FakeProductDA>();
-
-builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<IIngredientService, IngredientService>();
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<ITokenService, FakeTokenService>();
-
-builder.Services.AddScoped<IIngredientDBtoServiceResponseMapper, IngredientDBtoServiceResponseMapper>();
 builder.Services.AddScoped<IContractsToModelsMapper, ContractsToModelsMapper>();
 
 var app = builder.Build();
