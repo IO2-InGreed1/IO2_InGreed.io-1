@@ -19,10 +19,10 @@ public class PreferenceControllerTests
     [Fact]
     public void GetByUser_AuthorisedUser_ShouldReturnStatusOk()
     {
-        // Act
-
-
         // Arrange
+
+
+        // Act
 
 
         // Assert
@@ -32,10 +32,10 @@ public class PreferenceControllerTests
     [Fact]
     public void GetByUser_UnauthorisedUser_ShouldReturnStatusForbidden()
     {
-        // Act
-
-
         // Arrange
+
+
+        // Act
 
 
         // Assert
@@ -45,10 +45,10 @@ public class PreferenceControllerTests
     [Fact]
     public void Modify_ValidModification_ShouldReturnStatusOk()
     {
-        // Act
-
-
         // Arrange
+
+
+        // Act
 
 
         // Assert
@@ -58,10 +58,10 @@ public class PreferenceControllerTests
     [Fact]
     public void Modify_InvalidUserId_ShouldReturnStatusBadRequest()
     {
-        // Act
-
-
         // Arrange
+
+
+        // Act
 
 
         // Assert
@@ -71,10 +71,10 @@ public class PreferenceControllerTests
     [Fact]
     public void Modify_ContradictoryPreference_ShouldReturnStatusBadRequest()
     {
-        // Act
-
-
         // Arrange
+
+
+        // Act
 
 
         // Assert
@@ -84,10 +84,10 @@ public class PreferenceControllerTests
     [Fact]
     public void Delete_ExistingPreference_ShouldReturnStatusOk()
     {
-        // Act
-
-
         // Arrange
+
+
+        // Act
 
 
         // Assert
@@ -97,10 +97,10 @@ public class PreferenceControllerTests
     [Fact]
     public void Delete_nonexistentPreference_ShouldReturnStatusNotFound()
     {
-        // Act
-
-
         // Arrange
+
+
+        // Act
 
 
         // Assert
