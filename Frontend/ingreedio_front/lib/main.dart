@@ -97,11 +97,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 {
                   SessionCubit.fromContext(context).state.currentClient=null;
                   SessionCubit.fromContext(context).state.currentProducer=null;
-                  Navigator.push(context,widgetShower(const Text("Wsadź tu swój widget panie Piotrze")));
+                  Navigator.push(context,widgetShower(const Text("Admin")));
                 }, 
                 child: const Text("Admin pov")),
-                const StandardDecorator(color: Colors.black,child: 
-                SizedBox(width: 200,height: 200,child: TextField(maxLines: null,style: TextStyle(color: Colors.white),)),),
+                TextButton(
+                onPressed: ()
+                {
+                  SessionCubit.fromContext(context).state.currentClient=null;
+                  SessionCubit.fromContext(context).state.currentProducer=null;
+                  Navigator.push(context,widgetShower(const Text("Moderator")));
+                }, 
+                child: const Text("Moderator pov")),
             ],
           )
         ),

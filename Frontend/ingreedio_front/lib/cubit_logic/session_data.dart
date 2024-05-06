@@ -3,6 +3,7 @@ import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/logic/users.dart';
 import '../database/database_mockup.dart';
 import '../logic/products.dart';
+import '../database/real_database.dart';
 part 'session_data.mapper.dart';
 @MappableClass()
 class SessionData with SessionDataMappable
