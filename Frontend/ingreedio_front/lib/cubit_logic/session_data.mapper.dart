@@ -15,6 +15,8 @@ class SessionDataMapper extends ClassMapperBase<SessionData> {
       MapperContainer.globals.use(_instance = SessionDataMapper._());
       ClientMapper.ensureInitialized();
       ProducerMapper.ensureInitialized();
+      AdminMapper.ensureInitialized();
+      ModeratorMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -118,6 +120,8 @@ abstract class SessionDataCopyWith<$R, $In extends SessionData, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ClientCopyWith<$R, Client, Client>? get currentClient;
   ProducerCopyWith<$R, Producer, Producer>? get currentProducer;
+  AdminCopyWith<$R, Admin, Admin>? get currentAdmin;
+  ModeratorCopyWith<$R, Moderator, Moderator>? get currentModerator;
   $R call(
       {String? userToken,
       Client? currentClient,
@@ -142,6 +146,13 @@ class _SessionDataCopyWithImpl<$R, $Out>
   @override
   ProducerCopyWith<$R, Producer, Producer>? get currentProducer =>
       $value.currentProducer?.copyWith.$chain((v) => call(currentProducer: v));
+  @override
+  AdminCopyWith<$R, Admin, Admin>? get currentAdmin =>
+      $value.currentAdmin?.copyWith.$chain((v) => call(currentAdmin: v));
+  @override
+  ModeratorCopyWith<$R, Moderator, Moderator>? get currentModerator =>
+      $value.currentModerator?.copyWith
+          .$chain((v) => call(currentModerator: v));
   @override
   $R call(
           {String? userToken,

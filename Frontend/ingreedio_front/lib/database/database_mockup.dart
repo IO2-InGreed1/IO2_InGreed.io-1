@@ -309,8 +309,8 @@ class MockupLoginDatabase extends LoginDatabase
   {
     creds.add(("client","client","client",UserRole.client));
     creds.add(("producer","producer","producer",UserRole.producer));
-    creds.add(("admin","admin","admin",UserRole.producer));
-    creds.add(("moderator","moderator","moderator",UserRole.producer));
+    creds.add(("admin","admin","admin",UserRole.admin));
+    creds.add(("moderator","moderator","moderator",UserRole.moderator));
   }
   List<(String,String,String,UserRole)> creds=List.empty(growable: true);
   @override

@@ -67,9 +67,10 @@ class Ingredient with IngredientMappable
   int get hashCode => id+name.hashCode;
   
 }
-
-class Opinion
+@MappableClass()
+class Opinion with OpinionMappable
 {
+  @MappableConstructor()
   Opinion.fromAllData({required this.author,required this.id,required this.product,
   required this.score,required this.text});
   int id;

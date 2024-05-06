@@ -292,3 +292,149 @@ class _IngredientCopyWithImpl<$R, $Out>
           Then<$Out2, $R2> t) =>
       _IngredientCopyWithImpl($value, $cast, t);
 }
+
+class OpinionMapper extends ClassMapperBase<Opinion> {
+  OpinionMapper._();
+
+  static OpinionMapper? _instance;
+  static OpinionMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = OpinionMapper._());
+      ClientMapper.ensureInitialized();
+      ProductMapper.ensureInitialized();
+    }
+    return _instance!;
+  }
+
+  @override
+  final String id = 'Opinion';
+
+  static Client _$author(Opinion v) => v.author;
+  static const Field<Opinion, Client> _f$author = Field('author', _$author);
+  static int _$id(Opinion v) => v.id;
+  static const Field<Opinion, int> _f$id = Field('id', _$id);
+  static Product _$product(Opinion v) => v.product;
+  static const Field<Opinion, Product> _f$product = Field('product', _$product);
+  static double _$score(Opinion v) => v.score;
+  static const Field<Opinion, double> _f$score = Field('score', _$score);
+  static String _$text(Opinion v) => v.text;
+  static const Field<Opinion, String> _f$text = Field('text', _$text);
+  static bool _$isReported(Opinion v) => v.isReported;
+  static const Field<Opinion, bool> _f$isReported =
+      Field('isReported', _$isReported, mode: FieldMode.member);
+
+  @override
+  final MappableFields<Opinion> fields = const {
+    #author: _f$author,
+    #id: _f$id,
+    #product: _f$product,
+    #score: _f$score,
+    #text: _f$text,
+    #isReported: _f$isReported,
+  };
+
+  static Opinion _instantiate(DecodingData data) {
+    return Opinion.fromAllData(
+        author: data.dec(_f$author),
+        id: data.dec(_f$id),
+        product: data.dec(_f$product),
+        score: data.dec(_f$score),
+        text: data.dec(_f$text));
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static Opinion fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<Opinion>(map);
+  }
+
+  static Opinion fromJson(String json) {
+    return ensureInitialized().decodeJson<Opinion>(json);
+  }
+}
+
+mixin OpinionMappable {
+  String toJson() {
+    return OpinionMapper.ensureInitialized()
+        .encodeJson<Opinion>(this as Opinion);
+  }
+
+  Map<String, dynamic> toMap() {
+    return OpinionMapper.ensureInitialized()
+        .encodeMap<Opinion>(this as Opinion);
+  }
+
+  OpinionCopyWith<Opinion, Opinion, Opinion> get copyWith =>
+      _OpinionCopyWithImpl(this as Opinion, $identity, $identity);
+  @override
+  String toString() {
+    return OpinionMapper.ensureInitialized().stringifyValue(this as Opinion);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return OpinionMapper.ensureInitialized()
+        .equalsValue(this as Opinion, other);
+  }
+
+  @override
+  int get hashCode {
+    return OpinionMapper.ensureInitialized().hashValue(this as Opinion);
+  }
+}
+
+extension OpinionValueCopy<$R, $Out> on ObjectCopyWith<$R, Opinion, $Out> {
+  OpinionCopyWith<$R, Opinion, $Out> get $asOpinion =>
+      $base.as((v, t, t2) => _OpinionCopyWithImpl(v, t, t2));
+}
+
+abstract class OpinionCopyWith<$R, $In extends Opinion, $Out>
+    implements ClassCopyWith<$R, $In, $Out> {
+  ClientCopyWith<$R, Client, Client> get author;
+  ProductCopyWith<$R, Product, Product> get product;
+  $R call(
+      {Client? author, int? id, Product? product, double? score, String? text});
+  OpinionCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
+}
+
+class _OpinionCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, Opinion, $Out>
+    implements OpinionCopyWith<$R, Opinion, $Out> {
+  _OpinionCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<Opinion> $mapper =
+      OpinionMapper.ensureInitialized();
+  @override
+  ClientCopyWith<$R, Client, Client> get author =>
+      $value.author.copyWith.$chain((v) => call(author: v));
+  @override
+  ProductCopyWith<$R, Product, Product> get product =>
+      $value.product.copyWith.$chain((v) => call(product: v));
+  @override
+  $R call(
+          {Client? author,
+          int? id,
+          Product? product,
+          double? score,
+          String? text}) =>
+      $apply(FieldCopyWithData({
+        if (author != null) #author: author,
+        if (id != null) #id: id,
+        if (product != null) #product: product,
+        if (score != null) #score: score,
+        if (text != null) #text: text
+      }));
+  @override
+  Opinion $make(CopyWithData data) => Opinion.fromAllData(
+      author: data.get(#author, or: $value.author),
+      id: data.get(#id, or: $value.id),
+      product: data.get(#product, or: $value.product),
+      score: data.get(#score, or: $value.score),
+      text: data.get(#text, or: $value.text));
+
+  @override
+  OpinionCopyWith<$R2, Opinion, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+      _OpinionCopyWithImpl($value, $cast, t);
+}

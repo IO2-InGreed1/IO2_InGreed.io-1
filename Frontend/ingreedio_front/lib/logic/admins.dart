@@ -1,5 +1,7 @@
 import 'package:ingreedio_front/logic/products.dart';
+import 'package:dart_mappable/dart_mappable.dart';
 import 'users.dart';
+part 'package:ingreedio_front/logic/admins.mapper.dart';
 abstract class IModerator
 {
   User searchAdviser(Opinion opinion)
@@ -7,8 +9,10 @@ abstract class IModerator
     return opinion.author;
   }
 }
-class Moderator extends IModerator
+@MappableClass()
+class Moderator extends IModerator with ModeratorMappable
 {
+  @MappableConstructor()
   Moderator.fromAllData({required this.moderatorNumber,required this.editedOpinionList});
   int moderatorNumber;
   List<Opinion> editedOpinionList;
@@ -18,8 +22,10 @@ class Moderator extends IModerator
     throw Exception("not implemented");
   }
 }
-class Admin extends IModerator with IProducer
+@MappableClass()
+class Admin extends IModerator with IProducer,AdminMappable
 {
+  @MappableConstructor()
   Admin.fromAllData({required this.controlPanel});
   ControlPanel controlPanel;
   void getControlPanel()
@@ -28,7 +34,8 @@ class Admin extends IModerator with IProducer
     throw Exception("not implemented");
   }
 }
-class ControlPanel
+@MappableClass()
+class ControlPanel with ControlPanelMappable
 {
   void deleteUser(User user)
   {

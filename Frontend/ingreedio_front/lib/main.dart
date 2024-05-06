@@ -124,27 +124,25 @@ class _MyHomePageState extends State<MyHomePage> {
       {
         if(data.currentClient!=null) {
           return BlocProvider(create: (BuildContext context)=>PreferenceCubit(null)..loadPreferences(context, data.currentClient!),
-          child: const SingleChildScrollView(child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              LogoutButton(),
-              ProductSearchScreen(),
-            ],
-          )));
+          child: SingleChildScrollView(child: addLogoutButton(const ProductSearchScreen())));
         }
         if(data.currentProducer!=null) {
-          return SingleChildScrollView(child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const LogoutButton(),
-            ProductEditScreen(producer: data.currentProducer!),
-          ],
-        ));
+          return addLogoutButton(ProductEditScreen(producer: data.currentProducer!));
         }
-        if(data.currentModerator!=null) return const Text("rob robote panie Piotrze");
-        if(data.currentAdmin!=null) return const Text("rob robote panie Piotrze");
+        if(data.currentModerator!=null) return addLogoutButton(const Text("rob robote panie Piotrze"));
+        if(data.currentAdmin!=null) return addLogoutButton(const Text("rob robote panie Piotrze"));
         return const RoleSelectionWidget();
       })
     );
   }
+}
+Widget addLogoutButton(Widget child)
+{
+  return SingleChildScrollView(child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const LogoutButton(),
+            child
+          ],
+        ));
 }
