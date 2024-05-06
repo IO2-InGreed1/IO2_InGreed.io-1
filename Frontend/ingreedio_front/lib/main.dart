@@ -7,6 +7,7 @@ import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/session_data.dart';
 import 'package:ingreedio_front/database/database_mockup.dart';
 import 'package:ingreedio_front/login_screen.dart';
+import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:ingreedio_front/ui/product_search_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'cubit_logic/session_cubit.dart';
@@ -99,6 +100,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.push(context,widgetShower(const Text("Wsadź tu swój widget panie Piotrze")));
                 }, 
                 child: const Text("Admin pov")),
+                const StandardDecorator(color: Colors.black,child: 
+                SizedBox(width: 200,height: 200,child: TextField(maxLines: null,style: TextStyle(color: Colors.white),)),),
             ],
           )
         ),
