@@ -33,7 +33,7 @@ class _PreferenceCreatorState extends State<PreferenceCreator> {
               ),
             ],
           ),
-          const Text("Allergens: "),
+          const Text("Wanted ingredients: "),
           IngredientListSelector(ingredients: ingredients??[],
               reference: ItemWrapper(widget.item.prefered),
               onChanged: (value)
@@ -41,7 +41,7 @@ class _PreferenceCreatorState extends State<PreferenceCreator> {
                 widget.item.prefered=value;
               },
               ),     
-            const Text("Prefferences: "),
+            const Text("Not wanted ingredients: "),
             IngredientListSelector(ingredients: ingredients??[],
               reference: ItemWrapper(widget.item.allergens),
               onChanged: (value)

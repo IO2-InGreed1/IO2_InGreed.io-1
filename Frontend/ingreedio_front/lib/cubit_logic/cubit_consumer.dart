@@ -15,7 +15,10 @@ class CubitConsumer<T> extends StatelessWidget {
     return BlocBuilder<Cubit<List<T>?>,List<T>?>(builder: (context,items){
       if(items==null&&showLoadingScreen)
       {
-        return LoadingAnimationWidget.discreteCircle(color: Colors.green, size: 70);
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: LoadingAnimationWidget.discreteCircle(color: Colors.green, size: 70),
+        );
       }
       return child(context,items);
     },);
@@ -29,7 +32,10 @@ class IngredientConsumer extends CubitConsumer<Ingredient>
     return BlocBuilder<IngredientCubit,List<Ingredient>?>(builder: (context,items){
       if(items==null&&showLoadingScreen)
       {
-        return LoadingAnimationWidget.discreteCircle(color: Colors.green, size: 70);
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: LoadingAnimationWidget.discreteCircle(color: Colors.green, size: 70),
+        );
       }
       return child(context,items);
     },);
@@ -43,7 +49,10 @@ class PreferenceConsumer extends CubitConsumer<Preference>
     return BlocBuilder<PreferenceCubit,List<Preference>?>(builder: (context,items){
       if(items==null&&showLoadingScreen)
       {
-        return LoadingAnimationWidget.discreteCircle(color: Colors.green, size: 70);
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: LoadingAnimationWidget.discreteCircle(color: Colors.green, size: 70),
+        );
       }
       return child(context,items);
     },);

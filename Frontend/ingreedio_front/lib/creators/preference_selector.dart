@@ -18,9 +18,11 @@ class _PreferenceSelectorState extends State<PreferenceSelector> {
   @override
   Widget build(BuildContext context) {
     return PreferenceConsumer(showLoadingScreen: true,
-      child:(context,preferences)=>DropdownMenu<Preference>(dropdownMenuEntries: preferences!.map((e) => DropdownMenuEntry(value: e, label: e.name)).toList(),
-      enableFilter: true,
-      onSelected: (value){
+      child:(context,preferences)=>
+      DropdownMenu<Preference>(
+        dropdownMenuEntries: preferences!.map((e) => DropdownMenuEntry(value: e, label: e.name)).toList(),
+        enableFilter: true,
+        onSelected: (value){
         if(value is Preference)
         {
           widget.item=value;
