@@ -299,18 +299,43 @@ class MockupOpinionDatabase extends OpinionDatabase
   }
   
 }
+class MockupLoginDatabase extends LoginDatabase
+{
+  MockupLoginDatabase.filled()
+  {
+    creds.add(("","","a",UserRole.client));
+  }
+  List<(String,String,String,UserRole)> creds=List.empty(growable: true);
+  @override
+  Future<LoginData?> login(String email, String password) async {
+    for(var e in creds)
+    {
+      if(e.$1==email&&e.$2==password) return LoginData(e.$4,"tokenXD");
+    }
+    return null;
+  }
+
+  @override
+  Future<LoginData> register(String username, String email, String password,UserRole userRole) async {
+    creds.add((email,password,username,userRole));
+    return LoginData(userRole,"tokenXD");
+  }
+  
+}
 class MockupDatabase extends Database
 {
   late UserDatabse _userDatabse;
   late ProductDatabse _productDatabse;
   late OpinionDatabase _opinionDatabase;
   late IngredientDatabase _ingredientDatabase;
+  late LoginDatabase _loginDatabase;
   MockupDatabase.filled()
   {
     _ingredientDatabase=MockupIngredientDatabase.filled();
     _productDatabse=MockupProductDatabase.filled(ingredientDatabase as MockupIngredientDatabase);
     _userDatabse=MockupUserDatabase.filled(ingredientDatabase, productDatabse as MockupProductDatabase);
     _opinionDatabase=MockupOpinionDatabase.filled(productDatabse as MockupProductDatabase, userDatabse as MockupUserDatabase);
+    _loginDatabase=MockupLoginDatabase.filled();
   }
   @override
   void clearEditedOpinionList(int moderatorNumber) {
@@ -326,7 +351,8 @@ class MockupDatabase extends Database
 
   @override
   ProductDatabse get productDatabse => _productDatabse;
-
+  @override
+  LoginDatabase get loginDatabase => _loginDatabase;
   @override
   Future<List<Opinion>> searchInvalidOpinions() {
     return opinionDatabase.getAllOpinions();

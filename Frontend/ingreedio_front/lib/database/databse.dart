@@ -8,6 +8,7 @@ abstract class Database
   UserDatabse get userDatabse;
   IngredientDatabase get ingredientDatabase;
   OpinionDatabase get opinionDatabase;
+  LoginDatabase get loginDatabase;
   Future<bool> addClient(Client client)
   {
     return userDatabse.addClient(client);
@@ -80,4 +81,19 @@ abstract class OpinionDatabase
 abstract class IngredientDatabase
 {
   Future<List<Ingredient>> getAllIngredients();
+}
+enum UserRole
+{
+  client,producer,moderator,admin
+}
+class LoginData
+{
+  String verificationToken;
+  UserRole userRole;
+  LoginData(this.userRole,this.verificationToken);
+}
+abstract class LoginDatabase
+{
+  Future<LoginData?> register(String username,String email,String password,UserRole userRole);
+  Future<LoginData?> login(String email,String password);
 }
