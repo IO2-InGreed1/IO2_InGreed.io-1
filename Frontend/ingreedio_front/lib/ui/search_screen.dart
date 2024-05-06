@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/cubit_logic/list_cubit.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 abstract class SearchScreen<T> extends StatefulWidget {
   const SearchScreen({super.key});
 }
@@ -69,7 +69,7 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
           }
           if(state==null||state.from!=from||state.to!=from+count||state.filter!=filter)
           {
-            return LoadingAnimationWidget.discreteCircle(color: Colors.green, size: 70,);
+            return Assets.loadingWidget;
           }
           lastData=state;
           return getListWidget(state.data, context);

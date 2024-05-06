@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Assets
 {
   static Image? _inGreedIcon;
   static Image? _placeholderImage;
+  static Widget get loadingWidget
+  {
+    return Center(child: LoadingAnimationWidget.discreteCircle(color: Colors.green, size: 70));
+  }
   static Image get inGreedIcon
   {
     _inGreedIcon ??= const Image(image: AssetImage('assets/in_greed_logo.png'));
