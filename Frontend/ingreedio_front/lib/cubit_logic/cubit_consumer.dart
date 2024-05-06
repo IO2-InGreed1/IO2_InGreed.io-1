@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/cubit_logic/ingredient_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
+import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
+import 'package:ingreedio_front/cubit_logic/session_data.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
 
@@ -55,6 +57,18 @@ class PreferenceConsumer extends CubitConsumer<Preference>
         );
       }
       return child(context,items);
+    },);
+  }
+}
+class SessionDataConsumer extends StatelessWidget
+{
+  final Widget Function(BuildContext,SessionData) child;
+  final bool showLoadingScreen;
+  const SessionDataConsumer({super.key, required this.child,this.showLoadingScreen=true});
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SessionCubit,SessionData>(builder: (context,item){
+      return child(context,item);
     },);
   }
 }

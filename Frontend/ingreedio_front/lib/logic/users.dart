@@ -48,9 +48,11 @@ abstract class User with UserMappable
     throw Exception("not implemented");
   }
 }
-class Producer extends IProducer
+@MappableClass()
+class Producer extends IProducer with ProducerMappable
 {
   String companyName,nip,representativeName,representativeSurname,telephoneNumber;
+  @MappableConstructor()
   Producer.fromAllData({
     required this.companyName,
     required this.nip,

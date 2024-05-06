@@ -14,6 +14,7 @@ class SessionDataMapper extends ClassMapperBase<SessionData> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = SessionDataMapper._());
       ClientMapper.ensureInitialized();
+      ProducerMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -33,6 +34,12 @@ class SessionDataMapper extends ClassMapperBase<SessionData> {
   static Producer? _$currentProducer(SessionData v) => v.currentProducer;
   static const Field<SessionData, Producer> _f$currentProducer =
       Field('currentProducer', _$currentProducer);
+  static Admin? _$currentAdmin(SessionData v) => v.currentAdmin;
+  static const Field<SessionData, Admin> _f$currentAdmin =
+      Field('currentAdmin', _$currentAdmin);
+  static Moderator? _$currentModerator(SessionData v) => v.currentModerator;
+  static const Field<SessionData, Moderator> _f$currentModerator =
+      Field('currentModerator', _$currentModerator);
   static Database _$database(SessionData v) => v.database;
   static const Field<SessionData, Database> _f$database =
       Field('database', _$database, mode: FieldMode.member);
@@ -43,6 +50,8 @@ class SessionDataMapper extends ClassMapperBase<SessionData> {
     #currentClient: _f$currentClient,
     #navigatorPath: _f$navigatorPath,
     #currentProducer: _f$currentProducer,
+    #currentAdmin: _f$currentAdmin,
+    #currentModerator: _f$currentModerator,
     #database: _f$database,
   };
 
@@ -51,7 +60,9 @@ class SessionDataMapper extends ClassMapperBase<SessionData> {
         userToken: data.dec(_f$userToken),
         currentClient: data.dec(_f$currentClient),
         navigatorPath: data.dec(_f$navigatorPath),
-        currentProducer: data.dec(_f$currentProducer));
+        currentProducer: data.dec(_f$currentProducer),
+        currentAdmin: data.dec(_f$currentAdmin),
+        currentModerator: data.dec(_f$currentModerator));
   }
 
   @override
@@ -106,11 +117,14 @@ extension SessionDataValueCopy<$R, $Out>
 abstract class SessionDataCopyWith<$R, $In extends SessionData, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ClientCopyWith<$R, Client, Client>? get currentClient;
+  ProducerCopyWith<$R, Producer, Producer>? get currentProducer;
   $R call(
       {String? userToken,
       Client? currentClient,
       String? navigatorPath,
-      Producer? currentProducer});
+      Producer? currentProducer,
+      Admin? currentAdmin,
+      Moderator? currentModerator});
   SessionDataCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -126,23 +140,33 @@ class _SessionDataCopyWithImpl<$R, $Out>
   ClientCopyWith<$R, Client, Client>? get currentClient =>
       $value.currentClient?.copyWith.$chain((v) => call(currentClient: v));
   @override
+  ProducerCopyWith<$R, Producer, Producer>? get currentProducer =>
+      $value.currentProducer?.copyWith.$chain((v) => call(currentProducer: v));
+  @override
   $R call(
           {String? userToken,
           Object? currentClient = $none,
           String? navigatorPath,
-          Object? currentProducer = $none}) =>
+          Object? currentProducer = $none,
+          Object? currentAdmin = $none,
+          Object? currentModerator = $none}) =>
       $apply(FieldCopyWithData({
         if (userToken != null) #userToken: userToken,
         if (currentClient != $none) #currentClient: currentClient,
         if (navigatorPath != null) #navigatorPath: navigatorPath,
-        if (currentProducer != $none) #currentProducer: currentProducer
+        if (currentProducer != $none) #currentProducer: currentProducer,
+        if (currentAdmin != $none) #currentAdmin: currentAdmin,
+        if (currentModerator != $none) #currentModerator: currentModerator
       }));
   @override
   SessionData $make(CopyWithData data) => SessionData.fromAllData(
       userToken: data.get(#userToken, or: $value.userToken),
       currentClient: data.get(#currentClient, or: $value.currentClient),
       navigatorPath: data.get(#navigatorPath, or: $value.navigatorPath),
-      currentProducer: data.get(#currentProducer, or: $value.currentProducer));
+      currentProducer: data.get(#currentProducer, or: $value.currentProducer),
+      currentAdmin: data.get(#currentAdmin, or: $value.currentAdmin),
+      currentModerator:
+          data.get(#currentModerator, or: $value.currentModerator));
 
   @override
   SessionDataCopyWith<$R2, SessionData, $Out2> $chain<$R2, $Out2>(

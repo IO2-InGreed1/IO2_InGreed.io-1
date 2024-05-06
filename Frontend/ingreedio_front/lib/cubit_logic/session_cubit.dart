@@ -13,6 +13,11 @@ class SessionCubit extends HydratedCubit<SessionData>
     }
   }
   SessionCubit(super.state);
+  void setData(SessionData data)
+  {
+    data.database=state.database;
+    emit(data);
+  }
   static SessionCubit fromContext(BuildContext context)
   {
     return context.read<SessionCubit>();

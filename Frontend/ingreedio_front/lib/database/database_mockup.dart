@@ -301,9 +301,16 @@ class MockupOpinionDatabase extends OpinionDatabase
 }
 class MockupLoginDatabase extends LoginDatabase
 {
+  static Client mockClient=Client.fromAllData(id: 0, isBlocked: false, mail: 'XD@foo.com', password: null, username: 'Daniel', favoriteProducts: [],);
+  static Producer mockProucer=Producer.fromAllData(companyName: 'C1', nip: '123', representativeName: 'Paweł', representativeSurname: 'Dzik', telephoneNumber: '2137');
+  static Moderator mockModerator=Moderator.fromAllData(moderatorNumber: 1,editedOpinionList: []);
+  static Admin mockAdmin=Admin.fromAllData(controlPanel: ControlPanel());
   MockupLoginDatabase.filled()
   {
-    creds.add(("","","a",UserRole.client));
+    creds.add(("client","client","client",UserRole.client));
+    creds.add(("producer","producer","producer",UserRole.producer));
+    creds.add(("admin","admin","admin",UserRole.producer));
+    creds.add(("moderator","moderator","moderator",UserRole.producer));
   }
   List<(String,String,String,UserRole)> creds=List.empty(growable: true);
   @override
@@ -319,6 +326,26 @@ class MockupLoginDatabase extends LoginDatabase
   Future<LoginData> register(String username, String email, String password,UserRole userRole) async {
     creds.add((email,password,username,userRole));
     return LoginData(userRole,"tokenXD");
+  }
+  
+  @override
+  Future<Admin?> loadAdmin(String token)async {
+    return mockAdmin;
+  }
+  
+  @override
+  Future<Client?> loadClient(String token) async {
+    return mockClient;
+  }
+  
+  @override
+  Future<Moderator?> loadModerator(String token) async {
+    return mockModerator;
+  }
+  
+  @override
+  Future<Producer?> loadProducer(String token) async {
+    return mockProucer;
   }
   
 }

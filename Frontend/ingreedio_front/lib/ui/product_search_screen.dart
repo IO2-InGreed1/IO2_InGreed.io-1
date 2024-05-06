@@ -19,7 +19,6 @@ import 'package:ingreedio_front/ui/product_widget.dart';
 import 'package:ingreedio_front/ui/search_screen.dart';
 class ProductSearchScreen extends SearchScreen<Product> {
   const ProductSearchScreen({super.key});
-
   @override
   SearchScreenState<Product> createState() => _ProductSearchScreenState();
 }

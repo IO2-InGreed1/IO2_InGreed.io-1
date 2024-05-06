@@ -14,6 +14,7 @@ class ProductMapper extends ClassMapperBase<Product> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = ProductMapper._());
       IngredientMapper.ensureInitialized();
+      ProducerMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -114,6 +115,7 @@ abstract class ProductCopyWith<$R, $In extends Product, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, Ingredient, IngredientCopyWith<$R, Ingredient, Ingredient>>
       get ingredients;
+  ProducerCopyWith<$R, Producer, Producer> get producer;
   $R call(
       {Category? category,
       String? description,
@@ -137,6 +139,9 @@ class _ProductCopyWithImpl<$R, $Out>
   ListCopyWith<$R, Ingredient, IngredientCopyWith<$R, Ingredient, Ingredient>>
       get ingredients => ListCopyWith($value.ingredients,
           (v, t) => v.copyWith.$chain(t), (v) => call(ingredients: v));
+  @override
+  ProducerCopyWith<$R, Producer, Producer> get producer =>
+      $value.producer.copyWith.$chain((v) => call(producer: v));
   @override
   $R call(
           {Category? category,
