@@ -6,7 +6,7 @@ class LogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(onPressed: ()=>SessionCubit.fromContext(context).clearData(context), child:const Text("logout"));
+    return TextButton(onPressed: ()=>SessionCubit.fromContext(context).reset(), child:const Text("logout"));
   }
 }
 class Assets

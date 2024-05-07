@@ -14,12 +14,12 @@ class PreferenceCubit extends Cubit<List<Preference>?>
   }
   void loadPreferences(BuildContext context,Client client)
   {
-    Database database=SessionCubit.fromContext(context).state.database;
+    Database database=SessionCubit.fromContext(context).database;
     database.userDatabse.getUserPreferences(client).then((value) => emit(value));
   }
   void addPreference(BuildContext context,Preference preference)
   {
-    Database database=SessionCubit.fromContext(context).state.database;
+    Database database=SessionCubit.fromContext(context).database;
     database.userDatabse.addPreference(preference).then((value)
     {
       if(state!=null&&value==true) 
@@ -30,7 +30,7 @@ class PreferenceCubit extends Cubit<List<Preference>?>
   }
   void removePreference(BuildContext context,Preference preference)
   {
-    Database database=SessionCubit.fromContext(context).state.database;
+    Database database=SessionCubit.fromContext(context).database;
     database.userDatabse.removePreference(preference).then((value)
     {
       if(state!=null&&value==true) 
@@ -41,7 +41,7 @@ class PreferenceCubit extends Cubit<List<Preference>?>
   }
   void editPreference(BuildContext context,Preference preference,Preference editedPreference)
   {
-    Database database=SessionCubit.fromContext(context).state.database;
+    Database database=SessionCubit.fromContext(context).database;
     database.userDatabse.removePreference(preference).then((value)
     {
       if(state!=null&&value==true) 

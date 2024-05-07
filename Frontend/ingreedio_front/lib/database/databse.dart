@@ -4,6 +4,7 @@ import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
+import '../cubit_logic/session_cubit.dart';
 abstract class Database
 {
   ProductDatabse get productDatabse;
@@ -49,6 +50,7 @@ abstract class Database
 }
 abstract class ProductDatabse
 {
+  SessionCubit get cubit=>throw Exception("not implemented");
   Future<bool> addProduct(Product product);
   Future<bool> removeProduct(Product product);
   Future<bool> editProduct(Product product,Product editedProduct);
@@ -60,6 +62,7 @@ abstract class ProductDatabse
 }
 abstract class UserDatabse
 {
+  SessionCubit get cubit=>throw Exception("not implemented");
   Future<bool> addClient(Client client);
   Future<bool> removeClient(Client client);
   Future<List<Client>> getAllClients();
@@ -71,6 +74,7 @@ abstract class UserDatabse
 }
 abstract class OpinionDatabase
 {
+  SessionCubit get cubit=>throw Exception("not implemented");
   Future<List<Opinion>> getAllOpinions();
   Future<bool> addOpinion(Opinion opinion);
   Future<bool> removeOpinion(Opinion opinion);
@@ -82,6 +86,7 @@ abstract class OpinionDatabase
 }
 abstract class IngredientDatabase
 {
+  SessionCubit get cubit=>throw Exception("not implemented");
   Future<List<Ingredient>> getAllIngredients();
 }
 enum UserRole
@@ -96,6 +101,7 @@ class LoginData
 }
 abstract class LoginDatabase
 {
+  SessionCubit get cubit=>throw Exception("not implemented");
   Future<LoginData?> register(String username,String email,String password,UserRole userRole);
   Future<LoginData?> login(String email,String password);
   Future<Client?> loadClient(String token);

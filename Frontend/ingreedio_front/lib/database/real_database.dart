@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
@@ -30,6 +31,9 @@ Future<String> getResponse(String request) async
 }
 class RealUserDatabase extends UserDatabse
 {
+  RealUserDatabase(this.cubit);
+  @override
+  SessionCubit cubit;
   @override
   Future<bool> addClient(Client client) async {
     // TODO: implement addClient
@@ -82,6 +86,9 @@ class RealUserDatabase extends UserDatabse
 }
 class RealIngredientDatabase extends IngredientDatabase
 {
+  RealIngredientDatabase(this.cubit);
+  @override
+  SessionCubit cubit;
   static List<Ingredient> parseIngredientList(String response)
   {
     Map<String,dynamic> map=json.decode(response);
@@ -100,6 +107,9 @@ class RealIngredientDatabase extends IngredientDatabase
 }
 class RealProductDatabase extends ProductDatabse
 {
+  RealProductDatabase(this.cubit);
+  @override
+  SessionCubit cubit;
   @override
   Future<bool> addProducer(Producer producer) async {
     // TODO: implement addProducer
@@ -152,6 +162,9 @@ class RealProductDatabase extends ProductDatabse
 }
 class RealOpinionDatabase extends OpinionDatabase
 {
+  RealOpinionDatabase(this.cubit);
+  @override
+  SessionCubit cubit;
   @override
   Future<bool> addOpinion(Opinion opinion) async {
     // TODO: implement addOpinion

@@ -8,7 +8,7 @@ class IngredientCubit extends Cubit<List<Ingredient>?>
   IngredientCubit.empty():super(null);
   void loadIngredients(BuildContext context)
   {
-    var database=SessionCubit.fromContext(context).state.database;
+    var database=SessionCubit.fromContext(context).database;
     database.ingredientDatabase.getAllIngredients().then((value) => emit(value));
   }
 }

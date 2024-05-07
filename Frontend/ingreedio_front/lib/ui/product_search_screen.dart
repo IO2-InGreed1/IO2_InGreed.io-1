@@ -190,7 +190,7 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
                 {
                   edit.promotionUntil=dateTime;
                   setState(() {
-                    SessionCubit.fromContext(context).state.database.productDatabse.editProduct(e, edit);
+                    SessionCubit.fromContext(context).database.productDatabse.editProduct(e, edit);
                     e.promotionUntil=dateTime;
                   });
                 }

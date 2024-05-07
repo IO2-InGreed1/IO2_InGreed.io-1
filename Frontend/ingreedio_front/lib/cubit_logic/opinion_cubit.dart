@@ -14,6 +14,6 @@ class OpinionCubit extends ListCubit<Opinion>
   @override
   Future<List<Opinion>> getItems(int from, int to, Filter<Opinion> filter, BuildContext context) async {
     SessionCubit sessionCubit=SessionCubit.fromContext(context);
-    return await sessionCubit.state.database.opinionDatabase.getOpinionsFiltered(from, to,product, filter as OpinionFilter);
+    return await sessionCubit.database.opinionDatabase.getOpinionsFiltered(from, to,product, filter as OpinionFilter);
   }
 }

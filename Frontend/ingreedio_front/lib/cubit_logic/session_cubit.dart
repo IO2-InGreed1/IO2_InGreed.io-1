@@ -2,20 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:ingreedio_front/cubit_logic/session_data.dart';
+import 'package:ingreedio_front/database/database_mockup.dart';
+import 'package:ingreedio_front/database/databse.dart';
+import 'package:ingreedio_front/database/real_database.dart';
 
 class SessionCubit extends HydratedCubit<SessionData>
 {
-  void clearData(BuildContext context)
+  
+  late Database database;
+  void reset()
   {
     emit(SessionData.empty());
-    while(Navigator.canPop(context)) {
-      Navigator.pop(context);
-    }
   }
-  SessionCubit(super.state);
+  SessionCubit(super.state)
+  {
+    database=MockupDatabase.filled();//..ingredientDatabase=RealIngredientDatabase(this);
+  }
   void setData(SessionData data)
   {
-    data.database=state.database;
     emit(data);
   }
   static SessionCubit fromContext(BuildContext context)

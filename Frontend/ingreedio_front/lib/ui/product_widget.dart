@@ -69,7 +69,7 @@ class _ProductAndOpinionClientWidget extends State<ProductAndOpinionClientWidget
                   OpinionSearchScreen(product: widget.product),
                   DialogButton(creator: creator, onFinished: (value)
                   {
-                    SessionCubit.fromContext(context).state.database.opinionDatabase.addOpinion(value);
+                    SessionCubit.fromContext(context).database.opinionDatabase.addOpinion(value);
                     setState(() {});
                   }, 
                   child:const Text("Add opinion"))
@@ -151,7 +151,7 @@ class ProductWidget extends StatelessWidget {
                     {
                       currentClient.favoriteProducts.remove(product);
                     }
-                    SessionCubit.fromContext(context).state.database.userDatabse.setFavoutiteProduct(currentClient, product, p0);
+                    SessionCubit.fromContext(context).database.userDatabse.setFavoutiteProduct(currentClient, product, p0);
                   }, SessionCubit.fromContext(context).state.currentClient!.favoriteProducts.contains(product)
                   ):const Text(""),
                 ],

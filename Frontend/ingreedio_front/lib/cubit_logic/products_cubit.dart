@@ -14,21 +14,21 @@ class ProductCubit extends ListCubit<Product>
   @override
   Future<List<Product>> getItems(int from, int to, Filter<Product> filter, BuildContext context) async {
     SessionCubit sessionCubit=SessionCubit.fromContext(context);
-    return sessionCubit.state.database.productDatabse.filterProducts(from, to, filter as ProductFilter);
+    return sessionCubit.database.productDatabse.filterProducts(from, to, filter as ProductFilter);
   }
   Future<bool> addProduct(Product product,BuildContext context) async
   {
     SessionCubit sessionCubit=SessionCubit.fromContext(context);
-    return await sessionCubit.state.database.productDatabse.addProduct(product);
+    return await sessionCubit.database.productDatabse.addProduct(product);
   }
   Future<bool> removeProduct(Product product,BuildContext context) async
   {
     SessionCubit sessionCubit=SessionCubit.fromContext(context);
-    return await sessionCubit.state.database.productDatabse.removeProduct(product);
+    return await sessionCubit.database.productDatabse.removeProduct(product);
   }
   Future<bool> editProduct(Product product,Product editedProduct,BuildContext context) async
   {
     SessionCubit sessionCubit=SessionCubit.fromContext(context);
-    return await sessionCubit.state.database.productDatabse.editProduct(product,editedProduct);
+    return await sessionCubit.database.productDatabse.editProduct(product,editedProduct);
   }
 }

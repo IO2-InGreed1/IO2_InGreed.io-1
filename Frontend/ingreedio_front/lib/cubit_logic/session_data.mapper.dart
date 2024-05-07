@@ -30,9 +30,6 @@ class SessionDataMapper extends ClassMapperBase<SessionData> {
   static Client? _$currentClient(SessionData v) => v.currentClient;
   static const Field<SessionData, Client> _f$currentClient =
       Field('currentClient', _$currentClient);
-  static String _$navigatorPath(SessionData v) => v.navigatorPath;
-  static const Field<SessionData, String> _f$navigatorPath =
-      Field('navigatorPath', _$navigatorPath);
   static Producer? _$currentProducer(SessionData v) => v.currentProducer;
   static const Field<SessionData, Producer> _f$currentProducer =
       Field('currentProducer', _$currentProducer);
@@ -42,26 +39,20 @@ class SessionDataMapper extends ClassMapperBase<SessionData> {
   static Moderator? _$currentModerator(SessionData v) => v.currentModerator;
   static const Field<SessionData, Moderator> _f$currentModerator =
       Field('currentModerator', _$currentModerator);
-  static Database _$database(SessionData v) => v.database;
-  static const Field<SessionData, Database> _f$database =
-      Field('database', _$database, mode: FieldMode.member);
 
   @override
   final MappableFields<SessionData> fields = const {
     #userToken: _f$userToken,
     #currentClient: _f$currentClient,
-    #navigatorPath: _f$navigatorPath,
     #currentProducer: _f$currentProducer,
     #currentAdmin: _f$currentAdmin,
     #currentModerator: _f$currentModerator,
-    #database: _f$database,
   };
 
   static SessionData _instantiate(DecodingData data) {
     return SessionData.fromAllData(
         userToken: data.dec(_f$userToken),
         currentClient: data.dec(_f$currentClient),
-        navigatorPath: data.dec(_f$navigatorPath),
         currentProducer: data.dec(_f$currentProducer),
         currentAdmin: data.dec(_f$currentAdmin),
         currentModerator: data.dec(_f$currentModerator));
@@ -125,7 +116,6 @@ abstract class SessionDataCopyWith<$R, $In extends SessionData, $Out>
   $R call(
       {String? userToken,
       Client? currentClient,
-      String? navigatorPath,
       Producer? currentProducer,
       Admin? currentAdmin,
       Moderator? currentModerator});
@@ -157,14 +147,12 @@ class _SessionDataCopyWithImpl<$R, $Out>
   $R call(
           {String? userToken,
           Object? currentClient = $none,
-          String? navigatorPath,
           Object? currentProducer = $none,
           Object? currentAdmin = $none,
           Object? currentModerator = $none}) =>
       $apply(FieldCopyWithData({
         if (userToken != null) #userToken: userToken,
         if (currentClient != $none) #currentClient: currentClient,
-        if (navigatorPath != null) #navigatorPath: navigatorPath,
         if (currentProducer != $none) #currentProducer: currentProducer,
         if (currentAdmin != $none) #currentAdmin: currentAdmin,
         if (currentModerator != $none) #currentModerator: currentModerator
@@ -173,7 +161,6 @@ class _SessionDataCopyWithImpl<$R, $Out>
   SessionData $make(CopyWithData data) => SessionData.fromAllData(
       userToken: data.get(#userToken, or: $value.userToken),
       currentClient: data.get(#currentClient, or: $value.currentClient),
-      navigatorPath: data.get(#navigatorPath, or: $value.navigatorPath),
       currentProducer: data.get(#currentProducer, or: $value.currentProducer),
       currentAdmin: data.get(#currentAdmin, or: $value.currentAdmin),
       currentModerator:
