@@ -72,6 +72,11 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
   SearchScreenData<T>? lastData;
   //cubit
   ListCubit<T> get providerCubit;
+  //list widget
+  Widget getListWidget(List<T> list,BuildContext context)
+  {
+    return Grid(columns: widget.columns, children: list.map((e) => getObjectWidget(e, context)).toList());
+  }
   set providerCubit(ListCubit<T> value);
   @override
   Widget build(BuildContext context) {
@@ -107,14 +112,14 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
           if(lastData!=null&&filter!=lastData!.filter) lastData=null;
           if(lastData!=null&&lastData!.from==from&&lastData!.to==from+count)
           {
-            return Grid(columns: widget.columns, children: state!.data.map((e) => getObjectWidget(e, context)).toList());
+            return getListWidget(lastData!.data, context);
           }
           if(state==null||state.from!=from||state.to!=from+count||state.filter!=filter)
           {
             return Assets.loadingWidget;
           }
           lastData=state;
-          return Grid(columns: widget.columns, children: state.data.map((e) => getObjectWidget(e, context)).toList());
+          return getListWidget(state.data, context);
         }),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
