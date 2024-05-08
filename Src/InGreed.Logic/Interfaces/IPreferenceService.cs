@@ -9,4 +9,5 @@ public interface IPreferenceService
     IEnumerable<Preference>? GetByUser(int userId);
     PreferenceServiceModifyResponse Modify(Preference preference, int preferenceToModify);
     PreferenceServiceDeleteResponse Delete(int preferenceId);
+    (PreferenceServiceCreateResponse, int) Create(Preference preference);
 }

@@ -2,6 +2,7 @@
 using InGreed.Domain.Models;
 using InGreed.Logic.Enums.Preference;
 using InGreed.Logic.Interfaces;
+using InGreed.Logic.Mappers;
 
 namespace InGreed.Logic.Services;
 
@@ -9,10 +10,17 @@ public class PreferenceService : IPreferenceService
 {
     private IPreferenceDA _preferenceDA;
     private IUserDA _userDA;
-    public PreferenceService(IPreferenceDA preferenceDA, IUserDA userDA)
+    private IPreferenceCreateToModifyResponseMapper _mapper;
+    public PreferenceService(IPreferenceDA preferenceDA, IUserDA userDA, IPreferenceCreateToModifyResponseMapper mapper)
     {
         _preferenceDA = preferenceDA;
         _userDA = userDA;
+        _mapper = mapper;
+    }
+
+    public (PreferenceServiceCreateResponse, int) Create(Preference preference)
+    {
+        throw new NotImplementedException();
     }
 
     public PreferenceServiceDeleteResponse Delete(int preferenceId)
@@ -34,10 +42,17 @@ public class PreferenceService : IPreferenceService
 
     public PreferenceServiceModifyResponse Modify(Preference preference, int preferenceToModify)
     {
-        if (preference.Forbidden.Intersect(preference.Preferred).Any()) return PreferenceServiceModifyResponse.ContradictoryPreference;
-        if (_userDA.GetUserById(preference.OwnerId) is null) return PreferenceServiceModifyResponse.InvalidOwnerId;
-        if (!_preferenceDA.Contains(preferenceToModify)) preference.Id = _preferenceDA.Create(preference);
+        PreferenceServiceModifyResponse result = _mapper.ModifyResponseMapper(Validate(preference));
+        if (result != PreferenceServiceModifyResponse.Success) return result;
+        if (!_preferenceDA.Contains(preferenceToModify)) return PreferenceServiceModifyResponse.NonexistentPreference;
         else _preferenceDA.Modify(preference, preferenceToModify);
         return PreferenceServiceModifyResponse.Success;
+    }
+
+    private PreferenceServiceCreateResponse Validate(Preference preference)
+    {
+        if (preference.Forbidden.Intersect(preference.Preferred).Any()) return PreferenceServiceCreateResponse.ContradictoryPreference;
+        if (_userDA.GetUserById(preference.OwnerId) is null) return PreferenceServiceCreateResponse.InvalidOwnerId;
+        return PreferenceServiceCreateResponse.Success;
     }
 }
