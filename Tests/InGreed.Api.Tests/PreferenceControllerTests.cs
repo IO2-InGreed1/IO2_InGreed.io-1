@@ -32,8 +32,8 @@ public class PreferenceControllerTests
 
         // Assert
         var actionResult = Assert.IsType<OkObjectResult>(response);
-        var responseContent = Assert.IsType<Preference>(actionResult.Value);
-        Assert.Equal(responseContent, testingPreference);
+        var responseContent = Assert.IsType<GetByIdResponse>(actionResult.Value);
+        Assert.Equal(testingPreference, responseContent.preference);
     }
 
     [Fact]
@@ -56,17 +56,21 @@ public class PreferenceControllerTests
     public void GetByUser_AuthorisedUser_ShouldReturnStatusOk()
     {
         // Arrange
+        List<Preference> preferences = new() { testingPreference };
+        preferenceServiceMock.Setup(psm => psm.GetByUser(id)).Returns(preferences);
         PreferenceController sut = new(preferenceServiceMock.Object);
 
         // Act
         var response = sut.GetByUser();
 
         // Assert
-
+        // var actionResult = Assert.IsType<OkObjectResult>(response);
+        // var responseContent = Assert.IsType<GetByUserResponse>(actionResult.Value);
+        // Assert.Equal(preferences, responseContent.preferences);
     }
 
     [Fact]
-    public void GetByUser_UnauthorisedUser_ShouldReturnStatusForbidden()
+    public void GetByUser_UnauthorisedUser_ShouldReturnStatusUnauthorised()
     {
         // Arrange
         PreferenceController sut = new(preferenceServiceMock.Object);
@@ -75,7 +79,7 @@ public class PreferenceControllerTests
         var response = sut.GetByUser();
 
         // Assert
-
+        // Assert.IsType<UnauthorizedResult>(response);
     }
 
     [Fact]

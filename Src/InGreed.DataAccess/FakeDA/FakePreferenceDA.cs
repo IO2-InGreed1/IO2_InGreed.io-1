@@ -21,7 +21,6 @@ public class FakePreferenceDA : IPreferenceDA
 
     public int Create(Preference preference)
     {
-        if (Contains(currentId)) return 0;
         preference.Id = ++currentId;
         _preferences.Add(preference);
         return currentId;

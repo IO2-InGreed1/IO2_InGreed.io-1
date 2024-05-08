@@ -48,7 +48,8 @@ public class PreferenceService : IPreferenceService
     {
         PreferenceServiceCreateResponse result = Validate(preference);
         if (result != PreferenceServiceCreateResponse.Success) return (result, 0);
-        return (PreferenceServiceCreateResponse.Success, _preferenceDA.Create(preference));
+        int id = _preferenceDA.Create(preference);
+        return (PreferenceServiceCreateResponse.Success, id);
     }
 
     private PreferenceServiceCreateResponse Validate(Preference preference)
