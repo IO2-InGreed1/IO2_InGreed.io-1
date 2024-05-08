@@ -109,9 +109,10 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
   @override
   ListCubit<Product> providerCubit=ProductCubit.empty();
 
+  
   @override
-  Widget getListWidget(List<Product> obj, BuildContext context) {
-    return expandableProductList(obj, context);
+  Widget getObjectWidget(Product obj, BuildContext context) {
+    return obj.clickableIconWidget(context);
   }
 }
 //Producer screen
@@ -144,25 +145,23 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
       ],
     );
   }
+  
   @override
-  Widget getListWidget(List<Product> obj, BuildContext context) {
-    return Column(
-      children: obj.map((e)
-        {
-          return Row(
+  Widget getObjectWidget(Product obj, BuildContext context) {
+    return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: 
             [
-              GestureDetector(child: e.iconWidget,
+              GestureDetector(child: obj.clickableIconWidget(context),
               onTap: (){
-                Navigator.push(context, widgetShower(ProductAndOpinionWidget(product: e)));
+                Navigator.push(context, widgetShower(ProductAndOpinionWidget(product: obj)));
               },
               ),
               DialogButton<Product>
               (
                 creator: 
-                ProductCreator(reference: ItemWrapper(Product.clone(e)),),
-                onFinished: (product) { (providerCubit as ProductCubit).editProduct(e, product, context);},
+                ProductCreator(reference: ItemWrapper(Product.clone(obj)),),
+                onFinished: (product) { (providerCubit as ProductCubit).editProduct(obj, product, context);},
                 child: const Text("edit"),
               ),
               DialogButton
@@ -170,7 +169,7 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
                 creator: ConfirmCreator(),
                 onFinished: (product) { 
                   setState(() {
-                    (providerCubit as ProductCubit).removeProduct(e, context);
+                    (providerCubit as ProductCubit).removeProduct(obj, context);
                     lastData=null;
                     providerCubit.loadData(from,from+count,filter,context,reset: true);
                   });
@@ -181,26 +180,23 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
                 onPressed: () async {
                  DateTime? dateTime = await showOmniDateTimePicker(context: context,
                  type: OmniDateTimePickerType.date,
-                 firstDate: e.promotionUntil.isAfter(DateTime.now())?e.promotionUntil:DateTime.now(),
-                 lastDate: (e.promotionUntil.isAfter(DateTime.now())?e.promotionUntil:DateTime.now()).add(const Duration(days: 356*20)),
-                 initialDate: e.promotionUntil.isAfter(DateTime.now())?e.promotionUntil:DateTime.now(),
+                 firstDate: obj.promotionUntil.isAfter(DateTime.now())?obj.promotionUntil:DateTime.now(),
+                 lastDate: (obj.promotionUntil.isAfter(DateTime.now())?obj.promotionUntil:DateTime.now()).add(const Duration(days: 356*20)),
+                 initialDate: obj.promotionUntil.isAfter(DateTime.now())?obj.promotionUntil:DateTime.now(),
                  );
-                Product edit=Product.clone(e);
+                Product edit=Product.clone(obj);
                 if(dateTime!=null)
                 {
                   edit.promotionUntil=dateTime;
                   setState(() {
-                    SessionCubit.fromContext(context).database.productDatabse.editProduct(e, edit);
-                    e.promotionUntil=dateTime;
+                    SessionCubit.fromContext(context).database.productDatabse.editProduct(obj, edit);
+                    obj.promotionUntil=dateTime;
                   });
                 }
                 },
-                child: PromotionWidget(dateTime: e.promotionUntil)),
+                child: PromotionWidget(dateTime: obj.promotionUntil)),
 
             ],
           );
-        } 
-      ).toList(),
-    );
   }
 }

@@ -16,6 +16,20 @@ class ProductAndOpinionWidget extends StatefulWidget {
 class _ProductAndOpinionWidgetState extends State<ProductAndOpinionWidget> {
   @override
   Widget build(BuildContext context) {
+    Client? client=SessionCubit.fromContext(context).state.currentClient;
+    List<Widget> children=[ widget.product.productWidget,OpinionSearchScreen(product: widget.product),];
+
+    if(client!=null)
+    {
+      var button=DialogButton(creator: OpinionCreator(reference:ItemWrapper(Opinion.empty(author: client, product: widget.product)),), 
+      onFinished: (value)
+      {
+        SessionCubit.fromContext(context).database.opinionDatabase.addOpinion(value);
+        setState(() {});
+      }, 
+      child:const Text("Add opinion"));
+      children.add(button);
+    }
     return LayoutBuilder(
       builder: (context,constraints) {
         double width=constraints.maxWidth;
@@ -28,11 +42,7 @@ class _ProductAndOpinionWidgetState extends State<ProductAndOpinionWidget> {
             child: SingleChildScrollView(
               child: Column
               (
-                children: 
-                [
-                  widget.product.productWidget,
-                  OpinionSearchScreen(product: widget.product),
-                ],
+                children: children
               ),
             ),
           ),
@@ -40,60 +50,6 @@ class _ProductAndOpinionWidgetState extends State<ProductAndOpinionWidget> {
       }
     );
   }
-}
-class ProductAndOpinionClientWidget extends ProductAndOpinionWidget {
-  const ProductAndOpinionClientWidget({super.key,required super.product,required this.user});
-  final Client user;
-  @override
-  State<ProductAndOpinionClientWidget> createState() => _ProductAndOpinionClientWidget();
-}
-class _ProductAndOpinionClientWidget extends State<ProductAndOpinionClientWidget> {
-  @override
-  Widget build(BuildContext context) {
-    var creator=OpinionCreator(reference:ItemWrapper(Opinion.fromAllData(author: widget.user, id: 0, product: widget.product, score: 2.5, text: "")),);
-    return LayoutBuilder(
-      builder: (context,constraints) {
-        double width=constraints.maxWidth;
-        double height=constraints.maxHeight;
-        double maxWidth=4*height/5;
-        if(width>maxWidth) width=maxWidth;
-        return Center(
-          child: SizedBox(
-            width: width,
-            child: SingleChildScrollView(
-              child: Column
-              (
-                children: 
-                [
-                  widget.product.productWidget,
-                  OpinionSearchScreen(product: widget.product),
-                  DialogButton(creator: creator, onFinished: (value)
-                  {
-                    SessionCubit.fromContext(context).database.opinionDatabase.addOpinion(value);
-                    setState(() {});
-                  }, 
-                  child:const Text("Add opinion"))
-                ],
-              ),
-            ),
-          ),
-        );
-      }
-    );
-  }
-}
-Widget expandableProductList(List<Product> products,BuildContext context)
-{
-  return Column(
-    children: 
-    products.map((e){
-    return GestureDetector(onTap: (){
-      Navigator.push(context, MaterialPageRoute(
-        builder:(context)=>Scaffold(body: ProductAndOpinionClientWidget(product: e,user: Client.empty(),),appBar: AppBar(),)
-        ));
-      },child: e.iconWidget);}
-    ).toList(),
-  );
 }
 class ProductIconWidget extends StatelessWidget {
   const ProductIconWidget({super.key,required this.product,this.heigth=70});

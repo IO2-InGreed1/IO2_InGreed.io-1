@@ -39,9 +39,9 @@ class _OpinionSearchScreenState extends SearchScreenState<Opinion> {
   set providerCubit(ListCubit<Opinion> value) {
     _providerCubit=value as OpinionCubit;
   }
-
+  
   @override
-  Widget getListWidget(List<Opinion> obj, BuildContext context) {
-    return Column(children: obj.map((e) => e.widget).toList());
+  Widget getObjectWidget(Opinion obj, BuildContext context) {
+    return obj.widget;
   }
 }

@@ -1,6 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/ui/opinion_widget.dart';
 import 'package:ingreedio_front/ui/product_widget.dart';
@@ -33,6 +32,14 @@ class Product with ProductMappable
   Product.clone(Product product):this.fromAllData(category: product.category, description: product.description, id: product.id, ingredients: product.ingredients.map((e) => e).toList(), name: product.name, producer: product.producer, promotionUntil: product.promotionUntil);
   Widget get iconWidget=>ProductIconWidget(product: this);
   Widget get productWidget=>ProductWidget(product: this);
+  Widget clickableIconWidget(BuildContext context)
+  {
+    return GestureDetector(onTap: (){
+      Navigator.push(context, MaterialPageRoute(
+        builder:(context)=>Scaffold(body: ProductAndOpinionWidget(product: this),appBar: AppBar(),)
+        ));
+      },child: iconWidget);
+  }
   Widget get image=>Assets.placeholderImage;
   int id;
   String name,description;
@@ -73,6 +80,7 @@ class Opinion with OpinionMappable
   @MappableConstructor()
   Opinion.fromAllData({required this.author,required this.id,required this.product,
   required this.score,required this.text});
+  Opinion.empty({required this.author,required this.product}):id=0,text="",score=0;
   int id;
   Product product;
   Client author;

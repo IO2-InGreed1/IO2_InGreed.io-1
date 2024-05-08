@@ -6,7 +6,48 @@ import 'package:ingreedio_front/cubit_logic/list_cubit.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 abstract class SearchScreen<T> extends StatefulWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({super.key,this.rows=6, this.columns=2});
+  final int rows,columns;
+}
+class Grid extends StatelessWidget {
+  const Grid({super.key, required this.columns, required this.children});
+  final int columns;
+  final List<Widget> children;
+  @override
+  Widget build(BuildContext context) {
+    List<Row> widgets=List.empty(growable: true);
+    List<Widget> currentRow=List.empty(growable: true);
+    for(Widget widget in children)
+    {
+      currentRow.add(widget);
+      if(currentRow.length>=columns) 
+      {
+        widgets.add(
+          Row
+          (
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: currentRow,
+          )
+        );
+        currentRow=List.empty(growable: true);
+      }
+    }
+    if(currentRow.isNotEmpty)
+    {
+      widgets.add(
+          Row
+          (
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: currentRow,
+          )
+        );
+        currentRow=List.empty(growable: true);
+    }
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: widgets,
+    );
+  }
 }
 
 abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
@@ -18,7 +59,7 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
       providerCubit.loadData(from,from+count,filter,context,reset: true);
     });
   }
-  Widget getListWidget(List<T> obj,BuildContext context);
+  Widget getObjectWidget(T obj,BuildContext context);
   //filters
   Filter<T> get filter;
   set filter(Filter<T> value);
@@ -26,7 +67,8 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
   Creator<Filter<T>> get filterCreator;
   set filterCreator(Creator<Filter<T>> value);
   //search screen data
-  int from=0,count=5,maks=1000*1000*1000;
+  int from=0,maks=1000*1000*1000;
+  int get count=>widget.columns*widget.rows;
   SearchScreenData<T>? lastData;
   //cubit
   ListCubit<T> get providerCubit;
@@ -65,14 +107,14 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
           if(lastData!=null&&filter!=lastData!.filter) lastData=null;
           if(lastData!=null&&lastData!.from==from&&lastData!.to==from+count)
           {
-            return getListWidget(lastData!.data, context);
+            return Grid(columns: widget.columns, children: state!.data.map((e) => getObjectWidget(e, context)).toList());
           }
           if(state==null||state.from!=from||state.to!=from+count||state.filter!=filter)
           {
             return Assets.loadingWidget;
           }
           lastData=state;
-          return getListWidget(state.data, context);
+          return Grid(columns: widget.columns, children: state.data.map((e) => getObjectWidget(e, context)).toList());
         }),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
