@@ -155,6 +155,6 @@ public class PreferenceServiceTests
         var response = sut.Delete(id);
 
         // Assert
-        Assert.Equal(PreferenceServiceDeleteResponse.Success, response);
+        Assert.Equal(PreferenceServiceDeleteResponse.NonexistentPreference, response);
     }
 }

@@ -5,5 +5,6 @@ public enum PreferenceServiceModifyResponse
 {
     Success = 0,
     InvalidOwnerId = 1,
-    ContradictoryPreference = 2
+    ContradictoryPreference = 2,
+    NonexistentPreference = 4
 }
