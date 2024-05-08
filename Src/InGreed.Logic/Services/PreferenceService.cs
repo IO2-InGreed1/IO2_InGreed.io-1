@@ -18,11 +18,6 @@ public class PreferenceService : IPreferenceService
         _mapper = mapper;
     }
 
-    public (PreferenceServiceCreateResponse, int) Create(Preference preference)
-    {
-        throw new NotImplementedException();
-    }
-
     public PreferenceServiceDeleteResponse Delete(int preferenceId)
     {
         if (!_preferenceDA.Contains(preferenceId)) return PreferenceServiceDeleteResponse.NonexistentPreference;
@@ -47,6 +42,13 @@ public class PreferenceService : IPreferenceService
         if (!_preferenceDA.Contains(preferenceToModify)) return PreferenceServiceModifyResponse.NonexistentPreference;
         else _preferenceDA.Modify(preference, preferenceToModify);
         return PreferenceServiceModifyResponse.Success;
+    }
+
+    public (PreferenceServiceCreateResponse, int) Create(Preference preference)
+    {
+        PreferenceServiceCreateResponse result = Validate(preference);
+        if (result != PreferenceServiceCreateResponse.Success) return (result, 0);
+        return (PreferenceServiceCreateResponse.Success, _preferenceDA.Create(preference));
     }
 
     private PreferenceServiceCreateResponse Validate(Preference preference)

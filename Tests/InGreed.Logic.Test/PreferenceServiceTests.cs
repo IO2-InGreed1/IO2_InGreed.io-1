@@ -3,6 +3,7 @@ using InGreed.Domain.Models;
 using InGreed.Logic.Services;
 using InGreed.Logic.Enums.Preference;
 using Moq;
+using InGreed.Logic.Mappers;
 
 namespace InGreed.Logic.Tests;
 
@@ -11,6 +12,7 @@ public class PreferenceServiceTests
     private Preference testingPreference;
     private Mock<IPreferenceDA> preferenceDAMock;
     private Mock<IUserDA> userDAMock;
+    private IPreferenceCreateToModifyResponseMapper mapper;
     private readonly int id = 1;
 
     public PreferenceServiceTests() 
@@ -18,6 +20,7 @@ public class PreferenceServiceTests
         testingPreference = new() { Id = id, OwnerId = id, Active = true, Name = "test" };
         preferenceDAMock = new();
         userDAMock = new();
+        mapper = new PreferenceCreateToModifyResponseMapper();
     }
 
     [Fact]
@@ -25,7 +28,7 @@ public class PreferenceServiceTests
     {
         // Arrange
         preferenceDAMock.Setup(ida => ida.GetById(id)).Returns(testingPreference);
-        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object);
+        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object, mapper);
 
         // Act
         var response = sut.GetById(id);
@@ -39,7 +42,7 @@ public class PreferenceServiceTests
     {
         // Arrange
         preferenceDAMock.Setup(ida => ida.GetById(id)).Returns(value: null);
-        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object);
+        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object, mapper);
 
         // Act
         var response = sut.GetById(id);
@@ -54,7 +57,7 @@ public class PreferenceServiceTests
         // Arrange
         List<Preference> preferences = new() { testingPreference };
         preferenceDAMock.Setup(ida => ida.GetByUser(id)).Returns(preferences);
-        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object);
+        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object, mapper);
 
         // Act
         var response = sut.GetByUser(id);
@@ -69,7 +72,7 @@ public class PreferenceServiceTests
         // Arrange
         List<Preference> preferences = new() { testingPreference };
         preferenceDAMock.Setup(ida => ida.GetByUser(id)).Returns(value: null);
-        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object);
+        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object, mapper);
 
         // Act
         var response = sut.GetByUser(id);
@@ -85,7 +88,8 @@ public class PreferenceServiceTests
         User testingUser = new() { Banned = false, Email = "test@test.test", Id = id, Password = "test", Role = Domain.Enums.Role.User, Username = "test" };
         userDAMock.Setup(uda => uda.GetUserById(id)).Returns(testingUser);
         preferenceDAMock.Setup(pda => pda.Modify(testingPreference, id));
-        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object);
+        preferenceDAMock.Setup(pda => pda.Contains(id)).Returns(true);
+        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object, mapper);
 
         // Act
         var response = sut.Modify(testingPreference, id);
@@ -100,7 +104,8 @@ public class PreferenceServiceTests
         // Arrange
         userDAMock.Setup(uda => uda.GetUserById(id)).Returns(value: null!);
         preferenceDAMock.Setup(pda => pda.Modify(testingPreference, id));
-        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object);
+        preferenceDAMock.Setup(pda => pda.Contains(id)).Returns(true);
+        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object, mapper);
 
         // Act
         var response = sut.Modify(testingPreference, id);
@@ -118,8 +123,9 @@ public class PreferenceServiceTests
         testingPreference.Forbidden.Add(testingIngredient);
         User testingUser = new() { Banned = false, Email = "test@test.test", Id = id, Password = "test", Role = Domain.Enums.Role.User, Username = "test" };
         userDAMock.Setup(uda => uda.GetUserById(id)).Returns(testingUser);
+        preferenceDAMock.Setup(pda => pda.Contains(id)).Returns(true);
         preferenceDAMock.Setup(pda => pda.Modify(testingPreference, id));
-        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object);
+        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object, mapper);
 
         // Act
         var response = sut.Modify(testingPreference, id);
@@ -129,12 +135,29 @@ public class PreferenceServiceTests
     }
 
     [Fact]
+    public void Modify_NonexistentPreference_ShouldReturnNonexistentPreferenceResponse()
+    {
+        // Arrange
+        User testingUser = new() { Banned = false, Email = "test@test.test", Id = id, Password = "test", Role = Domain.Enums.Role.User, Username = "test" };
+        userDAMock.Setup(uda => uda.GetUserById(id)).Returns(testingUser);
+        preferenceDAMock.Setup(pda => pda.Modify(testingPreference, id));
+        preferenceDAMock.Setup(pda => pda.Contains(id)).Returns(false);
+        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object, mapper);
+
+        // Act
+        var response = sut.Modify(testingPreference, id);
+
+        // Assert
+        Assert.Equal(PreferenceServiceModifyResponse.NonexistentPreference, response);
+    }
+
+    [Fact]
     public void Delete_ExistingPreference_ShouldReturnSuccessResponse()
     {
         // Arrange
         preferenceDAMock.Setup(ida => ida.Contains(id)).Returns(true);
         preferenceDAMock.Setup(ida => ida.Delete(id));
-        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object);
+        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object, mapper);
 
         // Act
         var response = sut.Delete(id);
@@ -149,12 +172,62 @@ public class PreferenceServiceTests
         // Arrange
         preferenceDAMock.Setup(ida => ida.Contains(id)).Returns(false);
         preferenceDAMock.Setup(ida => ida.Delete(id));
-        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object);
+        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object, mapper);
 
         // Act
         var response = sut.Delete(id);
 
         // Assert
         Assert.Equal(PreferenceServiceDeleteResponse.NonexistentPreference, response);
+    }
+
+    [Fact]
+    public void Create_ValidPreference_ShouldReturnSuccessResponse()
+    {
+        // Arrange
+        User testingUser = new() { Banned = false, Email = "test@test.test", Id = id, Password = "test", Role = Domain.Enums.Role.User, Username = "test" };
+        userDAMock.Setup(uda => uda.GetUserById(id)).Returns(testingUser);
+        preferenceDAMock.Setup(pda => pda.Modify(testingPreference, id));
+        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object, mapper);
+
+        // Act
+        var response = sut.Create(testingPreference);
+
+        // Assert
+        Assert.Equal(PreferenceServiceCreateResponse.Success, response.Item1);
+    }
+
+    [Fact]
+    public void Create_InvalidUserId_ShouldReturnInvalidOwnerIdResponse()
+    {
+        // Arrange
+        userDAMock.Setup(uda => uda.GetUserById(id)).Returns(value: null!);
+        preferenceDAMock.Setup(pda => pda.Modify(testingPreference, id));
+        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object, mapper);
+
+        // Act
+        var response = sut.Create(testingPreference);
+
+        // Assert
+        Assert.Equal(PreferenceServiceCreateResponse.InvalidOwnerId, response.Item1);
+    }
+
+    [Fact]
+    public void Create_ContradictoryPreference_ShouldReturnContradictoryPreferenceResponse()
+    {
+        // Arrange
+        Ingredient testingIngredient = new() { Id = id, IconURL = string.Empty, Name = "test" };
+        testingPreference.Preferred.Add(testingIngredient);
+        testingPreference.Forbidden.Add(testingIngredient);
+        User testingUser = new() { Banned = false, Email = "test@test.test", Id = id, Password = "test", Role = Domain.Enums.Role.User, Username = "test" };
+        userDAMock.Setup(uda => uda.GetUserById(id)).Returns(testingUser);
+        preferenceDAMock.Setup(pda => pda.Modify(testingPreference, id));
+        PreferenceService sut = new(preferenceDAMock.Object, userDAMock.Object, mapper);
+
+        // Act
+        var response = sut.Create(testingPreference);
+
+        // Assert
+        Assert.Equal(PreferenceServiceCreateResponse.ContradictoryPreference, response.Item1);
     }
 }
