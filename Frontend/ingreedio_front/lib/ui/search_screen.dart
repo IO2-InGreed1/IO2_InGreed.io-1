@@ -19,7 +19,10 @@ class Grid extends StatelessWidget {
     List<Widget> currentRow=List.empty(growable: true);
     for(Widget widget in children)
     {
-      currentRow.add(widget);
+      currentRow.add(Padding(
+        padding: const EdgeInsets.all(3.0),
+        child: widget,
+      ));
       if(currentRow.length>=columns) 
       {
         widgets.add(
