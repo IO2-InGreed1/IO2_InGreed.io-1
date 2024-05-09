@@ -1,29 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ingreedio_front/logic/users.dart';
+import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 
 class LoginPage extends StatefulWidget {
-  final List<Client> users=[
-    Client.fromAllData( id: 1,
-    isBlocked: false,
-    mail: 'bob@gmail.com',
-    password: '123456',
-    username: 'bob', 
-    favoriteProducts: List.empty()),
-    Client.fromAllData( id: 2,
-    isBlocked: false,
-    mail: 'joe@gmail.com',
-    password: '123456',
-    username: 'joe', 
-    favoriteProducts: List.empty()),
-    Client.fromAllData( id: 3,
-    isBlocked: false,
-    mail: 'bob@gmail.com',
-    password: '',
-    username: '', 
-    favoriteProducts: List.empty()),
-  ];
 
-  LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -50,22 +30,19 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void _login() {
+  void _login() async {
     if (_formKey.currentState!.validate()) {
-      final String username = _usernameController.text;
+      final String email = _usernameController.text;
       final String password = _passwordController.text;
+      var cubit=SessionCubit.fromContext(context);
+      var data=await cubit.database.loginDatabase.loginUser(email, password);
 
-      bool isAuthenticated = false;
-      for (var user in widget.users) {
-        if (user.username == username && user.password == password) {
-          isAuthenticated = true;
-          break;
-        }
-      }
-
-      if (isAuthenticated) {
-        Navigator.pushReplacementNamed(context, '/home');
-      } else {
+      if (data!=null) 
+      {
+        cubit.setData(data);
+      } 
+      else 
+      {
         setState(() {
           _errorMessage = 'Invalid username or password';
         });
@@ -96,7 +73,6 @@ class _LoginPageState extends State<LoginPage> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  return null;
                   if (value == null || value.isEmpty) {
                     return 'Please enter your username';
                   }
@@ -112,7 +88,6 @@ class _LoginPageState extends State<LoginPage> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  return null;
                   if (value == null || value.isEmpty) {
                     return 'Please enter your password';
                   }

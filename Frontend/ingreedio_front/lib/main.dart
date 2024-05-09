@@ -7,7 +7,6 @@ import 'package:ingreedio_front/cubit_logic/cubit_consumer.dart';
 import 'package:ingreedio_front/cubit_logic/ingredient_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/session_data.dart';
-import 'package:ingreedio_front/login_screen.dart';
 import 'package:ingreedio_front/ui/product_search_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'cubit_logic/session_cubit.dart';
@@ -37,8 +36,7 @@ class MyApp extends StatelessWidget {
         create: (BuildContext context)=>IngredientCubit.empty()..loadIngredients(context),
         child: MaterialApp(
           routes: {
-          '/': (context) => LoginPage(),
-          '/home': (context) => const MyHomePage(title: 'Flutter Demo Home Page',),
+          '/': (context) => const MyHomePage(title: 'Flutter Demo Home Page',),
           },
           title: 'Flutter Demo',
           theme: ThemeData(
@@ -65,6 +63,7 @@ class RoleSelectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //return const LoginPage();
     return Center(
         child: SingleChildScrollView(
           child: Column(
