@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/cubit_logic/list_cubit.dart';
 import 'package:ingreedio_front/logic/filters.dart';
@@ -119,7 +118,7 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
           }
           if(state==null||state.from!=from||state.to!=from+count||state.filter!=filter)
           {
-            return Assets.loadingWidget;
+            return const LoadingWidget();
           }
           lastData=state;
           return getListWidget(state.data, context);

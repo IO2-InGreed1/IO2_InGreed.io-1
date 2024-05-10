@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/cubit_logic/ingredient_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/session_data.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
+import 'package:ingreedio_front/ui/common_ui_elements.dart';
 
 class CubitConsumer<T> extends StatelessWidget {
   const CubitConsumer({super.key,this.showLoadingScreen=true, required this.child});
@@ -17,9 +17,9 @@ class CubitConsumer<T> extends StatelessWidget {
     return BlocBuilder<Cubit<List<T>?>,List<T>?>(builder: (context,items){
       if(items==null&&showLoadingScreen)
       {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child:  Assets.loadingWidget,
+        return const Padding(
+          padding: EdgeInsets.all(8.0),
+          child:  LoadingWidget(),
         );
       }
       return child(context,items);
@@ -34,9 +34,9 @@ class IngredientConsumer extends CubitConsumer<Ingredient>
     return BlocBuilder<IngredientCubit,List<Ingredient>?>(builder: (context,items){
       if(items==null&&showLoadingScreen)
       {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Assets.loadingWidget,
+        return const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: LoadingWidget(),
         );
       }
       return child(context,items);
@@ -51,9 +51,9 @@ class PreferenceConsumer extends CubitConsumer<Preference>
     return BlocBuilder<PreferenceCubit,List<Preference>?>(builder: (context,items){
       if(items==null&&showLoadingScreen)
       {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Assets.loadingWidget,
+        return const Padding(
+          padding:EdgeInsets.all(8.0),
+          child:LoadingWidget(),
         );
       }
       return child(context,items);

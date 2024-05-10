@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 class StandardDecorator extends StatelessWidget {
   const StandardDecorator({super.key, required this.child,this.color=const Color.fromARGB(167, 231, 250, 29),this.padding=7});
 
@@ -48,5 +48,13 @@ class StandardDecorator extends StatelessWidget {
                 ],),
       ),
     );
+  }
+}
+class LoadingWidget extends StatelessWidget {
+  const LoadingWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: LoadingAnimationWidget.discreteCircle(color: Colors.green, size: 70));
   }
 }
