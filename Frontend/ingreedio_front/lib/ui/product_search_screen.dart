@@ -45,7 +45,7 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
     {
     if(_filterCreator==null)
     {
-      filterCreator=ProductFilterCreator(reference: ItemWrapper(filter.clone() as ProductFilter))..item.preference=[Ingredient.fromAllData(iconURL: "a", id: 1, name: "XD1")];
+      filterCreator=ProductFilterCreator(reference: ItemWrapper(filter.clone() as ProductFilter));
     }
     Client? currentClient=SessionCubit.fromContext(context).state.currentClient;
     List<Widget> widgets=List.empty(growable: true);

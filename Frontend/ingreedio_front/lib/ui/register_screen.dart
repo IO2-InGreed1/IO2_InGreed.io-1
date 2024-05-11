@@ -46,7 +46,6 @@ class _LoginPageState extends State<LoginPage> {
       if (data!=null) 
       {
         //TODO: register screen, może do zmianny w bazie danych, nie wiadomo co zwraca rejestracja
-        //niewiadomocojeszcze
       } 
       else 
       {

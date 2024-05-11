@@ -79,18 +79,9 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
   {
     return Grid(columns: widget.columns, children: list.map((e) => getObjectWidget(e, context)).toList());
   }
-  set providerCubit(ListCubit<T> value);
-  @override
-  Widget build(BuildContext context) {
-    providerCubit.loadData(from,from+count,filter,context);
-    return BlocProvider(create: (context)=>providerCubit,
-    child: Column(children: 
-      [
-        StandardDecorator(child: filterCreator),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(
+  Widget get applyButton
+  {
+    return TextButton(
               onPressed: ()
               {
                 setState(() {
@@ -98,18 +89,40 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
                 });
               }, 
               child: const Text("apply filter")
-            ),
-            
-            TextButton(
+            );
+  }
+  Widget get reloadButton
+  {
+    return TextButton(
               onPressed: ()
               {
                 refresh();
               }, 
               child: const Text("reload")
-            ),
-          ],
-        ),
-        BlocBuilder<ListCubit<T>,SearchScreenData<T>?>(builder: (context,state)
+            );
+  }
+  Widget getFilterWidget(Widget filterWidget)
+  {
+    return Column(mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      StandardDecorator(child: filterCreator),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [applyButton,reloadButton],
+        ),],
+    );
+  }
+  set providerCubit(ListCubit<T> value);
+  Widget putWidgets(Widget listWidget,Widget filterWidget)
+  {
+    return Column(mainAxisAlignment: MainAxisAlignment.center,children:[filterWidget,listWidget]);
+  }
+  @override
+  Widget build(BuildContext context) {
+    providerCubit.loadData(from,from+count,filter,context);
+    Widget filterWidget=getFilterWidget(filterCreator);
+    Widget listWidget=Column(mainAxisAlignment: MainAxisAlignment.center,
+    children: [BlocBuilder<ListCubit<T>,SearchScreenData<T>?>(builder: (context,state)
         {
           if(lastData!=null&&filter!=lastData!.filter) lastData=null;
           if(lastData!=null&&lastData!.from==from&&lastData!.to==from+count)
@@ -138,9 +151,10 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
             }, child: const Text("next")),
             ],
         ),
-        Text("${from+1}-${from+count}"),
-      ],
-    )
+        Text("${from+1}-${from+count}"),],
+    );
+    return BlocProvider(create: (context)=>providerCubit,
+    child: putWidgets(listWidget, filterWidget)
     );
   }
 }
