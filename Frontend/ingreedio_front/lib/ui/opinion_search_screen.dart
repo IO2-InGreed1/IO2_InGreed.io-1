@@ -20,7 +20,7 @@ class _OpinionSearchScreenState extends SearchScreenState<Opinion> {
   @override 
   Widget build(BuildContext context) 
   {
-    _providerCubit ??= OpinionCubit(myWidget.product, null);
+    _providerCubit ??= OpinionCubit(myWidget.product);
     return super.build(context);
   }
   @override

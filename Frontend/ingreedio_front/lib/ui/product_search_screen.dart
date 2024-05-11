@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/cubit_logic/cubit_consumer.dart';
 import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
+import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/preference_creator.dart';
@@ -107,9 +108,19 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
   }
 
   @override
-  ListCubit<Product> providerCubit=ProductCubit.empty();
-
-  
+  ListCubit<Product> providerCubit=ProductCubit();
+  @override 
+  Widget putWidgets(Widget listWidget,Widget filterWidget)
+  {
+    return Center(
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: Row(mainAxisAlignment: MainAxisAlignment.end,
+        children: [Expanded(flex: 9,child: StandardDecorator(child: listWidget)),Expanded(flex: 5,child: StandardDecorator(child: filterWidget))],
+        ),
+      ),
+    );
+  }
   @override
   Widget getObjectWidget(Product obj, BuildContext context) {
     return obj.clickableIconWidget(context);

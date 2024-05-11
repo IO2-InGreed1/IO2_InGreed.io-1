@@ -17,16 +17,6 @@ abstract class ListCubit<T> extends Cubit<SearchScreenData<T>?>
   Map<int,T> items={};
   Filter<T> get lastFilter;
   set lastFilter(Filter<T> value);
-  ListCubit(super.initialState)
-  {
-    if(state!= null)
-    {
-      for(int i=0;i<state!.data.length;i++)
-      {
-       items[i]=state!.data[i];
-      }
-    }
-  }
   ListCubit.empty():super(null);
   Future<List<T>> getItems(int from,int to,Filter<T> filter,BuildContext context);
   Future<void> loadData(int from,int to,Filter<T> filter,BuildContext context,{bool reset=false}) async
@@ -42,12 +32,13 @@ abstract class ListCubit<T> extends Cubit<SearchScreenData<T>?>
     {
       if(!items.containsKey(i))
       {
-        newItems=await getItems(from, to, filter,context);
-        for(int i=0;i<newItems.length;i++)
+        newItems.addAll(await getItems(i, to, filter,context));
+        for(int j=0;j+i<newItems.length;j++)
         {
-          items[i+from]=newItems[i];
+          items[j+i]=newItems[i+j];
         }
-        break;
+        emit(SearchScreenData(from, to, newItems,filter.clone()));
+        return;
       }
       newItems.add(items[i] as T); 
     }

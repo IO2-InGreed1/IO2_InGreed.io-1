@@ -5,8 +5,8 @@ import 'package:ingreedio_front/cubit_logic/list_cubit.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 abstract class SearchScreen<T> extends StatefulWidget {
-  const SearchScreen({super.key,this.rows=6, this.columns=2});
-  final int rows,columns;
+  const SearchScreen({super.key,this.maxRows=10, this.maxColumns=5});
+  final int maxRows,maxColumns;
 }
 class Grid extends StatelessWidget {
   const Grid({super.key, required this.columns, required this.children});
@@ -70,14 +70,25 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
   set filterCreator(Creator<Filter<T>> value);
   //search screen data
   int from=0,maks=1000*1000*1000;
-  int get count=>widget.columns*widget.rows;
+  //int rows, columns;
+  int columns=2,rows=6;
+  int get count=>columns*rows;
   SearchScreenData<T>? lastData;
   //cubit
   ListCubit<T> get providerCubit;
   //list widget
   Widget getListWidget(List<T> list,BuildContext context)
   {
-    return Grid(columns: widget.columns, children: list.map((e) => getObjectWidget(e, context)).toList());
+    return LayoutBuilder(
+      builder: (context,constraints) {
+        //columns=widget.maxColumns;
+        //rows=widget.maxRows;
+        //if(columns>widget.maxColumns) columns=widget.maxColumns;
+        //if(rows>widget.maxRows) rows=widget.maxRows;
+        if(from>=list.length) return const SizedBox();
+        return Grid(columns: columns, children: list.getRange(from, from+columns*rows>list.length?list.length:from+columns*rows).map((e) => getObjectWidget(e, context)).toList());
+      }
+    );
   }
   Widget get applyButton
   {
@@ -141,7 +152,14 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
           children: [
             TextButton(onPressed: (){
               setState(() {
-                if(from>0) from-=count;
+                if(from>=count) 
+                {
+                  from-=count;
+                } 
+                else 
+                {
+                  from=0;
+                }
               });
             }, child: const Text("previous")),
             TextButton(onPressed: (){

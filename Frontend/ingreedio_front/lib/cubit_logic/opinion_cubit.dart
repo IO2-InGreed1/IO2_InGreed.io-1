@@ -6,7 +6,7 @@ import '../logic/products.dart';
 class OpinionCubit extends ListCubit<Opinion>
 {
   final Product product;
-  OpinionCubit(this.product,super.initialState);
+  OpinionCubit(this.product):super.empty();
   
   @override
   Filter<Opinion> lastFilter=OpinionFilter();

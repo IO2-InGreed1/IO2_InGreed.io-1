@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 class StandardDecorator extends StatelessWidget {
-  const StandardDecorator({super.key, required this.child,this.color=const Color.fromARGB(167, 231, 250, 29),this.padding=7});
+  const StandardDecorator({super.key, required this.child,this.color=const Color.fromARGB(167, 119, 243, 25),this.padding=7});
 
   StandardDecorator.column({super.key,required List<Widget> children,
   this.color=const Color.fromARGB(167, 231, 250, 29),

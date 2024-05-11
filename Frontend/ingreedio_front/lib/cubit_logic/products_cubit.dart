@@ -5,8 +5,7 @@ import 'package:ingreedio_front/logic/filters.dart';
 import '../logic/products.dart';
 class ProductCubit extends ListCubit<Product>
 {
-  ProductCubit(super.initialState);
-  ProductCubit.empty():this(null);
+  ProductCubit():super.empty();
   
   @override
   Filter<Product> lastFilter=ProductFilter();

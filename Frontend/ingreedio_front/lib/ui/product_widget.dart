@@ -30,24 +30,13 @@ class _ProductAndOpinionWidgetState extends State<ProductAndOpinionWidget> {
       child:const Text("Add opinion"));
       children.add(button);
     }
-    return LayoutBuilder(
-      builder: (context,constraints) {
-        double width=constraints.maxWidth;
-        double height=constraints.maxHeight;
-        double maxWidth=4*height/5;
-        if(width>maxWidth) width=maxWidth;
-        return Center(
-          child: SizedBox(
-            width: width,
-            child: SingleChildScrollView(
-              child: Column
-              (
-                children: children
-              ),
-            ),
-          ),
-        );
-      }
+    return Center(
+      child: SingleChildScrollView(
+        child: Column
+        (
+          children: children
+        ),
+      ),
     );
   }
 }

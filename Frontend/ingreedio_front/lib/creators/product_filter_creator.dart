@@ -4,6 +4,7 @@ import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/ingredient_creator.dart';
 import 'package:ingreedio_front/cubit_logic/cubit_consumer.dart';
 import 'package:ingreedio_front/logic/filters.dart';
+import 'package:ingreedio_front/ui/common_ui_elements.dart';
 class ProductFilterCreator extends Creator<ProductFilter> {
   const ProductFilterCreator({super.key, required super.reference,super.onChanged});
   @override
@@ -21,29 +22,29 @@ class _ProductFilterCreatorState extends State<ProductFilterCreator> {
     return IngredientConsumer(
       child:(context,ingredients)=>Column(
         children: [
-          LabelWidget(label: "product name: ", child: StringCreator(item: widget.item.nameFilter,onChanged:(value)=> widget.item.nameFilter=value,)),
-          Row( 
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              LabelWidget(label: "wanted ingredients: ", child: IngredientListSelector(ingredients: ingredients??[],
-              reference: ItemWrapper(widget.item.preference),
-              onChanged: (value)
-              {
-                widget.item.preference=value;
-              },
-              ),     
-              ),
-             LabelWidget(label: "not wanted ingredients: ", child: IngredientListSelector(ingredients: ingredients??[],
-              reference: ItemWrapper(widget.item.allergens),
-              onChanged: (value)
-              {
-                widget.item.allergens=value;
-              },
-              ),     
+          LabelWidget(isHorizontal: false,label: "product name: ", child: StringCreator(item: widget.item.nameFilter,onChanged:(value)=> widget.item.nameFilter=value,)),
+          StandardDecorator(
+            child: LabelWidget(isHorizontal: false,label: "wanted ingredients: ", child: IngredientListSelector(ingredients: ingredients??[],
+            reference: ItemWrapper(widget.item.preference),
+            onChanged: (value)
+            {
+              widget.item.preference=value;
+            },
+            ),     
+            ),
           ),
-          ]),
+                       StandardDecorator(
+           child: LabelWidget(isHorizontal: false,label: "not wanted ingredients: ", child: IngredientListSelector(ingredients: ingredients??[],
+            reference: ItemWrapper(widget.item.allergens),
+            onChanged: (value)
+            {
+              widget.item.allergens=value;
+            },
+            ),     
+                     ),
+                       ),
           
-          LabelWidget(label: "order by: ", child:Selector<ProductOrderType>(reference: ItemWrapper(widget.item.orderType), items: ProductOrderType.values, onChanged: (value)=>widget.item.orderType=value)
+          LabelWidget(isHorizontal: false,label: "order by: ", child:Selector<ProductOrderType>(reference: ItemWrapper(widget.item.orderType), items: ProductOrderType.values, onChanged: (value)=>widget.item.orderType=value)
           ),
         ],
       ),
