@@ -129,7 +129,7 @@ class RealProductDatabase extends ProductDatabse
   }
 
   @override
-  Future<List<Product>> filterProducts(int from, int to, ProductFilter filter) async {
+  Future<ListData<Product>> filterProducts(int from, int to, ProductFilter filter) async {
     // TODO: implement filterProducts
     throw UnimplementedError();
   }
@@ -184,7 +184,7 @@ class RealOpinionDatabase extends OpinionDatabase
   }
 
   @override
-  Future<List<Opinion>> getOpinionsFiltered(int from, int to, Product product, OpinionFilter filter) async {
+  Future<ListData<Opinion>> getOpinionsFiltered(int from, int to, Product product, OpinionFilter filter) async {
     // TODO: implement getOpinionsFiltered
     throw UnimplementedError();
   }

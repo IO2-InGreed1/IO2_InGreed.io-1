@@ -5,6 +5,12 @@ import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
 import '../cubit_logic/session_cubit.dart';
+class ListData<T>
+{
+  List<T> list;
+  int maxCount;
+  ListData(this.list,this.maxCount);
+}
 abstract class Database
 {
   ProductDatabse get productDatabse;
@@ -55,7 +61,7 @@ abstract class ProductDatabse
   Future<bool> removeProduct(Product product);
   Future<bool> editProduct(Product product,Product editedProduct);
   Future<List<Product>> getAllProducts();
-  Future<List<Product>> filterProducts(int from,int to,ProductFilter filter);
+  Future<ListData<Product>> filterProducts(int from,int to,ProductFilter filter);
   Future<List<Producer>> getAllProducers();
   Future<bool> addProducer(Producer producer);
   Future<bool> removeProducer(Producer producer);
@@ -82,7 +88,7 @@ abstract class OpinionDatabase
   Future<List<Opinion>> getProductOpinions(Product product);
   Future<List<Opinion>> getReportedOpinions();
   Future<List<Opinion>> getReportedProductOpinions(Product product);
-  Future<List<Opinion>> getOpinionsFiltered(int from,int to,Product product,OpinionFilter filter);
+  Future<ListData<Opinion>> getOpinionsFiltered(int from,int to,Product product,OpinionFilter filter);
 }
 abstract class IngredientDatabase
 {

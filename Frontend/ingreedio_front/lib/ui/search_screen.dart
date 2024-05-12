@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/cubit_logic/list_cubit.dart';
@@ -71,7 +72,7 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
   //search screen data
   int from=0,maks=1000*1000*1000;
   //int rows, columns;
-  int columns=2,rows=6;
+  int columns=2,rows=10;
   int get count=>columns*rows;
   SearchScreenData<T>? lastData;
   //cubit
@@ -85,8 +86,8 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
         //rows=widget.maxRows;
         //if(columns>widget.maxColumns) columns=widget.maxColumns;
         //if(rows>widget.maxRows) rows=widget.maxRows;
-        if(from>=list.length) return const SizedBox();
-        return Grid(columns: columns, children: list.getRange(from, from+columns*rows>list.length?list.length:from+columns*rows).map((e) => getObjectWidget(e, context)).toList());
+        if(list.isEmpty) return const SizedBox();
+        return Grid(columns: columns, children: list.getRange(0, columns*rows>list.length?list.length:columns*rows).map((e) => getObjectWidget(e, context)).toList());
       }
     );
   }
@@ -145,34 +146,44 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
             return const LoadingWidget();
           }
           lastData=state;
+          maks=state.maxCount;
           return getListWidget(state.data, context);
         }),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(onPressed: (){
-              setState(() {
-                if(from>=count) 
-                {
-                  from-=count;
-                } 
-                else 
-                {
-                  from=0;
-                }
-              });
-            }, child: const Text("previous")),
-            TextButton(onPressed: (){
-              setState(() {
-                if(from+count<maks) from+=count;
-              });
-            }, child: const Text("next")),
-            ],
-        ),
-        Text("${from+1}-${from+count}"),],
+        listControlWidgets,
+      ]
     );
     return BlocProvider(create: (context)=>providerCubit,
     child: putWidgets(listWidget, filterWidget)
+    );
+  }
+  Widget get listControlWidgets
+  {
+    return Column(
+      children: [
+        Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextButton(onPressed: (){
+            setState(() {
+              if(from>=count) 
+              {
+                from-=count;
+              } 
+              else 
+              {
+                from=0;
+              }
+            });
+          }, child: const Text("previous")),
+          TextButton(onPressed: (){
+            setState(() {
+              if(from+count<maks) from+=count;
+            });
+          }, child: const Text("next")),
+          ],
+        ),
+        Text("${from+1}-${from+count}"),
+      ],
     );
   }
 }

@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:ingreedio_front/cubit_logic/cubit_consumer.dart';
 import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
@@ -112,13 +114,36 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
   @override 
   Widget putWidgets(Widget listWidget,Widget filterWidget)
   {
-    return Center(
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Row(mainAxisAlignment: MainAxisAlignment.end,
-        children: [Expanded(flex: 9,child: StandardDecorator(child: listWidget)),Expanded(flex: 5,child: StandardDecorator(child: filterWidget))],
-        ),
-      ),
+    int listFlex=9,filterFlex=5;
+    double sum=listFlex+filterFlex.toDouble();
+    double pixelPerFlex=250/filterFlex;
+    return LayoutBuilder(
+      builder: (context,constraints) {
+        if(constraints.maxWidth<pixelPerFlex*sum)
+        {
+          return Center(
+            child: Align(
+             alignment: Alignment.centerRight,
+             child: Row(mainAxisAlignment: MainAxisAlignment.end,
+             children: [Expanded(flex: listFlex,child: StandardDecorator(child: listWidget)),Expanded(flex: filterFlex,child: StandardDecorator(child: filterWidget))],
+              ),
+           ),
+         );
+        }
+        else 
+        {
+          return Center(
+            child: Align(
+             alignment: Alignment.centerRight,
+             child: Row(mainAxisAlignment: MainAxisAlignment.end,
+             children: [
+              Expanded(flex: listFlex,child: Center(child: SizedBox(width: pixelPerFlex*listFlex,child: StandardDecorator(child: listWidget)))),
+              Expanded(flex: filterFlex,child: Center(child: SizedBox(width: pixelPerFlex*filterFlex,child: StandardDecorator(child: filterWidget))))],
+              ),
+           ),
+         );
+        }
+      }
     );
   }
   @override

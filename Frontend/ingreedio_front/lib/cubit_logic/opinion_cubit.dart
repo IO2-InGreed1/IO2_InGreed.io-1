@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/cubit_logic/list_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
+import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import '../logic/products.dart';
 class OpinionCubit extends ListCubit<Opinion>
@@ -12,7 +13,7 @@ class OpinionCubit extends ListCubit<Opinion>
   Filter<Opinion> lastFilter=OpinionFilter();
   
   @override
-  Future<List<Opinion>> getItems(int from, int to, Filter<Opinion> filter, BuildContext context) async {
+  Future<ListData<Opinion>> getItems(int from, int to, Filter<Opinion> filter, BuildContext context) async {
     SessionCubit sessionCubit=SessionCubit.fromContext(context);
     return await sessionCubit.database.opinionDatabase.getOpinionsFiltered(from, to,product, filter as OpinionFilter);
   }

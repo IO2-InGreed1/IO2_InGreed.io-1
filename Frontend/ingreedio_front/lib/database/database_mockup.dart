@@ -176,7 +176,7 @@ class MockupProductDatabase extends ProductDatabse
   }
 
   @override
-  Future<List<Product>> filterProducts(int from,int to,ProductFilter filter) async {
+  Future<ListData<Product>> filterProducts(int from,int to,ProductFilter filter) async {
     var pom= products.where((element) 
     {
       for(int i=0;i<element.ingredients.length;i++)
@@ -204,7 +204,7 @@ class MockupProductDatabase extends ProductDatabse
     if(pom.length<=i) break;
     odp.add(pom[i]);
   }
-  return odp;
+  return ListData(odp,pom.length);
   }
   
   @override
@@ -281,7 +281,7 @@ class MockupOpinionDatabase extends OpinionDatabase
   }
   
   @override
-  Future<List<Opinion>> getOpinionsFiltered(int from,int to,Product product, OpinionFilter filter) async {
+  Future<ListData<Opinion>> getOpinionsFiltered(int from,int to,Product product, OpinionFilter filter) async {
     var pom=await getProductOpinions(product);
     List<Opinion> odp=List.empty(growable: true);
     for(int i=from;i<to;i++)
@@ -295,7 +295,7 @@ class MockupOpinionDatabase extends OpinionDatabase
         break;
       }
     }
-    return odp;
+    return ListData(odp,pom.length);
   }
   
 }
