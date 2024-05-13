@@ -298,6 +298,16 @@ class MockupOpinionDatabase extends OpinionDatabase
     return ListData(odp,pom.length);
   }
   
+  @override
+  Future<void> reportOpinion(Opinion opinion) async {
+    int index=opinions.indexOf(opinion);
+    if(index>0)
+    {
+      opinions[index].isReported=true;
+      opinion.isReported=true;
+    }
+  }
+  
 }
 class MockupLoginDatabase extends LoginDatabase
 {

@@ -213,5 +213,11 @@ class RealOpinionDatabase extends OpinionDatabase
     throw UnimplementedError();
   }
   
+  @override
+  Future<void> reportOpinion(Opinion opinion) async {
+    // TODO: implement reportOpinion
+    throw UnimplementedError();
+  }
+  
   
 }

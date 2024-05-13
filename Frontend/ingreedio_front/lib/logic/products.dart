@@ -88,4 +88,5 @@ class Opinion with OpinionMappable
   double score;
   bool isReported=false;
   Widget get widget=>OpinionWidget(opinion: this);
+  Widget get reportableWidget=>OpinionWidget(opinion: this,showReportButton: true,);
 }

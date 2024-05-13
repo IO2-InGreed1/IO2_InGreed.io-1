@@ -42,6 +42,6 @@ class _OpinionSearchScreenState extends SearchScreenState<Opinion> {
   
   @override
   Widget getObjectWidget(Opinion obj, BuildContext context) {
-    return obj.widget;
+    return obj.reportableWidget;
   }
 }

@@ -89,6 +89,7 @@ abstract class OpinionDatabase
   Future<List<Opinion>> getReportedOpinions();
   Future<List<Opinion>> getReportedProductOpinions(Product product);
   Future<ListData<Opinion>> getOpinionsFiltered(int from,int to,Product product,OpinionFilter filter);
+  Future<void> reportOpinion(Opinion opinion);
 }
 abstract class IngredientDatabase
 {
