@@ -165,6 +165,7 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
   ProductEditScreen get myWidget=>widget as ProductEditScreen;
   @override
   Widget build(BuildContext context) {
+    columns=1;
     (filter as ProductFilter).producer=myWidget.producer;
     return Column(
       children: [

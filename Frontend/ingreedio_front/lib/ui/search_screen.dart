@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/cubit_logic/list_cubit.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 abstract class SearchScreen<T> extends StatefulWidget {
-  const SearchScreen({super.key,this.maxRows=10, this.maxColumns=5});
-  final int maxRows,maxColumns;
+  const SearchScreen({super.key});
 }
 class Grid extends StatelessWidget {
   const Grid({super.key, required this.columns, required this.children});

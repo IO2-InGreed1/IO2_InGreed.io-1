@@ -56,6 +56,11 @@ class ReportedOpinionSearchScreen extends SearchScreen<Opinion> {
 
 class _ReportedOpinionSearchScreenState extends SearchScreenState<Opinion> {
   
+  @override 
+  Widget build(BuildContext context) {
+    columns=1;
+    return super.build(context);
+  }
   @override
   Filter<Opinion> filter=EmptyFilter();
   
