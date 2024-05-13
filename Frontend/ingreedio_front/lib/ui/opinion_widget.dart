@@ -38,7 +38,7 @@ class OpinionWidget extends StatelessWidget {
     if(opinion.score>3) c=Colors.greenAccent;
     if(opinion.score>4) c=Colors.green;
     Widget reportButton=DialogButton(creator: OpinionReportCreator(opinion: opinion,reference: ItemWrapper(true),), onFinished: (value){
-      SessionCubit.fromContext(context).database.opinionDatabase.reportOpinion(opinion);
+      SessionCubit.fromContext(context).database.opinionDatabase.setOpinionReport(opinion);
     }, child: const Text("report"));
     List<Widget> widgets=showReportButton?[opinion.author.clientWidget,reportButton]:[opinion.author.clientWidget];
     return StandardDecorator(

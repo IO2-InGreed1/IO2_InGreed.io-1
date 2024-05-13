@@ -196,7 +196,7 @@ class RealOpinionDatabase extends OpinionDatabase
   }
 
   @override
-  Future<List<Opinion>> getReportedOpinions() async {
+  Future<ListData<Opinion>> getReportedFilteredOpinions(int from,int to,Filter<Opinion> filter) async {
     // TODO: implement getReportedOpinions
     throw UnimplementedError();
   }
@@ -214,7 +214,7 @@ class RealOpinionDatabase extends OpinionDatabase
   }
   
   @override
-  Future<void> reportOpinion(Opinion opinion) async {
+  Future<void> setOpinionReport(Opinion opinion,{bool reportState=true}) async {
     // TODO: implement reportOpinion
     throw UnimplementedError();
   }

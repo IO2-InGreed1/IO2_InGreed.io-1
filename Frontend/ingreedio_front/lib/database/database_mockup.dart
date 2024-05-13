@@ -270,8 +270,14 @@ class MockupOpinionDatabase extends OpinionDatabase
   }
   
   @override
-  Future<List<Opinion>> getReportedOpinions() async {
-    return opinions.where((element) => element.isReported==true).toList();
+  Future<ListData<Opinion>> getReportedFilteredOpinions(int from,int to,Filter<Opinion> filter) async {
+    var pom= opinions.where((element) => element.isReported==true).toList();
+    List<Opinion> odp=List.empty(growable: true);
+    for(int i=from;i<to&&i<pom.length;i++) 
+    {
+      odp.add(pom[i]);
+    }
+    return ListData(odp, pom.length);
   }
   
   @override
@@ -299,12 +305,12 @@ class MockupOpinionDatabase extends OpinionDatabase
   }
   
   @override
-  Future<void> reportOpinion(Opinion opinion) async {
+  Future<void> setOpinionReport(Opinion opinion,{bool reportState=true}) async {
     int index=opinions.indexOf(opinion);
-    if(index>0)
+    if(index>=0)
     {
-      opinions[index].isReported=true;
-      opinion.isReported=true;
+      opinions[index].isReported=reportState;
+      opinion.isReported=reportState;
     }
   }
   

@@ -230,3 +230,6 @@ class _ConfirmCreatorState extends State<ConfirmCreator> {
     return const Text("Are you sure?");
   }
 }
+class ConfirmDialogButton extends DialogButton<bool> {
+  ConfirmDialogButton({super.key, required super.onFinished, required super.child}):super(creator: ConfirmCreator());
+}

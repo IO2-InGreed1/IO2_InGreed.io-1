@@ -86,10 +86,10 @@ abstract class OpinionDatabase
   Future<bool> removeOpinion(Opinion opinion);
   Future<List<Opinion>> getClientOpinions(Client client);
   Future<List<Opinion>> getProductOpinions(Product product);
-  Future<List<Opinion>> getReportedOpinions();
+  Future<ListData<Opinion>> getReportedFilteredOpinions(int from,int to,Filter<Opinion> filter);
   Future<List<Opinion>> getReportedProductOpinions(Product product);
   Future<ListData<Opinion>> getOpinionsFiltered(int from,int to,Product product,OpinionFilter filter);
-  Future<void> reportOpinion(Opinion opinion);
+  Future<void> setOpinionReport(Opinion opinion,{bool reportState=true});
 }
 abstract class IngredientDatabase
 {
