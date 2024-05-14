@@ -5,8 +5,8 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/cubit_logic/cubit_consumer.dart';
 import 'package:ingreedio_front/cubit_logic/ingredient_cubit.dart';
-import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/session_data.dart';
+import 'package:ingreedio_front/ui/client_screen.dart';
 import 'package:ingreedio_front/ui/opinion_search_screen.dart';
 import 'package:ingreedio_front/ui/product_search_screen.dart';
 import 'package:path_provider/path_provider.dart';
@@ -123,8 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body:SessionDataConsumer(child: (context,data)
       {
         if(data.currentClient!=null) {
-          return BlocProvider(create: (BuildContext context)=>PreferenceCubit(null)..loadPreferences(context, data.currentClient!),
-          child: SingleChildScrollView(child: addLogoutButton(const ProductSearchScreen())));
+          return SingleChildScrollView(child: addLogoutButton(ClientScreen(client:data.currentClient!)));
         }
         if(data.currentProducer!=null) {
           return addLogoutButton(ProductEditScreen(producer: data.currentProducer!));

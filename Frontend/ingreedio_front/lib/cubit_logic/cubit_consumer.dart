@@ -45,10 +45,11 @@ class IngredientConsumer extends CubitConsumer<Ingredient>
 }
 class PreferenceConsumer extends CubitConsumer<Preference>
 {
-  const PreferenceConsumer({super.key, required super.child,super.showLoadingScreen});
+  final PreferenceCubit? cubit;
+  const PreferenceConsumer({super.key, required super.child,super.showLoadingScreen,this.cubit});
     @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PreferenceCubit,List<Preference>?>(builder: (context,items){
+    var builder=BlocBuilder<PreferenceCubit,List<Preference>?>(builder: (context,items){
       if(items==null&&showLoadingScreen)
       {
         return const Padding(
@@ -58,6 +59,11 @@ class PreferenceConsumer extends CubitConsumer<Preference>
       }
       return child(context,items);
     },);
+    if(cubit!=null) 
+    {
+      return BlocProvider(create: (context)=>cubit!..loadPreferences(context, SessionCubit.fromContext(context).state.currentClient!),child: builder,);
+    }
+    return builder;
   }
 }
 class SessionDataConsumer extends StatelessWidget

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ingreedio_front/cubit_logic/cubit_consumer.dart';
 import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:ingreedio_front/creators/creators.dart';
-import 'package:ingreedio_front/creators/preference_creator.dart';
 import 'package:ingreedio_front/creators/preference_selector.dart';
 import 'package:ingreedio_front/creators/product_creator.dart';
 import 'package:ingreedio_front/creators/product_filter_creator.dart';
@@ -52,20 +52,8 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
     List<Widget> widgets=List.empty(growable: true);
     if(currentClient!=null)
     {
-      var pref=PreferenceSelector(reference: ItemWrapper(null), 
-        );
-        widgets.add(pref);
-        widgets.add(DialogButton<Preference>(creator: 
-        PreferenceCreator(
-        reference:ItemWrapper(Preference.forClient(currentClient),),
-        ), 
-        onFinished: (value)
-        {
-          setState(() {
-            PreferenceCubit.fromContext(context).addPreference(context,value);
-          });
-        }, 
-        child:const Text("add new preference")));
+      var pref=PreferenceSelector(reference: ItemWrapper(null));
+        widgets.add(BlocProvider(create: (_)=>PreferenceCubit.empty()..loadPreferences(context, currentClient),child: pref,));
         widgets.add(PreferenceButton(selector: pref, onClicked: (value)
         {
           if(value!=null)
@@ -75,32 +63,6 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
             });
           }
         }, child:const Text("Activate preference")));
-
-        widgets.add(DialogEditButton<Preference>(creator: 
-        PreferenceCreator(
-        reference:ItemWrapper(Preference.forClient(currentClient),),
-        ), 
-        onFinished: (value)
-        {
-          setState(() {
-            value.client=currentClient;
-            PreferenceCubit.fromContext(context).editPreference(context,pref.item!,value);
-          });
-        }, 
-        onClicked: () {
-          if(pref.item==null) return null;
-          return pref.item!.clone();
-        },
-        child:const Text("edit preference")));
-        widgets.add(PreferenceButton(selector: pref, onClicked: (value)
-        {
-          if(value!=null)
-          {
-            setState(() {
-            PreferenceCubit.fromContext(context).removePreference(context,pref.item!);
-          });
-          }
-        }, child:const Text("Delete preference")));
     }
     widgets.add(super.build(context));
     return Column(mainAxisAlignment: MainAxisAlignment.center,children: widgets,);
