@@ -53,7 +53,7 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
     if(currentClient!=null)
     {
       var pref=PreferenceSelector(reference: ItemWrapper(null));
-        widgets.add(BlocProvider(create: (_)=>PreferenceCubit.empty()..loadPreferences(context, currentClient),child: pref,));
+        widgets.add(LabelWidget(label: "choose preference",child: BlocProvider(create: (_)=>PreferenceCubit.empty()..loadPreferences(context, currentClient),child: pref,)));
         widgets.add(PreferenceButton(selector: pref, onClicked: (value)
         {
           if(value!=null)

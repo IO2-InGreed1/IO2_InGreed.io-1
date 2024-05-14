@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/logic/users.dart';
+import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:ingreedio_front/ui/preferances_menager.dart';
 import 'package:ingreedio_front/ui/product_search_screen.dart';
 
@@ -25,7 +27,7 @@ class ClientScreen extends StatelessWidget {
                 }, child: const Text("search")),
               ],
             ),
-            const SizedBox(width: 500,child: FavouriteProductSearchScreen()),
+            const LabelWidget(label: "Favourite products",isHorizontal: false,child: StandardDecorator(child: SizedBox(width: 500,child: FavouriteProductSearchScreen()))),
           ],
         ),
         client.clientProfileWidget
