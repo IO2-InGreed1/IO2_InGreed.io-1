@@ -73,7 +73,7 @@ abstract class UserDatabse
   Future<bool> removeClient(Client client);
   Future<List<Client>> getAllClients();
   Future<List<Preference>> getUserPreferences(Client client);
-  Future<bool> setFavoutiteProduct(Client client,Product product,bool state);
+  Future<bool> setFavouriteProduct(Client client,Product product,bool state);
   Future<bool> addPreference(Preference preference);
   Future<bool> editPreference(Preference oldPreference,Preference editedPreference);
   Future<bool> removePreference(Preference preference);

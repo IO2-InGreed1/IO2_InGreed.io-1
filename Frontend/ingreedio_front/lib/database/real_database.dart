@@ -77,7 +77,7 @@ class RealUserDatabase extends UserDatabse
   }
 
   @override
-  Future<bool> setFavoutiteProduct(Client client, Product product, bool state) async {
+  Future<bool> setFavouriteProduct(Client client, Product product, bool state) async {
     // TODO: implement setFavoutiteProduct
     throw UnimplementedError();
   }

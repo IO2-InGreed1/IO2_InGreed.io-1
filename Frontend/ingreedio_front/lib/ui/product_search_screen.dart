@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ingreedio_front/cubit_logic/cubit_consumer.dart';
 import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
@@ -236,4 +234,21 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
             ],
           );
   }
+}
+class FavouriteProductSearchScreen extends SearchScreen<Product> {
+  const FavouriteProductSearchScreen({super.key});
+  @override
+  SearchScreenState<Product> createState() => _FavouriteProductSearchScreenState();
+}
+class _FavouriteProductSearchScreenState extends _ProductSearchScreenState
+{
+  ListCubit<Product>? _listCubit;
+  @override
+  ListCubit<Product> get providerCubit
+  {
+    _listCubit ??= FavouriteProductsCubit.empty();
+    return _listCubit!;
+  }
+  @override
+  set providerCubit(ListCubit<Product> value)=>_listCubit=value;
 }

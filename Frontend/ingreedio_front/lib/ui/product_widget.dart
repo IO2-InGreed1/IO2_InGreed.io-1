@@ -86,17 +86,9 @@ class ProductWidget extends StatelessWidget {
                   padding,
                   LabelWidget(label: "Ingredients: ", child: IngredientListWidget(ingredients: product.ingredients,)),
                   padding,
-                  SessionCubit.fromContext(context).state.currentClient!=null?getFavoriteButton((p0) {
-                    Client currentClient=SessionCubit.fromContext(context).state.currentClient!;
-                    if(p0)
-                    {
-                      currentClient.favoriteProducts.add(product);
-                    }
-                    else 
-                    {
-                      currentClient.favoriteProducts.remove(product);
-                    }
-                    SessionCubit.fromContext(context).database.userDatabse.setFavoutiteProduct(currentClient, product, p0);
+                  SessionCubit.fromContext(context).state.currentClient!=null?getFavoriteButton((p0) 
+                  {
+                    SessionCubit.fromContext(context).setFavouriteProduct(product, p0);
                   }, SessionCubit.fromContext(context).state.currentClient!.favoriteProducts.contains(product)
                   ):const Text(""),
                 ],

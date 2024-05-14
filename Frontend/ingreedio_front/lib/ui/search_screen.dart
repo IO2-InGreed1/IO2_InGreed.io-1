@@ -68,7 +68,7 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
   Creator<Filter<T>> get filterCreator;
   set filterCreator(Creator<Filter<T>> value);
   //search screen data
-  int from=0,maks=1000*1000*1000;
+  int from=0,maks=0;
   //int rows, columns;
   int columns=2,rows=10;
   int get count=>columns*rows;
@@ -158,6 +158,7 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
   {
     return Column(
       children: [
+        const SizedBox(width: 300,),
         Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -180,7 +181,7 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
           }, child: const Text("next")),
           ],
         ),
-        Text("${from+1}-${from+count}"),
+        Text("${from+1}-${from+count}/$maks"),
       ],
     );
   }

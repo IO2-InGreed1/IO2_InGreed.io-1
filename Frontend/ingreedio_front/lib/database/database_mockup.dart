@@ -76,7 +76,7 @@ class MockupUserDatabase extends UserDatabse
   }
   
   @override
-  Future<bool> setFavoutiteProduct(Client client, Product product, bool state) async {
+  Future<bool> setFavouriteProduct(Client client, Product product, bool state) async {
     int index=clients.indexOf(client);
     if(index<0) return false;
     if(state)

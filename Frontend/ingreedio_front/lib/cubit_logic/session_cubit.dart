@@ -5,10 +5,18 @@ import 'package:ingreedio_front/cubit_logic/session_data.dart';
 import 'package:ingreedio_front/database/database_mockup.dart';
 import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/database/real_database.dart';
+import 'package:ingreedio_front/logic/products.dart';
 
 class SessionCubit extends HydratedCubit<SessionData>
 {
-  
+  void setFavouriteProduct(Product product, bool favourite)
+  {
+    if(state.currentClient!=null)
+    {
+      database.userDatabse.setFavouriteProduct(state.currentClient!, product, favourite);
+      state.currentClient!.favoriteProducts.remove(product);
+    }
+  }
   late Database database;
   void reset()
   {
