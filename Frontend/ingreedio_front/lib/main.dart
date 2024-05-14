@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:ingreedio_front/cubit_logic/cubit_consumer.dart';
 import 'package:ingreedio_front/cubit_logic/ingredient_cubit.dart';
+import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/session_data.dart';
 import 'package:ingreedio_front/ui/client_screen.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
@@ -35,16 +36,19 @@ class MyApp extends StatelessWidget {
       create: (_) => SessionCubit(SessionData.empty()),
       child: BlocProvider(
         create: (BuildContext context)=>IngredientCubit.empty()..loadIngredients(context),
-        child: MaterialApp(
-          routes: {
-          '/': (context) => const MyHomePage(title: 'Flutter Demo Home Page',),
-          },
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
+        child: BlocProvider(
+          create: (_)=>PreferenceCubit.empty(),
+          child: MaterialApp(
+            routes: {
+            '/': (context) => const MyHomePage(title: 'Flutter Demo Home Page',),
+            },
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              useMaterial3: true,
+            ),
+          
           ),
-        
         ),
       ),
     );

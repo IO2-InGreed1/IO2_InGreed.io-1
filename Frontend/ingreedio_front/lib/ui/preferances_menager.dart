@@ -8,9 +8,8 @@ import 'package:ingreedio_front/logic/users.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 
 class PreferenceMenager extends PreferenceConsumer {
-  PreferenceMenager({super.key}):super(cubit: PreferenceCubit.empty(),child: (context,preferences)
+  PreferenceMenager({super.key}):super(child: (context,preferences)
   {
-    PreferenceCubit.fromContext(context).loadPreferences(context, SessionCubit.fromContext(context).state.currentClient!);
     if(preferences==null) return const LoadingWidget();
     return ListView(
       children: preferences.map<Widget>((e) => 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/creators.dart';
+import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
 import 'package:ingreedio_front/logic/users.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:ingreedio_front/ui/preferances_menager.dart';
@@ -11,6 +12,7 @@ class ClientScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PreferenceCubit.fromContext(context).loadPreferences(context,client);
     return Row(
       children: [
         Column(

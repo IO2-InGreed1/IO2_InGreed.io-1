@@ -45,6 +45,7 @@ dependencies:
   flutter_datetime_picker_plus: ^2.2.0
   omni_datetime_picker: ^1.1.0
   http_client: ^1.5.3
+  image_picker: ^1.1.1
 
 dev_dependencies:
   flutter_test:
