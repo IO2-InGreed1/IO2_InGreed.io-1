@@ -25,18 +25,22 @@ class MockupUserDatabase extends UserDatabse
     );
     preferences.add(
       Preference.fromAllData(allergens: [ingredients[0]], id: 0, isActive: false,
+      category: null,
        name: "pref1", prefered: [ingredients[1]], client: clients[1])
     );
     preferences.add(
       Preference.fromAllData(allergens: [ingredients[0],ingredients[2]], id: 1, isActive: false,
+      category: null,
        name: "pref2", prefered: [ingredients[1]], client: clients[0])
     );
     preferences.add(
       Preference.fromAllData(allergens: [ingredients[3],ingredients[4],ingredients[1]], id: 2, isActive: false,
+      category: null,
        name: "pref3", prefered: [ingredients[0]], client: clients[2])
     );
     preferences.add(
       Preference.fromAllData(allergens: [ingredients[1],ingredients[2]], id: 3, isActive: false,
+      category: Category.cosmetics,
        name: "pref1", prefered: [ingredients[3]], client: clients[0])
     );
   }
@@ -197,6 +201,10 @@ class MockupProductDatabase extends ProductDatabse
     }).where((element) {
       if(filter.producer==null) return true;
       return filter.producer==element.producer;
+      }).where((element) 
+      {
+        if(filter.category==null) return true;
+        return element.category==filter.category!;
       }).toList();
   List<Product> odp=List.empty(growable: true);
   for(int i=from;i<to;i++)

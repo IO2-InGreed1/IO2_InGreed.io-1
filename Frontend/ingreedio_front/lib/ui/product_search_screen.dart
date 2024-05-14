@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ingreedio_front/cubit_logic/cubit_consumer.dart';
-import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:ingreedio_front/creators/creators.dart';
@@ -59,7 +57,7 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
           if(value!=null)
           {
             setState(() {
-              filterCreator=ProductFilterCreator(reference: ItemWrapper(ProductFilter.formPreference(value)));
+              filterCreator=ProductFilterCreator(reference: ItemWrapper(ProductFilter.fromPreference(value)));
             });
           }
         }, child:const Text("Activate preference")));

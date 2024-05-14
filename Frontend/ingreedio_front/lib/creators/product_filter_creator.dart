@@ -5,6 +5,7 @@ import 'package:ingreedio_front/creators/ingredient_creator.dart';
 import 'package:ingreedio_front/cubit_logic/cubit_consumer.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
+import '../logic/products.dart' as prod; 
 class ProductFilterCreator extends Creator<ProductFilter> {
   const ProductFilterCreator({super.key, required super.reference,super.onChanged});
   @override
@@ -33,7 +34,7 @@ class _ProductFilterCreatorState extends State<ProductFilterCreator> {
             ),     
             ),
           ),
-                       StandardDecorator(
+            StandardDecorator(
            child: LabelWidget(isHorizontal: false,label: "not wanted ingredients: ", child: IngredientListSelector(ingredients: ingredients??[],
             reference: ItemWrapper(widget.item.allergens),
             onChanged: (value)
@@ -44,8 +45,8 @@ class _ProductFilterCreatorState extends State<ProductFilterCreator> {
                      ),
                        ),
           
-          LabelWidget(isHorizontal: false,label: "order by: ", child:Selector<ProductOrderType>(reference: ItemWrapper(widget.item.orderType), items: ProductOrderType.values, onChanged: (value)=>widget.item.orderType=value)
-          ),
+          LabelWidget(isHorizontal: false,label: "order by: ", child:Selector<ProductOrderType>(reference: ItemWrapper(widget.item.orderType), items: ProductOrderType.values, onChanged: (value)=>widget.item.orderType=value)),
+          LabelWidget(label: "Product categoty", child:NullableSelector<prod.Category>(enableFilter: false,reference: ItemWrapper(widget.item.category), items: prod.Category.values, onChanged: (value)=>widget.item.category=value))
         ],
       ),
     );

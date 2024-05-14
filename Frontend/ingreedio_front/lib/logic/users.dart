@@ -119,8 +119,10 @@ class Preference
   Client client;
   List<Ingredient> allergens=List.empty(growable: true);
   List<Ingredient> prefered=List.empty(growable: true);
+  Category? category;
   bool isActive=false;
   Preference.fromAllData({
+    required this.category,
     required this.allergens,
     required this.id,
     required this.isActive,
@@ -130,7 +132,7 @@ class Preference
   });
   Preference clone()
   {
-    return Preference.fromAllData(allergens:copyList(allergens), id: id, isActive: isActive, name: name, prefered: copyList(prefered), client: client);
+    return Preference.fromAllData(allergens:copyList(allergens), id: id, isActive: isActive, name: name, prefered: copyList(prefered), client: client,category: category);
   }
   Preference.forClient(Client c):id=0,client=c;
   void addAllergen(Ingredient ingredient)

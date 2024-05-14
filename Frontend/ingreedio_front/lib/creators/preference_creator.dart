@@ -3,6 +3,7 @@ import 'package:ingreedio_front/creators/common_creators.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/ingredient_creator.dart';
 import 'package:ingreedio_front/cubit_logic/cubit_consumer.dart';
+import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
 
 class PreferenceCreator extends Creator<Preference> {
@@ -48,7 +49,8 @@ class _PreferenceCreatorState extends State<PreferenceCreator> {
               {
                 widget.item.allergens=value;
               },
-              ),     
+              ),   
+              LabelWidget(label: "Product categoty", child:NullableSelector<Category>(enableFilter: false,reference: ItemWrapper(widget.item.category), items: Category.values, onChanged: (value)=>widget.item.category=value))  
         ],
       ),
     );

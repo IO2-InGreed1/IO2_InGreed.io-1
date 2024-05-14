@@ -28,10 +28,12 @@ class ProductFilter extends Filter<Product>
   List<Ingredient> preference=List.empty(growable: true);
   List<Ingredient> allergens=List.empty(growable: true);
   ProductOrderType orderType=ProductOrderType.normal;
+  Category? category;
   @override
   ProductFilter clone()
   {
     ProductFilter odp=ProductFilter();
+    odp.category=category;
     odp.allergens.addAll(allergens);
     odp.nameFilter=nameFilter;
     odp.orderType=orderType;
@@ -40,16 +42,17 @@ class ProductFilter extends Filter<Product>
     return odp;
   }
   ProductFilter();
-  ProductFilter.formPreference(Preference pref)
+  ProductFilter.fromPreference(Preference pref)
   {
     allergens=pref.allergens;
     preference=pref.prefered;
+    category=pref.category;
   }
   @override
   bool operator==(Object other)
   {
     if(other is! ProductFilter) return false;
-    if(nameFilter==other.nameFilter&&orderType==other.orderType)
+    if(nameFilter==other.nameFilter&&orderType==other.orderType&&category==other.category)
     {
       if(compareLists(allergens, other.allergens)&&compareLists(preference, other.preference)) return true;
     }

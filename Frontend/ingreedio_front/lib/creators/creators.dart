@@ -186,7 +186,8 @@ class _ListCreatorState<T> extends State<ListCreator<T?>> {
 
 class Selector<T extends Enum> extends Creator<T> {
   final List<T> items;
-  const Selector({super.key, required super.reference,required this.items,required super.onChanged});
+  final bool enableFilter;
+  const Selector({this.enableFilter=true,super.key, required super.reference,required this.items,required super.onChanged});
   @override
   State<Selector> createState() => _SelectorState<T>();
   
@@ -207,7 +208,37 @@ class _SelectorState<T extends Enum> extends State<Selector<T>> {
         widget.onChanged(value);
       }
     },
-    enableFilter: true,
+    enableFilter: widget.enableFilter,
+    );
+  }
+}
+class NullableSelector<T extends Enum> extends Creator<T?> {
+  final List<T> items;
+  final String nullName;
+  final bool enableFilter;
+  const NullableSelector({this.enableFilter=true,super.key, required super.reference,required this.items,required super.onChanged,this.nullName="none"});
+  @override
+  State<NullableSelector> createState() => _NullableSelectorState<T>();
+  
+  @override
+  Creator<T?> getInstance({Key? key, Function(T? p1) onChanged = doNothing, required ItemWrapper<T?> reference}) {
+    return NullableSelector(reference: reference, items: items, onChanged: onChanged);
+  }
+}
+class _NullableSelectorState<T extends Enum> extends State<NullableSelector<T>> {
+  @override
+  Widget build(BuildContext context) {
+    return DropdownMenu(dropdownMenuEntries: widget.items.map((e) => DropdownMenuEntry<T?>(value: e, label: e.name)).toList()..add(DropdownMenuEntry(value: null, label: widget.nullName)),
+    onSelected: (value)
+    {
+      if(value is T)
+      {
+        widget.item=value;
+        widget.onChanged(value);
+      }
+    },
+    enableFilter: widget.enableFilter,
+    initialSelection: widget.item,
     );
   }
 }

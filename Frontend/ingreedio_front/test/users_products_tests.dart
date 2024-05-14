@@ -9,9 +9,9 @@ class TestInitializer
   static Client get client=>Client.fromAllData(id: 0, isBlocked: false, mail: "mail@mail.com", password: "myPassword", username: "User", favoriteProducts: []);
   static List<Preference> get preferences
   {
-    Preference p1=Preference.fromAllData(client: client,allergens: [], id: 0, isActive: true, name: "preferance 1", prefered: [commonIngredients[1],commonIngredients[2]]);
-    Preference p2=Preference.fromAllData(client: client,allergens: [commonIngredients[1]], id: 1, isActive: false, name: "preferance 2", prefered: [commonIngredients[3],commonIngredients[0]]);
-    Preference p3=Preference.fromAllData(client: client,allergens: [commonIngredients[0],commonIngredients[3]], id: 2, isActive: false, name: "preferance 3", prefered: [commonIngredients[2],commonIngredients[1]]);
+    Preference p1=Preference.fromAllData(client: client,allergens: [], id: 0, isActive: true, name: "preferance 1", prefered: [commonIngredients[1],commonIngredients[2]],category: null);
+    Preference p2=Preference.fromAllData(client: client,allergens: [commonIngredients[1]], id: 1, isActive: false, name: "preferance 2", prefered: [commonIngredients[3],commonIngredients[0]],category: null);
+    Preference p3=Preference.fromAllData(client: client,allergens: [commonIngredients[0],commonIngredients[3]], id: 2, isActive: false, name: "preferance 3", prefered: [commonIngredients[2],commonIngredients[1]],category: null);
     return [p1,p2,p3];
   }
   static List<Ingredient> get commonIngredients

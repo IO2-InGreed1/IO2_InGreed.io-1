@@ -127,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body:SessionDataConsumer(child: (context,data)
       {
         if(data.currentClient!=null) {
-          return SingleChildScrollView(child: addLogoutButton(ClientScreen(client:data.currentClient!)));
+          return addLogoutButton(ClientScreen(client:data.currentClient!));
         }
         if(data.currentProducer!=null) {
           return addLogoutButton(ProductEditScreen(producer: data.currentProducer!));

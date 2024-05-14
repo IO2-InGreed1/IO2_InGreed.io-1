@@ -71,6 +71,10 @@ ListData<Product> filterProducts(List<Product> products,int from,int to,Filter<P
     }).where((element) {
       if(filter.producer==null) return true;
       return filter.producer==element.producer;
+      }).where((element) 
+      {
+        if(filter.category==null) return true;
+        return element.category==filter.category!;
       }).toList();
   List<Product> odp=List.empty(growable: true);
   for(int i=from;i<to;i++)
