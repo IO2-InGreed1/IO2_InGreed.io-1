@@ -14,7 +14,14 @@ class SessionCubit extends HydratedCubit<SessionData>
     if(state.currentClient!=null)
     {
       database.userDatabse.setFavouriteProduct(state.currentClient!, product, favourite);
-      state.currentClient!.favoriteProducts.remove(product);
+      if(!favourite) 
+      {
+        state.currentClient!.favoriteProducts.remove(product);
+      }
+      else 
+      {
+        state.currentClient!.favoriteProducts.add(product);
+      }
     }
   }
   late Database database;

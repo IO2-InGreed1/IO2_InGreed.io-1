@@ -11,12 +11,23 @@ class ClientScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        TextButton(onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: AppBar(),body: PreferenceMenager(),)));
-        }, child: const Text("manage preferences")),
-        TextButton(onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: AppBar(),body:const ProductSearchScreen(),)));
-        }, child: const Text("search")),
+        Column(
+          children: 
+          [
+            Row(
+              children: 
+              [
+                TextButton(onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: AppBar(),body: PreferenceMenager(),)));
+                }, child: const Text("manage preferences")),
+                TextButton(onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: AppBar(),body:const ProductSearchScreen(),)));
+                }, child: const Text("search")),
+              ],
+            ),
+            const SizedBox(width: 500,child: FavouriteProductSearchScreen()),
+          ],
+        ),
         client.clientProfileWidget
       ],
     );
