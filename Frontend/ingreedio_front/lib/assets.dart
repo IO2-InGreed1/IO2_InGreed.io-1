@@ -1,13 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
-class LogoutButton extends StatelessWidget {
-  const LogoutButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(onPressed: ()=>SessionCubit.fromContext(context).reset(), child:const Text("logout"));
-  }
-}
 class Assets
 {
   static Image? _inGreedIcon;

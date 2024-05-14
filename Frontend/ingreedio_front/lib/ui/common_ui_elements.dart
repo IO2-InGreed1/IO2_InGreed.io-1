@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 class StandardDecorator extends StatelessWidget {
   const StandardDecorator({super.key, required this.child,this.color=const Color.fromARGB(167, 119, 243, 25),this.padding=7});
@@ -56,5 +57,13 @@ class LoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(child: LoadingAnimationWidget.discreteCircle(color: Colors.green, size: 70));
+  }
+}
+class LogoutButton extends StatelessWidget {
+  const LogoutButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(onPressed: ()=>SessionCubit.fromContext(context).reset(), child:const Text("logout"));
   }
 }
