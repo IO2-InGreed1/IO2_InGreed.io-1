@@ -23,6 +23,7 @@ class ProductSearchScreen extends SearchScreen<Product> {
 }
 
 class _ProductSearchScreenState extends SearchScreenState<Product> {
+  bool get showPreferences=>true;
   @override
   Filter<Product> filter=ProductFilter();
   ProductFilterCreator? _filterCreator;
@@ -48,7 +49,7 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
     }
     Client? currentClient=SessionCubit.fromContext(context).state.currentClient;
     List<Widget> widgets=List.empty(growable: true);
-    if(currentClient!=null)
+    if(currentClient!=null&&showPreferences)
     {
       var pref=PreferenceSelector(reference: ItemWrapper(null));
         widgets.add(LabelWidget(label: "choose preference",child: pref));
@@ -202,12 +203,24 @@ class FavouriteProductSearchScreen extends SearchScreen<Product> {
 }
 class _FavouriteProductSearchScreenState extends _ProductSearchScreenState
 {
+  @override 
+  bool get showPreferences=>false;
   ListCubit<Product>? _listCubit;
   @override
   ListCubit<Product> get providerCubit
   {
     _listCubit ??= FavouriteProductsCubit.empty();
     return _listCubit!;
+  }
+  @override 
+  Widget putWidgets(Widget listWidget,Widget filterWidget)
+  {
+    return Column(
+      children: [
+        listWidget,
+        reloadButton
+      ],
+    );
   }
   @override
   set providerCubit(ListCubit<Product> value)=>_listCubit=value;

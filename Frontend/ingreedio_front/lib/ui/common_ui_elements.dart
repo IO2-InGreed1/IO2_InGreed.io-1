@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 class StandardDecorator extends StatelessWidget {
-  const StandardDecorator({super.key, required this.child,this.color=const Color.fromARGB(167, 119, 243, 25),this.padding=7});
-
+  const StandardDecorator({super.key, required this.child,this.color=const Color.fromARGB(167, 119, 243, 25),this.padding=7,this.curve=5.0});
   StandardDecorator.column({super.key,required List<Widget> children,
   this.color=const Color.fromARGB(167, 231, 250, 29),
   this.padding=7,
@@ -11,12 +10,13 @@ class StandardDecorator extends StatelessWidget {
   CrossAxisAlignment crossAxisAlignment=CrossAxisAlignment.center,
   TextBaseline? textBaseline,
   TextDirection? textDirection,
+  this.curve=5.0
   }):child=Column(mainAxisAlignment: mainAxisAlignment,
   crossAxisAlignment: crossAxisAlignment,
   textBaseline: textBaseline,
   textDirection: textDirection,
   children: children,);
-
+  final double curve;
   final Widget child;
   final Color color;
   final double padding;
@@ -26,7 +26,7 @@ class StandardDecorator extends StatelessWidget {
       child: Container(
                   decoration: BoxDecoration(
                 color: color, 
-                borderRadius: BorderRadius.circular(5.0), // Zaokrąglenie rogów
+                borderRadius: BorderRadius.circular(curve), // Zaokrąglenie rogów
                 boxShadow: [
                   BoxShadow(
                     color: const Color.fromARGB(115, 182, 176, 176).withOpacity(0.5), // Kolor cienia
@@ -64,6 +64,13 @@ class LogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(onPressed: ()=>SessionCubit.fromContext(context).reset(), child:const Text("logout"));
+    return TextButton(onPressed: ()
+    {
+      SessionCubit.fromContext(context).reset();
+      while(Navigator.canPop(context)) 
+      {
+        Navigator.pop(context);
+      }
+    }, child:const Text("logout"));
   }
 }

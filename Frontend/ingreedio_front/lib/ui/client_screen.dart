@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/assets.dart';
-import 'package:ingreedio_front/creators/common_creators.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
 import 'package:ingreedio_front/logic/users.dart';
@@ -33,7 +32,7 @@ class ClientScreen extends StatelessWidget {
               )
             );
   }
-  AppBar getAppBar(BuildContext context)
+  AppBar getAppBar(BuildContext context,{bool withClientProfile=false})
   {
     return AppBar(
         title: Row(
@@ -43,6 +42,14 @@ class ClientScreen extends StatelessWidget {
           ],
         ),
         actions: [
+          withClientProfile?StandardDecorator(
+            color: Theme.of(context).colorScheme.secondary,
+            curve: 100,
+            padding: 0,
+            child: TextButton(onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: AppBar(),body: SingleChildScrollView(child: client.clientProfileWidget))));
+            }, child: client.clientWidget),
+          ):const SizedBox(),
           IconButton(
             icon:const Icon(Icons.info),
             onPressed: () {
@@ -64,59 +71,51 @@ class ClientScreen extends StatelessWidget {
         ],
       );
   }
-  Widget getBody(BuildContext context)
+  Widget getBody(BuildContext context,{bool withClientProfile=true})
   {
-    return Row(
-        children: [
-          Expanded(flex: 2,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: managePreferencesButton(context)
+        return Row(
+            children: [
+              Expanded(flex: 2,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: managePreferencesButton(context)
+                    ),
+                    const SizedBox(width:800,child: LabelWidget(
+                      isHorizontal: false,
+                      label: "Favourite Products:",
+                      child: FavouriteProductSearchScreen())),
+                  ],
                 ),
-                const SizedBox(width:800,child: FavouriteProductSearchScreen()),
-              ],
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Container(
-              color: Colors.yellow[100],
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  client.clientProfileWidget,
-                  const SizedBox(height: 20),
-                  const Text('Settings', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                  SwichButtonWidget(
-                    title: 'Email notifications',
-                    reference: ItemWrapper(false),
-                  ),
-                  SwichButtonWidget(
-                    title: 'Push up notifications',
-                    reference: ItemWrapper(false),
-                  ),
-                  ListTile(
-                    title: const Text('Change Email'),
-                    onTap: () {},
-                  ),
-                  ListTile(
-                    title: const Text('Change Password'),
-                    onTap: () {},
-                  ),
-                  const LogoutButton(),
-                ],
               ),
-            ),
-          ),
-        ],
-      );
+              withClientProfile?Expanded(
+                flex: 1,
+                child: Container(
+                  color: Colors.yellow[100],
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 20),
+                        client.clientProfileWidget,
+                      ],
+                    ),
+                  ),
+                ),
+              ):const SizedBox(),
+            ],
+          );
   }
   @override
   Widget build(BuildContext context) {
     PreferenceCubit.fromContext(context).loadPreferences(context,client);
-    return Scaffold(appBar: getAppBar(context),
-    body: getBody(context),);
+    //return Scaffold(appBar: getAppBar(context),body: getBody(context),);
+    return LayoutBuilder(
+      builder: (context,constraints) {
+        bool withProfile=constraints.maxWidth>500;
+        return Scaffold(appBar: getAppBar(context,withClientProfile: !withProfile),
+        body: getBody(context,withClientProfile: withProfile),);
+      }
+    );
   }
 }
