@@ -115,7 +115,7 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
   {
     return Column(mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      StandardDecorator(child: filterCreator),
+      filterCreator,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [applyButton,reloadButton],
