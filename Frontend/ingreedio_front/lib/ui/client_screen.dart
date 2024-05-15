@@ -37,36 +37,61 @@ class ClientScreen extends StatelessWidget {
     return AppBar(
         title: Row(
           children: [
-            SizedBox(height: 60,child: Assets.inGreedIcon),
+            SizedBox(height: 50,child: Assets.inGreedIcon),
             searchButton(context),
           ],
         ),
         actions: [
-          withClientProfile?StandardDecorator(
-            color: Theme.of(context).colorScheme.secondary,
-            curve: 100,
-            padding: 0,
-            child: TextButton(onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: AppBar(),body: SingleChildScrollView(child: client.clientProfileWidget))));
-            }, child: client.clientWidget),
+          withClientProfile?SizedBox(
+            width: 80,
+            child: StandardDecorator(
+              color: Theme.of(context).colorScheme.secondary,
+              curve: 100,
+              padding: 0,
+              child: TextButton(onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: AppBar(),body: SingleChildScrollView(child: client.clientProfileWidget))));
+              }, child: client.clientWidget),
+            ),
           ):const SizedBox(),
-          IconButton(
-            icon:const Icon(Icons.info),
-            onPressed: () {
+          PopupMenuButton(itemBuilder: (context)=>
+          [
+            PopupMenuItem(child: IconButton(
+              icon:const Row(
+              children: 
+              [
+                Icon(Icons.info),
+                Text("about us")
+              ],
+            ),
+            onPressed: () 
+            {
               // Handle About Us
-            },
-          ),
-          IconButton(
-            icon:const Icon(Icons.attach_money),
-            onPressed: () {
-              // Handle Pricing
-            },
-          ),
-          IconButton(
-            icon:const Icon(Icons.article),
-            onPressed: () {
-              // Handle Terms and Conditions
-            },
+            },),),
+            PopupMenuItem(child: IconButton(
+              icon:const Row(
+              children: 
+              [
+                Icon(Icons.attach_money),
+                Text("pricing")
+              ],
+            ),
+            onPressed: () 
+            {
+              // Handle About Us
+            },),),
+            PopupMenuItem(child: IconButton(
+              icon:const Row(
+              children: 
+              [
+                Icon(Icons.article),
+                Text("terms and conditions")
+              ],
+            ),
+            onPressed: () 
+            {
+              // Handle About Us
+            },),),
+          ]
           ),
         ],
       );
