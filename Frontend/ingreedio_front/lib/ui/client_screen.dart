@@ -94,11 +94,14 @@ class ClientScreen extends StatelessWidget {
                 child: Container(
                   color: Colors.yellow[100],
                   child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 20),
-                        client.clientProfileWidget,
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          client.clientProfileWidget,
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -112,7 +115,7 @@ class ClientScreen extends StatelessWidget {
     //return Scaffold(appBar: getAppBar(context),body: getBody(context),);
     return LayoutBuilder(
       builder: (context,constraints) {
-        bool withProfile=constraints.maxWidth>500;
+        bool withProfile=constraints.maxWidth>650;
         return Scaffold(appBar: getAppBar(context,withClientProfile: !withProfile),
         body: getBody(context,withClientProfile: withProfile),);
       }
