@@ -98,3 +98,31 @@ class _DoubleCreatorState extends State<DoubleCreator> {
     );
   }
 }
+
+class SwichButtonWidget extends Creator<bool> {
+  const SwichButtonWidget({super.key, required super.reference,super.onChanged,this.title=""});
+  final String title;
+  @override
+  State<SwichButtonWidget> createState() => _SwichButtonWidgetState();
+  
+  @override
+  Creator<bool> getInstance({Key? key, Function(bool p1) onChanged = doNothing, required ItemWrapper<bool> reference}) {
+    return SwichButtonWidget(reference: reference,key: key,onChanged: onChanged,);
+  }
+}
+class _SwichButtonWidgetState extends State<SwichButtonWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return SwitchListTile(
+            title: Text(widget.title),
+            value: widget.item,
+            onChanged: (val) {
+              setState(() 
+              {
+                widget.item=val;
+              });
+            },
+          );
+  }
+}
+
