@@ -32,8 +32,46 @@ class ClientScreen extends StatelessWidget {
               )
             );
   }
-  AppBar getAppBar(BuildContext context,{bool withClientProfile=false})
+  AppBar getAppBar(BuildContext context,{bool withClientProfile=false,bool buttonSubmenu=false})
   {
+    List<Widget> buttons=[
+      IconButton(
+              icon:const Row(
+              children: 
+              [
+                Icon(Icons.info),
+                Text("about us")
+              ],
+            ),
+            onPressed: () 
+            {
+              // Handle About Us
+            },),
+            IconButton(
+              icon:const Row(
+              children: 
+              [
+                Icon(Icons.attach_money),
+                Text("pricing")
+              ],
+            ),
+            onPressed: () 
+            {
+              // Handle About Us
+            },),
+            IconButton(
+              icon:const Row(
+              children: 
+              [
+                Icon(Icons.article),
+                Text("terms and conditions")
+              ],
+            ),
+            onPressed: () 
+            {
+              // Handle About Us
+            },),
+    ];
     return AppBar(
         title: Row(
           children: [
@@ -53,47 +91,8 @@ class ClientScreen extends StatelessWidget {
               }, child: client.clientWidget),
             ),
           ):const SizedBox(),
-          PopupMenuButton(itemBuilder: (context)=>
-          [
-            PopupMenuItem(child: IconButton(
-              icon:const Row(
-              children: 
-              [
-                Icon(Icons.info),
-                Text("about us")
-              ],
-            ),
-            onPressed: () 
-            {
-              // Handle About Us
-            },),),
-            PopupMenuItem(child: IconButton(
-              icon:const Row(
-              children: 
-              [
-                Icon(Icons.attach_money),
-                Text("pricing")
-              ],
-            ),
-            onPressed: () 
-            {
-              // Handle About Us
-            },),),
-            PopupMenuItem(child: IconButton(
-              icon:const Row(
-              children: 
-              [
-                Icon(Icons.article),
-                Text("terms and conditions")
-              ],
-            ),
-            onPressed: () 
-            {
-              // Handle About Us
-            },),),
+          buttonSubmenu?PopupMenuButton(itemBuilder: (context)=>buttons.map((e) => PopupMenuItem(child: e)).toList()):Row(children: buttons)
           ]
-          ),
-        ],
       );
   }
   Widget getBody(BuildContext context,{bool withClientProfile=true})
@@ -107,10 +106,13 @@ class ClientScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(20.0),
                       child: managePreferencesButton(context)
                     ),
-                    const SizedBox(width:800,child: LabelWidget(
-                      isHorizontal: false,
-                      label: "Favourite Products:",
-                      child: FavouriteProductSearchScreen())),
+                    StandardDecorator(
+                      color: Theme.of(context).colorScheme.secondary,
+                      child: const SizedBox(width:450,child: LabelWidget(
+                        isHorizontal: false,
+                        label: "Favourite Products:",
+                        child: FavouriteProductSearchScreen())),
+                    ),
                   ],
                 ),
               ),
@@ -141,7 +143,7 @@ class ClientScreen extends StatelessWidget {
     return LayoutBuilder(
       builder: (context,constraints) {
         bool withProfile=constraints.maxWidth>650;
-        return Scaffold(appBar: getAppBar(context,withClientProfile: !withProfile),
+        return Scaffold(appBar: getAppBar(context,withClientProfile: !withProfile,buttonSubmenu: !withProfile),
         body: getBody(context,withClientProfile: withProfile),);
       }
     );

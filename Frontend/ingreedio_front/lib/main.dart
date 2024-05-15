@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
         child: BlocProvider(
           create: (_)=>PreferenceCubit.empty(),
           child: MaterialApp(
+            debugShowCheckedModeBanner: false,
             routes: {
             '/': (context) => const MyHomePage(title: 'Flutter Demo Home Page',),
             },
