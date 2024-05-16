@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-AppBar getStandardAppBar(BuildContext context,{bool buttonSubmenu=false})
+AppBar getStandardAppBar(BuildContext context,{bool buttonSubmenu=true})
   {
     List<Widget> buttons=[
       IconButton(
