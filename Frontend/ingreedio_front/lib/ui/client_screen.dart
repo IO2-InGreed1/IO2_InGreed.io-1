@@ -73,6 +73,7 @@ class ClientScreen extends StatelessWidget {
             },),
     ];
     return AppBar(
+      flexibleSpace: gradient,
         title: Row(
           children: [
             SizedBox(height: 50,child: Assets.inGreedIcon),

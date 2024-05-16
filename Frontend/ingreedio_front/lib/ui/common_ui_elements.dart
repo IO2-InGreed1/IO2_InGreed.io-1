@@ -46,9 +46,23 @@ AppBar getStandardAppBar(BuildContext context,{bool buttonSubmenu=true})
         title: SizedBox(height: 50,child: Assets.inGreedIcon),
         actions: [
             buttonSubmenu?PopupMenuButton(itemBuilder: (context)=>buttons.map((e) => PopupMenuItem(child: e)).toList()):Row(children: buttons)
-          ]
+          ],
+          flexibleSpace: gradient
       );
   }
+  Widget get gradient =>Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                colors: [
+                  Color.fromARGB(255, 201, 237, 222),
+                  Colors.lightGreen,
+                ],
+                begin: FractionalOffset(0.0, 0.0),
+                end: FractionalOffset(1.0, 0.0),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp),
+          ),
+        );
 class StandardDecorator extends StatelessWidget {
   const StandardDecorator({super.key, required this.child,this.color=const Color.fromARGB(167, 119, 243, 25),this.padding=7,this.curve=5.0});
   StandardDecorator.column({super.key,required List<Widget> children,
