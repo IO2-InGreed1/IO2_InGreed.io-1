@@ -30,28 +30,6 @@ abstract class Database
   {
     return opinionDatabase.removeOpinion(opinion);
   }
-  Future<List<Client>> getAllClients()
-  {
-    return userDatabse.getAllClients();
-  }
-  Future<List<Producer>> getAllProducers()
-  {
-    return productDatabse.getAllProducers();
-  }
-
-  Future<List<Opinion>> getAllOpinions()
-  {
-    return opinionDatabase.getAllOpinions();
-  }
-  Future<List<Product>> getAllProducts()
-  {
-    return productDatabse.getAllProducts();
-  }
-  Future<List<Opinion>> getReportedOpinions(Product product)
-  {
-    return opinionDatabase.getReportedProductOpinions(product);
-  }
-  Future<List<Opinion>> searchInvalidOpinions();
   void clearEditedOpinionList(int moderatorNumber);
   Future<SessionData?> loginUser(String email,String password) async
   {
@@ -90,9 +68,7 @@ abstract class ProductDatabse
   Future<bool> addProduct(Product product);
   Future<bool> removeProduct(Product product);
   Future<bool> editProduct(Product product,Product editedProduct);
-  Future<List<Product>> getAllProducts();
   Future<ListData<Product>> filterProducts(int from,int to,ProductFilter filter);
-  Future<List<Producer>> getAllProducers();
   Future<bool> addProducer(Producer producer);
   Future<bool> removeProducer(Producer producer);
 }
@@ -105,7 +81,6 @@ abstract class UserDatabse
   SessionCubit get cubit=>throw Exception("not implemented");
   Future<bool> addClient(Client client);
   Future<bool> removeClient(Client client);
-  Future<List<Client>> getAllClients();
   Future<List<Preference>> getUserPreferences(Client client);
   Future<bool> setFavouriteProduct(Client client,Product product,bool state);
   Future<bool> addPreference(Preference preference);
@@ -115,13 +90,11 @@ abstract class UserDatabse
 abstract class OpinionDatabase
 {
   SessionCubit get cubit=>throw Exception("not implemented");
-  Future<List<Opinion>> getAllOpinions();
   Future<bool> addOpinion(Opinion opinion);
   Future<bool> removeOpinion(Opinion opinion);
   Future<List<Opinion>> getClientOpinions(Client client);
   Future<List<Opinion>> getProductOpinions(Product product);
   Future<ListData<Opinion>> getReportedFilteredOpinions(int from,int to,Filter<Opinion> filter);
-  Future<List<Opinion>> getReportedProductOpinions(Product product);
   Future<ListData<Opinion>> getOpinionsFiltered(int from,int to,Product product,OpinionFilter filter);
   Future<void> setOpinionReport(Opinion opinion,{bool reportState=true});
 }

@@ -78,11 +78,6 @@ class MockupUserDatabase extends UserDatabse
   }
 
   @override
-  Future<List<Client>> getAllClients() async {
-    return clients;
-  }
-
-  @override
   Future<bool> removeClient(Client client) async {
     return clients.remove(client);
   }
@@ -184,16 +179,6 @@ class MockupProductDatabase extends ProductDatabse
   }
   
   @override
-  Future<List<Producer>> getAllProducers() async {
-    return producers;
-  }
-  
-  @override
-  Future<List<Product>> getAllProducts() async {
-    return products;
-  }
-  
-  @override
   Future<bool> removeProducer(Producer producer) async {
     return producers.remove(producer);
   }
@@ -282,11 +267,6 @@ class MockupOpinionDatabase extends OpinionDatabase
   }
 
   @override
-  Future<List<Opinion>> getAllOpinions() async {
-    return opinions;
-  }
-
-  @override
   Future<List<Opinion>> getClientOpinions(Client client) async {
     return opinions.where((element) => element.author==client).toList();
   }
@@ -310,12 +290,6 @@ class MockupOpinionDatabase extends OpinionDatabase
       odp.add(pom[i]);
     }
     return ListData(odp, pom.length);
-  }
-  
-  @override
-  Future<List<Opinion>> getReportedProductOpinions(Product product) async {
-    
-    return opinions.where((element) => (element.isReported==true)&&element.product==product).toList();
   }
   
   @override
@@ -404,10 +378,6 @@ class MockupDatabase extends Database
   ProductDatabse get productDatabse => _productDatabse;
   @override
   LoginDatabase get loginDatabase => _loginDatabase;
-  @override
-  Future<List<Opinion>> searchInvalidOpinions() {
-    return opinionDatabase.getAllOpinions();
-  }
 
   @override
   UserDatabse get userDatabse =>_userDatabse;

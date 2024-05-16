@@ -54,12 +54,6 @@ class RealUserDatabase extends UserDatabse
   }
 
   @override
-  Future<List<Client>> getAllClients() async {
-    // TODO: implement getAllClients
-    throw UnimplementedError();
-  }
-
-  @override
   Future<List<Preference>> getUserPreferences(Client client) async {
     // TODO: implement getUserPreferences
     throw UnimplementedError();
@@ -160,18 +154,6 @@ class RealProductDatabase extends ProductDatabse
   }
 
   @override
-  Future<List<Producer>> getAllProducers()  async{
-    // TODO: implement getAllProducers
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<Product>> getAllProducts() async {
-    // TODO: implement getAllProducts
-    throw UnimplementedError();
-  }
-
-  @override
   Future<bool> removeProducer(Producer producer) async {
     // TODO: implement removeProducer
     throw UnimplementedError();
@@ -197,12 +179,6 @@ class RealOpinionDatabase extends OpinionDatabase
   }
 
   @override
-  Future<List<Opinion>> getAllOpinions() async {
-    // TODO: implement getAllOpinions
-    throw UnimplementedError();
-  }
-
-  @override
   Future<List<Opinion>> getClientOpinions(Client client) async {
     // TODO: implement getClientOpinions
     throw UnimplementedError();
@@ -223,12 +199,6 @@ class RealOpinionDatabase extends OpinionDatabase
   @override
   Future<ListData<Opinion>> getReportedFilteredOpinions(int from,int to,Filter<Opinion> filter) async {
     // TODO: implement getReportedOpinions
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<Opinion>> getReportedProductOpinions(Product product) async {
-    // TODO: implement getReportedProductOpinions
     throw UnimplementedError();
   }
 
