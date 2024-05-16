@@ -55,7 +55,7 @@ AppBar getStandardAppBar(BuildContext context,{bool buttonSubmenu=true})
             gradient: LinearGradient(
                 colors: [
                   Color.fromARGB(255, 201, 237, 222),
-                  Colors.lightGreen,
+                  Color.fromARGB(255, 86, 195, 74),
                 ],
                 begin: FractionalOffset(0.0, 0.0),
                 end: FractionalOffset(1.0, 0.0),

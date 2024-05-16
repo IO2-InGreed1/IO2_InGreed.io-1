@@ -7,9 +7,15 @@ import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:ingreedio_front/ui/preferances_menager.dart';
 import 'package:ingreedio_front/ui/product_search_screen.dart';
 
-class ClientScreen extends StatelessWidget {
+class ClientScreen extends StatefulWidget {
   final Client client;
   const ClientScreen({super.key, required this.client});
+
+  @override
+  State<ClientScreen> createState() => _ClientScreenState();
+}
+
+class _ClientScreenState extends State<ClientScreen> {
   Widget managePreferencesButton(BuildContext context)
   {
     return TextButton(
@@ -18,11 +24,12 @@ class ClientScreen extends StatelessWidget {
         Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: getStandardAppBar(context),body: PreferenceMenager(),)));
       }, child: const Text("manage preferences"));
   }
+
   Widget searchButton(BuildContext context)
   {
     return TextButton(onPressed: ()
             {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: getStandardAppBar(context),body:const ProductSearchScreen(),)));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: getStandardAppBar(context),body:const ProductSearchScreen(),))).then((_)=>setState((){}));
             }, child: 
               const Row(mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -32,6 +39,7 @@ class ClientScreen extends StatelessWidget {
               )
             );
   }
+
   AppBar getAppBar(BuildContext context,{bool withClientProfile=false,bool buttonSubmenu=false})
   {
     List<Widget> buttons=[
@@ -88,14 +96,15 @@ class ClientScreen extends StatelessWidget {
               curve: 100,
               padding: 0,
               child: TextButton(onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: AppBar(),body: SingleChildScrollView(child: client.clientProfileWidget))));
-              }, child: client.clientWidget),
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: AppBar(),body: SingleChildScrollView(child: widget.client.clientProfileWidget))));
+              }, child: widget.client.clientWidget),
             ),
           ):const SizedBox(),
           buttonSubmenu?PopupMenuButton(itemBuilder: (context)=>buttons.map((e) => PopupMenuItem(child: e)).toList()):Row(children: buttons)
           ]
       );
   }
+
   Widget getBody(BuildContext context,{bool withClientProfile=true})
   {
         return Row(
@@ -109,10 +118,17 @@ class ClientScreen extends StatelessWidget {
                     ),
                     StandardDecorator(
                       color: Theme.of(context).colorScheme.secondary,
-                      child: const SizedBox(width:450,child: LabelWidget(
+                      child: widget.client.favoriteProducts.isNotEmpty? const SizedBox(width:450,child: LabelWidget(
                         isHorizontal: false,
                         label: "Favourite Products:",
-                        child: FavouriteProductSearchScreen())),
+                        child: FavouriteProductSearchScreen())):
+                        Column(
+                          children: [
+                            const Text("Search for your favourite products"),
+                            searchButton(context)
+                          ],
+                        )
+                        ,
                     ),
                   ],
                 ),
@@ -127,7 +143,7 @@ class ClientScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           const SizedBox(height: 20),
-                          client.clientProfileWidget,
+                          widget.client.clientProfileWidget,
                         ],
                       ),
                     ),
@@ -137,9 +153,13 @@ class ClientScreen extends StatelessWidget {
             ],
           );
   }
+
   @override
   Widget build(BuildContext context) {
-    PreferenceCubit.fromContext(context).loadPreferences(context,client);
+    if(PreferenceCubit.fromContext(context).state==null)
+    {
+      PreferenceCubit.fromContext(context).loadPreferences(context,widget.client);
+    }
     //return Scaffold(appBar: getAppBar(context),body: getBody(context),);
     return LayoutBuilder(
       builder: (context,constraints) {
