@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/cubit_logic/cubit_consumer.dart';
+import 'package:ingreedio_front/ui/client_screen.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:ingreedio_front/creators/creators.dart';
@@ -221,6 +222,20 @@ class _FavouriteProductSearchScreenState extends _ProductSearchScreenState
         reloadButton
       ],
     );
+  }
+  @override Widget getListWidget(List<Product> list, BuildContext context) {
+    if(lastData!=null&&lastData!.data.isEmpty)
+    {
+      return Column
+        (
+          children: 
+          [
+            const Text("Search for your favourite products"),
+            ClientScreen.searchButton(context),
+          ],
+        );
+    }
+    return super.getListWidget(list, context);
   }
   @override
   set providerCubit(ListCubit<Product> value)=>_listCubit=value;

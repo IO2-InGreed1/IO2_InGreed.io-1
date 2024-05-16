@@ -85,7 +85,12 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
         //if(columns>widget.maxColumns) columns=widget.maxColumns;
         //if(rows>widget.maxRows) rows=widget.maxRows;
         if(list.isEmpty) return const SizedBox();
-        return Grid(columns: columns, children: list.getRange(0, columns*rows>list.length?list.length:columns*rows).map((e) => getObjectWidget(e, context)).toList());
+        return Column(
+          children: [
+            Grid(columns: columns, children: list.getRange(0, columns*rows>list.length?list.length:columns*rows).map((e) => getObjectWidget(e, context)).toList()),
+            listControlWidgets
+          ],
+        );
       }
     );
   }
@@ -131,8 +136,7 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
   Widget build(BuildContext context) {
     providerCubit.loadData(from,from+count,filter,context);
     Widget filterWidget=getFilterWidget(filterCreator);
-    Widget listWidget=Column(mainAxisAlignment: MainAxisAlignment.center,
-    children: [BlocBuilder<ListCubit<T>,SearchScreenData<T>?>(builder: (context,state)
+    Widget listWidget=BlocBuilder<ListCubit<T>,SearchScreenData<T>?>(builder: (context,state)
         {
           if(lastData!=null&&filter!=lastData!.filter) lastData=null;
           if(lastData!=null&&lastData!.from==from&&lastData!.to==from+count)
@@ -145,11 +149,9 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
           }
           lastData=state;
           maks=state.maxCount;
-          return getListWidget(state.data, context);
-        }),
-        listControlWidgets,
-      ]
-    );
+          Widget listWidget=getListWidget(state.data, context);
+          return listWidget;
+        });
     return BlocProvider(create: (context)=>providerCubit,
     child: putWidgets(listWidget, filterWidget)
     );

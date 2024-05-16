@@ -46,7 +46,13 @@ class FavouriteProductsCubit extends ListCubit<Product>
     if(client==null) throw Exception("client not logged in");
     return filterProducts(client!.favoriteProducts, from, to, filter);
   }
-  
+  @override
+  Future<void> loadData(int from, int to, Filter<Product> filter, BuildContext context, {bool reset = false}) async 
+  {
+    var newData=await getItems(from, to, filter,context);
+    lastMaxCount=newData.maxCount;
+    emit(SearchScreenData(from, to, newData.list,filter.clone(),newData.maxCount));
+  }
 }
 ListData<Product> filterProducts(List<Product> products,int from,int to,Filter<Product> filter)
 {    
