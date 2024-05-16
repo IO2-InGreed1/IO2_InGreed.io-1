@@ -23,4 +23,8 @@ class SessionData with SessionDataMappable
   Producer? currentProducer;
   Moderator? currentModerator;
   Admin? currentAdmin;
+  bool get isLoggedIn
+  {
+    return currentAdmin!=null||currentClient!=null||currentModerator!=null||currentProducer!=null;
+  }
 }

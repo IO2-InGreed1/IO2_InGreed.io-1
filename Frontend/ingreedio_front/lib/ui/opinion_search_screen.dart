@@ -19,9 +19,11 @@ class OpinionSearchScreen extends SearchScreen<Opinion> {
 class _OpinionSearchScreenState extends SearchScreenState<Opinion> {
 
   OpinionSearchScreen get myWidget=>widget as OpinionSearchScreen;
+  bool reportButton=false;
   @override 
   Widget build(BuildContext context) 
   {
+    reportButton=SessionCubit.fromContext(context).state.isLoggedIn;
     _providerCubit ??= OpinionCubit(myWidget.product);
     return super.build(context);
   }
@@ -44,6 +46,7 @@ class _OpinionSearchScreenState extends SearchScreenState<Opinion> {
   
   @override
   Widget getObjectWidget(Opinion obj, BuildContext context) {
+    if(reportButton==false) return obj.widget;
     return obj.reportableWidget;
   }
 }

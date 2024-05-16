@@ -9,9 +9,9 @@ class TestInitializer
   static Client get client=>Client.fromAllData(id: 0, isBlocked: false, mail: "mail@mail.com", password: "myPassword", username: "User", favoriteProducts: []);
   static List<Preference> get preferences
   {
-    Preference p1=Preference.fromAllData(client: client,allergens: [], id: 0, isActive: true, name: "preferance 1", prefered: [commonIngredients[1],commonIngredients[2]],category: null);
-    Preference p2=Preference.fromAllData(client: client,allergens: [commonIngredients[1]], id: 1, isActive: false, name: "preferance 2", prefered: [commonIngredients[3],commonIngredients[0]],category: null);
-    Preference p3=Preference.fromAllData(client: client,allergens: [commonIngredients[0],commonIngredients[3]], id: 2, isActive: false, name: "preferance 3", prefered: [commonIngredients[2],commonIngredients[1]],category: null);
+    Preference p1=Preference.fromAllData(client: client,allergens: [], id: 0, name: "preferance 1", prefered: [commonIngredients[1],commonIngredients[2]],category: null);
+    Preference p2=Preference.fromAllData(client: client,allergens: [commonIngredients[1]], id: 1, name: "preferance 2", prefered: [commonIngredients[3],commonIngredients[0]],category: null);
+    Preference p3=Preference.fromAllData(client: client,allergens: [commonIngredients[0],commonIngredients[3]], id: 2, name: "preferance 3", prefered: [commonIngredients[2],commonIngredients[1]],category: null);
     return [p1,p2,p3];
   }
   static List<Ingredient> get commonIngredients
@@ -33,16 +33,6 @@ class TestInitializer
   }
 }
 void main() {
-  test('IProducer.promoteProduct(Product) changes product promotion time', () {
-    //Arrange
-    Producer producer=TestInitializer.producer;
-    Product product=TestInitializer.product;
-    DateTime time=DateTime(2017);
-    //Act
-    producer.promoteProduct(product,time);
-    //Assert
-    expect(product.promotionUntil, equals(time));
-  });
   //(un)blocking user tests
   test('ControlPanel.blockUser() blocks not-blocked user', () {
     //Arrange

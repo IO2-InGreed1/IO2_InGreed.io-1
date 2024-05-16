@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
+import 'package:ingreedio_front/ui/common_ui_elements.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -54,10 +55,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:const Color.fromARGB(255, 236, 228, 156),
-      appBar: AppBar(
-        title: const Text('Login'),
-        backgroundColor: const Color.fromARGB(255, 255, 239, 96),
-      ),
+      appBar: getStandardAppBar(context,searchButton: true),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(

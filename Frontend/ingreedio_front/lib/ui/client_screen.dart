@@ -20,21 +20,6 @@ class ClientScreen extends StatelessWidget {
       }, child: const Text("manage preferences"));
   }
 
-  static Widget searchButton(BuildContext context)
-  {
-    return TextButton(onPressed: ()
-            {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: getStandardAppBar(context),body:const ProductSearchScreen(),)));
-            }, child: 
-              const Row(mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.search),
-                Text("search")
-              ],
-              )
-            );
-  }
-
   AppBar getAppBar(BuildContext context,{bool withClientProfile=false,bool buttonSubmenu=false})
   {
     List<Widget> buttons=[
@@ -80,7 +65,7 @@ class ClientScreen extends StatelessWidget {
         title: Row(
           children: [
             SizedBox(height: 50,child: Assets.inGreedIcon),
-            searchButton(context),
+            const SearchButton(),
           ],
         ),
         actions: [

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
+import 'package:ingreedio_front/ui/product_search_screen.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-AppBar getStandardAppBar(BuildContext context,{bool buttonSubmenu=true})
+AppBar getStandardAppBar(BuildContext context,{bool buttonSubmenu=true,bool searchButton=false})
   {
     List<Widget> buttons=[
       IconButton(
@@ -43,7 +44,12 @@ AppBar getStandardAppBar(BuildContext context,{bool buttonSubmenu=true})
             },),
     ];
     return AppBar(
-        title: SizedBox(height: 50,child: Assets.inGreedIcon),
+        title: Row(
+          children: [
+            SizedBox(height: 50,child: Assets.inGreedIcon),
+            searchButton?const SearchButton():const SizedBox()
+          ],
+        ),
         actions: [
             buttonSubmenu?PopupMenuButton(itemBuilder: (context)=>buttons.map((e) => PopupMenuItem(child: e)).toList()):Row(children: buttons)
           ],
@@ -134,5 +140,23 @@ class LogoutButton extends StatelessWidget {
         Navigator.pop(context);
       }
     }, child:const Text("logout"));
+  }
+}
+class SearchButton extends StatelessWidget {
+  const SearchButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+        return TextButton(onPressed: ()
+            {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: getStandardAppBar(context),body:const ProductSearchScreen(),)));
+            }, child: 
+              const Row(mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.search),
+                Text("search")
+              ],
+              )
+            );
   }
 }
