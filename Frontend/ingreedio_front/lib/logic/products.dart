@@ -1,6 +1,7 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/assets.dart';
+import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:ingreedio_front/ui/opinion_widget.dart';
 import 'package:ingreedio_front/ui/product_widget.dart';
 import 'package:ingreedio_front/logic/users.dart';
@@ -37,7 +38,7 @@ class Product with ProductMappable
   {
     return GestureDetector(onTap: (){
       Navigator.push(context, MaterialPageRoute(
-        builder:(context)=>Scaffold(body: ProductAndOpinionWidget(product: this),appBar: AppBar(),)
+        builder:(context)=>Scaffold(body: ProductAndOpinionWidget(product: this),appBar: getStandardAppBar(context),)
         ));
       },child: iconWidget);
   }

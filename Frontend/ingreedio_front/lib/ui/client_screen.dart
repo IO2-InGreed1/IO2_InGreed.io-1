@@ -15,14 +15,14 @@ class ClientScreen extends StatelessWidget {
     return TextButton(
       onPressed: ()
       {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: AppBar(),body: PreferenceMenager(),)));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: getStandardAppBar(context),body: PreferenceMenager(),)));
       }, child: const Text("manage preferences"));
   }
   Widget searchButton(BuildContext context)
   {
     return TextButton(onPressed: ()
             {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: AppBar(),body:const ProductSearchScreen(),)));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: getStandardAppBar(context),body:const ProductSearchScreen(),)));
             }, child: 
               const Row(mainAxisAlignment: MainAxisAlignment.center,
               children: [

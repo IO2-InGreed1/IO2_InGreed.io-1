@@ -1,6 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+AppBar getStandardAppBar(BuildContext context,{bool buttonSubmenu=false})
+  {
+    List<Widget> buttons=[
+      IconButton(
+              icon:const Row(
+              children: 
+              [
+                Icon(Icons.info),
+                Text("about us")
+              ],
+            ),
+            onPressed: () 
+            {
+              // Handle About Us
+            },),
+            IconButton(
+              icon:const Row(
+              children: 
+              [
+                Icon(Icons.attach_money),
+                Text("pricing")
+              ],
+            ),
+            onPressed: () 
+            {
+              // Handle About Us
+            },),
+            IconButton(
+              icon:const Row(
+              children: 
+              [
+                Icon(Icons.article),
+                Text("terms and conditions")
+              ],
+            ),
+            onPressed: () 
+            {
+              // Handle About Us
+            },),
+    ];
+    return AppBar(
+        title: SizedBox(height: 50,child: Assets.inGreedIcon),
+        actions: [
+            buttonSubmenu?PopupMenuButton(itemBuilder: (context)=>buttons.map((e) => PopupMenuItem(child: e)).toList()):Row(children: buttons)
+          ]
+      );
+  }
 class StandardDecorator extends StatelessWidget {
   const StandardDecorator({super.key, required this.child,this.color=const Color.fromARGB(167, 119, 243, 25),this.padding=7,this.curve=5.0});
   StandardDecorator.column({super.key,required List<Widget> children,
