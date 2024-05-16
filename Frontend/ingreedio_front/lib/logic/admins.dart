@@ -16,23 +16,13 @@ class Moderator extends IModerator with ModeratorMappable
   Moderator.fromAllData({required this.moderatorNumber,required this.editedOpinionList});
   int moderatorNumber;
   List<Opinion> editedOpinionList;
-  void editionHistory(Opinion opinion)
-  {
-    //TODO: this
-    throw Exception("not implemented");
-  }
 }
 @MappableClass()
-class Admin extends IModerator with IProducer,AdminMappable
+class Admin extends IModerator with AdminMappable
 {
   @MappableConstructor()
   Admin.fromAllData({required this.controlPanel});
   ControlPanel controlPanel;
-  void getControlPanel()
-  {
-    //TODO: this
-    throw Exception("not implemented");
-  }
 }
 @MappableClass()
 class ControlPanel with ControlPanelMappable

@@ -4,24 +4,6 @@ import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/ui/client_widget.dart';
 part 'users.mapper.dart';
-mixin class IProducer
-{
-  void promoteProduct(Product product,DateTime date)
-  {
-    //TODO: this
-    throw Exception("not implemented");
-  }
-  void addProduct(Product product)
-  {
-    //TODO: this
-    throw Exception("not implemented");
-  }
-  void removeProduct(Product product)
-  {
-    //TODO: this
-    throw Exception("not implemented");
-  }
-}
 @MappableClass(discriminatorKey: "Type",discriminatorValue: "User")
 abstract class User with UserMappable
 {
@@ -37,19 +19,9 @@ abstract class User with UserMappable
   String mail,username;
   String? password;
   bool isBlocked;
-  void logIn()
-  {
-    //TODO: this
-    throw Exception("not implemented");
-  }
-  void register()
-  {
-    //TODO: this
-    throw Exception("not implemented");
-  }
 }
 @MappableClass()
-class Producer extends IProducer with ProducerMappable
+class Producer with ProducerMappable
 {
   String companyName,nip,representativeName,representativeSurname,telephoneNumber;
   @MappableConstructor()
@@ -92,21 +64,6 @@ class Client extends User with ClientMappable
     if(other is! Client) return false;
     return other.isBlocked==isBlocked&&other.id==id&&other.username==username&&other.mail==mail;
   }
-  void findProducts(List<Ingredient> ingredients)
-  {
-    //TODO: this
-    throw Exception("not implemented");
-  }
-  void removeMyOpinion(Opinion opinion)
-  {
-    //TODO: this
-    throw Exception("not implemented");
-  }
-  void removePreferance(Preference preference)
-  {
-    //TODO: this
-    throw Exception("not implemented");
-  }
   
   @override
   int get hashCode => isBlocked.hashCode+username.hashCode+mail.hashCode;
@@ -120,46 +77,19 @@ class Preference
   List<Ingredient> allergens=List.empty(growable: true);
   List<Ingredient> prefered=List.empty(growable: true);
   Category? category;
-  bool isActive=false;
   Preference.fromAllData({
     required this.category,
     required this.allergens,
     required this.id,
-    required this.isActive,
     required this.name,
     required this.prefered,
     required this.client
   });
   Preference clone()
   {
-    return Preference.fromAllData(allergens:copyList(allergens), id: id, isActive: isActive, name: name, prefered: copyList(prefered), client: client,category: category);
+    return Preference.fromAllData(allergens:copyList(allergens), id: id, name: name, prefered: copyList(prefered), client: client,category: category);
   }
   Preference.forClient(Client c):id=0,client=c;
-  void addAllergen(Ingredient ingredient)
-  {
-    //TODO: this 
-    throw Exception("not implemented");
-  }
-  void addprefered(Ingredient ingredient)
-  {
-    //TODO: this 
-    throw Exception("not implemented");
-  }
-  void removeAllergen(Ingredient ingredient)
-  {
-    //TODO: this 
-    throw Exception("not implemented");
-  }
-  void removePrefered(Ingredient ingredient)
-  {
-    //TODO: this 
-    throw Exception("not implemented");
-  }
-  void changeActivity()
-  {
-    //TODO: this 
-    throw Exception("not implemented");
-  }
 }
 List<T> copyList<T>(List<T> list)
 {

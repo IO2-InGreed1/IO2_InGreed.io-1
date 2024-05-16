@@ -48,22 +48,22 @@ class MockupUserDatabase extends UserDatabse
       "mail3", password: "p3", username: "u3", favoriteProducts: [products[2],products[3]])
     );
     preferences.add(
-      Preference.fromAllData(allergens: [ingredients[0]], id: 0, isActive: false,
+      Preference.fromAllData(allergens: [ingredients[0]], id: 0,
       category: null,
        name: "pref1", prefered: [ingredients[1]], client: clients[1])
     );
     preferences.add(
-      Preference.fromAllData(allergens: [ingredients[0],ingredients[2]], id: 1, isActive: false,
+      Preference.fromAllData(allergens: [ingredients[0],ingredients[2]], id: 1,
       category: null,
        name: "pref2", prefered: [ingredients[1]], client: clients[0])
     );
     preferences.add(
-      Preference.fromAllData(allergens: [ingredients[3],ingredients[4],ingredients[1]], id: 2, isActive: false,
+      Preference.fromAllData(allergens: [ingredients[3],ingredients[4],ingredients[1]], id: 2,
       category: null,
        name: "pref3", prefered: [ingredients[0]], client: clients[2])
     );
     preferences.add(
-      Preference.fromAllData(allergens: [ingredients[1],ingredients[2]], id: 3, isActive: false,
+      Preference.fromAllData(allergens: [ingredients[1],ingredients[2]], id: 3,
       category: Category.cosmetics,
        name: "pref1", prefered: [ingredients[3]], client: clients[0])
     );
