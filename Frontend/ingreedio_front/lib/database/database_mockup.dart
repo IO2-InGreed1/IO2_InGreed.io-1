@@ -6,6 +6,29 @@ import 'package:ingreedio_front/logic/users.dart';
 
 class MockupUserDatabase extends UserDatabse
 {
+  static Client mockClient=Client.fromAllData(id: 10, isBlocked: false, mail: 'XD@foo.com', password: null, username: 'Daniel', favoriteProducts: [],);
+  static Producer mockProucer=Producer.fromAllData(companyName: 'C1', nip: '123', representativeName: 'Paweł', representativeSurname: 'Dzik', telephoneNumber: '2137');
+  static Moderator mockModerator=Moderator.fromAllData(moderatorNumber: 1,editedOpinionList: []);
+  static Admin mockAdmin=Admin.fromAllData(controlPanel: ControlPanel());
+    @override
+  Future<Admin?> loadAdmin(String token)async {
+    return mockAdmin;
+  }
+  
+  @override
+  Future<Client?> loadClient(String token) async {
+    return mockClient;
+  }
+  
+  @override
+  Future<Moderator?> loadModerator(String token) async {
+    return mockModerator;
+  }
+  
+  @override
+  Future<Producer?> loadProducer(String token) async {
+    return mockProucer;
+  }
   MockupUserDatabase.filled(IngredientDatabase ingredientDatabase,MockupProductDatabase productDatabse):clients=List.empty(growable: true),preferences=List.empty(growable: true),moderators=List.empty(growable: true)
   {
     List<Ingredient> ingredients=MockupIngredientDatabase.filled().ingredients;
@@ -14,6 +37,7 @@ class MockupUserDatabase extends UserDatabse
       Client.fromAllData(id: 0, isBlocked: false, mail: 
       "mail", password: "p1", username: "u1", favoriteProducts: [])
     );
+    clients.add(mockClient);
     clients.add(
       Client.fromAllData(id: 1, isBlocked: false, mail: 
       "mail2", password: "p2", username: "u2"
@@ -325,10 +349,6 @@ class MockupOpinionDatabase extends OpinionDatabase
 }
 class MockupLoginDatabase extends LoginDatabase
 {
-  static Client mockClient=Client.fromAllData(id: 0, isBlocked: false, mail: 'XD@foo.com', password: null, username: 'Daniel', favoriteProducts: [],);
-  static Producer mockProucer=Producer.fromAllData(companyName: 'C1', nip: '123', representativeName: 'Paweł', representativeSurname: 'Dzik', telephoneNumber: '2137');
-  static Moderator mockModerator=Moderator.fromAllData(moderatorNumber: 1,editedOpinionList: []);
-  static Admin mockAdmin=Admin.fromAllData(controlPanel: ControlPanel());
   MockupLoginDatabase.filled()
   {
     creds.add(("client","client","client",UserRole.client));
@@ -350,26 +370,6 @@ class MockupLoginDatabase extends LoginDatabase
   Future<LoginData> register(String username, String email, String password,UserRole userRole) async {
     creds.add((email,password,username,userRole));
     return LoginData(userRole,"tokenXD");
-  }
-  
-  @override
-  Future<Admin?> loadAdmin(String token)async {
-    return mockAdmin;
-  }
-  
-  @override
-  Future<Client?> loadClient(String token) async {
-    return mockClient;
-  }
-  
-  @override
-  Future<Moderator?> loadModerator(String token) async {
-    return mockModerator;
-  }
-  
-  @override
-  Future<Producer?> loadProducer(String token) async {
-    return mockProucer;
   }
   
 }

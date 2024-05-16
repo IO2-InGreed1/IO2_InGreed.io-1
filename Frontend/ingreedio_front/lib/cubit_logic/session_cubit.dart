@@ -20,7 +20,7 @@ class SessionCubit extends HydratedCubit<SessionData>
       }
       else 
       {
-        state.currentClient!.favoriteProducts.add(product);
+        if(!state.currentClient!.favoriteProducts.contains(product)) state.currentClient!.favoriteProducts.add(product);
       }
     }
   }

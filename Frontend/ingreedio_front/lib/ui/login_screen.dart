@@ -35,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
       final String email = _usernameController.text;
       final String password = _passwordController.text;
       var cubit=SessionCubit.fromContext(context);
-      var data=await cubit.database.loginDatabase.loginUser(email, password);
+      var data=await cubit.database.loginUser(email, password);
 
       if (data!=null) 
       {

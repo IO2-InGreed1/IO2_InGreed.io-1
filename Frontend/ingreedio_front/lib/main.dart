@@ -78,7 +78,7 @@ class RoleSelectionWidget extends StatelessWidget {
                 onPressed: () async
                 {
                   var cubit=SessionCubit.fromContext(context);
-                  SessionData? data=await SessionCubit.fromContext(context).database.loginDatabase.loginUser("client", "client");
+                  SessionData? data=await SessionCubit.fromContext(context).database.loginUser("client", "client");
                   if(data==null) return;
                   cubit.setData(data);
                 }, 
@@ -87,7 +87,7 @@ class RoleSelectionWidget extends StatelessWidget {
                 onPressed: () async
                 {
                   var cubit=SessionCubit.fromContext(context);
-                  SessionData? data=await SessionCubit.fromContext(context).database.loginDatabase.loginUser("producer", "producer");
+                  SessionData? data=await SessionCubit.fromContext(context).database.loginUser("producer", "producer");
                   if(data==null) return;
                   cubit.setData(data);
                 },
@@ -96,7 +96,7 @@ class RoleSelectionWidget extends StatelessWidget {
                 onPressed: () async
                 {
                   var cubit=SessionCubit.fromContext(context);
-                  SessionData? data=await SessionCubit.fromContext(context).database.loginDatabase.loginUser("admin", "admin");
+                  SessionData? data=await SessionCubit.fromContext(context).database.loginUser("admin", "admin");
                   if(data==null) return;
                   cubit.setData(data);
                 }, 
@@ -105,7 +105,7 @@ class RoleSelectionWidget extends StatelessWidget {
                 onPressed: () async
                 {
                   var cubit=SessionCubit.fromContext(context);
-                  SessionData? data=await SessionCubit.fromContext(context).database.loginDatabase.loginUser("moderator", "moderator");
+                  SessionData? data=await SessionCubit.fromContext(context).database.loginUser("moderator", "moderator");
                   if(data==null) return;
                   cubit.setData(data);
                 }, 

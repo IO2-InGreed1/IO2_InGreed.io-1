@@ -6,6 +6,56 @@
 
 part of 'products.dart';
 
+class CategoryMapper extends EnumMapper<Category> {
+  CategoryMapper._();
+
+  static CategoryMapper? _instance;
+  static CategoryMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = CategoryMapper._());
+    }
+    return _instance!;
+  }
+
+  static Category fromValue(dynamic value) {
+    ensureInitialized();
+    return MapperContainer.globals.fromValue(value);
+  }
+
+  @override
+  Category decode(dynamic value) {
+    switch (value) {
+      case 'food':
+        return Category.food;
+      case 'cosmetics':
+        return Category.cosmetics;
+      case 'drink':
+        return Category.drink;
+      default:
+        throw MapperException.unknownEnumValue(value);
+    }
+  }
+
+  @override
+  dynamic encode(Category self) {
+    switch (self) {
+      case Category.food:
+        return 'food';
+      case Category.cosmetics:
+        return 'cosmetics';
+      case Category.drink:
+        return 'drink';
+    }
+  }
+}
+
+extension CategoryMapperExtension on Category {
+  String toValue() {
+    CategoryMapper.ensureInitialized();
+    return MapperContainer.globals.toValue<Category>(this) as String;
+  }
+}
+
 class ProductMapper extends ClassMapperBase<Product> {
   ProductMapper._();
 
@@ -13,6 +63,7 @@ class ProductMapper extends ClassMapperBase<Product> {
   static ProductMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = ProductMapper._());
+      CategoryMapper.ensureInitialized();
       IngredientMapper.ensureInitialized();
       ProducerMapper.ensureInitialized();
     }

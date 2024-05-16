@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:ingreedio_front/database/databse.dart';
+import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
@@ -79,6 +80,30 @@ class RealUserDatabase extends UserDatabse
   @override
   Future<bool> setFavouriteProduct(Client client, Product product, bool state) async {
     // TODO: implement setFavoutiteProduct
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Admin?> loadAdmin(String token) {
+    // TODO: implement loadAdmin
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Client?> loadClient(String token) {
+    // TODO: implement loadClient
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Moderator?> loadModerator(String token) {
+    // TODO: implement loadModerator
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Producer?> loadProducer(String token) {
+    // TODO: implement loadProducer
     throw UnimplementedError();
   }
   

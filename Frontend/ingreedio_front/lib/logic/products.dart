@@ -5,6 +5,7 @@ import 'package:ingreedio_front/ui/opinion_widget.dart';
 import 'package:ingreedio_front/ui/product_widget.dart';
 import 'package:ingreedio_front/logic/users.dart';
 part 'products.mapper.dart';
+@MappableEnum()
 enum Category
 {
   food,cosmetics,drink
