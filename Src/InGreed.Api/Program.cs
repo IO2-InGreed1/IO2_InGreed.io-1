@@ -46,8 +46,6 @@ builder.Services.AddAuthentication(cfg => {
     cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     cfg.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(x => {
-    x.RequireHttpsMetadata = false;
-    x.SaveToken = false;
     x.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
@@ -57,7 +55,7 @@ builder.Services.AddAuthentication(cfg => {
         ),
         ValidateIssuer = false,
         ValidateAudience = false,
-        ClockSkew = TimeSpan.Zero
+        ValidateLifetime = true,
     };
 });
 
