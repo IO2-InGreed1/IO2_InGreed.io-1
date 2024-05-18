@@ -75,32 +75,25 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
   {
     int listFlex=9,filterFlex=5;
     double sum=listFlex+filterFlex.toDouble();
-    double pixelPerFlex=250/filterFlex;
+    double pixelPerFlex=370/filterFlex;
     return LayoutBuilder(
       builder: (context,constraints) {
         if(constraints.maxWidth<pixelPerFlex*sum)
         {
-          return Center(
-            child: Align(
-             alignment: Alignment.centerRight,
-             child: Row(mainAxisAlignment: MainAxisAlignment.end,
-             children: [Expanded(flex: listFlex,child: StandardDecorator(child: listWidget)),Expanded(flex: filterFlex,child: StandardDecorator(child: filterWidget))],
-              ),
-           ),
-         );
+          return Row(mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(flex: listFlex,child: StandardDecorator(child: listWidget)),
+            Expanded(flex: filterFlex,child: StandardDecorator(child: filterWidget))
+            ],
+           );
         }
         else 
         {
-          return Center(
-            child: Align(
-             alignment: Alignment.centerRight,
-             child: Row(mainAxisAlignment: MainAxisAlignment.end,
-             children: [
-              Expanded(flex: listFlex,child: Center(child: SizedBox(width: pixelPerFlex*listFlex,child: StandardDecorator(child: listWidget)))),
-              Expanded(flex: filterFlex,child: Center(child: SizedBox(width: pixelPerFlex*filterFlex,child: StandardDecorator(child: filterWidget))))],
-              ),
-           ),
-         );
+          return Row(mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+           Expanded(flex: listFlex,child: Center(child: SizedBox(width: pixelPerFlex*listFlex,child: StandardDecorator(child: listWidget)))),
+           Expanded(flex: filterFlex,child: Center(child: SizedBox(width: pixelPerFlex*filterFlex,child: StandardDecorator(child: filterWidget))))],
+           );
         }
       }
     );

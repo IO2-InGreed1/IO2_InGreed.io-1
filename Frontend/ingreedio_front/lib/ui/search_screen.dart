@@ -70,7 +70,7 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
   //search screen data
   int from=0,maks=0;
   //int rows, columns;
-  int columns=2,rows=10;
+  int columns=2,rows=6;
   int get count=>columns*rows;
   SearchScreenData<T>? lastData;
   //cubit

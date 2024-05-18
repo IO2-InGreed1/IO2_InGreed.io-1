@@ -76,8 +76,7 @@ AppBar getStandardAppBar(BuildContext context,{bool buttonSubmenu=true,bool sear
           flexibleSpace: gradient
       );
   }
-  Widget get gradient =>Container(
-          decoration: const BoxDecoration(
+Widget get gradient =>Container(decoration: const BoxDecoration(
             gradient: LinearGradient(
                 colors: [
                   Color.fromARGB(255, 201, 237, 222),
@@ -169,7 +168,7 @@ class SearchButton extends StatelessWidget {
   Widget build(BuildContext context) {
         return TextButton(onPressed: ()
             {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: getStandardAppBar(context),body:const ProductSearchScreen(),)));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: getStandardAppBar(context),body:const SingleChildScrollView(child: ProductSearchScreen()),)));
             }, child: 
               const Row(mainAxisAlignment: MainAxisAlignment.center,
               children: [

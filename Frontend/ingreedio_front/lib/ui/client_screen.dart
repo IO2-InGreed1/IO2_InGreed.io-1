@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
 import 'package:ingreedio_front/logic/users.dart';

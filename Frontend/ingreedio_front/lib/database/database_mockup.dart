@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/logic/filters.dart';
@@ -142,6 +144,7 @@ class MockupProductDatabase extends ProductDatabse
   MockupProductDatabase.filled(MockupIngredientDatabase ingredientDatabase):producers=List.empty(growable: true),
   products=List.empty(growable: true)
   {
+    producers.add(MockupUserDatabase.mockProucer);
     List<Ingredient> ingredients=ingredientDatabase.ingredients;
     producers.add(
       Producer.fromAllData(companyName: 
@@ -155,30 +158,83 @@ class MockupProductDatabase extends ProductDatabse
       Producer.fromAllData(companyName: 
       "C3", nip: "2137", representativeName: "name3", representativeSurname: "surname1", telephoneNumber: "49-2")
     );
+    final productNames = [
+  'Herbal Shampoo',
+  'Organic Juice',
+  'Nourishing Cream',
+  'Protein Bar',
+  'Mineral Water',
+  'Anti-Aging Serum',
+  'Energy Drink',
+  'Moisturizing Lotion',
+  'Whole Grain Cereal',
+  'Detox Tea',
+  'Hair Conditioner',
+  'Sparkling Water',
+  'Lip Balm',
+  'Fruit Smoothie',
+  'Hand Sanitizer',
+  'Granola Bar',
+  'Body Wash',
+  'Green Tea',
+  'Face Mask',
+  'Vegetable Soup',
+  'Aftershave Lotion',
+  'Protein Shake',
+  'Shaving Cream',
+  'Almond Milk',
+  'Hydrating Gel',
+  'Coconut Water',
+  'Sunscreen',
+  'Tomato Juice',
+  'Foot Cream',
+  'Energy Bar',
+];
+    final productDescriptions = [
+  'A refreshing herbal shampoo for daily use.',
+  'Pure organic juice with no added sugars.',
+  'A nourishing cream to revitalize your skin.',
+  'A protein bar packed with nutrients.',
+  'Natural mineral water sourced from the mountains.',
+  'An anti-aging serum with advanced formula.',
+  'Energy drink to keep you going all day.',
+  'Moisturizing lotion for smooth and soft skin.',
+  'Whole grain cereal for a healthy breakfast.',
+  'Detox tea to cleanse your body naturally.',
+  'Conditioner to keep your hair silky and smooth.',
+  'Sparkling water with a hint of natural flavors.',
+  'Lip balm to keep your lips hydrated.',
+  'Delicious fruit smoothie for a healthy snack.',
+  'Hand sanitizer to keep your hands germ-free.',
+  'Granola bar for a quick and healthy snack.',
+  'Body wash with natural ingredients.',
+  'Green tea with a soothing aroma.',
+  'Face mask to rejuvenate your skin.',
+  'Hearty vegetable soup for a nutritious meal.',
+  'Aftershave lotion to soothe your skin.',
+  'Protein shake for muscle recovery.',
+  'Rich shaving cream for a smooth shave.',
+  'Almond milk with a rich, creamy taste.',
+  'Hydrating gel for all-day moisture.',
+  'Refreshing coconut water to hydrate naturally.',
+  'Sunscreen to protect your skin from UV rays.',
+  'Tomato juice rich in vitamins and minerals.',
+  'Foot cream to keep your feet soft and smooth.',
+  'Energy bar to fuel your active lifestyle.',
+];
+    for (int i = 0; i < 30; i++) {
     products.add(
-      Product.fromAllData(description: "lorem ipsum1",category: Category.cosmetics, id: 1, ingredients: [ingredients[0],ingredients[1]], 
-      name: "p1", producer: producers[0], promotionUntil: DateTime(0))
+      Product.fromAllData(
+        id: i + 1,
+        name: productNames[i],
+        description: productDescriptions[i],
+        category: Category.values[i % Category.values.length],
+        ingredients: List.generate(5, (index) => ingredients[(i + index) % ingredients.length]),
+        producer: producers[i % producers.length],
+        promotionUntil: DateTime.now().add(Duration(days: (i + 1) * 10)),
+      ),
     );
-    products.add(
-      Product.fromAllData(description: "lorem ipsum12",category: Category.cosmetics, id: 2, ingredients: [ingredients[2],ingredients[1]], 
-      name: "p2", producer: producers[1], promotionUntil: DateTime(0))
-      );
-    products.add(
-      Product.fromAllData(description: "lorem ipsum2",category: Category.drink, id: 3, ingredients: [ingredients[3],ingredients[4]], 
-      name: "p3", producer: producers[2], promotionUntil: DateTime(0))
-    );
-    products.add(
-      Product.fromAllData(description: "lorem ipsum3",category: Category.food, id: 4, ingredients: [ingredients[3],ingredients[2]], 
-      name: "p4", producer: producers[2], promotionUntil: DateTime(0))
-    );
-    products.add(
-      Product.fromAllData(description: "lorem ipsum4",category: Category.food, id: 5, ingredients: [ingredients[2],ingredients[0]], 
-      name: "p5", producer: producers[2], promotionUntil: DateTime(20000))
-    );
-    products.add(
-      Product.fromAllData(description: "lorem ipsum5",category: Category.cosmetics, id: 6, ingredients: [ingredients[1],ingredients[4]], 
-      name: "p6", producer: producers[0], promotionUntil: DateTime(0))
-    );
+  }
   }
   
   @override
@@ -255,12 +311,18 @@ class MockupIngredientDatabase extends IngredientDatabase
   List<Ingredient> ingredients;
   MockupIngredientDatabase.filled():ingredients=List.empty(growable: true)
   {
-    ingredients.add(Ingredient.fromAllData(iconURL: "https://media.istockphoto.com/id/184276818/photo/red-apple.jpg?s=612x612&w=0&k=20&c=NvO-bLsG0DJ_7Ii8SSVoKLurzjmV0Qi4eGfn6nW3l5w=", id: 0, name: "ing_1"));
-    ingredients.add(Ingredient.fromAllData(iconURL: "b", id: 1, name: "ing_2"));
-    ingredients.add(Ingredient.fromAllData(iconURL: "c", id: 2, name: "ing_3"));
-    ingredients.add(Ingredient.fromAllData(iconURL: "d", id: 3, name: "ing_4"));
-    ingredients.add(Ingredient.fromAllData(iconURL: "e", id: 4, name: "ing_5"));
-    
+    ingredients = [
+    Ingredient.fromAllData(id: 1, name: 'Water',iconURL: ""),
+    Ingredient.fromAllData(id: 2, name: 'Sugar',iconURL: ""),
+    Ingredient.fromAllData(id: 3, name: 'Salt',iconURL: ""),
+    Ingredient.fromAllData(id: 4, name: 'Flavoring',iconURL: ""),
+    Ingredient.fromAllData(id: 5, name: 'Preservatives',iconURL: ""),
+    Ingredient.fromAllData(id: 6, name: 'Citric Acid',iconURL: ""),
+    Ingredient.fromAllData(id: 7, name: 'Sodium Benzoate',iconURL: ""),
+    Ingredient.fromAllData(id: 8, name: 'Vitamin C',iconURL: ""),
+    Ingredient.fromAllData(id: 9, name: 'Calcium',iconURL: ""),
+    Ingredient.fromAllData(id: 10, name: 'Iron',iconURL: ""),
+    ];
   }
   @override
   Future<List<Ingredient>> getAllIngredients()async {
@@ -272,7 +334,62 @@ class MockupOpinionDatabase extends OpinionDatabase
 {
   MockupOpinionDatabase.filled(MockupProductDatabase productDatabse,MockupUserDatabase userDatabse):opinions=List.empty(growable: true)
   {
-    opinions.add(Opinion.fromAllData(author: userDatabse.clients[1], id: 0, product: productDatabse.products[0], score: 1, text: "opinia"));
+    var products=productDatabse.products;
+    var clients=userDatabse.clients;
+    final opinionData = [
+  {'text': 'Terrible product. Would not recommend.', 'score': 1.0},
+  {'text': 'Not great, but it gets the job done.', 'score': 2.0},
+  {'text': 'It\'s okay. Nothing special.', 'score': 3.0},
+  {'text': 'Pretty good. I\'m satisfied.', 'score': 4.0},
+  {'text': 'Excellent product! Highly recommended!', 'score': 5.0},
+  {'text': 'Awful experience, very disappointed.', 'score': 1.0},
+  {'text': 'Below average, expected more.', 'score': 2.0},
+  {'text': 'Mediocre, could be better.', 'score': 3.0},
+  {'text': 'Quite nice, would buy again.', 'score': 4.0},
+  {'text': 'Outstanding quality!', 'score': 5.0},
+  {'text': 'Horrible, waste of money.', 'score': 1.0},
+  {'text': 'Not worth it.', 'score': 2.0},
+  {'text': 'Average, nothing to write home about.', 'score': 3.0},
+  {'text': 'Good quality, reasonable price.', 'score': 4.0},
+  {'text': 'Fantastic product!', 'score': 5.0},
+  {'text': 'Very poor quality.', 'score': 1.0},
+  {'text': 'Doesn\'t live up to the hype.', 'score': 2.0},
+  {'text': 'Just fine, nothing special.', 'score': 3.0},
+  {'text': 'Really happy with this purchase.', 'score': 4.0},
+  {'text': 'Exceeded my expectations!', 'score': 5.0},
+  {'text': 'One of the worst purchases I\'ve made.', 'score': 1.0},
+  {'text': 'Meh, it\'s okay.', 'score': 2.0},
+  {'text': 'Decent, but has room for improvement.', 'score': 3.0},
+  {'text': 'Love it, will definitely buy again.', 'score': 4.0},
+  {'text': 'Top-notch, highly recommend!', 'score': 5.0},
+  {'text': 'Regret buying this.', 'score': 1.0},
+  {'text': 'Could be better.', 'score': 2.0},
+  {'text': 'Not bad, but not great either.', 'score': 3.0},
+  {'text': 'Really good value for money.', 'score': 4.0},
+  {'text': 'Superb, absolutely love it!', 'score': 5.0},
+  {'text': 'Terrible, do not buy.', 'score': 1.0},
+  {'text': 'Just about okay.', 'score': 2.0},
+  {'text': 'Satisfactory, but not impressive.', 'score': 3.0},
+  {'text': 'Very pleased with this product.', 'score': 4.0},
+  {'text': 'Perfect, exactly what I wanted!', 'score': 5.0},
+  ];
+  Random random=Random(42);
+   int opinionId = 1;
+  for (var product in products) {
+    int numberOfOpinions = random.nextInt(4); // Generate between 1 and 5 opinions per product
+    for (int i = 0; i < numberOfOpinions; i++) {
+      final opinion = opinionData[opinionId % opinionData.length];
+      opinions.add(
+        Opinion.fromAllData(
+          id: opinionId++,
+          author: clients[random.nextInt(clients.length)],
+          text: opinion['text']! as String,
+          score: opinion['score']! as double,
+          product: product,
+        ),
+      );
+    }
+  }
   }
   List<Opinion> opinions;
   @override
