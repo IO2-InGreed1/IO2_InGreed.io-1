@@ -9,7 +9,12 @@ part 'products.mapper.dart';
 @MappableEnum()
 enum Category
 {
-  food,cosmetics,drink
+  cosmetics("cosmetics",Icons.brush),
+  food("food",Icons.fastfood),
+  drink("drink",Icons.local_drink);
+  const Category(this.name,this.icon);
+  final String name;
+  final IconData icon;
 }
 @MappableClass()
 class Product with ProductMappable

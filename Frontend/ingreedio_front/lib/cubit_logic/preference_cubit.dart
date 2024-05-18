@@ -42,7 +42,7 @@ class PreferenceCubit extends Cubit<List<Preference>?>
   void editPreference(BuildContext context,Preference preference,Preference editedPreference)
   {
     Database database=SessionCubit.fromContext(context).database;
-    database.userDatabse.removePreference(preference).then((value)
+    database.userDatabse.editPreference(preference,editedPreference).then((value)
     {
       if(state!=null&&value==true) 
       {

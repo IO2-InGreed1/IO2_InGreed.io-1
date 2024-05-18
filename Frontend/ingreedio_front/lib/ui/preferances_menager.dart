@@ -22,6 +22,7 @@ class PreferenceMenager extends PreferenceConsumer {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  e.category==null?const SizedBox():Icon(e.category!.icon),
                   Text(e.name),
                   TextButton(onPressed: ()
                   {

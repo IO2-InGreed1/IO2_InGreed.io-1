@@ -20,7 +20,7 @@ class _PreferenceSelectorState extends State<PreferenceSelector> {
     return PreferenceConsumer(showLoadingScreen: true,
       child:(context,preferences)=>
       DropdownMenu<Preference>(
-        dropdownMenuEntries: preferences!.map((e) => DropdownMenuEntry(value: e, label: e.name)).toList(),
+        dropdownMenuEntries: preferences!.map((e) => DropdownMenuEntry(value: e, label: e.name,leadingIcon: e.category==null?null:Icon(e.category!.icon))).toList(),
         enableFilter: true,
         onSelected: (value){
         if(value is Preference)

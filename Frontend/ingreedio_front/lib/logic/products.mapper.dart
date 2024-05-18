@@ -25,10 +25,10 @@ class CategoryMapper extends EnumMapper<Category> {
   @override
   Category decode(dynamic value) {
     switch (value) {
-      case 'food':
-        return Category.food;
       case 'cosmetics':
         return Category.cosmetics;
+      case 'food':
+        return Category.food;
       case 'drink':
         return Category.drink;
       default:
@@ -39,10 +39,10 @@ class CategoryMapper extends EnumMapper<Category> {
   @override
   dynamic encode(Category self) {
     switch (self) {
-      case Category.food:
-        return 'food';
       case Category.cosmetics:
         return 'cosmetics';
+      case Category.food:
+        return 'food';
       case Category.drink:
         return 'drink';
     }

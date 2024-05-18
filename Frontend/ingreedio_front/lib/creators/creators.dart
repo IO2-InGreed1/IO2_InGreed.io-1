@@ -231,11 +231,8 @@ class _NullableSelectorState<T extends Enum> extends State<NullableSelector<T>> 
     return DropdownMenu(dropdownMenuEntries: widget.items.map((e) => DropdownMenuEntry<T?>(value: e, label: e.name)).toList()..add(DropdownMenuEntry(value: null, label: widget.nullName)),
     onSelected: (value)
     {
-      if(value is T)
-      {
-        widget.item=value;
-        widget.onChanged(value);
-      }
+      widget.item=value;
+      widget.onChanged(value);
     },
     enableFilter: widget.enableFilter,
     initialSelection: widget.item,
