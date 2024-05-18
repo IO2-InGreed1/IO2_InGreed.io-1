@@ -3,6 +3,26 @@ import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:ingreedio_front/ui/product_search_screen.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+class GoToHomeButton extends StatelessWidget {
+  const GoToHomeButton({super.key, this.child});
+  final Widget? child;
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+              message: "Go to home screen",
+              waitDuration: Durations.long2,
+              child: TextButton(onPressed: ()
+              {
+                while(Navigator.canPop(context)) 
+                {
+                  Navigator.pop(context);
+                } 
+              },
+              
+              child: child==null?SizedBox(height: 50,child: Assets.inGreedIcon):child!),
+            );
+  }
+}
 AppBar getStandardAppBar(BuildContext context,{bool buttonSubmenu=true,bool searchButton=false})
   {
     List<Widget> buttons=[
@@ -46,7 +66,7 @@ AppBar getStandardAppBar(BuildContext context,{bool buttonSubmenu=true,bool sear
     return AppBar(
         title: Row(
           children: [
-            SizedBox(height: 50,child: Assets.inGreedIcon),
+            const GoToHomeButton(),
             searchButton?const SearchButton():const SizedBox()
           ],
         ),

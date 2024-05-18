@@ -62,10 +62,10 @@ class ClientScreen extends StatelessWidget {
     ];
     return AppBar(
       flexibleSpace: gradient,
-        title: Row(
+        title: const Row(
           children: [
-            SizedBox(height: 50,child: Assets.inGreedIcon),
-            const SearchButton(),
+            GoToHomeButton(),
+            SearchButton(),
           ],
         ),
         actions: [
