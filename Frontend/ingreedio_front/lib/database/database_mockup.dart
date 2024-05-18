@@ -49,8 +49,23 @@ class MockupUserDatabase extends UserDatabse
     );
     preferences.add(
       Preference.fromAllData(allergens: [ingredients[0]], id: 0,
+      category: Category.food,
+       name: "my food preference", prefered: [ingredients[1]], client: clients[1])
+    );
+    preferences.add(
+      Preference.fromAllData(allergens: [ingredients[0]], id: 0,
+      category: Category.drink,
+       name: "my drink preference", prefered: [ingredients[1]], client: clients[1])
+    );
+    preferences.add(
+      Preference.fromAllData(allergens: [ingredients[0]], id: 0,
+      category: Category.cosmetics,
+       name: "my cosmetics preference", prefered: [ingredients[1]], client: clients[1])
+    );
+    preferences.add(
+      Preference.fromAllData(allergens: [ingredients[0]], id: 0,
       category: null,
-       name: "pref1", prefered: [ingredients[1]], client: clients[1])
+       name: "my general preference", prefered: [ingredients[1]], client: clients[1])
     );
     preferences.add(
       Preference.fromAllData(allergens: [ingredients[0],ingredients[2]], id: 1,
