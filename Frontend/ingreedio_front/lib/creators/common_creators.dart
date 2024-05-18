@@ -52,7 +52,7 @@ class StringCreator extends Creator<String> {
 class _StringCreatorState extends State<StringCreator> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(width: 200,
+    return SizedBox(width: 150,
               child: TextFormField(
               controller: TextEditingController()..text=widget.item,
               onChanged: (value){

@@ -24,15 +24,10 @@ class _PreferenceCreatorState extends State<PreferenceCreator> {
       child: (context,ingredients)=>Column(
         mainAxisAlignment:MainAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment:MainAxisAlignment.center,
-            children: [
-              const Text("Name: "),
-              StringCreator(
-                item: widget.item.name,
-                onChanged: (val){widget.item.name=val;},
-              ),
-            ],
+          const Text("Name: "),
+          StringCreator(
+            item: widget.item.name,
+            onChanged: (val){widget.item.name=val;},
           ),
           const Text("Wanted ingredients: "),
           IngredientListSelector(ingredients: ingredients??[],
@@ -50,7 +45,7 @@ class _PreferenceCreatorState extends State<PreferenceCreator> {
                 widget.item.allergens=value;
               },
               ),   
-              LabelWidget(label: "Product categoty", child:NullableSelector<Category>(enableFilter: false,reference: ItemWrapper(widget.item.category), items: Category.values, onChanged: (value)=>widget.item.category=value))  
+              LabelWidget(label: "Product categoty",isHorizontal: false, child:NullableSelector<Category>(enableFilter: false,reference: ItemWrapper(widget.item.category), items: Category.values, onChanged: (value)=>widget.item.category=value))  
         ],
       ),
     );

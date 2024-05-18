@@ -12,31 +12,42 @@ class PreferenceMenager extends PreferenceConsumer {
   {
     if(preferences==null) return const LoadingWidget();
     return ListView(
-      children: preferences.map<Widget>((e) => 
-        Row(
-          children: [
-            Text(e.name),
-            TextButton(onPressed: ()
-            {
-              PreferenceCubit.fromContext(context).removePreference(context,e);
-            }, child:const Text("Delete preference")),
-            DialogEditButton<Preference>(creator: 
-        PreferenceCreator(
-        reference:ItemWrapper(e),
-        ), 
-        onFinished: (value)
-        {
-            value.client=SessionCubit.fromContext(context).state.currentClient!;
-            PreferenceCubit.fromContext(context).editPreference(context,e,value);
-        }, 
-        onClicked: () {
-          return e.clone();
-        },
-        child:const Text("edit preference"))
-          
-          ],
+      children: [
+        const Center(child: Text("Your preferences:",style: TextStyle(fontSize: 20),)),
+        ...preferences.map<Widget>((e) => 
+        SizedBox(
+          width: 400,
+          child: Center(
+            child: StandardDecorator(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(e.name),
+                  TextButton(onPressed: ()
+                  {
+                    PreferenceCubit.fromContext(context).removePreference(context,e);
+                  }, child:const Text("Delete preference")),
+                  DialogEditButton<Preference>(creator: 
+              PreferenceCreator(
+              reference:ItemWrapper(e),
+              ), 
+              onFinished: (value)
+              {
+                  value.client=SessionCubit.fromContext(context).state.currentClient!;
+                  PreferenceCubit.fromContext(context).editPreference(context,e,value);
+              }, 
+              onClicked: () {
+                return e.clone();
+              },
+              child:const Text("edit preference"))
+                
+                ],
+              ),
+            ),
+          ),
         )
-      ).toList()..add(DialogButton<Preference>(
+      ).toList(),
+      DialogButton<Preference>(
         creator: PreferenceCreator(
         reference:ItemWrapper(Preference.forClient(SessionCubit.fromContext(context).state.currentClient!),),
         ), 
@@ -44,7 +55,8 @@ class PreferenceMenager extends PreferenceConsumer {
         {
             PreferenceCubit.fromContext(context).addPreference(context,value);
         }, 
-        child:const Text("add new preference")))
+        child:const Text("add new preference"))
+        ]
     );
   });
 }
