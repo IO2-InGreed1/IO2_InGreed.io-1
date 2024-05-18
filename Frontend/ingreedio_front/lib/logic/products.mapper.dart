@@ -242,7 +242,7 @@ class IngredientMapper extends ClassMapperBase<Ingredient> {
 
   static String _$iconURL(Ingredient v) => v.iconURL;
   static const Field<Ingredient, String> _f$iconURL =
-      Field('iconURL', _$iconURL);
+      Field('iconURL', _$iconURL, opt: true, def: "");
   static int _$id(Ingredient v) => v.id;
   static const Field<Ingredient, int> _f$id = Field('id', _$id);
   static String _$name(Ingredient v) => v.name;

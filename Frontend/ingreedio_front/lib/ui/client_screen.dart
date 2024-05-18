@@ -97,7 +97,7 @@ class ClientScreen extends StatelessWidget {
                     ),
                     StandardDecorator(
                       color: Theme.of(context).colorScheme.secondary,
-                      child: const SizedBox(width:450,child: LabelWidget(
+                      child: const SizedBox(width:600,child: LabelWidget(
                         isHorizontal: false,
                         label: "Favourite Products:",
                         child: FavouriteProductSearchScreen()))
@@ -136,7 +136,7 @@ class ClientScreen extends StatelessWidget {
     //return Scaffold(appBar: getAppBar(context),body: getBody(context),);
     return LayoutBuilder(
       builder: (context,constraints) {
-        bool withProfile=constraints.maxWidth>650;
+        bool withProfile=constraints.maxWidth>825;
         return Scaffold(appBar: getAppBar(context,withClientProfile: !withProfile,buttonSubmenu: !withProfile),
         body: getBody(context,withClientProfile: withProfile),);
       }

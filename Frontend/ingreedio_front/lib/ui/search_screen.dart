@@ -78,8 +78,6 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
   //list widget
   Widget getListWidget(List<T> list,BuildContext context)
   {
-    return LayoutBuilder(
-      builder: (context,constraints) {
         //columns=widget.maxColumns;
         //rows=widget.maxRows;
         //if(columns>widget.maxColumns) columns=widget.maxColumns;
@@ -91,8 +89,6 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
             listControlWidgets
           ],
         );
-      }
-    );
   }
   Widget get applyButton
   {

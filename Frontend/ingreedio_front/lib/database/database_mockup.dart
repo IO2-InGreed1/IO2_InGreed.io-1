@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/logic/filters.dart';
@@ -8,7 +7,7 @@ import 'package:ingreedio_front/logic/users.dart';
 
 class MockupUserDatabase extends UserDatabse
 {
-  static Client mockClient=Client.fromAllData(id: 10, isBlocked: false, mail: 'XD@foo.com', password: null, username: 'Daniel', favoriteProducts: [],);
+  static Client mockClient=Client.fromAllData(id: 10, isBlocked: false, mail: 'XD@foo.com', password: null, username: 'Daniel', favoriteProducts: MockupProductDatabase.filled(MockupIngredientDatabase.filled()).products.getRange(7, 12).toList(),);
   static Producer mockProucer=Producer.fromAllData(companyName: 'C1', nip: '123', representativeName: 'Paweł', representativeSurname: 'Dzik', telephoneNumber: '2137');
   static Moderator mockModerator=Moderator.fromAllData(moderatorNumber: 1,editedOpinionList: []);
   static Admin mockAdmin=Admin.fromAllData(controlPanel: ControlPanel());
@@ -49,40 +48,28 @@ class MockupUserDatabase extends UserDatabse
       Client.fromAllData(id: 2, isBlocked: true, mail: 
       "mail3", password: "p3", username: "u3", favoriteProducts: [products[2],products[3]])
     );
+    List<Ingredient> foodIngredients = ingredients.where((ingredient) => ingredient.id <= 20).toList();
+  List<Ingredient> cosmeticIngredients = ingredients.where((ingredient) => ingredient.id > 20 && ingredient.id <= 40).toList();
+  List<Ingredient> drinkIngredients = ingredients.where((ingredient) => ingredient.id > 40).toList();
     preferences.add(
-      Preference.fromAllData(allergens: [ingredients[0]], id: 0,
+      Preference.fromAllData(allergens: [foodIngredients[0]], id: 0,
       category: Category.food,
-       name: "my food preference", prefered: [ingredients[1]], client: clients[1])
+       name: "my food preference", prefered: [foodIngredients[5]], client: clients[1])
     );
     preferences.add(
-      Preference.fromAllData(allergens: [ingredients[0]], id: 0,
+      Preference.fromAllData(allergens: [drinkIngredients[0],drinkIngredients[6]], id: 0,
       category: Category.drink,
-       name: "my drink preference", prefered: [ingredients[1]], client: clients[1])
+       name: "my drink preference", prefered: [drinkIngredients[3]], client: clients[1])
     );
     preferences.add(
-      Preference.fromAllData(allergens: [ingredients[0]], id: 0,
+      Preference.fromAllData(allergens: [cosmeticIngredients[0]], id: 0,
       category: Category.cosmetics,
-       name: "my cosmetics preference", prefered: [ingredients[1]], client: clients[1])
+       name: "my cosmetics preference", prefered: [cosmeticIngredients[3],cosmeticIngredients[5]], client: clients[1])
     );
     preferences.add(
-      Preference.fromAllData(allergens: [ingredients[0]], id: 0,
+      Preference.fromAllData(allergens: [cosmeticIngredients[0],foodIngredients[0],drinkIngredients[0],drinkIngredients[6]], id: 0,
       category: null,
-       name: "my general preference", prefered: [ingredients[1]], client: clients[1])
-    );
-    preferences.add(
-      Preference.fromAllData(allergens: [ingredients[0],ingredients[2]], id: 1,
-      category: null,
-       name: "pref2", prefered: [ingredients[1]], client: clients[0])
-    );
-    preferences.add(
-      Preference.fromAllData(allergens: [ingredients[3],ingredients[4],ingredients[1]], id: 2,
-      category: null,
-       name: "pref3", prefered: [ingredients[0]], client: clients[2])
-    );
-    preferences.add(
-      Preference.fromAllData(allergens: [ingredients[1],ingredients[2]], id: 3,
-      category: Category.cosmetics,
-       name: "pref1", prefered: [ingredients[3]], client: clients[0])
+       name: "my general preference", prefered: [], client: clients[1])
     );
   }
   List<Client> clients;
@@ -158,78 +145,198 @@ class MockupProductDatabase extends ProductDatabse
       Producer.fromAllData(companyName: 
       "C3", nip: "2137", representativeName: "name3", representativeSurname: "surname1", telephoneNumber: "49-2")
     );
-    final productNames = [
-  'Herbal Shampoo',
-  'Organic Juice',
-  'Nourishing Cream',
-  'Protein Bar',
-  'Mineral Water',
-  'Anti-Aging Serum',
-  'Energy Drink',
-  'Moisturizing Lotion',
-  'Whole Grain Cereal',
-  'Detox Tea',
-  'Hair Conditioner',
-  'Sparkling Water',
-  'Lip Balm',
-  'Fruit Smoothie',
-  'Hand Sanitizer',
-  'Granola Bar',
-  'Body Wash',
-  'Green Tea',
-  'Face Mask',
-  'Vegetable Soup',
-  'Aftershave Lotion',
-  'Protein Shake',
-  'Shaving Cream',
-  'Almond Milk',
-  'Hydrating Gel',
-  'Coconut Water',
-  'Sunscreen',
-  'Tomato Juice',
-  'Foot Cream',
-  'Energy Bar',
+    final productData = [
+  {
+    'name': 'Herbal Shampoo',
+    'description': 'A refreshing herbal shampoo for daily use.',
+    'category': Category.cosmetics,
+    'ingredients': [21, 22, 23, 29, 30],
+  },
+  {
+    'name': 'Organic Juice',
+    'description': 'Pure organic juice with no added sugars.',
+    'category': Category.drink,
+    'ingredients': [42, 44, 45, 53, 54],
+  },
+  {
+    'name': 'Nourishing Cream',
+    'description': 'A nourishing cream to revitalize your skin.',
+    'category': Category.cosmetics,
+    'ingredients': [22, 23, 25, 26, 28],
+  },
+  {
+    'name': 'Protein Bar',
+    'description': 'A protein bar packed with nutrients.',
+    'category': Category.food,
+    'ingredients': [3, 7, 9, 12, 13],
+  },
+  {
+    'name': 'Mineral Water',
+    'description': 'Natural mineral water sourced from the mountains.',
+    'category': Category.drink,
+    'ingredients': [41, 43, 44],
+  },
+  {
+    'name': 'Anti-Aging Serum',
+    'description': 'An anti-aging serum with advanced formula.',
+    'category': Category.cosmetics,
+    'ingredients': [21, 24, 25, 28],
+  },
+  {
+    'name': 'Energy Drink',
+    'description': 'Energy drink to keep you going all day.',
+    'category': Category.drink,
+    'ingredients': [41, 43, 44, 47],
+  },
+  {
+    'name': 'Moisturizing Lotion',
+    'description': 'Moisturizing lotion for smooth and soft skin.',
+    'category': Category.cosmetics,
+    'ingredients': [21, 22, 26, 27, 30],
+  },
+  {
+    'name': 'Whole Grain Cereal',
+    'description': 'Whole grain cereal for a healthy breakfast.',
+    'category': Category.food,
+    'ingredients': [3, 10, 12, 13],
+  },
+  {
+    'name': 'Detox Tea',
+    'description': 'Detox tea to cleanse your body naturally.',
+    'category': Category.drink,
+    'ingredients': [5, 29, 45, 54],
+  },
+  {
+    'name': 'Hair Conditioner',
+    'description': 'Conditioner to keep your hair silky and smooth.',
+    'category': Category.cosmetics,
+    'ingredients': [22, 23, 27, 30],
+  },
+  {
+    'name': 'Sparkling Water',
+    'description': 'Sparkling water with a hint of natural flavors.',
+    'category': Category.drink,
+    'ingredients': [41, 44, 53],
+  },
+  {
+    'name': 'Lip Balm',
+    'description': 'Lip balm to keep your lips hydrated.',
+    'category': Category.cosmetics,
+    'ingredients': [22, 26, 28],
+  },
+  {
+    'name': 'Fruit Smoothie',
+    'description': 'Delicious fruit smoothie for a healthy snack.',
+    'category': Category.drink,
+    'ingredients': [42, 48, 50, 53],
+  },
+  {
+    'name': 'Hand Sanitizer',
+    'description': 'Hand sanitizer to keep your hands germ-free.',
+    'category': Category.cosmetics,
+    'ingredients': [22, 26, 28, 29],
+  },
+  {
+    'name': 'Granola Bar',
+    'description': 'Granola bar for a quick and healthy snack.',
+    'category': Category.food,
+    'ingredients': [3, 10, 12, 17],
+  },
+  {
+    'name': 'Body Wash',
+    'description': 'Body wash with natural ingredients.',
+    'category': Category.cosmetics,
+    'ingredients': [21, 22, 26, 29],
+  },
+  {
+    'name': 'Green Tea',
+    'description': 'Green tea with a soothing aroma.',
+    'category': Category.drink,
+    'ingredients': [5, 29, 45, 54],
+  },
+  {
+    'name': 'Face Mask',
+    'description': 'Face mask to rejuvenate your skin.',
+    'category': Category.cosmetics,
+    'ingredients': [21, 22, 24, 28],
+  },
+  {
+    'name': 'Vegetable Soup',
+    'description': 'Hearty vegetable soup for a nutritious meal.',
+    'category': Category.food,
+    'ingredients': [6, 8, 9, 13],
+  },
+  {
+    'name': 'Aftershave Lotion',
+    'description': 'Aftershave lotion to soothe your skin.',
+    'category': Category.cosmetics,
+    'ingredients': [22, 26, 28],
+  },
+  {
+    'name': 'Protein Shake',
+    'description': 'Protein shake for muscle recovery.',
+    'category': Category.drink,
+    'ingredients': [7, 43, 48, 50],
+  },
+  {
+    'name': 'Shaving Cream',
+    'description': 'Rich shaving cream for a smooth shave.',
+    'category': Category.cosmetics,
+    'ingredients': [22, 24, 26, 28],
+  },
+  {
+    'name': 'Almond Milk',
+    'description': 'Almond milk with a rich, creamy taste.',
+    'category': Category.drink,
+    'ingredients': [42, 44, 50],
+  },
+  {
+    'name': 'Hydrating Gel',
+    'description': 'Hydrating gel for all-day moisture.',
+    'category': Category.cosmetics,
+    'ingredients': [22, 25, 27, 28],
+  },
+  {
+    'name': 'Coconut Water',
+    'description': 'Refreshing coconut water to hydrate naturally.',
+    'category': Category.drink,
+    'ingredients': [41, 44, 51],
+  },
+  {
+    'name': 'Sunscreen',
+    'description': 'Sunscreen to protect your skin from UV rays.',
+    'category': Category.cosmetics,
+    'ingredients': [22, 24, 26, 27],
+  },
+  {
+    'name': 'Tomato Juice',
+    'description': 'Tomato juice rich in vitamins and minerals.',
+    'category': Category.drink,
+    'ingredients': [4, 42, 44],
+  },
+  {
+    'name': 'Foot Cream',
+    'description': 'Foot cream to keep your feet soft and smooth.',
+    'category': Category.cosmetics,
+    'ingredients': [22, 26, 27, 28],
+  },
+  {
+    'name': 'Energy Bar',
+    'description': 'Energy bar to fuel your active lifestyle.',
+    'category': Category.food,
+    'ingredients': [3, 7, 9, 12],
+  },
 ];
-    final productDescriptions = [
-  'A refreshing herbal shampoo for daily use.',
-  'Pure organic juice with no added sugars.',
-  'A nourishing cream to revitalize your skin.',
-  'A protein bar packed with nutrients.',
-  'Natural mineral water sourced from the mountains.',
-  'An anti-aging serum with advanced formula.',
-  'Energy drink to keep you going all day.',
-  'Moisturizing lotion for smooth and soft skin.',
-  'Whole grain cereal for a healthy breakfast.',
-  'Detox tea to cleanse your body naturally.',
-  'Conditioner to keep your hair silky and smooth.',
-  'Sparkling water with a hint of natural flavors.',
-  'Lip balm to keep your lips hydrated.',
-  'Delicious fruit smoothie for a healthy snack.',
-  'Hand sanitizer to keep your hands germ-free.',
-  'Granola bar for a quick and healthy snack.',
-  'Body wash with natural ingredients.',
-  'Green tea with a soothing aroma.',
-  'Face mask to rejuvenate your skin.',
-  'Hearty vegetable soup for a nutritious meal.',
-  'Aftershave lotion to soothe your skin.',
-  'Protein shake for muscle recovery.',
-  'Rich shaving cream for a smooth shave.',
-  'Almond milk with a rich, creamy taste.',
-  'Hydrating gel for all-day moisture.',
-  'Refreshing coconut water to hydrate naturally.',
-  'Sunscreen to protect your skin from UV rays.',
-  'Tomato juice rich in vitamins and minerals.',
-  'Foot cream to keep your feet soft and smooth.',
-  'Energy bar to fuel your active lifestyle.',
-];
-    for (int i = 0; i < 30; i++) {
+  for (int i = 0; i < productData.length; i++) {
+    final data = productData[i];
+    final productIngredients = data['ingredients'] as List<int>;
     products.add(
       Product.fromAllData(
         id: i + 1,
-        name: productNames[i],
-        description: productDescriptions[i],
-        category: Category.values[i % Category.values.length],
-        ingredients: List.generate(5, (index) => ingredients[(i + index) % ingredients.length]),
+        name: data['name'] as String,
+        description: data['description'] as String,
+        category: data['category'] as Category,
+        ingredients: productIngredients.map((id) => ingredients.firstWhere((ing) => ing.id == id)).toList(),
         producer: producers[i % producers.length],
         promotionUntil: DateTime.now().add(Duration(days: (i + 1) * 10)),
       ),
@@ -312,17 +419,72 @@ class MockupIngredientDatabase extends IngredientDatabase
   MockupIngredientDatabase.filled():ingredients=List.empty(growable: true)
   {
     ingredients = [
-    Ingredient.fromAllData(id: 1, name: 'Water',iconURL: ""),
-    Ingredient.fromAllData(id: 2, name: 'Sugar',iconURL: ""),
-    Ingredient.fromAllData(id: 3, name: 'Salt',iconURL: ""),
-    Ingredient.fromAllData(id: 4, name: 'Flavoring',iconURL: ""),
-    Ingredient.fromAllData(id: 5, name: 'Preservatives',iconURL: ""),
-    Ingredient.fromAllData(id: 6, name: 'Citric Acid',iconURL: ""),
-    Ingredient.fromAllData(id: 7, name: 'Sodium Benzoate',iconURL: ""),
-    Ingredient.fromAllData(id: 8, name: 'Vitamin C',iconURL: ""),
-    Ingredient.fromAllData(id: 9, name: 'Calcium',iconURL: ""),
-    Ingredient.fromAllData(id: 10, name: 'Iron',iconURL: ""),
-    ];
+  // Food Ingredients
+  Ingredient.fromAllData(id: 1, name: 'Water'),
+  Ingredient.fromAllData(id: 2, name: 'Salt'),
+  Ingredient.fromAllData(id: 3, name: 'Whole Grains'),
+  Ingredient.fromAllData(id: 4, name: 'Fruit Extract'),
+  Ingredient.fromAllData(id: 5, name: 'Tea Leaves'),
+  Ingredient.fromAllData(id: 6, name: 'Vegetables'),
+  Ingredient.fromAllData(id: 7, name: 'Protein'),
+  Ingredient.fromAllData(id: 8, name: 'Vitamin C'),
+  Ingredient.fromAllData(id: 9, name: 'Calcium'),
+  Ingredient.fromAllData(id: 10, name: 'Oats'),
+  Ingredient.fromAllData(id: 11, name: 'Honey'),
+  Ingredient.fromAllData(id: 12, name: 'Nuts'),
+  Ingredient.fromAllData(id: 13, name: 'Seeds'),
+  Ingredient.fromAllData(id: 14, name: 'Coconut'),
+  Ingredient.fromAllData(id: 15, name: 'Spices'),
+  Ingredient.fromAllData(id: 16, name: 'Herbs'),
+  Ingredient.fromAllData(id: 17, name: 'Dried Fruits'),
+  Ingredient.fromAllData(id: 18, name: 'Pea Protein'),
+  Ingredient.fromAllData(id: 19, name: 'Rice Protein'),
+  Ingredient.fromAllData(id: 20, name: 'Potato Starch'),
+
+  // Cosmetic Ingredients
+  Ingredient.fromAllData(id: 21, name: 'Aloe Vera'),
+  Ingredient.fromAllData(id: 22, name: 'Shea Butter'),
+  Ingredient.fromAllData(id: 23, name: 'Essential Oils'),
+  Ingredient.fromAllData(id: 24, name: 'Collagen'),
+  Ingredient.fromAllData(id: 25, name: 'Hyaluronic Acid'),
+  Ingredient.fromAllData(id: 26, name: 'Coconut Oil'),
+  Ingredient.fromAllData(id: 27, name: 'Glycerin'),
+  Ingredient.fromAllData(id: 28, name: 'Vitamin E'),
+  Ingredient.fromAllData(id: 29, name: 'Green Tea Extract'),
+  Ingredient.fromAllData(id: 30, name: 'Chamomile Extract'),
+  Ingredient.fromAllData(id: 31, name: 'Lavender Oil'),
+  Ingredient.fromAllData(id: 32, name: 'Rosehip Oil'),
+  Ingredient.fromAllData(id: 33, name: 'Jojoba Oil'),
+  Ingredient.fromAllData(id: 34, name: 'Avocado Oil'),
+  Ingredient.fromAllData(id: 35, name: 'Argan Oil'),
+  Ingredient.fromAllData(id: 36, name: 'Almond Oil'),
+  Ingredient.fromAllData(id: 37, name: 'Beeswax'),
+  Ingredient.fromAllData(id: 38, name: 'Vitamin A'),
+  Ingredient.fromAllData(id: 39, name: 'Sunflower Oil'),
+  Ingredient.fromAllData(id: 40, name: 'Cucumber Extract'),
+
+  // Drink Ingredients
+  Ingredient.fromAllData(id: 41, name: 'Carbonated Water'),
+  Ingredient.fromAllData(id: 42, name: 'Fruit Juice'),
+  Ingredient.fromAllData(id: 43, name: 'Electrolytes'),
+  Ingredient.fromAllData(id: 44, name: 'Natural Flavors'),
+  Ingredient.fromAllData(id: 45, name: 'Green Tea'),
+  Ingredient.fromAllData(id: 46, name: 'Black Tea'),
+  Ingredient.fromAllData(id: 47, name: 'Coffee Extract'),
+  Ingredient.fromAllData(id: 48, name: 'Milk'),
+  Ingredient.fromAllData(id: 49, name: 'Soy Milk'),
+  Ingredient.fromAllData(id: 50, name: 'Almond Milk'),
+  Ingredient.fromAllData(id: 51, name: 'Coconut Water'),
+  Ingredient.fromAllData(id: 52, name: 'Maple Syrup'),
+  Ingredient.fromAllData(id: 53, name: 'Lemon Juice'),
+  Ingredient.fromAllData(id: 54, name: 'Mint'),
+  Ingredient.fromAllData(id: 55, name: 'Ginger'),
+  Ingredient.fromAllData(id: 56, name: 'Turmeric'),
+  Ingredient.fromAllData(id: 57, name: 'Chia Seeds'),
+  Ingredient.fromAllData(id: 58, name: 'Kale'),
+  Ingredient.fromAllData(id: 59, name: 'Spirulina'),
+  Ingredient.fromAllData(id: 60, name: 'Cinnamon'),
+];
   }
   @override
   Future<List<Ingredient>> getAllIngredients()async {

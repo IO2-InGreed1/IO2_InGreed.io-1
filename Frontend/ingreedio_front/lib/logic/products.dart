@@ -72,7 +72,7 @@ class Ingredient with IngredientMappable
   String name;
   String iconURL;
   @MappableConstructor()
-  Ingredient.fromAllData({required this.iconURL,required this.id,required this.name});
+  Ingredient.fromAllData({this.iconURL="",required this.id,required this.name});
   @override String toString() {
     return name;
   }

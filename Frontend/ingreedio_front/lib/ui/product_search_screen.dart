@@ -73,9 +73,9 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
   @override 
   Widget putWidgets(Widget listWidget,Widget filterWidget)
   {
-    int listFlex=9,filterFlex=5;
+    int listFlex=3,filterFlex=1;
     double sum=listFlex+filterFlex.toDouble();
-    double pixelPerFlex=370/filterFlex;
+    double pixelPerFlex=300/filterFlex;
     return LayoutBuilder(
       builder: (context,constraints) {
         if(constraints.maxWidth<pixelPerFlex*sum)
@@ -83,7 +83,7 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
           return Row(mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Expanded(flex: listFlex,child: StandardDecorator(child: listWidget)),
-            Expanded(flex: filterFlex,child: StandardDecorator(child: filterWidget))
+            Expanded(flex: filterFlex,child: Align(alignment: Alignment.topRight,child: StandardDecorator(child: filterWidget)))
             ],
            );
         }
@@ -92,7 +92,7 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
           return Row(mainAxisAlignment: MainAxisAlignment.end,
           children: [
            Expanded(flex: listFlex,child: Center(child: SizedBox(width: pixelPerFlex*listFlex,child: StandardDecorator(child: listWidget)))),
-           Expanded(flex: filterFlex,child: Center(child: SizedBox(width: pixelPerFlex*filterFlex,child: StandardDecorator(child: filterWidget))))],
+           Expanded(flex: filterFlex,child: Align(alignment: Alignment.topRight,child: SizedBox(width: pixelPerFlex*filterFlex,child: StandardDecorator(child: filterWidget))))],
            );
         }
       }
@@ -210,7 +210,7 @@ class _FavouriteProductSearchScreenState extends _ProductSearchScreenState
   {
     return Column(
       children: [
-        listWidget,
+        StandardDecorator(color: Colors.transparent,child: listWidget),
         reloadButton
       ],
     );
