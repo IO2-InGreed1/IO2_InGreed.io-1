@@ -8,6 +8,8 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddDataAccess(this IServiceCollection services)
     {
-        return services.AddScoped<IUserDA, FakeUserDA>();
+        return services.AddScoped<IUserDA, FakeUserDA>()
+                       .AddScoped<IIngredientDA, FakeIngredientDA>()
+                       .AddScoped<IProductDA, FakeProductDA>();
     }
 }
