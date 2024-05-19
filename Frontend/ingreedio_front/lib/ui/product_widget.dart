@@ -41,18 +41,20 @@ class _ProductAndOpinionWidgetState extends State<ProductAndOpinionWidget> {
   }
 }
 class ProductIconWidget extends StatelessWidget {
-  const ProductIconWidget({super.key,required this.product,this.heigth=70});
+  const ProductIconWidget({super.key,required this.product,this.heigth=80,this.width=300});
   final Product product;
   final double heigth;
+  final double width;
   @override
   Widget build(BuildContext context) {
     return StandardDecorator(color: Colors.green,child:
     Row(children: [
       SizedBox(height: heigth,child: product.image),
       SizedBox(height: heigth,
+      width: width,
         child: Column(
           children: [
-            Text(product.name,selectionColor: Colors.white,style:const TextStyle(fontWeight: FontWeight.bold)),
+            Text(product.name,selectionColor: Colors.white,maxLines: 2,style:const TextStyle(fontWeight: FontWeight.bold)),
             Text(product.description,selectionColor: Colors.white,maxLines: 2)
           ],
         ),
