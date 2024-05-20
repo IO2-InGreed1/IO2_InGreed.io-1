@@ -82,7 +82,7 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
         //rows=widget.maxRows;
         //if(columns>widget.maxColumns) columns=widget.maxColumns;
         //if(rows>widget.maxRows) rows=widget.maxRows;
-        if(list.isEmpty) return const SizedBox();
+        if(list.isEmpty) return const SizedBox(width: 400,child:Text("no search results"));
         return Column(
           children: [
             Grid(columns: columns, children: list.getRange(0, columns*rows>list.length?list.length:columns*rows).map((e) => getObjectWidget(e, context)).toList()),
