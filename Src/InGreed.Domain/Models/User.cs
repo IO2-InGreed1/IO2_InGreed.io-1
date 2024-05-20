@@ -10,4 +10,5 @@ public class User
     public string Username { get; set; } = string.Empty;
     public Role Role { get; set; } = 0;
     public bool Banned { get; set; } = false;
+    public string IconURL { get; set; } = string.Empty;
 }
