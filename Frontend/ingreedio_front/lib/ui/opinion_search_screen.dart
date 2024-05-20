@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/creators/empty_filter_creator.dart';
+import 'package:ingreedio_front/creators/opinion_creator.dart';
 import 'package:ingreedio_front/creators/opinion_filter_creator.dart';
 import 'package:ingreedio_front/cubit_logic/list_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/opinion_cubit.dart';
@@ -20,6 +21,19 @@ class _OpinionSearchScreenState extends SearchScreenState<Opinion> {
 
   OpinionSearchScreen get myWidget=>widget as OpinionSearchScreen;
   bool reportButton=false;
+  Widget get addOpinionButton
+  {
+    if(SessionCubit.fromContext(context).state.currentClient==null) return const SizedBox();
+    return DialogButton(creator: OpinionCreator(reference:ItemWrapper(Opinion.empty(author: SessionCubit.fromContext(context).state.currentClient!, product: myWidget.product)),), 
+      onFinished: (value)
+      {
+        SessionCubit.fromContext(context).database.opinionDatabase.addOpinion(value);
+        setState(() {
+          //refresh();
+        });
+      },
+      child:const Text("Add opinion"));
+  }
   @override 
   Widget build(BuildContext context) 
   {
@@ -48,6 +62,17 @@ class _OpinionSearchScreenState extends SearchScreenState<Opinion> {
   Widget getObjectWidget(Opinion obj, BuildContext context) {
     if(reportButton==false) return obj.widget;
     return obj.reportableWidget;
+  }
+  @override
+  Widget putWidgets(Widget listWidget,Widget filterWidget)
+  {
+    return Column(
+      children: [
+        filterWidget,
+        listWidget,
+        addOpinionButton
+      ],
+    );
   }
 }
 class ReportedOpinionSearchScreen extends SearchScreen<Opinion> {

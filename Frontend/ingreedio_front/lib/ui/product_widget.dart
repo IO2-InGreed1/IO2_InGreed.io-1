@@ -16,20 +16,7 @@ class ProductAndOpinionWidget extends StatefulWidget {
 class _ProductAndOpinionWidgetState extends State<ProductAndOpinionWidget> {
   @override
   Widget build(BuildContext context) {
-    Client? client=SessionCubit.fromContext(context).state.currentClient;
     List<Widget> children=[ widget.product.productWidget,OpinionSearchScreen(product: widget.product),];
-
-    if(client!=null)
-    {
-      var button=DialogButton(creator: OpinionCreator(reference:ItemWrapper(Opinion.empty(author: client, product: widget.product)),), 
-      onFinished: (value)
-      {
-        SessionCubit.fromContext(context).database.opinionDatabase.addOpinion(value);
-        setState(() {});
-      }, 
-      child:const Text("Add opinion"));
-      children.add(button);
-    }
     return Center(
       child: SingleChildScrollView(
         child: Column
