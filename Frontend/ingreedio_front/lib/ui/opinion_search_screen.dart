@@ -83,7 +83,6 @@ class ReportedOpinionSearchScreen extends SearchScreen<Opinion> {
 }
 
 class _ReportedOpinionSearchScreenState extends SearchScreenState<Opinion> {
-  
   @override 
   Widget build(BuildContext context) {
     columns=1;

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/creators.dart';
-import 'package:ingreedio_front/creators/opinion_creator.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:ingreedio_front/ui/ingredient_widget.dart';
-import 'package:ingreedio_front/logic/users.dart';
 import 'opinion_search_screen.dart';
 class ProductAndOpinionWidget extends StatefulWidget {
   const ProductAndOpinionWidget({super.key,required this.product});

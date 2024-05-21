@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ingreedio_front/creators/creators.dart';
@@ -70,7 +72,7 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
   //search screen data
   int from=0,maks=0;
   //int rows, columns;
-  int columns=2,rows=6;
+  int columns=Platform.isAndroid||Platform.isIOS?1:2,rows=6;
   int get count=>columns*rows;
   SearchScreenData<T>? lastData;
   //cubit
@@ -131,7 +133,6 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
   @override
   Widget build(BuildContext context) {
     providerCubit.loadData(from,from+count,filter,context);
-    Widget filterWidget=getFilterWidget(filterCreator);
     Widget listWidget=BlocBuilder<ListCubit<T>,SearchScreenData<T>?>(builder: (context,state)
         {
           if(lastData!=null&&filter!=lastData!.filter) lastData=null;
@@ -149,7 +150,7 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
           return listWidget;
         });
     return BlocProvider(create: (context)=>providerCubit,
-    child: putWidgets(listWidget, filterWidget)
+    child: putWidgets(listWidget, getFilterWidget(filterCreator))
     );
   }
   Widget get listControlWidgets
@@ -179,7 +180,7 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
           }, child: const Text("next")),
           ],
         ),
-        Text("${from+1}-${from+count}/$maks"),
+        Text("${from+1}-${maks<from+count?maks:from+count}/$maks"),
       ],
     );
   }

@@ -60,7 +60,7 @@ class _OpinionCreatorState extends State<OpinionCreator> {
           onChanged: (value){widget.item.text=value;},
           allowMultiline: true,),
         ),
-        LabelWidget(label: "Score: ",child: DoubleRatingCreator(reference:ItemWrapper(widget.item.score),onChanged: (value){widget.item.score=value;},))
+        LabelWidget(isHorizontal: false,label: "Score: ",child: DoubleRatingCreator(reference:ItemWrapper(widget.item.score),onChanged: (value){widget.item.score=value;},))
       ],
     );
   }

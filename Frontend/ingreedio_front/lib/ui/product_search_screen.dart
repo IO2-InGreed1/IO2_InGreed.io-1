@@ -52,7 +52,7 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
     if(currentClient!=null&&showPreferences)
     {
       var pref=PreferenceSelector(reference: ItemWrapper(null));
-        widgets.add(LabelWidget(label: "choose preference",child: pref));
+        widgets.add(LabelWidget(isHorizontal: false,label: "choose preference",child: pref));
         widgets.add(PreferenceButton(selector: pref, onClicked: (value)
         {
           if(value!=null)
@@ -78,6 +78,15 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
     double pixelPerFlex=300/filterFlex;
     return LayoutBuilder(
       builder: (context,constraints) {
+        if(constraints.maxWidth<(1/2)*pixelPerFlex*sum)
+        {
+          return Column(mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            StandardDecorator(child: filterWidget),
+            StandardDecorator(child: listWidget)
+            ],
+           );
+        }
         if(constraints.maxWidth<pixelPerFlex*sum)
         {
           return Row(mainAxisAlignment: MainAxisAlignment.end,
