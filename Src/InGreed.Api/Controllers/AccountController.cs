@@ -1,6 +1,7 @@
 ﻿using InGreed.Api.Contracts.Authorization;
 using InGreed.Api.Mappers;
 using InGreed.Logic.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InGreed.Api.Controllers;
@@ -41,6 +42,7 @@ public class AccountController : ControllerBase
     [ProducesResponseType(typeof(AuthorizationResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesErrorResponseType(typeof(void))]
+    [Authorize]
     public IActionResult Login(LoginRequest request)
     {
         var user = _contractsToModelsMapper.LoginRequestToUser(request);

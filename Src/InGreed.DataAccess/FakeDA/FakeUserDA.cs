@@ -6,7 +6,7 @@ namespace InGreed.DataAccess.FakeDA;
 
 public class FakeUserDA : IUserDA
 {
-    private List<User> _users = new()
+    private static List<User> _users = new()
     {
         new(){Id = 1, Email = "example1@mail.com", Password = "1", Username = "User 1", Role = Role.User, Banned = false },
         new(){Id = 2, Email = "example2@mail.com", Password = "2", Username = "User 2", Role = Role.Moderator, Banned = false },

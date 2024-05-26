@@ -27,7 +27,7 @@ public class AccountService : IAccountService
             {
                 throw new ArgumentException("Invalid Credentials");
             }
-            return _tokenService.GenerateToken(user);
+            return _tokenService.GenerateToken(userToCheck);
         }
         catch (Exception ex)
         {
