@@ -29,12 +29,12 @@ public class JwtTokenService : ITokenService
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim(JwtRegisteredClaimNames.Name, user.Username),
-            new Claim(JwtRegisteredClaimNames.Nbf, timeNow.ToUnixTimeMilliseconds().ToString()),
-            new Claim(JwtRegisteredClaimNames.Exp, timeNow.AddHours(1).ToUnixTimeMilliseconds().ToString())
+            new Claim(JwtRegisteredClaimNames.Name, user.Username)
         };
         var jwtToken = new JwtSecurityToken(
         claims: claims,
+        notBefore: _dateTimeProvider.Now,
+        expires: _dateTimeProvider.Now.AddHours(1),
         signingCredentials: new SigningCredentials(
             new SymmetricSecurityKey(
                Encoding.UTF8.GetBytes("ThisismySecretKeyThatIsReallyVeryLong")

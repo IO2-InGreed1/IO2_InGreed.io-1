@@ -22,7 +22,7 @@ public class JwtTokenServiceTests
         };
 
         dateTimeProviderMock = new Mock<IDateTimeProvider>();
-        dateTimeProviderMock.Setup(dt => dt.Now).Returns(new DateTime(2024, 5, 2));
+        dateTimeProviderMock.Setup(dt => dt.Now).Returns(new DateTime(2024, 5, 2, 0, 0, 0).ToUniversalTime());
     }
 
     [Fact]
@@ -47,9 +47,37 @@ public class JwtTokenServiceTests
 
         //Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
+        
+        //Assert
+        Assert.NotNull(token);
+    }
+
+    [Fact]
+    public void GenerateToken_UserIsCorrect_TokenValidFromNow()
+    {
+        //Arrange
+        var dateTimeProvider = dateTimeProviderMock.Object;
+        var sut = new JwtTokenService(dateTimeProvider);
+
+        //Act
+        var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
 
         //Assert
-        Assert.True(token.ValidTo > dateTimeProvider.Now);
+        Assert.Equal(dateTimeProvider.Now, token.ValidFrom);
+    }
+
+    [Fact]
+    public void GenerateToken_UserIsCorrect_TokenValidForMaxHour()
+    {
+        //Arrange
+        var dateTimeProvider = dateTimeProviderMock.Object;
+        var sut = new JwtTokenService(dateTimeProvider);
+
+        //Act
+        var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
+
+        //Assert
+        Assert.Equal(dateTimeProvider.Now.AddHours(1), token.ValidTo);
     }
 
     [Fact]
