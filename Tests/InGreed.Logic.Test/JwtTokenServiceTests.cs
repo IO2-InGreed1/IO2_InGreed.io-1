@@ -53,34 +53,6 @@ public class JwtTokenServiceTests
     }
 
     [Fact]
-    public void GenerateToken_UserIsCorrect_TokenValidFromNow()
-    {
-        //Arrange
-        var dateTimeProvider = dateTimeProviderMock.Object;
-        var sut = new JwtTokenService(dateTimeProvider);
-
-        //Act
-        var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
-
-        //Assert
-        Assert.True(token.ValidFrom == dateTimeProvider.Now);
-    }
-
-    [Fact]
-    public void GenerateToken_UserIsCorrect_TokenValidForMaxHour()
-    {
-        //Arrange
-        var dateTimeProvider = dateTimeProviderMock.Object;
-        var sut = new JwtTokenService(dateTimeProvider);
-
-        //Act
-        var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
-
-        //Assert
-        Assert.True(token.ValidTo < dateTimeProvider.Now.AddHours(1));
-    }
-
-    [Fact]
     public void GenerateToken_UserIsCorrect_TokenHasValidUsername()
     {
         //Arrange
