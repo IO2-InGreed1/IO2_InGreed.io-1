@@ -9,8 +9,8 @@ class MockupUserDatabase extends UserDatabse
 {
   static Client mockClient=Client.fromAllData(id: 10, isBlocked: false, mail: 'XD@foo.com', password: null, username: 'Daniel', favoriteProducts: MockupProductDatabase.filled(MockupIngredientDatabase.filled()).products.getRange(7, 12).toList(),);
   static Producer mockProucer=Producer.fromAllData(companyName: 'C1', nip: '123', representativeName: 'Paweł', representativeSurname: 'Dzik', telephoneNumber: '2137');
-  static Moderator mockModerator=Moderator.fromAllData(moderatorNumber: 1,editedOpinionList: []);
-  static Admin mockAdmin=Admin.fromAllData(controlPanel: ControlPanel());
+  static Moderator mockModerator=Moderator.fromAllData(id: 11, isBlocked: false, mail: 'XP@foo.com', password: null, username: 'Michał',moderatorNumber: 1,editedOpinionList: []);
+  static Admin mockAdmin=Admin.fromAllData(id: 12, isBlocked: false, mail: 'XQ@foo.com', password: null, username: 'Jacek',controlPanel: ControlPanel());
     @override
   Future<Admin?> loadAdmin(String token)async {
     return mockAdmin;

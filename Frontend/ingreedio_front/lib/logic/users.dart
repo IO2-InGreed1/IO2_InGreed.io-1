@@ -7,7 +7,7 @@ part 'users.mapper.dart';
 @MappableClass(discriminatorKey: "Type",discriminatorValue: "User")
 abstract class User with UserMappable
 {
-  @MappableConstructor()
+@MappableConstructor()
   User.fromAllData({
     required this.id,
     required this.isBlocked,
@@ -24,7 +24,7 @@ abstract class User with UserMappable
 class Producer with ProducerMappable
 {
   String companyName,nip,representativeName,representativeSurname,telephoneNumber;
-  @MappableConstructor()
+ @MappableConstructor()
   Producer.fromAllData({
     required this.companyName,
     required this.nip,
@@ -46,7 +46,7 @@ class Producer with ProducerMappable
 @MappableClass(discriminatorKey: "Type",discriminatorValue: "Client")
 class Client extends User with ClientMappable
 {
-  @MappableConstructor()
+ @MappableConstructor()
   Client.fromAllData({required super.id,
   required super.isBlocked, 
   required super.mail, 

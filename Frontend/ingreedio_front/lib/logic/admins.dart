@@ -1,28 +1,72 @@
+import 'package:flutter/material.dart';
+import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:ingreedio_front/ui/admin_widget.dart';
+import 'package:ingreedio_front/ui/moderator_widget.dart';
 import 'users.dart';
-part 'package:ingreedio_front/logic/admins.mapper.dart';
-abstract class IModerator
+part 'admins.mapper.dart';
+ /* abstract class IModerator
 {
+
   User searchAdviser(Opinion opinion)
   {
     return opinion.author;
   }
-}
-@MappableClass()
-class Moderator extends IModerator with ModeratorMappable
+}      */
+@MappableClass(discriminatorKey: "Type",discriminatorValue: "Moderator")
+class Moderator extends User with ModeratorMappable
 {
   @MappableConstructor()
-  Moderator.fromAllData({required this.moderatorNumber,required this.editedOpinionList});
+  Moderator.fromAllData({required super.id,
+    required super.isBlocked,
+    required super.mail,
+    required super.password,
+    required super.username,
+    required this.moderatorNumber,
+    required this.editedOpinionList,}): super.fromAllData();
   int moderatorNumber;
   List<Opinion> editedOpinionList;
+  Widget get image=> Assets.placeholderImage;
+  Widget get moderatorProfileWidget=>ModeratorProfileWidget(moderator: this,);
+  Widget get moderatorWidget=>ModeratorWidget(moderator: this,);
+  @override 
+  bool operator==(Object other)
+  {
+    if(other is! Moderator) return false;
+    return other.isBlocked==isBlocked&&other.id==id&&other.username==username&&other.mail==mail;
+  }
+  
+  @override
+  int get hashCode => isBlocked.hashCode+username.hashCode+mail.hashCode;
+  
 }
-@MappableClass()
-class Admin extends IModerator with AdminMappable
+@MappableClass(discriminatorKey: "Type",discriminatorValue: "Admin")
+class Admin extends User with AdminMappable
 {
   @MappableConstructor()
-  Admin.fromAllData({required this.controlPanel});
+  Admin.fromAllData({
+    required super.id,
+    required super.isBlocked,
+    required super.mail,
+    required super.password,
+    required super.username,
+    required this.controlPanel,
+  }) : super.fromAllData();
   ControlPanel controlPanel;
+  Widget get image=> Assets.placeholderImage;
+  Widget get adminProfileWidget=>AdminProfileWidget(admin: this,);
+  Widget get adminWidget=>AdminWidget(admin: this,);
+  @override 
+  bool operator==(Object other)
+  {
+    if(other is! Admin) return false;
+    return other.isBlocked==isBlocked&&other.id==id&&other.username==username&&other.mail==mail;
+  }
+  
+  @override
+  int get hashCode => isBlocked.hashCode+username.hashCode+mail.hashCode;
+  
 }
 @MappableClass()
 class ControlPanel with ControlPanelMappable

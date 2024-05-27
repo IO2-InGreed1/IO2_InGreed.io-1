@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/creators/creators.dart';
-import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
-import 'package:ingreedio_front/logic/users.dart';
+import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
-import 'package:ingreedio_front/ui/preferances_menager.dart';
+import 'package:ingreedio_front/ui/opinion_search_screen.dart';
 import 'package:ingreedio_front/ui/product_search_screen.dart';
 
 
-class ClientScreen extends StatelessWidget {
-  const ClientScreen({super.key, required this.client});
-  final Client client;
-  Widget managePreferencesButton(BuildContext context)
-  {
-    return TextButton(
-      onPressed: ()
-      {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: getStandardAppBar(context),body: PreferenceMenager(),)));
-      }, child: const Text("manage preferences"));
-  }
+class ModeratorScreen extends StatelessWidget {
+  const ModeratorScreen({super.key, required this.moderator});
+  final Moderator moderator;
+
 
   AppBar getAppBar(BuildContext context,{bool withClientProfile=false,bool buttonSubmenu=false})
   {
@@ -75,8 +67,8 @@ class ClientScreen extends StatelessWidget {
               curve: 100,
               padding: 0,
               child: TextButton(onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: AppBar(),body: SingleChildScrollView(child: client.clientProfileWidget))));
-              }, child: client.clientWidget),
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Scaffold(appBar: AppBar(),body: SingleChildScrollView(child: moderator.moderatorProfileWidget))));
+              }, child: moderator.moderatorWidget),
             ),
           ):const SizedBox(),
           buttonSubmenu?PopupMenuButton(itemBuilder: (context)=>buttons.map((e) => PopupMenuItem(child: e)).toList()):Row(children: buttons)
@@ -91,20 +83,61 @@ class ClientScreen extends StatelessWidget {
               Expanded(flex: 3,
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: managePreferencesButton(context)
-                    ),
-                    StandardDecorator(
-                      color: Theme.of(context).colorScheme.secondary,
-                      child: const SizedBox(width:700,child: LabelWidget(
-                        isHorizontal: false,
-                        label: "Favourite Products:",
-                        child: FavouriteProductSearchScreen()))
-                        ,
+                    Expanded(
+                      flex: 2,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  StandardDecorator(
+                                    color: Theme.of(context).colorScheme.secondary,
+                                    child: const SizedBox(width:250, height: 450, child: SizedBox(
+                                      child: LabelWidget(
+                                        isHorizontal: false,
+                                        label: "Reported opinions",
+                                        child: ReportedOpinionSearchScreen()),
+                                    ))
+                                      ,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  StandardDecorator(
+                                    color: Theme.of(context).colorScheme.secondary,
+                                    child: const SizedBox(width: 250, height: 450), 
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  StandardDecorator(
+                                    color: Theme.of(context).colorScheme.secondary,
+                                    child: const SizedBox(width: 250, height: 450), 
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
-                ),
+                )
               ),
               withClientProfile?Expanded(
                 flex: 1,
@@ -116,7 +149,7 @@ class ClientScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           const SizedBox(height: 20),
-                          client.clientProfileWidget,
+                          moderator.moderatorProfileWidget,
                         ],
                       ),
                     ),
@@ -129,10 +162,6 @@ class ClientScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(PreferenceCubit.fromContext(context).state==null)
-    {
-      PreferenceCubit.fromContext(context).loadPreferences(context,client);
-    }
     //return Scaffold(appBar: getAppBar(context),body: getBody(context),);
     return LayoutBuilder(
       builder: (context,constraints) {

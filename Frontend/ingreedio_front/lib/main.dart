@@ -6,9 +6,10 @@ import 'package:ingreedio_front/cubit_logic/cubit_consumer.dart';
 import 'package:ingreedio_front/cubit_logic/ingredient_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/session_data.dart';
+import 'package:ingreedio_front/ui/admin_screen.dart';
 import 'package:ingreedio_front/ui/client_screen.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
-import 'package:ingreedio_front/ui/opinion_search_screen.dart';
+import 'package:ingreedio_front/ui/moderator_screen.dart';
 import 'package:ingreedio_front/ui/product_search_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'cubit_logic/session_cubit.dart';
@@ -130,8 +131,14 @@ class _MyHomePageState extends State<MyHomePage> {
         if(data.currentProducer!=null) {
           return addLogoutButton(ProductEditScreen(producer: data.currentProducer!));
         }
-        if(data.currentModerator!=null) return addLogoutButton(const ReportedOpinionSearchScreen());
-        if(data.currentAdmin!=null) return addLogoutButton(const Text("rob robote panie Piotrze"));
+        if(data.currentModerator!=null) 
+        {
+          return ModeratorScreen(moderator:data.currentModerator!);                           
+        }
+        if(data.currentAdmin!=null) 
+        {
+          return AdminScreen(admin:data.currentAdmin!);
+        }
         return const RoleSelectionWidget();
       })
     );

@@ -59,9 +59,32 @@ class OpinionWidget extends StatelessWidget {
       itemSize: 30.0,
       direction: Axis.horizontal,
       ),
-          Text(opinion.text,maxLines: null),
+          OpinionText(text:opinion.text),
         ],
       ),
     );
+  }
+}
+class OpinionText extends StatelessWidget {
+  final String text;
+
+  const OpinionText({super.key, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    // Check if the text length is greater than 40
+    bool isTextLong = text.length > 20;
+    String displayText = isTextLong ? '${text.substring(0, 20)}...' : text;
+    if(isTextLong)
+    {
+      return Tooltip(
+      message: text,
+      child: Text(displayText),
+    );
+    }
+    else
+    {
+      return Text(text);
+    }
   }
 }

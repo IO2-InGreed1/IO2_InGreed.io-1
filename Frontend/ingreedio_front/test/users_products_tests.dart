@@ -23,7 +23,7 @@ class TestInitializer
     Ingredient i5=Ingredient.fromAllData(iconURL: "", id: 4, name: "i5");
     return [i1,i2,i3,i4,i5];
   }
-  static Moderator get moderator=>Moderator.fromAllData(moderatorNumber: 0, editedOpinionList: []);
+  static Moderator get moderator=>Moderator.fromAllData(id: 11, isBlocked: false, mail: 'XP@foo.com', password: null, username: 'Michał',moderatorNumber: 0, editedOpinionList: []);
   static List<Opinion> get opinions
   {
     Opinion o1=Opinion.fromAllData(author: client, id: 0, product: product, score: 0, text: "opinion1");

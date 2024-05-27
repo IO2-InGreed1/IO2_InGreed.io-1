@@ -6,7 +6,7 @@ part 'session_data.mapper.dart';
 class SessionData with SessionDataMappable
 {
   SessionData.empty():userToken="";
-  @MappableConstructor()
+ @MappableConstructor()
   SessionData.fromAllData({required this.userToken,required this.currentClient
   ,required this.currentProducer,
   required this.currentAdmin, required this.currentModerator});

@@ -6,13 +6,14 @@
 
 part of 'admins.dart';
 
-class ModeratorMapper extends ClassMapperBase<Moderator> {
+class ModeratorMapper extends SubClassMapperBase<Moderator> {
   ModeratorMapper._();
 
   static ModeratorMapper? _instance;
   static ModeratorMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = ModeratorMapper._());
+      UserMapper.ensureInitialized().addSubMapper(_instance!);
       OpinionMapper.ensureInitialized();
     }
     return _instance!;
@@ -21,6 +22,19 @@ class ModeratorMapper extends ClassMapperBase<Moderator> {
   @override
   final String id = 'Moderator';
 
+  static int _$id(Moderator v) => v.id;
+  static const Field<Moderator, int> _f$id = Field('id', _$id);
+  static bool _$isBlocked(Moderator v) => v.isBlocked;
+  static const Field<Moderator, bool> _f$isBlocked =
+      Field('isBlocked', _$isBlocked);
+  static String _$mail(Moderator v) => v.mail;
+  static const Field<Moderator, String> _f$mail = Field('mail', _$mail);
+  static String? _$password(Moderator v) => v.password;
+  static const Field<Moderator, String> _f$password =
+      Field('password', _$password);
+  static String _$username(Moderator v) => v.username;
+  static const Field<Moderator, String> _f$username =
+      Field('username', _$username);
   static int _$moderatorNumber(Moderator v) => v.moderatorNumber;
   static const Field<Moderator, int> _f$moderatorNumber =
       Field('moderatorNumber', _$moderatorNumber);
@@ -30,12 +44,29 @@ class ModeratorMapper extends ClassMapperBase<Moderator> {
 
   @override
   final MappableFields<Moderator> fields = const {
+    #id: _f$id,
+    #isBlocked: _f$isBlocked,
+    #mail: _f$mail,
+    #password: _f$password,
+    #username: _f$username,
     #moderatorNumber: _f$moderatorNumber,
     #editedOpinionList: _f$editedOpinionList,
   };
 
+  @override
+  final String discriminatorKey = 'Type';
+  @override
+  final dynamic discriminatorValue = "Moderator";
+  @override
+  late final ClassMapperBase superMapper = UserMapper.ensureInitialized();
+
   static Moderator _instantiate(DecodingData data) {
     return Moderator.fromAllData(
+        id: data.dec(_f$id),
+        isBlocked: data.dec(_f$isBlocked),
+        mail: data.dec(_f$mail),
+        password: data.dec(_f$password),
+        username: data.dec(_f$username),
         moderatorNumber: data.dec(_f$moderatorNumber),
         editedOpinionList: data.dec(_f$editedOpinionList));
   }
@@ -89,10 +120,18 @@ extension ModeratorValueCopy<$R, $Out> on ObjectCopyWith<$R, Moderator, $Out> {
 }
 
 abstract class ModeratorCopyWith<$R, $In extends Moderator, $Out>
-    implements ClassCopyWith<$R, $In, $Out> {
+    implements UserCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, Opinion, OpinionCopyWith<$R, Opinion, Opinion>>
       get editedOpinionList;
-  $R call({int? moderatorNumber, List<Opinion>? editedOpinionList});
+  @override
+  $R call(
+      {int? id,
+      bool? isBlocked,
+      String? mail,
+      String? password,
+      String? username,
+      int? moderatorNumber,
+      List<Opinion>? editedOpinionList});
   ModeratorCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -109,13 +148,30 @@ class _ModeratorCopyWithImpl<$R, $Out>
       get editedOpinionList => ListCopyWith($value.editedOpinionList,
           (v, t) => v.copyWith.$chain(t), (v) => call(editedOpinionList: v));
   @override
-  $R call({int? moderatorNumber, List<Opinion>? editedOpinionList}) =>
+  $R call(
+          {int? id,
+          bool? isBlocked,
+          String? mail,
+          Object? password = $none,
+          String? username,
+          int? moderatorNumber,
+          List<Opinion>? editedOpinionList}) =>
       $apply(FieldCopyWithData({
+        if (id != null) #id: id,
+        if (isBlocked != null) #isBlocked: isBlocked,
+        if (mail != null) #mail: mail,
+        if (password != $none) #password: password,
+        if (username != null) #username: username,
         if (moderatorNumber != null) #moderatorNumber: moderatorNumber,
         if (editedOpinionList != null) #editedOpinionList: editedOpinionList
       }));
   @override
   Moderator $make(CopyWithData data) => Moderator.fromAllData(
+      id: data.get(#id, or: $value.id),
+      isBlocked: data.get(#isBlocked, or: $value.isBlocked),
+      mail: data.get(#mail, or: $value.mail),
+      password: data.get(#password, or: $value.password),
+      username: data.get(#username, or: $value.username),
       moderatorNumber: data.get(#moderatorNumber, or: $value.moderatorNumber),
       editedOpinionList:
           data.get(#editedOpinionList, or: $value.editedOpinionList));
@@ -126,13 +182,14 @@ class _ModeratorCopyWithImpl<$R, $Out>
       _ModeratorCopyWithImpl($value, $cast, t);
 }
 
-class AdminMapper extends ClassMapperBase<Admin> {
+class AdminMapper extends SubClassMapperBase<Admin> {
   AdminMapper._();
 
   static AdminMapper? _instance;
   static AdminMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = AdminMapper._());
+      UserMapper.ensureInitialized().addSubMapper(_instance!);
       ControlPanelMapper.ensureInitialized();
     }
     return _instance!;
@@ -141,17 +198,46 @@ class AdminMapper extends ClassMapperBase<Admin> {
   @override
   final String id = 'Admin';
 
+  static int _$id(Admin v) => v.id;
+  static const Field<Admin, int> _f$id = Field('id', _$id);
+  static bool _$isBlocked(Admin v) => v.isBlocked;
+  static const Field<Admin, bool> _f$isBlocked =
+      Field('isBlocked', _$isBlocked);
+  static String _$mail(Admin v) => v.mail;
+  static const Field<Admin, String> _f$mail = Field('mail', _$mail);
+  static String? _$password(Admin v) => v.password;
+  static const Field<Admin, String> _f$password = Field('password', _$password);
+  static String _$username(Admin v) => v.username;
+  static const Field<Admin, String> _f$username = Field('username', _$username);
   static ControlPanel _$controlPanel(Admin v) => v.controlPanel;
   static const Field<Admin, ControlPanel> _f$controlPanel =
       Field('controlPanel', _$controlPanel);
 
   @override
   final MappableFields<Admin> fields = const {
+    #id: _f$id,
+    #isBlocked: _f$isBlocked,
+    #mail: _f$mail,
+    #password: _f$password,
+    #username: _f$username,
     #controlPanel: _f$controlPanel,
   };
 
+  @override
+  final String discriminatorKey = 'Type';
+  @override
+  final dynamic discriminatorValue = "Admin";
+  @override
+  late final ClassMapperBase superMapper = UserMapper.ensureInitialized();
+
   static Admin _instantiate(DecodingData data) {
-    return Admin.fromAllData(controlPanel: data.dec(_f$controlPanel));
+    return Admin.fromAllData(
+        id: data.dec(_f$id),
+        isBlocked: data.dec(_f$isBlocked),
+        mail: data.dec(_f$mail),
+        password: data.dec(_f$password),
+        username: data.dec(_f$username),
+        controlPanel: data.dec(_f$controlPanel));
   }
 
   @override
@@ -199,9 +285,16 @@ extension AdminValueCopy<$R, $Out> on ObjectCopyWith<$R, Admin, $Out> {
 }
 
 abstract class AdminCopyWith<$R, $In extends Admin, $Out>
-    implements ClassCopyWith<$R, $In, $Out> {
+    implements UserCopyWith<$R, $In, $Out> {
   ControlPanelCopyWith<$R, ControlPanel, ControlPanel> get controlPanel;
-  $R call({ControlPanel? controlPanel});
+  @override
+  $R call(
+      {int? id,
+      bool? isBlocked,
+      String? mail,
+      String? password,
+      String? username,
+      ControlPanel? controlPanel});
   AdminCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -215,10 +308,28 @@ class _AdminCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Admin, $Out>
   ControlPanelCopyWith<$R, ControlPanel, ControlPanel> get controlPanel =>
       $value.controlPanel.copyWith.$chain((v) => call(controlPanel: v));
   @override
-  $R call({ControlPanel? controlPanel}) => $apply(FieldCopyWithData(
-      {if (controlPanel != null) #controlPanel: controlPanel}));
+  $R call(
+          {int? id,
+          bool? isBlocked,
+          String? mail,
+          Object? password = $none,
+          String? username,
+          ControlPanel? controlPanel}) =>
+      $apply(FieldCopyWithData({
+        if (id != null) #id: id,
+        if (isBlocked != null) #isBlocked: isBlocked,
+        if (mail != null) #mail: mail,
+        if (password != $none) #password: password,
+        if (username != null) #username: username,
+        if (controlPanel != null) #controlPanel: controlPanel
+      }));
   @override
   Admin $make(CopyWithData data) => Admin.fromAllData(
+      id: data.get(#id, or: $value.id),
+      isBlocked: data.get(#isBlocked, or: $value.isBlocked),
+      mail: data.get(#mail, or: $value.mail),
+      password: data.get(#password, or: $value.password),
+      username: data.get(#username, or: $value.username),
       controlPanel: data.get(#controlPanel, or: $value.controlPanel));
 
   @override

@@ -26,7 +26,7 @@ class Product with ProductMappable
     return other.id==id&&other.name==name&&other.category==category&&other.description==description;
   }
   Product.empty():id=0,name="",description="",promotionUntil=DateTime(0),category=Category.cosmetics,ingredients=[],producer=Producer.fromAllData(companyName: "CompanyName", nip: "1", representativeName: "representativeName", representativeSurname: "representativeSurname", telephoneNumber: "123123123");
-  @MappableConstructor()
+ @MappableConstructor()
   Product.fromAllData({
     required this.category,
     required this.description,

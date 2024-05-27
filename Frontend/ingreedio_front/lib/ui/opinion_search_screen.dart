@@ -11,7 +11,7 @@ import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/ui/search_screen.dart';
 
 class OpinionSearchScreen extends SearchScreen<Opinion> {
-  const OpinionSearchScreen({super.key,required this.product});
+  const OpinionSearchScreen({super.key,required this.product}): super(rows:3);
   final Product product;
   @override
   SearchScreenState<Opinion> createState() => _OpinionSearchScreenState();
@@ -76,7 +76,7 @@ class _OpinionSearchScreenState extends SearchScreenState<Opinion> {
   }
 }
 class ReportedOpinionSearchScreen extends SearchScreen<Opinion> {
-  const ReportedOpinionSearchScreen({super.key});
+  const ReportedOpinionSearchScreen({super.key}): super(rows:3);
 
   @override
   SearchScreenState<Opinion> createState() => _ReportedOpinionSearchScreenState();
@@ -105,16 +105,18 @@ class _ReportedOpinionSearchScreenState extends SearchScreenState<Opinion> {
   Widget getObjectWidget(Opinion obj, BuildContext context) {
     return  Row(children: [
       obj.widget,
-      ConfirmDialogButton(onFinished: (value) 
+      Column( children: [
+        ConfirmDialogButton(onFinished: (value) 
       {
         SessionCubit.fromContext(context).database.opinionDatabase.removeOpinion(obj);
       },
-      child: const Text("delete opinion"),),
+      child: const Text("Delete"),),
       ConfirmDialogButton(onFinished: (value) 
       {
         SessionCubit.fromContext(context).database.opinionDatabase.setOpinionReport(obj,reportState: false);
       },
-      child: const Text("un-report opinion"),),
+      child: const Text("Dismiss"),),
+    ])
     ]);
   }
 }

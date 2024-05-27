@@ -7,7 +7,8 @@ import 'package:ingreedio_front/cubit_logic/list_cubit.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 abstract class SearchScreen<T> extends StatefulWidget {
-  const SearchScreen({super.key});
+  final int rows;
+  const SearchScreen({super.key,this.rows=6});
 }
 class Grid extends StatelessWidget {
   const Grid({super.key, required this.columns, required this.children});
@@ -72,7 +73,8 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
   //search screen data
   int from=0,maks=0;
   //int rows, columns;
-  int columns=Platform.isAndroid||Platform.isIOS?1:2,rows=6;
+  int columns=Platform.isAndroid||Platform.isIOS?1:2;
+  int get rows=>widget.rows;
   int get count=>columns*rows;
   SearchScreenData<T>? lastData;
   //cubit
@@ -84,7 +86,17 @@ abstract class SearchScreenState<T> extends State<SearchScreen<T>> {
         //rows=widget.maxRows;
         //if(columns>widget.maxColumns) columns=widget.maxColumns;
         //if(rows>widget.maxRows) rows=widget.maxRows;
-        if(list.isEmpty) return const SizedBox(width: 400,child:Text("no search results"));
+        if(list.isEmpty) {
+          return const SizedBox(
+                            width: 400,
+                            child: Center(
+                              child: Text(
+                                "No search results",
+                                textAlign: TextAlign.center, // To center the text horizontally
+                              ),
+                            ),
+                          );
+        }
         return Column(
           children: [
             Grid(columns: columns, children: list.getRange(0, columns*rows>list.length?list.length:columns*rows).map((e) => getObjectWidget(e, context)).toList()),
