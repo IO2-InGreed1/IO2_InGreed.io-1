@@ -244,7 +244,7 @@ class _FavouriteProductSearchScreenState extends _ProductSearchScreenState
 }
 
 class ReportedProductSearchScreen extends SearchScreen<Product> {
-  const ReportedProductSearchScreen({super.key});
+  const ReportedProductSearchScreen({super.key,super.rows=3});
 
   @override
   SearchScreenState<Product> createState() => _ReportedProductSearchScreenState();
@@ -274,7 +274,7 @@ class _ReportedProductSearchScreenState extends SearchScreenState<Product>
   @override
   Widget getObjectWidget(Product obj, BuildContext context) {
     return Row(children: [
-      obj.iconWidget,
+      obj.clickableIconWidget(context),
       Column( children: [
         ConfirmDialogButton(onFinished: (value) 
       {

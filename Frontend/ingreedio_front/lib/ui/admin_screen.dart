@@ -75,44 +75,40 @@ class AdminScreen extends StatelessWidget {
 
   Widget getBody(BuildContext context,{bool withClientProfile=true})
   {
-        return Row(
-            children: [
-              Expanded(flex: 2,
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Center(child: reportedItemsWidget(context))
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: StandardDecorator(
-                                color: Theme.of(context).colorScheme.secondary,
-                                child:const  TerminalScreen()
-                              ),
-                    ),
-                  ],
-                )
-              ),
-              withClientProfile?Expanded(
-                flex: 1,
-                child: Container(
-                  color: Colors.yellow[100],
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+            return Row(
+                children: [
+                  Expanded(flex: 2,
+                    child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          const SizedBox(height: 20),
-                          admin.adminProfileWidget,
+                          reportedItemsWidget(context),
+                          StandardDecorator(
+                                    color: Theme.of(context).colorScheme.secondary,
+                                    child:const TerminalScreen()
+                                  ),
                         ],
                       ),
-                    ),
+                    )
                   ),
-                ),
-              ):const SizedBox(),
-            ],
-          );
+                  withClientProfile?Expanded(
+                    flex: 1,
+                    child: Container(
+                      color: Colors.yellow[100],
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 20),
+                              admin.adminProfileWidget,
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ):const SizedBox(),
+                ],
+              );
   }
 
   @override

@@ -80,13 +80,12 @@ class ModeratorScreen extends StatelessWidget {
         return Row(
             children: [
               Expanded(flex: 3,
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: reportedItemsWidget(context)
-                    ),
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      reportedItemsWidget(context),
+                    ],
+                  ),
                 )
               ),
               withClientProfile?Expanded(
@@ -124,7 +123,7 @@ class ModeratorScreen extends StatelessWidget {
 }
 Widget reportedItemsWidget(BuildContext context)
 {
-  return Row(
+                      return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Expanded(
