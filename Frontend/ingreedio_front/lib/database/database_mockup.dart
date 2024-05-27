@@ -4,6 +4,7 @@ import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
+import '../cubit_logic/products_cubit.dart' as cb;
 
 class MockupUserDatabase extends UserDatabse
 {
@@ -411,6 +412,19 @@ class MockupProductDatabase extends ProductDatabse
       return false;
     }
     return true;
+  }
+  
+  @override
+  Future<bool> setProductReportState(Product product, {bool state = false}) async {
+    int index=products.indexOf(product);
+    products[index].isReported=state;
+    product.isReported=state;
+    return true;
+  }
+  
+  @override
+  Future<ListData<Product>> filterReportedProducts(int from, int to, Filter<Product> filter) async {
+    return cb.filterProducts(products.where((e)=>e.isReported).toList(),from, to, ProductFilter());
   }
 }
 class MockupIngredientDatabase extends IngredientDatabase

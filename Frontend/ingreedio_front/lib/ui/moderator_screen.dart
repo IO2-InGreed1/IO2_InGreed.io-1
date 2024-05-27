@@ -5,7 +5,6 @@ import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:ingreedio_front/ui/opinion_search_screen.dart';
 import 'package:ingreedio_front/ui/product_search_screen.dart';
 
-
 class ModeratorScreen extends StatelessWidget {
   const ModeratorScreen({super.key, required this.moderator});
   final Moderator moderator;
@@ -85,56 +84,7 @@ class ModeratorScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       flex: 2,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  StandardDecorator(
-                                    color: Theme.of(context).colorScheme.secondary,
-                                    child: const SizedBox(width:250, height: 450, child: SizedBox(
-                                      child: LabelWidget(
-                                        isHorizontal: false,
-                                        label: "Reported opinions",
-                                        child: ReportedOpinionSearchScreen()),
-                                    ))
-                                      ,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  StandardDecorator(
-                                    color: Theme.of(context).colorScheme.secondary,
-                                    child: const SizedBox(width: 250, height: 450), 
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  StandardDecorator(
-                                    color: Theme.of(context).colorScheme.secondary,
-                                    child: const SizedBox(width: 250, height: 450), 
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: reportedItemsWidget(context)
                     ),
                   ],
                 )
@@ -171,4 +121,48 @@ class ModeratorScreen extends StatelessWidget {
       }
     );
   }
+}
+Widget reportedItemsWidget(BuildContext context)
+{
+  return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  StandardDecorator(
+                                    color: Theme.of(context).colorScheme.secondary,
+                                    child: const SizedBox(width:250, height: 450, 
+                                    child: LabelWidget(
+                                      isHorizontal: false,
+                                      label: "Reported opinions",
+                                      child: Expanded(child: ReportedOpinionSearchScreen())))
+                                      ,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  StandardDecorator(
+                                    color: Theme.of(context).colorScheme.secondary,
+                                    child: const SizedBox(height: 450, 
+                                    child: LabelWidget(
+                                      isHorizontal: false,
+                                      label: "Reported products",
+                                      child: Expanded(child: ReportedProductSearchScreen())))
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
 }

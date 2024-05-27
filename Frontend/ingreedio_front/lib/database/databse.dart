@@ -67,6 +67,8 @@ abstract class ProductDatabse
   SessionCubit get cubit=>throw Exception("not implemented");
   Future<bool> addProduct(Product product);
   Future<bool> removeProduct(Product product);
+  Future<bool> setProductReportState(Product product,{bool state=false});
+  Future<ListData<Product>> filterReportedProducts(int from,int to,Filter<Product> filter);
   Future<bool> editProduct(Product product,Product editedProduct);
   Future<ListData<Product>> filterProducts(int from,int to,ProductFilter filter);
   Future<bool> addProducer(Producer producer);

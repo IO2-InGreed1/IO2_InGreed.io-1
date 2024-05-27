@@ -4,7 +4,7 @@ class TerminalScreen extends StatefulWidget {
   const TerminalScreen({super.key});
 
   @override
-  _TerminalScreenState createState() => _TerminalScreenState();
+  State<TerminalScreen> createState() => _TerminalScreenState();
 }
 
 class _TerminalScreenState extends State<TerminalScreen> {
@@ -32,7 +32,9 @@ class _TerminalScreenState extends State<TerminalScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
+          SizedBox(
+            height: 120,
+            width: 500,
             child: ListView.builder(
               itemCount: _lines.length,
               itemBuilder: (context, index) {
@@ -45,7 +47,8 @@ class _TerminalScreenState extends State<TerminalScreen> {
           ),
           Row(
             children: [
-              Expanded(
+              SizedBox(
+                width: 500,
                 child: TextField(
                   controller: _controller,
                   style: const TextStyle(color: Colors.white, fontFamily: 'Courier'),

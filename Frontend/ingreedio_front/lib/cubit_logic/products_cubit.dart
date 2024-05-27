@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ingreedio_front/creators/empty_filter_creator.dart';
 import 'package:ingreedio_front/cubit_logic/list_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:ingreedio_front/database/databse.dart';
@@ -53,6 +54,23 @@ class FavouriteProductsCubit extends ListCubit<Product>
     lastMaxCount=newData.maxCount;
     emit(SearchScreenData(from, to, newData.list,filter.clone(),newData.maxCount));
   }
+}
+class ReportedProductCubit extends ListCubit<Product>
+{
+  @override
+  Filter<Product> lastFilter=EmptyFilter();
+  ReportedProductCubit.empty() : super.empty();
+  @override
+  Future<ListData<Product>> getItems(int from, int to, Filter<Product> filter, BuildContext context) {
+    return SessionCubit.fromContext(context).database.productDatabse.filterReportedProducts(from, to, filter);
+  }
+  Future<bool> removeProduct(Product product, BuildContext context) {
+    return SessionCubit.fromContext(context).database.productDatabse.removeProduct(product);
+  }
+  Future<bool> removeProducer(Product product, BuildContext context) {
+    return SessionCubit.fromContext(context).database.productDatabse.removeProducer(product.producer);
+  }
+  
 }
 ListData<Product> filterProducts(List<Product> products,int from,int to,Filter<Product> filter)
 {    

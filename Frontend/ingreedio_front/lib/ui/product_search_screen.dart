@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ingreedio_front/creators/empty_filter_creator.dart';
 import 'package:ingreedio_front/cubit_logic/cubit_consumer.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
@@ -240,4 +241,53 @@ class _FavouriteProductSearchScreenState extends _ProductSearchScreenState
   }
   @override
   set providerCubit(ListCubit<Product> value)=>_listCubit=value;
+}
+
+class ReportedProductSearchScreen extends SearchScreen<Product> {
+  const ReportedProductSearchScreen({super.key});
+
+  @override
+  SearchScreenState<Product> createState() => _ReportedProductSearchScreenState();
+}
+
+class _ReportedProductSearchScreenState extends SearchScreenState<Product> 
+{
+  @override 
+  Widget build(BuildContext context)
+  {
+    columns=1;
+    return super.build(context);
+  }
+  @override
+  Filter<Product> filter=EmptyFilter<Product>();
+
+  @override
+  Creator<Filter<Product>> filterCreator=EmptyFilterCreator(reference: ItemWrapper(EmptyFilter<Product>()));
+
+  @override
+  ListCubit<Product> providerCubit=ReportedProductCubit.empty();
+  @override
+  Widget putWidgets(Widget listWidget,Widget filterWidget)
+  {
+    return Column(mainAxisAlignment: MainAxisAlignment.center,children: [reloadButton,listWidget]);
+  }
+  @override
+  Widget getObjectWidget(Product obj, BuildContext context) {
+    return Row(children: [
+      obj.iconWidget,
+      Column( children: [
+        ConfirmDialogButton(onFinished: (value) 
+      {
+        (providerCubit as ReportedProductCubit).removeProduct(obj, context);
+      },
+      child: const Text("Delete"),),
+      ConfirmDialogButton(onFinished: (value) 
+      {
+        SessionCubit.fromContext(context).database.productDatabse.setProductReportState(obj,state: false);
+      },
+      child: const Text("Dismiss"),),
+    ])
+    ]);
+  }
+  
 }

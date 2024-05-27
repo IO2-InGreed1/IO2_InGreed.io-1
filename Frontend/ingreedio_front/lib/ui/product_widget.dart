@@ -78,6 +78,11 @@ class ProductWidget extends StatelessWidget {
                     SessionCubit.fromContext(context).setFavouriteProduct(product, p0);
                   }, SessionCubit.fromContext(context).state.currentClient!.favoriteProducts.contains(product)
                   ):const Text(""),
+                  SessionCubit.fromContext(context).state.isLoggedIn?DialogButton(creator: ConfirmCreator(),
+                   onFinished: (val){ 
+                    SessionCubit.fromContext(context).database.productDatabse.setProductReportState(product,state: true);
+                   }, child: const Text("Report"))
+                  :const Text(""),
                 ],
               )
             ],

@@ -34,7 +34,8 @@ class Product with ProductMappable
     required this.ingredients,
     required this.name,
     required this.producer,
-    required this.promotionUntil
+    required this.promotionUntil,
+    this.isReported=false
   });
   Product.clone(Product product):this.fromAllData(category: product.category, description: product.description, id: product.id, ingredients: product.ingredients.map((e) => e).toList(), name: product.name, producer: product.producer, promotionUntil: product.promotionUntil);
   Widget get iconWidget=>ProductIconWidget(product: this);
@@ -54,6 +55,7 @@ class Product with ProductMappable
   Producer producer;
   List<Ingredient> ingredients;
   Category category;
+  bool isReported=false;
   @override
   int get hashCode => id+name.hashCode*description.hashCode;
   

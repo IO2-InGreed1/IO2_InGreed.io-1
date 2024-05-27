@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
-import 'package:ingreedio_front/ui/opinion_search_screen.dart';
-import 'package:ingreedio_front/ui/product_search_screen.dart';
+import 'package:ingreedio_front/ui/moderator_screen.dart';
 import 'package:ingreedio_front/ui/terminal_widget.dart';
 
 class AdminScreen extends StatelessWidget {
@@ -79,72 +77,19 @@ class AdminScreen extends StatelessWidget {
   {
         return Row(
             children: [
-              Expanded(flex: 3,
+              Expanded(flex: 2,
                 child: Column(
                   children: [
                     Expanded(
                       flex: 2,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  StandardDecorator(
-                                    color: Theme.of(context).colorScheme.secondary,
-                                    child: const SizedBox(width:250, height: 385, child: LabelWidget(
-                                      isHorizontal: false,
-                                      label: "Reported opinions",
-                                      child: ReportedOpinionSearchScreen()))
-                                      ,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  StandardDecorator(
-                                    color: Theme.of(context).colorScheme.secondary,
-                                    child: const SizedBox(width: 250, height: 385), 
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  StandardDecorator(
-                                    color: Theme.of(context).colorScheme.secondary,
-                                    child: const SizedBox(width: 250, height: 385), 
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: Center(child: reportedItemsWidget(context))
                     ),
                     Expanded(
                       flex: 1,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          StandardDecorator(
-                                    color: Theme.of(context).colorScheme.secondary,
-                                    child: SizedBox(width: 700, height: 150,)//  TerminalScreen()          -- nie działa :(
-                                  ),
-                        ],
-                      ),
+                      child: StandardDecorator(
+                                color: Theme.of(context).colorScheme.secondary,
+                                child:const  TerminalScreen()
+                              ),
                     ),
                   ],
                 )

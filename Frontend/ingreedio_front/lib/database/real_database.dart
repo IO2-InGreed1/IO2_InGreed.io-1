@@ -164,6 +164,18 @@ class RealProductDatabase extends ProductDatabse
     // TODO: implement removeProduct
     throw UnimplementedError();
   }
+  
+  @override
+  Future<bool> setProductReportState(Product product, {bool state = false}) async {
+    // TODO: implement setProductReportState
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<ListData<Product>> filterReportedProducts(int from, int to, Filter<Product> filter) async {
+    // TODO: implement filterReportedProducts
+    throw UnimplementedError();
+  }
  
 
 }
