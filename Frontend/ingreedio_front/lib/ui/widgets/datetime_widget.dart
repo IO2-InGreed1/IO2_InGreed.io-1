@@ -18,11 +18,14 @@ class PromotionWidget extends StatelessWidget {
   {
     if(dateTime.isAfter(DateTime.now())) 
     {
-      return Text("Promotion Until:${dateTime.day}-${dateTime.month}-${dateTime.year}");
+      return Text("Promotion Until: ${formatWithLeadingZero(dateTime.day)}-${formatWithLeadingZero(dateTime.month)}-${dateTime.year}");
     } 
     else 
     {
       return const Text("no promotion");
     }
   }
+  String formatWithLeadingZero(int value) {
+  return value.toString().padLeft(2, '0');
+}
 }

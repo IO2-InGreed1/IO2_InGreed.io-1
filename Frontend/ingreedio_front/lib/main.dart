@@ -149,6 +149,7 @@ Widget addLogoutButton(Widget child)
   return SingleChildScrollView(child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(height: 15),
             const LogoutButton(),
             child
           ],

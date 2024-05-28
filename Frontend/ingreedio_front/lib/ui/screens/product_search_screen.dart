@@ -153,7 +153,8 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
             refresh();
             });
             },
-          child:const Text("Add new product"))
+          child:const Text("Add new product")),
+          const SizedBox(height: 15,),
       ],
     );
   }
