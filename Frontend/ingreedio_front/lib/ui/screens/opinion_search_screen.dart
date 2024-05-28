@@ -8,7 +8,7 @@ import 'package:ingreedio_front/cubit_logic/opinion_cubit.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
-import 'package:ingreedio_front/ui/search_screen.dart';
+import 'package:ingreedio_front/ui/screens/search_screen.dart';
 
 class OpinionSearchScreen extends SearchScreen<Opinion> {
   const OpinionSearchScreen({super.key,required this.product}): super(rows:3);

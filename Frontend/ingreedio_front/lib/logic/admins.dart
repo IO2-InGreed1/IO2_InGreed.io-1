@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:ingreedio_front/ui/admin_widget.dart';
-import 'package:ingreedio_front/ui/moderator_widget.dart';
+import 'package:ingreedio_front/ui/widgets/admin_widget.dart';
+import 'package:ingreedio_front/ui/widgets/moderator_widget.dart';
 import 'users.dart';
 part 'admins.mapper.dart';
  /* abstract class IModerator
@@ -27,9 +27,12 @@ class Moderator extends User with ModeratorMappable
     required this.editedOpinionList,}): super.fromAllData();
   int moderatorNumber;
   List<Opinion> editedOpinionList;
+  @override
   Widget get image=> Assets.placeholderImage;
-  Widget get moderatorProfileWidget=>ModeratorProfileWidget(moderator: this,);
-  Widget get moderatorWidget=>ModeratorWidget(moderator: this,);
+  @override
+  Widget get userProfileWidget=>ModeratorProfileWidget(moderator: this,);
+  @override
+  Widget get userWidget=>ModeratorWidget(moderator: this,);
   @override 
   bool operator==(Object other)
   {
@@ -54,9 +57,12 @@ class Admin extends User with AdminMappable
     required this.controlPanel,
   }) : super.fromAllData();
   ControlPanel controlPanel;
+  @override
   Widget get image=> Assets.placeholderImage;
-  Widget get adminProfileWidget=>AdminProfileWidget(admin: this,);
-  Widget get adminWidget=>AdminWidget(admin: this,);
+  @override
+  Widget get userProfileWidget=>AdminProfileWidget(admin: this,);
+  @override
+  Widget get userWidget=>AdminWidget(admin: this,);
   @override 
   bool operator==(Object other)
   {

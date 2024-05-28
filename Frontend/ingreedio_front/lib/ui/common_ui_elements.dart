@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
-import 'package:ingreedio_front/ui/product_search_screen.dart';
+import 'package:ingreedio_front/ui/screens/product_search_screen.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 class GoToHomeButton extends StatelessWidget {
   const GoToHomeButton({super.key, this.child});

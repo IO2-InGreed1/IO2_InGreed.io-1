@@ -14,9 +14,9 @@ import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
 import 'package:ingreedio_front/main.dart';
-import 'package:ingreedio_front/ui/datetime_widget.dart';
-import 'package:ingreedio_front/ui/product_widget.dart';
-import 'package:ingreedio_front/ui/search_screen.dart';
+import 'package:ingreedio_front/ui/widgets/datetime_widget.dart';
+import 'package:ingreedio_front/ui/widgets/product_widget.dart';
+import 'package:ingreedio_front/ui/screens/search_screen.dart';
 class ProductSearchScreen extends SearchScreen<Product> {
   const ProductSearchScreen({super.key});
   @override

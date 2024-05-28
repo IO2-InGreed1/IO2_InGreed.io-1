@@ -92,6 +92,9 @@ class ProductMapper extends ClassMapperBase<Product> {
   static DateTime _$promotionUntil(Product v) => v.promotionUntil;
   static const Field<Product, DateTime> _f$promotionUntil =
       Field('promotionUntil', _$promotionUntil);
+  static bool _$isReported(Product v) => v.isReported;
+  static const Field<Product, bool> _f$isReported =
+      Field('isReported', _$isReported, opt: true, def: false);
 
   @override
   final MappableFields<Product> fields = const {
@@ -102,6 +105,7 @@ class ProductMapper extends ClassMapperBase<Product> {
     #name: _f$name,
     #producer: _f$producer,
     #promotionUntil: _f$promotionUntil,
+    #isReported: _f$isReported,
   };
 
   static Product _instantiate(DecodingData data) {
@@ -112,7 +116,8 @@ class ProductMapper extends ClassMapperBase<Product> {
         ingredients: data.dec(_f$ingredients),
         name: data.dec(_f$name),
         producer: data.dec(_f$producer),
-        promotionUntil: data.dec(_f$promotionUntil));
+        promotionUntil: data.dec(_f$promotionUntil),
+        isReported: data.dec(_f$isReported));
   }
 
   @override
@@ -174,7 +179,8 @@ abstract class ProductCopyWith<$R, $In extends Product, $Out>
       List<Ingredient>? ingredients,
       String? name,
       Producer? producer,
-      DateTime? promotionUntil});
+      DateTime? promotionUntil,
+      bool? isReported});
   ProductCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -201,7 +207,8 @@ class _ProductCopyWithImpl<$R, $Out>
           List<Ingredient>? ingredients,
           String? name,
           Producer? producer,
-          DateTime? promotionUntil}) =>
+          DateTime? promotionUntil,
+          bool? isReported}) =>
       $apply(FieldCopyWithData({
         if (category != null) #category: category,
         if (description != null) #description: description,
@@ -209,7 +216,8 @@ class _ProductCopyWithImpl<$R, $Out>
         if (ingredients != null) #ingredients: ingredients,
         if (name != null) #name: name,
         if (producer != null) #producer: producer,
-        if (promotionUntil != null) #promotionUntil: promotionUntil
+        if (promotionUntil != null) #promotionUntil: promotionUntil,
+        if (isReported != null) #isReported: isReported
       }));
   @override
   Product $make(CopyWithData data) => Product.fromAllData(
@@ -219,7 +227,8 @@ class _ProductCopyWithImpl<$R, $Out>
       ingredients: data.get(#ingredients, or: $value.ingredients),
       name: data.get(#name, or: $value.name),
       producer: data.get(#producer, or: $value.producer),
-      promotionUntil: data.get(#promotionUntil, or: $value.promotionUntil));
+      promotionUntil: data.get(#promotionUntil, or: $value.promotionUntil),
+      isReported: data.get(#isReported, or: $value.isReported));
 
   @override
   ProductCopyWith<$R2, Product, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
