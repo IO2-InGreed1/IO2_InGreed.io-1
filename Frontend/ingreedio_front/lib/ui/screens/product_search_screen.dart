@@ -53,7 +53,9 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
     if(currentClient!=null&&showPreferences)
     {
       var pref=PreferenceSelector(reference: ItemWrapper(null));
+        widgets.add(const SizedBox(height: 15,));
         widgets.add(LabelWidget(isHorizontal: false,label: "choose preference",child: pref));
+        widgets.add(const SizedBox(height: 10,));
         widgets.add(PreferenceButton(selector: pref, onClicked: (value)
         {
           if(value!=null)
@@ -64,7 +66,9 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
           }
         }, child:const Text("Activate preference")));
     }
+    widgets.add(const SizedBox(height: 15,));
     widgets.add(super.build(context));
+    widgets.add(const SizedBox(height: 15,));
     return Column(mainAxisAlignment: MainAxisAlignment.center,children: widgets,);
     });
   }
@@ -83,8 +87,11 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
         {
           return Column(mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            const SizedBox(height: 15,),
             StandardDecorator(child: filterWidget),
-            StandardDecorator(child: listWidget)
+            const SizedBox(height: 15,),
+            StandardDecorator(child: listWidget),
+            const SizedBox(height: 15,)
             ],
            );
         }
@@ -92,8 +99,11 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
         {
           return Row(mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            const SizedBox(width: 15,),
             Expanded(flex: listFlex,child: StandardDecorator(child: listWidget)),
-            Expanded(flex: filterFlex,child: Align(alignment: Alignment.topRight,child: StandardDecorator(child: filterWidget)))
+            const SizedBox(width: 15,),
+            Expanded(flex: filterFlex,child: Align(alignment: Alignment.topRight,child: StandardDecorator(child: filterWidget))),
+            const SizedBox(width: 15,)
             ],
            );
         }
@@ -101,8 +111,11 @@ class _ProductSearchScreenState extends SearchScreenState<Product> {
         {
           return Row(mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            const SizedBox(width: 15,),
            Expanded(flex: listFlex,child: Center(child: SizedBox(width: pixelPerFlex*listFlex,child: StandardDecorator(child: listWidget)))),
-           Expanded(flex: filterFlex,child: Align(alignment: Alignment.topRight,child: SizedBox(width: pixelPerFlex*filterFlex,child: StandardDecorator(child: filterWidget))))],
+           const SizedBox(width: 15,),
+           Expanded(flex: filterFlex,child: Align(alignment: Alignment.topRight,child: SizedBox(width: pixelPerFlex*filterFlex,child: StandardDecorator(child: filterWidget)))),
+           const SizedBox(width: 15,)],
            );
         }
       }
@@ -200,7 +213,7 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
   }
 }
 class FavouriteProductSearchScreen extends SearchScreen<Product> {
-  const FavouriteProductSearchScreen({super.key});
+  const FavouriteProductSearchScreen({super.key}):super(rows:4);
   @override
   SearchScreenState<Product> createState() => _FavouriteProductSearchScreenState();
 }

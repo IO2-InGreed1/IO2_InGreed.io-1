@@ -89,7 +89,7 @@ Widget get gradient =>Container(decoration: const BoxDecoration(
           ),
         );
 class StandardDecorator extends StatelessWidget {
-  const StandardDecorator({super.key, required this.child,this.color=const Color.fromARGB(167, 119, 243, 25),this.padding=7,this.curve=5.0});
+  const StandardDecorator({super.key, required this.child,this.color=const Color.fromARGB(167, 119, 243, 25),this.padding=7,this.curve=5.0,this.width});
   StandardDecorator.column({super.key,required List<Widget> children,
   this.color=const Color.fromARGB(167, 231, 250, 29),
   this.padding=7,
@@ -97,7 +97,8 @@ class StandardDecorator extends StatelessWidget {
   CrossAxisAlignment crossAxisAlignment=CrossAxisAlignment.center,
   TextBaseline? textBaseline,
   TextDirection? textDirection,
-  this.curve=5.0
+  this.curve=5.0,
+  this.width
   }):child=Column(mainAxisAlignment: mainAxisAlignment,
   crossAxisAlignment: crossAxisAlignment,
   textBaseline: textBaseline,
@@ -107,10 +108,12 @@ class StandardDecorator extends StatelessWidget {
   final Widget child;
   final Color color;
   final double padding;
+  final double? width;
   @override
   Widget build(BuildContext context) {
     return FittedBox(
       child: Container(
+                width: width,
                   decoration: BoxDecoration(
                 color: color, 
                 borderRadius: BorderRadius.circular(curve), // Zaokrąglenie rogów

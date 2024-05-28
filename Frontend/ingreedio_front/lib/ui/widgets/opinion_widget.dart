@@ -67,14 +67,13 @@ class OpinionWidget extends StatelessWidget {
 }
 class OpinionText extends StatelessWidget {
   final String text;
-
-  const OpinionText({super.key, required this.text});
+  final int maxLength;
+  const OpinionText({super.key, required this.text, this.maxLength=20});
 
   @override
   Widget build(BuildContext context) {
-    // Check if the text length is greater than 40
-    bool isTextLong = text.length > 20;
-    String displayText = isTextLong ? '${text.substring(0, 20)}...' : text;
+    bool isTextLong = text.length > maxLength;
+    String displayText = isTextLong ? '${text.substring(0, maxLength)}...' : text;
     if(isTextLong)
     {
       return Tooltip(

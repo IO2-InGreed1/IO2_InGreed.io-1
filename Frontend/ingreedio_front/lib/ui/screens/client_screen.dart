@@ -3,7 +3,7 @@ import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/cubit_logic/preference_cubit.dart';
 import 'package:ingreedio_front/logic/users.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
-import 'package:ingreedio_front/ui/preferances_menager.dart';
+import 'package:ingreedio_front/ui/preferences_menager.dart';
 import 'package:ingreedio_front/ui/screens/product_search_screen.dart';
 import 'package:ingreedio_front/ui/widgets/getAppBar_widget.dart';
 
@@ -33,7 +33,7 @@ class ClientScreen extends StatelessWidget {
                     ),
                     StandardDecorator(
                       color: Theme.of(context).colorScheme.secondary,
-                      child: const SizedBox(width:700,child: LabelWidget(
+                      child: const SizedBox(width:800,child: LabelWidget(
                         isHorizontal: false,
                         label: "Favourite Products:",
                         child: FavouriteProductSearchScreen()))

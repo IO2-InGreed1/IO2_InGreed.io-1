@@ -4,6 +4,7 @@ import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:ingreedio_front/ui/widgets/ingredient_widget.dart';
+import 'package:ingreedio_front/ui/widgets/opinion_widget.dart';
 import '../screens/opinion_search_screen.dart';
 class ProductAndOpinionWidget extends StatefulWidget {
   const ProductAndOpinionWidget({super.key,required this.product});
@@ -14,7 +15,7 @@ class ProductAndOpinionWidget extends StatefulWidget {
 class _ProductAndOpinionWidgetState extends State<ProductAndOpinionWidget> {
   @override
   Widget build(BuildContext context) {
-    List<Widget> children=[ widget.product.productWidget,OpinionSearchScreen(product: widget.product),];
+    List<Widget> children=[ const SizedBox(height: 15,),widget.product.productWidget,const SizedBox(height:15),OpinionSearchScreen(product: widget.product),];
     return Center(
       child: SingleChildScrollView(
         child: Column
@@ -32,7 +33,8 @@ class ProductIconWidget extends StatelessWidget {
   final double width;
   @override
   Widget build(BuildContext context) {
-    return StandardDecorator(color: Colors.green,child:
+    return StandardDecorator(color: Colors.green,
+    child:
     Row(children: [
       SizedBox(height: heigth,child: product.image),
       SizedBox(height: heigth,
@@ -58,35 +60,43 @@ class ProductWidget extends StatelessWidget {
       child: Column(
         children: [
           Text(product.name,style:const TextStyle(fontWeight: FontWeight.bold),),
+          const SizedBox(height: 7,width: 600,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               product.image,
-              padding,
+              const SizedBox(width: 18,),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.baseline,
                 textBaseline: TextBaseline.alphabetic,
                 children: [
-                  StandardDecorator(child: Text(product.description)),
+                  StandardDecorator(child: OpinionText(text:product.description,maxLength: 45,)),
                   padding,
                   LabelWidget(label: "Brand: ", child: Text(product.producer.companyName)),
                   padding,
                   LabelWidget(label: "Ingredients: ", child: IngredientListWidget(ingredients: product.ingredients,)),
                   padding,
-                  SessionCubit.fromContext(context).state.currentClient!=null?getFavoriteButton((p0) 
-                  {
-                    SessionCubit.fromContext(context).setFavouriteProduct(product, p0);
-                  }, SessionCubit.fromContext(context).state.currentClient!.favoriteProducts.contains(product)
-                  ):const Text(""),
-                  SessionCubit.fromContext(context).state.isLoggedIn?DialogButton(creator: ConfirmCreator(),
-                   onFinished: (val){ 
-                    SessionCubit.fromContext(context).database.productDatabse.setProductReportState(product,state: true);
-                   }, child: const Text("Report"))
-                  :const Text(""),
+                  Row(
+                    children: [
+                      const SizedBox(width: 80,),
+                      SessionCubit.fromContext(context).state.currentClient!=null?getFavoriteButton((p0) 
+                      {
+                        SessionCubit.fromContext(context).setFavouriteProduct(product, p0);
+                      }, SessionCubit.fromContext(context).state.currentClient!.favoriteProducts.contains(product)
+                      ):const Text(""),
+                      const SizedBox(width: 80,),
+                      SessionCubit.fromContext(context).state.isLoggedIn?DialogButton(creator: ConfirmCreator(),
+                       onFinished: (val){ 
+                        SessionCubit.fromContext(context).database.productDatabse.setProductReportState(product,state: true);
+                       }, child: const Text("Report"))
+                      :const Text(""),
+                    ],
+                  ),
                 ],
-              )
+              ),
             ],
-          )
+          ),
+          const SizedBox(height: 15,)
         ],
       ),
     );
