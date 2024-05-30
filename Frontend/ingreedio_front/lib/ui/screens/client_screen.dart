@@ -44,19 +44,31 @@ class ClientScreen extends StatelessWidget {
               ),
               withClientProfile?Expanded(
                 flex: 1,
-                child: Container(
-                  color: Colors.yellow[100],
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 20),
-                          client.userProfileWidget,
-                        ],
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: FractionallySizedBox(
+                          heightFactor: 0.9,
+                          child: Container(
+                            color: Colors.yellow[100],
+                            child: SingleChildScrollView(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    const SizedBox(height: 20),
+                                    client.userProfileWidget,
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ):const SizedBox(),
             ],

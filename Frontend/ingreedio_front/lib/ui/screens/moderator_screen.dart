@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
@@ -25,19 +27,31 @@ class ModeratorScreen extends StatelessWidget {
               ),
               withClientProfile?Expanded(
                 flex: 1,
-                child: Container(
-                  color: Colors.yellow[100],
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 20),
-                          moderator.userProfileWidget,
-                        ],
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: FractionallySizedBox(
+                          heightFactor: 0.9,
+                          child: Container(
+                            color: Colors.yellow[100],
+                            child: SingleChildScrollView(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    const SizedBox(height: 20),
+                                    moderator.userProfileWidget,
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ):const SizedBox(),
             ],
@@ -61,6 +75,7 @@ Widget reportedItemsWidget(BuildContext context)
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
+                           const SizedBox(width: 15,),
                           Expanded(
                             child: Center(
                               child: Column(
@@ -79,6 +94,7 @@ Widget reportedItemsWidget(BuildContext context)
                               ),
                             ),
                           ),
+                           const SizedBox(width: 15,),
                           Expanded(
                             flex: 2,
                             child: Center(
@@ -97,6 +113,7 @@ Widget reportedItemsWidget(BuildContext context)
                               ),
                             ),
                           ),
+                           const SizedBox(width: 15,)
                         ],
                       );
 }
