@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 class TerminalScreen extends StatefulWidget {
   const TerminalScreen({super.key});
@@ -10,6 +11,31 @@ class TerminalScreen extends StatefulWidget {
 class _TerminalScreenState extends State<TerminalScreen> {
   final List<String> _lines = [];
   final TextEditingController _controller = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  bool _showPrompt = true;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startFlickering();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _controller.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _startFlickering() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _showPrompt = !_showPrompt;
+      });
+    });
+  }
 
   void _executeCommand(String command) {
     setState(() {
@@ -18,9 +44,19 @@ class _TerminalScreenState extends State<TerminalScreen> {
     });
     Future.delayed(const Duration(seconds: 1), () {
       setState(() {
-        _lines.add('> ');
         _controller.clear();
       });
+    });
+    _scrollToBottom();
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
     });
   }
 
@@ -34,8 +70,9 @@ class _TerminalScreenState extends State<TerminalScreen> {
         children: [
           SizedBox(
             height: 120,
-            width: 500,
+            width: 510,
             child: ListView.builder(
+              controller: _scrollController,
               itemCount: _lines.length,
               itemBuilder: (context, index) {
                 return Text(
@@ -47,6 +84,10 @@ class _TerminalScreenState extends State<TerminalScreen> {
           ),
           Row(
             children: [
+              _showPrompt?const Text(
+                '>',
+                style: TextStyle(color: Colors.white, fontFamily: 'Courier'),
+              ):const SizedBox(width: 10,),
               SizedBox(
                 width: 500,
                 child: TextField(
@@ -63,10 +104,6 @@ class _TerminalScreenState extends State<TerminalScreen> {
                     }
                   },
                 ),
-              ),
-              const Text(
-                '>',
-                style: TextStyle(color: Colors.white, fontFamily: 'Courier'),
               ),
             ],
           ),

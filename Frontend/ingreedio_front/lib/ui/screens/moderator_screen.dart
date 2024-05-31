@@ -72,48 +72,54 @@ class ModeratorScreen extends StatelessWidget {
 }
 Widget reportedItemsWidget(BuildContext context)
 {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      return Column(
                         children: [
-                           const SizedBox(width: 15,),
-                          Expanded(
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  StandardDecorator(
-                                    color: Theme.of(context).colorScheme.secondary,
-                                    child: const SizedBox(width:250, height: 450, 
-                                    child: LabelWidget(
-                                      isHorizontal: false,
-                                      label: "Reported opinions",
-                                      child: Expanded(child: ReportedOpinionSearchScreen())))
-                                      ,
+                          const SizedBox(height: 15,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                               const SizedBox(width: 15,),
+                              Expanded(
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      StandardDecorator(
+                                        color: Theme.of(context).colorScheme.secondary,
+                                        child: const SizedBox(width:250, height: 415, 
+                                        child: LabelWidget(
+                                          isHorizontal: false,
+                                          label: "Reported opinions",
+                                          child: Expanded(child: ReportedOpinionSearchScreen())))
+                                          ,
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                           const SizedBox(width: 15,),
-                          Expanded(
-                            flex: 2,
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  StandardDecorator(
-                                    color: Theme.of(context).colorScheme.secondary,
-                                    child: const SizedBox(height: 450, 
-                                    child: LabelWidget(
-                                      isHorizontal: false,
-                                      label: "Reported products",
-                                      child: Expanded(child: ReportedProductSearchScreen())))
+                               const SizedBox(width: 15,),
+                              Expanded(
+                                flex: 2,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      StandardDecorator(
+                                        color: Theme.of(context).colorScheme.secondary,
+                                        child: const SizedBox(height: 415, 
+                                        child: LabelWidget(
+                                          isHorizontal: false,
+                                          label: "Reported products",
+                                          child: Expanded(child: ReportedProductSearchScreen())))
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
+                               const SizedBox(width: 15,)
+                            ],
                           ),
-                           const SizedBox(width: 15,)
+                          const SizedBox(height: 15,),
                         ],
                       );
 }

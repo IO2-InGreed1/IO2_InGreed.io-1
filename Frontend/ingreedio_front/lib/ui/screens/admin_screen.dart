@@ -22,6 +22,7 @@ class AdminScreen extends StatelessWidget {
                                     color: Theme.of(context).colorScheme.secondary,
                                     child:const TerminalScreen()
                                   ),
+                          const SizedBox(height: 15,)
                         ],
                       ),
                     )
