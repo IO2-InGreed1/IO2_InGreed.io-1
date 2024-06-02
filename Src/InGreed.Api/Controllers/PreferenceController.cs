@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using InGreed.Domain.Models;
 using InGreed.Logic.Enums.Preference;
 using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 
 namespace InGreed.Api.Controllers;
@@ -32,7 +31,7 @@ public class PreferenceController : ControllerBase
     public IActionResult GetByUser()
     {
         if (User is null) return Unauthorized();
-        var id = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+        var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (id is null) return Unauthorized();
         int userId = int.Parse(id);
         var result = service.GetByUser(userId);
