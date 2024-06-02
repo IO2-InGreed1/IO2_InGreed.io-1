@@ -15,6 +15,13 @@ public class AccountService : IAccountService
         _tokenService = tokenService;
     }
 
+    public User GetUserById(int id)
+    {
+        var result = _userDA.GetUserById(id);
+
+        return result;
+    }
+
     public string Login(User user)
     {
         var email = user.Email;

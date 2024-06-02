@@ -1,15 +1,16 @@
 ﻿using InGreed.Domain.Models;
 using InGreed.Logic.Interfaces;
 using InGreed.Logic.Services;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace InGreed.Logic.Tests;
 
 public class JwtTokenServiceTests
 {
     User testingUser;
+    IConfiguration configurationMock;
     Mock<IDateTimeProvider> dateTimeProviderMock;
 
     public JwtTokenServiceTests()
@@ -23,13 +24,20 @@ public class JwtTokenServiceTests
 
         dateTimeProviderMock = new Mock<IDateTimeProvider>();
         dateTimeProviderMock.Setup(dt => dt.Now).Returns(new DateTime(2024, 5, 2, 0, 0, 0).ToUniversalTime());
+
+        var configDictionary = new Dictionary<string, string>
+        {
+            {"Jwt:Key", "RandomlyChosenMockedSecurityKeyThatIsLongEnough" }
+        };
+
+        configurationMock = new ConfigurationBuilder().AddInMemoryCollection(configDictionary).Build();
     }
 
     [Fact]
     public void GenerateToken_UserIsNull_ReturnEmptyToken()
     {
         //Arrange
-        var sut = new JwtTokenService(dateTimeProviderMock.Object);
+        var sut = new JwtTokenService(dateTimeProviderMock.Object, configurationMock);
 
         //Act
         var token = sut.GenerateToken(null);
@@ -43,7 +51,7 @@ public class JwtTokenServiceTests
     {
         //Arrange
         var dateTimeProvider = dateTimeProviderMock.Object;
-        var sut = new JwtTokenService(dateTimeProvider);
+        var sut = new JwtTokenService(dateTimeProvider, configurationMock);
 
         //Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
@@ -57,7 +65,7 @@ public class JwtTokenServiceTests
     {
         //Arrange
         var dateTimeProvider = dateTimeProviderMock.Object;
-        var sut = new JwtTokenService(dateTimeProvider);
+        var sut = new JwtTokenService(dateTimeProvider, configurationMock);
 
         //Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
@@ -71,7 +79,7 @@ public class JwtTokenServiceTests
     {
         //Arrange
         var dateTimeProvider = dateTimeProviderMock.Object;
-        var sut = new JwtTokenService(dateTimeProvider);
+        var sut = new JwtTokenService(dateTimeProvider, configurationMock);
 
         //Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
@@ -84,7 +92,7 @@ public class JwtTokenServiceTests
     public void GenerateToken_UserIsCorrect_TokenHasValidUsername()
     {
         //Arrange
-        var sut = new JwtTokenService(dateTimeProviderMock.Object);
+        var sut = new JwtTokenService(dateTimeProviderMock.Object, configurationMock);
 
         //Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
@@ -99,7 +107,7 @@ public class JwtTokenServiceTests
     public void GenerateToken_UserIsCorrect_TokenHasValidEmail()
     {
         //Arrange
-        var sut = new JwtTokenService(dateTimeProviderMock.Object);
+        var sut = new JwtTokenService(dateTimeProviderMock.Object, configurationMock);
 
         //Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
@@ -114,7 +122,7 @@ public class JwtTokenServiceTests
     public void GenerateToken_UserIsCorrect_TokenHasValidId()
     {
         //Arrange
-        var sut = new JwtTokenService(dateTimeProviderMock.Object);
+        var sut = new JwtTokenService(dateTimeProviderMock.Object, configurationMock);
 
         //Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
