@@ -1,5 +1,6 @@
 ﻿using InGreed.Domain.Models;
 using InGreed.Logic.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -10,10 +11,12 @@ namespace InGreed.Logic.Services;
 public class JwtTokenService : ITokenService
 {
     IDateTimeProvider _dateTimeProvider;
+    IConfiguration _configuration;
 
-    public JwtTokenService(IDateTimeProvider dateTimeProvider)
+    public JwtTokenService(IDateTimeProvider dateTimeProvider, IConfiguration configuration)
     {
         _dateTimeProvider = dateTimeProvider;
+        _configuration = configuration;
     }
 
     public string GenerateToken(User user)
@@ -37,7 +40,7 @@ public class JwtTokenService : ITokenService
         expires: _dateTimeProvider.Now.AddHours(1),
         signingCredentials: new SigningCredentials(
             new SymmetricSecurityKey(
-               Encoding.UTF8.GetBytes("ThisismySecretKeyThatIsReallyVeryLong")
+               Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])
                 ),
             SecurityAlgorithms.HmacSha256Signature)
         );
