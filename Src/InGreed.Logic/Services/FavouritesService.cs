@@ -17,11 +17,17 @@ public class FavouritesService : IFavouritesService
 
     public FavouritesServiceAddResponse Add(int productId, int userId)
     {
-        throw new NotImplementedException();
+        if (_productDA.GetProductById(productId) is null) return FavouritesServiceAddResponse.InvalidProductId;
+        if (_userDA.GetUserById(productId) is null) return FavouritesServiceAddResponse.InvalidUserId;
+        if (_userDA.AddToFavourites(productId, userId)) return FavouritesServiceAddResponse.Success;
+        return FavouritesServiceAddResponse.AlreadyInFavourites;
     }
 
     public FavouritesServiceDeleteResponse Delete(int productId, int userId)
     {
-        throw new NotImplementedException();
+        if (_productDA.GetProductById(productId) is null) return FavouritesServiceDeleteResponse.InvalidProductId;
+        if (_userDA.GetUserById(productId) is null) return FavouritesServiceDeleteResponse.InvalidUserId;
+        if (_userDA.AddToFavourites(productId, userId)) return FavouritesServiceDeleteResponse.Success;
+        return FavouritesServiceDeleteResponse.NotFavourited;
     }
 }

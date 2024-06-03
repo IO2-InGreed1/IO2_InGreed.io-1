@@ -24,6 +24,17 @@ public class FakeUserDA : IUserDA
         IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" }
     };
 
+    public bool AddToFavourites(int productId, int userId)
+    {
+        User toUpdate = GetUserById(userId);
+        if (toUpdate is null) return false;
+        if (toUpdate.Favourites.Any(pr => pr.Id  == productId)) return false;
+        Product p = new FakeProductDA().GetProductById(productId);
+        if (p is null) return false;
+        toUpdate.Favourites.Add(p);
+        return true;
+    }
+
     public void CreateUser(User user)
     {
         _users.Add(user);
@@ -37,6 +48,17 @@ public class FakeUserDA : IUserDA
     public User GetUserById(int id)
     {
         return _users.Find(u => u.Id == id)!;
+    }
+
+    public bool RemoveFavourites(int productId, int userId)
+    {
+        User toUpdate = GetUserById(userId);
+        if (toUpdate is null) return false;
+        if (!toUpdate.Favourites.Any(pr => pr.Id == productId)) return false;
+        Product p = new FakeProductDA().GetProductById(productId);
+        if (p is null) return false;
+        toUpdate.Favourites.Remove(p);
+        return true;
     }
 
     public void RemoveUserById(int id)
