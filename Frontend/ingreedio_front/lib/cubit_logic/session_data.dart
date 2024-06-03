@@ -6,23 +6,40 @@ part 'session_data.mapper.dart';
 class SessionData with SessionDataMappable
 {
   SessionData.empty():userToken="";
- @MappableConstructor()
-  SessionData.fromAllData({required this.userToken,required this.currentClient
-  ,required this.currentProducer,
-  required this.currentAdmin, required this.currentModerator});
+  @MappableConstructor()
+  SessionData.fromAllData({required this.userToken,required this.currentUser});
+  User? currentUser;
+  void reset()
+  {
+    userToken="";
+    currentUser=null;
+  }
   void fillWithData(SessionData data)
   {
     userToken=data.userToken;
-    currentAdmin=data.currentAdmin;
-    currentClient=data.currentClient;
-    currentProducer=data.currentProducer;
-    currentModerator=data.currentModerator;
+    currentUser=data.currentUser;
   }
   String userToken;
-  Client? currentClient;
-  Producer? currentProducer;
-  Moderator? currentModerator;
-  Admin? currentAdmin;
+  Client? get currentClient
+  {
+    if(currentUser is Client) return currentUser as Client;
+    return null;
+  }
+  Producer? get currentProducer
+  {
+    if(currentUser is Producer) return currentUser as Producer;
+    return null;
+  }
+  Moderator? get currentModerator  
+  {
+    if(currentUser is Moderator) return currentUser as Moderator;
+    return null;
+  }
+  Admin? get currentAdmin
+{
+    if(currentUser is Admin) return currentUser as Admin;
+    return null;
+  }
   bool get isLoggedIn
   {
     return currentAdmin!=null||currentClient!=null||currentModerator!=null||currentProducer!=null;

@@ -2,19 +2,20 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:ingreedio_front/database/databse.dart';
-import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
 const String requestAdress="http://127.0.0.1:5000/api/";
-Future<String> getResponse(String request) async 
+Future<String> getResponse(String request,String token) async 
 {
   HttpClient client=HttpClient();
   try {
     var uri = Uri.parse(
       requestAdress+request
     );
+    
     var req = await client.getUrl(uri);
+    req.headers.set('Authorization', 'Bearer $token');
     var res=await req.close();
     String responseBody = await res.transform(utf8.decoder).join();
     client.close();
@@ -76,28 +77,10 @@ class RealUserDatabase extends UserDatabse
     // TODO: implement setFavoutiteProduct
     throw UnimplementedError();
   }
-
+  
   @override
-  Future<Admin?> loadAdmin(String token) {
-    // TODO: implement loadAdmin
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Client?> loadClient(String token) {
-    // TODO: implement loadClient
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Moderator?> loadModerator(String token) {
-    // TODO: implement loadModerator
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Producer?> loadProducer(String token) {
-    // TODO: implement loadProducer
+  Future<User?> loadUser(String token) async {
+    // TODO: implement loadUser
     throw UnimplementedError();
   }
   
@@ -119,7 +102,7 @@ class RealIngredientDatabase extends IngredientDatabase
   @override
   Future<List<Ingredient>> getAllIngredients() async {
     String request="ingredient";
-    String odp=await getResponse(request);
+    String odp=await getResponse(request,cubit.state.userToken);
     return parseIngredientList(odp);
   }
 
@@ -227,4 +210,24 @@ class RealOpinionDatabase extends OpinionDatabase
   }
   
   
+}
+class RealLoginDatabase extends LoginDatabase
+{
+  
+  RealLoginDatabase(this.cubit);
+  @override
+  SessionCubit cubit;
+
+  @override
+  Future<String?> login(String email, String password) {
+    // TODO: implement login
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String?> register(String username, String email, String password, UserRole userRole) {
+    // TODO: implement register
+    throw UnimplementedError();
+  }
+
 }

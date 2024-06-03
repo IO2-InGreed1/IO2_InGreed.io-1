@@ -13,10 +13,7 @@ class SessionDataMapper extends ClassMapperBase<SessionData> {
   static SessionDataMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = SessionDataMapper._());
-      ClientMapper.ensureInitialized();
-      ProducerMapper.ensureInitialized();
-      AdminMapper.ensureInitialized();
-      ModeratorMapper.ensureInitialized();
+      UserMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -27,35 +24,20 @@ class SessionDataMapper extends ClassMapperBase<SessionData> {
   static String _$userToken(SessionData v) => v.userToken;
   static const Field<SessionData, String> _f$userToken =
       Field('userToken', _$userToken);
-  static Client? _$currentClient(SessionData v) => v.currentClient;
-  static const Field<SessionData, Client> _f$currentClient =
-      Field('currentClient', _$currentClient);
-  static Producer? _$currentProducer(SessionData v) => v.currentProducer;
-  static const Field<SessionData, Producer> _f$currentProducer =
-      Field('currentProducer', _$currentProducer);
-  static Admin? _$currentAdmin(SessionData v) => v.currentAdmin;
-  static const Field<SessionData, Admin> _f$currentAdmin =
-      Field('currentAdmin', _$currentAdmin);
-  static Moderator? _$currentModerator(SessionData v) => v.currentModerator;
-  static const Field<SessionData, Moderator> _f$currentModerator =
-      Field('currentModerator', _$currentModerator);
+  static User? _$currentUser(SessionData v) => v.currentUser;
+  static const Field<SessionData, User> _f$currentUser =
+      Field('currentUser', _$currentUser);
 
   @override
   final MappableFields<SessionData> fields = const {
     #userToken: _f$userToken,
-    #currentClient: _f$currentClient,
-    #currentProducer: _f$currentProducer,
-    #currentAdmin: _f$currentAdmin,
-    #currentModerator: _f$currentModerator,
+    #currentUser: _f$currentUser,
   };
 
   static SessionData _instantiate(DecodingData data) {
     return SessionData.fromAllData(
         userToken: data.dec(_f$userToken),
-        currentClient: data.dec(_f$currentClient),
-        currentProducer: data.dec(_f$currentProducer),
-        currentAdmin: data.dec(_f$currentAdmin),
-        currentModerator: data.dec(_f$currentModerator));
+        currentUser: data.dec(_f$currentUser));
   }
 
   @override
@@ -109,16 +91,8 @@ extension SessionDataValueCopy<$R, $Out>
 
 abstract class SessionDataCopyWith<$R, $In extends SessionData, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  ClientCopyWith<$R, Client, Client>? get currentClient;
-  ProducerCopyWith<$R, Producer, Producer>? get currentProducer;
-  AdminCopyWith<$R, Admin, Admin>? get currentAdmin;
-  ModeratorCopyWith<$R, Moderator, Moderator>? get currentModerator;
-  $R call(
-      {String? userToken,
-      Client? currentClient,
-      Producer? currentProducer,
-      Admin? currentAdmin,
-      Moderator? currentModerator});
+  UserCopyWith<$R, User, User>? get currentUser;
+  $R call({String? userToken, User? currentUser});
   SessionDataCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -131,40 +105,18 @@ class _SessionDataCopyWithImpl<$R, $Out>
   late final ClassMapperBase<SessionData> $mapper =
       SessionDataMapper.ensureInitialized();
   @override
-  ClientCopyWith<$R, Client, Client>? get currentClient =>
-      $value.currentClient?.copyWith.$chain((v) => call(currentClient: v));
+  UserCopyWith<$R, User, User>? get currentUser =>
+      $value.currentUser?.copyWith.$chain((v) => call(currentUser: v));
   @override
-  ProducerCopyWith<$R, Producer, Producer>? get currentProducer =>
-      $value.currentProducer?.copyWith.$chain((v) => call(currentProducer: v));
-  @override
-  AdminCopyWith<$R, Admin, Admin>? get currentAdmin =>
-      $value.currentAdmin?.copyWith.$chain((v) => call(currentAdmin: v));
-  @override
-  ModeratorCopyWith<$R, Moderator, Moderator>? get currentModerator =>
-      $value.currentModerator?.copyWith
-          .$chain((v) => call(currentModerator: v));
-  @override
-  $R call(
-          {String? userToken,
-          Object? currentClient = $none,
-          Object? currentProducer = $none,
-          Object? currentAdmin = $none,
-          Object? currentModerator = $none}) =>
+  $R call({String? userToken, Object? currentUser = $none}) =>
       $apply(FieldCopyWithData({
         if (userToken != null) #userToken: userToken,
-        if (currentClient != $none) #currentClient: currentClient,
-        if (currentProducer != $none) #currentProducer: currentProducer,
-        if (currentAdmin != $none) #currentAdmin: currentAdmin,
-        if (currentModerator != $none) #currentModerator: currentModerator
+        if (currentUser != $none) #currentUser: currentUser
       }));
   @override
   SessionData $make(CopyWithData data) => SessionData.fromAllData(
       userToken: data.get(#userToken, or: $value.userToken),
-      currentClient: data.get(#currentClient, or: $value.currentClient),
-      currentProducer: data.get(#currentProducer, or: $value.currentProducer),
-      currentAdmin: data.get(#currentAdmin, or: $value.currentAdmin),
-      currentModerator:
-          data.get(#currentModerator, or: $value.currentModerator));
+      currentUser: data.get(#currentUser, or: $value.currentUser));
 
   @override
   SessionDataCopyWith<$R2, SessionData, $Out2> $chain<$R2, $Out2>(

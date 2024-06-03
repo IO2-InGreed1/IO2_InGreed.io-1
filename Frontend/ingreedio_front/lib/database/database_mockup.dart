@@ -15,25 +15,7 @@ class MockupUserDatabase extends UserDatabse
     );
   static Moderator mockModerator=Moderator.fromAllData(id: 11, isBlocked: false, mail: 'XP@foo.com', password: null, username: 'Michał',moderatorNumber: 1,editedOpinionList: []);
   static Admin mockAdmin=Admin.fromAllData(id: 12, isBlocked: false, mail: 'XQ@foo.com', password: null, username: 'Jacek',controlPanel: ControlPanel());
-    @override
-  Future<Admin?> loadAdmin(String token)async {
-    return mockAdmin;
-  }
   
-  @override
-  Future<Client?> loadClient(String token) async {
-    return mockClient;
-  }
-  
-  @override
-  Future<Moderator?> loadModerator(String token) async {
-    return mockModerator;
-  }
-  
-  @override
-  Future<Producer?> loadProducer(String token) async {
-    return mockProucer;
-  }
   MockupUserDatabase.filled(IngredientDatabase ingredientDatabase,MockupProductDatabase productDatabse):clients=List.empty(growable: true),preferences=List.empty(growable: true),moderators=List.empty(growable: true)
   {
     List<Ingredient> ingredients=MockupIngredientDatabase.filled().ingredients;
@@ -126,6 +108,22 @@ class MockupUserDatabase extends UserDatabse
     if(preferences.contains(oldPreference)) preferences.remove(oldPreference);
     if(!preferences.contains(editedPreference)) preferences.add(editedPreference);
     return true;
+  }
+  
+  @override
+  Future<User?> loadUser(String token) async {
+    switch(token)
+    {
+      case "client":
+      return mockClient;
+      case "admin":
+      return mockAdmin;
+      case "producer":
+      return mockProucer;
+      case "moderator":
+      return mockModerator;
+    }
+    return null;
   }
 }
 class MockupProductDatabase extends ProductDatabse
@@ -646,18 +644,42 @@ class MockupLoginDatabase extends LoginDatabase
   }
   List<(String,String,String,UserRole)> creds=List.empty(growable: true);
   @override
-  Future<LoginData?> login(String email, String password) async {
+  Future<String?> login(String email, String password) async {
     for(var e in creds)
     {
-      if(e.$1==email&&e.$2==password) return LoginData(e.$4,"tokenXD");
+      if(e.$1==email&&e.$2==password) {
+        switch(e.$4)
+        {
+        
+          case UserRole.client:
+            return "client";
+          case UserRole.producer:
+            return "producer";
+          case UserRole.moderator:
+            return "moderator";
+          case UserRole.admin:
+            return "admin";
+        }
+      }
     }
     return null;
   }
 
   @override
-  Future<LoginData> register(String username, String email, String password,UserRole userRole) async {
+  Future<String?> register(String username, String email, String password,UserRole userRole) async {
     creds.add((email,password,username,userRole));
-    return LoginData(userRole,"tokenXD");
+    switch(userRole)
+        {
+        
+          case UserRole.client:
+            return "client";
+          case UserRole.producer:
+            return "producer";
+          case UserRole.moderator:
+            return "moderator";
+          case UserRole.admin:
+            return "admin";
+        }
   }
   
 }

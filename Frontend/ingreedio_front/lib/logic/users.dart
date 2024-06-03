@@ -1,12 +1,13 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/assets.dart';
+import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/ui/screens/producer_screen.dart';
 import 'package:ingreedio_front/ui/widgets/client_widget.dart';
 import 'package:ingreedio_front/ui/widgets/user_widget.dart';
 part 'users.mapper.dart';
-@MappableClass(discriminatorKey: "Type",discriminatorValue: "User")
+@MappableClass(discriminatorKey: "Type",discriminatorValue: "User", includeSubClasses: [Admin,Moderator])
 abstract class User with UserMappable
 {
   @override 
