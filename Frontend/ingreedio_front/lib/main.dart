@@ -12,6 +12,7 @@ import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:ingreedio_front/ui/screens/login_screen.dart';
 import 'package:ingreedio_front/ui/screens/moderator_screen.dart';
 import 'package:ingreedio_front/ui/screens/producer_screen.dart';
+import 'package:ingreedio_front/ui/screens/register_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'cubit_logic/session_cubit.dart';
 MaterialPageRoute widgetShower(Widget child)
@@ -67,12 +68,19 @@ class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key,required this.register});
+  final bool register;
+  @override
+  Widget build(BuildContext context) {
+    return register?const RegisterPage():const LoginPage();
+  }
+}
 class RoleSelectionWidget extends StatelessWidget {
   const RoleSelectionWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    //return const LoginPage();
     return Center(
         child: SingleChildScrollView(
           child: Column(
@@ -140,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
         {
           return AdminScreen(admin:data.currentAdmin!);
         }
-        return const RoleSelectionWidget();
+        return const RoleSelectionWidget();//LoginScreen(register: data.registerScreen);
       })
     );
   }

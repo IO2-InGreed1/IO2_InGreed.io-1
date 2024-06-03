@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:ingreedio_front/database/databse.dart';
+import 'package:ingreedio_front/ui/common_ui_elements.dart';
 
 class RegisterPage extends StatefulWidget {
 
@@ -44,6 +45,9 @@ class _RegisterPageState extends State<RegisterPage> {
       var data=await cubit.database.loginDatabase.register(username,email, password,UserRole.client);
       if (data!=null) 
       {
+        // cubit.state.userToken=data;
+        // cubit.refreshUser();
+        cubit.loginUser(email, password);
       } 
       else 
       {
@@ -58,10 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:const Color.fromARGB(255, 236, 228, 156),
-      appBar: AppBar(
-        title: const Text('Login'),
-        backgroundColor: const Color.fromARGB(255, 255, 239, 96),
-      ),
+      appBar: getStandardAppBar(context),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
@@ -132,6 +133,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.lightGreen),
                 onPressed: _register,
                 child: const Text('Register'),
+              ),
+              const SizedBox(height: 20),
+               ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.lightGreen),
+                onPressed: (){
+                  SessionCubit.fromContext(context).reset();
+                },
+                child: const Text('Return to login'),
               ),
               if (_errorMessage != null)
                 Padding(

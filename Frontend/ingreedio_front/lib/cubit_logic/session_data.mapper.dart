@@ -27,11 +27,15 @@ class SessionDataMapper extends ClassMapperBase<SessionData> {
   static User? _$currentUser(SessionData v) => v.currentUser;
   static const Field<SessionData, User> _f$currentUser =
       Field('currentUser', _$currentUser);
+  static bool _$registerScreen(SessionData v) => v.registerScreen;
+  static const Field<SessionData, bool> _f$registerScreen =
+      Field('registerScreen', _$registerScreen, mode: FieldMode.member);
 
   @override
   final MappableFields<SessionData> fields = const {
     #userToken: _f$userToken,
     #currentUser: _f$currentUser,
+    #registerScreen: _f$registerScreen,
   };
 
   static SessionData _instantiate(DecodingData data) {

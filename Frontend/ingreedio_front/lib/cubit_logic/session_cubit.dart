@@ -4,11 +4,29 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:ingreedio_front/cubit_logic/session_data.dart';
 import 'package:ingreedio_front/database/database_mockup.dart';
 import 'package:ingreedio_front/database/databse.dart';
-import 'package:ingreedio_front/database/real_database.dart';
 import 'package:ingreedio_front/logic/products.dart';
+import 'package:ingreedio_front/logic/users.dart';
 
 class SessionCubit extends HydratedCubit<SessionData>
 {
+  void loginUser(String email,String password) async
+  {
+    SessionData? data=await database.loginUser(email, password);
+    if(data==null) return;
+    emit(data);
+  }
+  void refreshUser() async
+  {
+    User? user=await database.userDatabse.loadUser(state.userToken);
+    if(state.currentUser==null) 
+    {
+      reset();
+    }
+    else 
+    {
+      emit(SessionData.empty()..fillWithData(state)..currentUser=user);
+    }
+  }
   void setFavouriteProduct(Product product, bool favourite)
   {
     if(state.currentClient!=null)

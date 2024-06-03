@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
+import 'package:ingreedio_front/cubit_logic/session_data.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
-import 'package:ingreedio_front/ui/screens/register_screen.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -103,12 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.lightGreen),
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return Scaffold(
-                      appBar: getStandardAppBar(context),
-                      body:const RegisterPage(),
-                    );
-                  },));
+                  SessionCubit.fromContext(context).setData(SessionData.empty()..registerScreen=true);
                 },
                 child: const Text('Register'),
               ),

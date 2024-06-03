@@ -5,6 +5,7 @@ part 'session_data.mapper.dart';
 @MappableClass()
 class SessionData with SessionDataMappable
 {
+  bool registerScreen=false;
   SessionData.empty():userToken="";
   @MappableConstructor()
   SessionData.fromAllData({required this.userToken,required this.currentUser});
@@ -18,6 +19,7 @@ class SessionData with SessionDataMappable
   {
     userToken=data.userToken;
     currentUser=data.currentUser;
+    registerScreen=data.registerScreen;
   }
   String userToken;
   Client? get currentClient
