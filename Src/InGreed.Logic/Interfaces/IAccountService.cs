@@ -6,4 +6,5 @@ public interface IAccountService
 {
     string Login(User user);
     string Register(User user);
+    User GetUserById(int id);
 }

@@ -1,7 +1,9 @@
 ﻿using InGreed.Api.Contracts.Authorization;
 using InGreed.Api.Mappers;
 using InGreed.Logic.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace InGreed.Api.Controllers;
 
@@ -12,10 +14,24 @@ public class AccountController : ControllerBase
 {
     IAccountService _accountService;
     IContractsToModelsMapper _contractsToModelsMapper;
-    public AccountController(IAccountService accountService, IContractsToModelsMapper contractsToModelsMapper)
+    public AccountController(IAccountService accountService, 
+        IContractsToModelsMapper contractsToModelsMapper)
     {
         _accountService = accountService;
         _contractsToModelsMapper = contractsToModelsMapper;
+    }
+
+    [Authorize]
+    [HttpGet("currentUser")]
+    public IActionResult GetCurrentUser()
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if(userId == null)
+        {
+            return Unauthorized();
+        }
+
+        return Ok(_accountService.GetUserById(int.Parse(userId)));
     }
 
     [HttpPost("register")]
@@ -41,6 +57,7 @@ public class AccountController : ControllerBase
     [ProducesResponseType(typeof(AuthorizationResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesErrorResponseType(typeof(void))]
+    [Authorize]
     public IActionResult Login(LoginRequest request)
     {
         var user = _contractsToModelsMapper.LoginRequestToUser(request);

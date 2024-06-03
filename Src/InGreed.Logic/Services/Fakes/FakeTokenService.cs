@@ -1,7 +1,7 @@
 ﻿using InGreed.Domain.Models;
 using InGreed.Logic.Interfaces;
 
-namespace InGreed.Logic.Services;
+namespace InGreed.Logic.Services.Fakes;
 
 public class FakeTokenService : ITokenService
 {
