@@ -58,10 +58,6 @@ class Admin extends User with AdminMappable
   }) : super.fromAllData();
   ControlPanel controlPanel;
   @override
-  Widget get image=> Assets.placeholderImage;
-  @override
-  Widget get userProfileWidget=>AdminProfileWidget(admin: this,);
-  @override
   Widget get userWidget=>AdminWidget(admin: this,);
   @override 
   bool operator==(Object other)

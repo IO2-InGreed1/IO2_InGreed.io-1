@@ -13,6 +13,7 @@ class UserMapper extends ClassMapperBase<User> {
   static UserMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = UserMapper._());
+      ProducerMapper.ensureInitialized();
       ClientMapper.ensureInitialized();
     }
     return _instance!;
@@ -75,13 +76,14 @@ abstract class UserCopyWith<$R, $In extends User, $Out>
   UserCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class ProducerMapper extends ClassMapperBase<Producer> {
+class ProducerMapper extends SubClassMapperBase<Producer> {
   ProducerMapper._();
 
   static ProducerMapper? _instance;
   static ProducerMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = ProducerMapper._());
+      UserMapper.ensureInitialized().addSubMapper(_instance!);
     }
     return _instance!;
   }
@@ -103,6 +105,19 @@ class ProducerMapper extends ClassMapperBase<Producer> {
   static String _$telephoneNumber(Producer v) => v.telephoneNumber;
   static const Field<Producer, String> _f$telephoneNumber =
       Field('telephoneNumber', _$telephoneNumber);
+  static int _$id(Producer v) => v.id;
+  static const Field<Producer, int> _f$id = Field('id', _$id);
+  static bool _$isBlocked(Producer v) => v.isBlocked;
+  static const Field<Producer, bool> _f$isBlocked =
+      Field('isBlocked', _$isBlocked);
+  static String _$mail(Producer v) => v.mail;
+  static const Field<Producer, String> _f$mail = Field('mail', _$mail);
+  static String? _$password(Producer v) => v.password;
+  static const Field<Producer, String> _f$password =
+      Field('password', _$password);
+  static String _$username(Producer v) => v.username;
+  static const Field<Producer, String> _f$username =
+      Field('username', _$username);
 
   @override
   final MappableFields<Producer> fields = const {
@@ -111,7 +126,19 @@ class ProducerMapper extends ClassMapperBase<Producer> {
     #representativeName: _f$representativeName,
     #representativeSurname: _f$representativeSurname,
     #telephoneNumber: _f$telephoneNumber,
+    #id: _f$id,
+    #isBlocked: _f$isBlocked,
+    #mail: _f$mail,
+    #password: _f$password,
+    #username: _f$username,
   };
+
+  @override
+  final String discriminatorKey = 'Type';
+  @override
+  final dynamic discriminatorValue = "Producer";
+  @override
+  late final ClassMapperBase superMapper = UserMapper.ensureInitialized();
 
   static Producer _instantiate(DecodingData data) {
     return Producer.fromAllData(
@@ -119,7 +146,12 @@ class ProducerMapper extends ClassMapperBase<Producer> {
         nip: data.dec(_f$nip),
         representativeName: data.dec(_f$representativeName),
         representativeSurname: data.dec(_f$representativeSurname),
-        telephoneNumber: data.dec(_f$telephoneNumber));
+        telephoneNumber: data.dec(_f$telephoneNumber),
+        id: data.dec(_f$id),
+        isBlocked: data.dec(_f$isBlocked),
+        mail: data.dec(_f$mail),
+        password: data.dec(_f$password),
+        username: data.dec(_f$username));
   }
 
   @override
@@ -170,13 +202,19 @@ extension ProducerValueCopy<$R, $Out> on ObjectCopyWith<$R, Producer, $Out> {
 }
 
 abstract class ProducerCopyWith<$R, $In extends Producer, $Out>
-    implements ClassCopyWith<$R, $In, $Out> {
+    implements UserCopyWith<$R, $In, $Out> {
+  @override
   $R call(
       {String? companyName,
       String? nip,
       String? representativeName,
       String? representativeSurname,
-      String? telephoneNumber});
+      String? telephoneNumber,
+      int? id,
+      bool? isBlocked,
+      String? mail,
+      String? password,
+      String? username});
   ProducerCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -194,14 +232,24 @@ class _ProducerCopyWithImpl<$R, $Out>
           String? nip,
           String? representativeName,
           String? representativeSurname,
-          String? telephoneNumber}) =>
+          String? telephoneNumber,
+          int? id,
+          bool? isBlocked,
+          String? mail,
+          Object? password = $none,
+          String? username}) =>
       $apply(FieldCopyWithData({
         if (companyName != null) #companyName: companyName,
         if (nip != null) #nip: nip,
         if (representativeName != null) #representativeName: representativeName,
         if (representativeSurname != null)
           #representativeSurname: representativeSurname,
-        if (telephoneNumber != null) #telephoneNumber: telephoneNumber
+        if (telephoneNumber != null) #telephoneNumber: telephoneNumber,
+        if (id != null) #id: id,
+        if (isBlocked != null) #isBlocked: isBlocked,
+        if (mail != null) #mail: mail,
+        if (password != $none) #password: password,
+        if (username != null) #username: username
       }));
   @override
   Producer $make(CopyWithData data) => Producer.fromAllData(
@@ -211,7 +259,12 @@ class _ProducerCopyWithImpl<$R, $Out>
           data.get(#representativeName, or: $value.representativeName),
       representativeSurname:
           data.get(#representativeSurname, or: $value.representativeSurname),
-      telephoneNumber: data.get(#telephoneNumber, or: $value.telephoneNumber));
+      telephoneNumber: data.get(#telephoneNumber, or: $value.telephoneNumber),
+      id: data.get(#id, or: $value.id),
+      isBlocked: data.get(#isBlocked, or: $value.isBlocked),
+      mail: data.get(#mail, or: $value.mail),
+      password: data.get(#password, or: $value.password),
+      username: data.get(#username, or: $value.username));
 
   @override
   ProducerCopyWith<$R2, Producer, $Out2> $chain<$R2, $Out2>(

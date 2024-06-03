@@ -2,11 +2,19 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/logic/products.dart';
+import 'package:ingreedio_front/ui/screens/producer_screen.dart';
 import 'package:ingreedio_front/ui/widgets/client_widget.dart';
+import 'package:ingreedio_front/ui/widgets/user_widget.dart';
 part 'users.mapper.dart';
 @MappableClass(discriminatorKey: "Type",discriminatorValue: "User")
 abstract class User with UserMappable
 {
+  @override 
+  bool operator==(Object other)
+  {
+    if(other is! User) return false;
+    return id==other.id&&isBlocked==other.isBlocked&&mail==other.mail&&password==other.password&&username==other.username;
+  }
 @MappableConstructor()
   User.fromAllData({
     required this.id,
@@ -19,12 +27,16 @@ abstract class User with UserMappable
   String mail,username;
   String? password;
   bool isBlocked;
-  Widget get image;
-  Widget get userProfileWidget;
+  Widget get image=> Assets.placeholderImage;
+  Widget get userProfileWidget=>UserProfileWidget(user:this);
   Widget get userWidget;
+  
+  @override
+  int get hashCode => id+mail.hashCode*username.hashCode;
+  
 }
-@MappableClass()
-class Producer with ProducerMappable
+@MappableClass(discriminatorKey: "Type",discriminatorValue: "Producer")
+class Producer extends User with ProducerMappable
 {
   String companyName,nip,representativeName,representativeSurname,telephoneNumber;
  @MappableConstructor()
@@ -34,7 +46,11 @@ class Producer with ProducerMappable
     required this.representativeName,
     required this.representativeSurname,
     required this.telephoneNumber,
-  });
+    required super.id,
+    required super.isBlocked,
+    required super.mail,
+    required super.password,required super.username
+  }) : super.fromAllData();
   @override 
   bool operator==(Object other)
   {
@@ -44,6 +60,10 @@ class Producer with ProducerMappable
   
   @override
   int get hashCode => companyName.hashCode+nip.hashCode+representativeName.hashCode+representativeSurname.hashCode*telephoneNumber.hashCode;
+  
+  
+  @override
+  Widget get userWidget => ProducerScreen(producer: this);
   
 }
 @MappableClass(discriminatorKey: "Type",discriminatorValue: "Client")
@@ -58,10 +78,6 @@ class Client extends User with ClientMappable
   required this.favoriteProducts}) : super.fromAllData();
   Client.empty():favoriteProducts=[],super.fromAllData(id: 0, isBlocked: false, mail: "mail", password: "password", username: "username");
   List<Product> favoriteProducts;
-  @override
-  Widget get image=> Assets.placeholderImage;
-  @override
-  Widget get userProfileWidget=>ClientProfileWidget(client: this,);
   @override
   Widget get userWidget=>ClientWidget(client: this,);
   @override 

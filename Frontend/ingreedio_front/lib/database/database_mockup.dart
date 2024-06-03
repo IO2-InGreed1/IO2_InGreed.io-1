@@ -9,7 +9,10 @@ import '../cubit_logic/products_cubit.dart' as cb;
 class MockupUserDatabase extends UserDatabse
 {
   static Client mockClient=Client.fromAllData(id: 10, isBlocked: false, mail: 'XD@foo.com', password: null, username: 'Daniel', favoriteProducts: MockupProductDatabase.filled(MockupIngredientDatabase.filled()).products.getRange(7, 12).toList(),);
-  static Producer mockProucer=Producer.fromAllData(companyName: 'C1', nip: '123', representativeName: 'Paweł', representativeSurname: 'Dzik', telephoneNumber: '2137');
+  static Producer mockProucer=Producer.fromAllData(
+    companyName: 'C1', nip: '123', representativeName: 'Paweł', representativeSurname: 'Dzik', telephoneNumber: '2137',
+    id: 0, isBlocked: false, mail: 'mail', password: '', username: 'producer'
+    );
   static Moderator mockModerator=Moderator.fromAllData(id: 11, isBlocked: false, mail: 'XP@foo.com', password: null, username: 'Michał',moderatorNumber: 1,editedOpinionList: []);
   static Admin mockAdmin=Admin.fromAllData(id: 12, isBlocked: false, mail: 'XQ@foo.com', password: null, username: 'Jacek',controlPanel: ControlPanel());
     @override
@@ -136,15 +139,18 @@ class MockupProductDatabase extends ProductDatabse
     List<Ingredient> ingredients=ingredientDatabase.ingredients;
     producers.add(
       Producer.fromAllData(companyName: 
-      "C1", nip: "123", representativeName: "name1", representativeSurname: "surname1", telephoneNumber: "49")
+      "C1", nip: "123", representativeName: "name1", representativeSurname: "surname1", telephoneNumber: "49",
+          id: 0, isBlocked: false, mail: 'mail', password: '', username: 'producer')
     );
     producers.add(
       Producer.fromAllData(companyName: 
-      "C2", nip: "321", representativeName: "name2", representativeSurname: "surname2", telephoneNumber: "49-1")
+      "C2", nip: "321", representativeName: "name2", representativeSurname: "surname2", telephoneNumber: "49-1",
+          id: 0, isBlocked: false, mail: 'mail', password: '', username: 'producer')
     );
     producers.add(
       Producer.fromAllData(companyName: 
-      "C3", nip: "2137", representativeName: "name3", representativeSurname: "surname1", telephoneNumber: "49-2")
+      "C3", nip: "2137", representativeName: "name3", representativeSurname: "surname1", telephoneNumber: "49-2",
+          id: 0, isBlocked: false, mail: 'mail', password: '', username: 'producer')
     );
     final productData = [
   {

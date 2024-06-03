@@ -1,35 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/logic/users.dart';
-import 'package:ingreedio_front/ui/common_ui_elements.dart';
-import 'package:ingreedio_front/ui/screens/moderator_screen.dart';
-import 'package:ingreedio_front/ui/widgets/terminal_widget.dart';
+import 'package:ingreedio_front/ui/screens/product_search_screen.dart';
 import 'package:ingreedio_front/ui/widgets/user_widget.dart';
 
-class AdminScreen extends StatelessWidget {
-  const AdminScreen({super.key, required this.admin});
-  final User admin;
+class ProducerScreen extends StatelessWidget {
+  const ProducerScreen({super.key, required this.producer});
+  final Producer producer;
 
   Widget getBody(BuildContext context,{bool withClientProfile=true})
   {
-            return Row(
-                children: [
-                  Expanded(flex: 3,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          reportedItemsWidget(context),
-                          StandardDecorator(
-                                    color: Theme.of(context).colorScheme.secondary,
-                                    child:const TerminalScreen()
-                                  ),
-                          const SizedBox(height: 15,)
-                        ],
-                      ),
-                    )
-                  ),
-                  withClientProfile?Expanded(
-                    flex: 1,
-                    child: Column(
+    //return const SizedBox(width: 1,height: 1,);
+    return Row(
+      children: [
+        SingleChildScrollView(child: Expanded(flex:3,
+        child: Center(
+          child: SizedBox(
+            width: 600,
+            child: Center(child: ProductEditScreen(producer: producer,))),
+        ))),
+        withClientProfile?Expanded(
+                flex: 1,
+                child: Column(
                   children: [
                     Expanded(
                       child: Align(
@@ -44,7 +35,7 @@ class AdminScreen extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     const SizedBox(height: 20),
-                                    admin.userProfileWidget,
+                                    producer.userProfileWidget,
                                   ],
                                 ),
                               ),
@@ -55,9 +46,9 @@ class AdminScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                  ):const SizedBox(),
-                ],
-              );
+              ):const SizedBox(),
+      ],
+    );
   }
 
   @override
@@ -66,7 +57,7 @@ class AdminScreen extends StatelessWidget {
     return LayoutBuilder(
       builder: (context,constraints) {
         bool withProfile=constraints.maxWidth>825;
-        return Scaffold(appBar: getUserAppBar(context,withClientProfile: !withProfile,buttonSubmenu: !withProfile,user: admin),
+        return Scaffold(appBar: getUserAppBar(context,withClientProfile: !withProfile,buttonSubmenu: !withProfile,user: producer),
         body: getBody(context,withClientProfile: withProfile),);
       }
     );

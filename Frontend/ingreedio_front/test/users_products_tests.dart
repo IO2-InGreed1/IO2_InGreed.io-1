@@ -4,7 +4,7 @@ import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
 class TestInitializer
 {
-  static Producer get producer=>Producer.fromAllData(companyName: "Test", nip: "0", representativeName: "Name", representativeSurname: "Surname", telephoneNumber: "000000000");
+  static Producer get producer=>Producer.fromAllData(companyName: "Test", nip: "0", representativeName: "Name", representativeSurname: "Surname", telephoneNumber: "000000000",    id: 0, isBlocked: false, mail: 'mail', password: '', username: 'producer');
   static Product get product=>Product.fromAllData(category: Category.cosmetics, id: 0, ingredients: [], name: "Test", producer: producer, promotionUntil: DateTime(0),description: "desc");
   static Client get client=>Client.fromAllData(id: 0, isBlocked: false, mail: "mail@mail.com", password: "myPassword", username: "User", favoriteProducts: []);
   static List<Preference> get preferences

@@ -1,12 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:ingreedio_front/ui/screens/opinion_search_screen.dart';
 import 'package:ingreedio_front/ui/screens/product_search_screen.dart';
-import 'package:ingreedio_front/ui/widgets/getAppBar_widget.dart';
+import 'package:ingreedio_front/ui/widgets/user_widget.dart';
 
 class ModeratorScreen extends StatelessWidget {
   const ModeratorScreen({super.key, required this.moderator});
@@ -18,11 +16,7 @@ class ModeratorScreen extends StatelessWidget {
             children: [
               Expanded(flex: 3,
                 child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      reportedItemsWidget(context),
-                    ],
-                  ),
+                  child: reportedItemsWidget(context),
                 )
               ),
               withClientProfile?Expanded(
@@ -64,7 +58,7 @@ class ModeratorScreen extends StatelessWidget {
     return LayoutBuilder(
       builder: (context,constraints) {
         bool withProfile=constraints.maxWidth>825;
-        return Scaffold(appBar: getAppBar(context,withClientProfile: !withProfile,buttonSubmenu: !withProfile,user: moderator),
+        return Scaffold(appBar: getUserAppBar(context,withClientProfile: !withProfile,buttonSubmenu: !withProfile,user: moderator),
         body: getBody(context,withClientProfile: withProfile),);
       }
     );
@@ -72,7 +66,7 @@ class ModeratorScreen extends StatelessWidget {
 }
 Widget reportedItemsWidget(BuildContext context)
 {
-                      return Column(
+    return Column(
                         children: [
                           const SizedBox(height: 15,),
                           Row(

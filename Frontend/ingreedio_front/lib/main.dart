@@ -10,7 +10,7 @@ import 'package:ingreedio_front/ui/screens/admin_screen.dart';
 import 'package:ingreedio_front/ui/screens/client_screen.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:ingreedio_front/ui/screens/moderator_screen.dart';
-import 'package:ingreedio_front/ui/screens/product_search_screen.dart';
+import 'package:ingreedio_front/ui/screens/producer_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'cubit_logic/session_cubit.dart';
 MaterialPageRoute widgetShower(Widget child)
@@ -129,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
           return ClientScreen(client:data.currentClient!);
         }
         if(data.currentProducer!=null) {
-          return addLogoutButton(ProductEditScreen(producer: data.currentProducer!));
+          return ProducerScreen(producer: data.currentProducer!);
         }
         if(data.currentModerator!=null) 
         {
