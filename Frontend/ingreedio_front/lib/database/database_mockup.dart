@@ -709,13 +709,16 @@ class MockupDatabase extends Database
 
   @override
   OpinionDatabase get opinionDatabase => _opinionDatabase;
-
+  set opinionDatabase(OpinionDatabase value) => _opinionDatabase=value;
   @override
   ProductDatabse get productDatabse => _productDatabse;
+  set productDatabse(ProductDatabse value) => _productDatabse=value;
   @override
   LoginDatabase get loginDatabase => _loginDatabase;
+  set loginDatabase(LoginDatabase value) => _loginDatabase=value;
 
   @override
   UserDatabse get userDatabse =>_userDatabse;
+  set userDatabse(UserDatabse value) => _userDatabse=value;
   
 }

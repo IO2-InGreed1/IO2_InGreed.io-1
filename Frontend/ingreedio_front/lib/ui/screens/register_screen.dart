@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:ingreedio_front/database/databse.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
 
-  const LoginPage({super.key});
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   late TextEditingController _usernameController;
   late TextEditingController _passwordController;
   late TextEditingController _passwordRepeatController;
@@ -42,10 +42,8 @@ class _LoginPageState extends State<LoginPage> {
       final String password = _passwordController.text;
       var cubit=SessionCubit.fromContext(context);
       var data=await cubit.database.loginDatabase.register(username,email, password,UserRole.client);
-
       if (data!=null) 
       {
-        //TODO: register screen, może do zmianny w bazie danych, nie wiadomo co zwraca rejestracja
       } 
       else 
       {

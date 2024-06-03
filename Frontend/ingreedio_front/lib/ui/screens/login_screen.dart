@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:ingreedio_front/ui/common_ui_elements.dart';
+import 'package:ingreedio_front/ui/screens/register_screen.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -97,6 +98,19 @@ class _LoginPageState extends State<LoginPage> {
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.lightGreen),
                 onPressed: _login,
                 child: const Text('Login'),
+              ),
+              const SizedBox(height: 20),
+               ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.lightGreen),
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return Scaffold(
+                      appBar: getStandardAppBar(context),
+                      body:const RegisterPage(),
+                    );
+                  },));
+                },
+                child: const Text('Register'),
               ),
               if (_errorMessage != null)
                 Padding(

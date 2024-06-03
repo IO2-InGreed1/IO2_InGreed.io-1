@@ -6,7 +6,7 @@ import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
 const String requestAdress="http://127.0.0.1:5000/api/";
-Future<String> getResponse(String request,String token) async 
+Future<String> getResponse(String request,String token,{Map<String, dynamic>? jsonData}) async 
 {
   HttpClient client=HttpClient();
   try {
@@ -16,6 +16,13 @@ Future<String> getResponse(String request,String token) async
     
     var req = await client.getUrl(uri);
     req.headers.set('Authorization', 'Bearer $token');
+    if(jsonData!=null)
+    {
+      req.headers.set('Content-Type', 'application/json');
+      String jsonString = json.encode(jsonData);
+      req.headers.set('Content-Length', jsonString.length.toString());
+      req.write(jsonString);
+    }
     var res=await req.close();
     String responseBody = await res.transform(utf8.decoder).join();
     client.close();
@@ -219,15 +226,40 @@ class RealLoginDatabase extends LoginDatabase
   SessionCubit cubit;
 
   @override
-  Future<String?> login(String email, String password) {
-    // TODO: implement login
-    throw UnimplementedError();
+  Future<String?> login(String email, String password) async {
+    var response=await getResponse("Account/login", cubit.state.userToken,jsonData: 
+    {
+      "email": email,
+      "password": password
+    });
+    try
+    {
+      Map<String,dynamic> map=json.decode(response);
+      return map["authorizationToken"];
+    }
+    catch(e)
+    {
+      return null;
+    }
   }
 
   @override
-  Future<String?> register(String username, String email, String password, UserRole userRole) {
-    // TODO: implement register
-    throw UnimplementedError();
+  Future<String?> register(String username, String email, String password, UserRole userRole) async {
+    var response=await getResponse("Account/register", cubit.state.userToken,jsonData: 
+    {
+      "email": email,
+      "username": username,
+      "password": password
+    });
+    try
+    {
+      Map<String,dynamic> map=json.decode(response);
+      return map["authorizationToken"];
+    }
+    catch(e)
+    {
+      return null;
+    }
   }
 
 }
