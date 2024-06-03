@@ -48,7 +48,7 @@ class _RegisterPageState extends State<RegisterPage> {
       else 
       {
         setState(() {
-          _errorMessage = 'Invalid username or password';
+          _errorMessage = 'register error';
         });
       }
     }

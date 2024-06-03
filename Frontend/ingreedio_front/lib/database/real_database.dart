@@ -1,41 +1,52 @@
-import 'dart:convert';
-import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
 const String requestAdress="http://127.0.0.1:5000/api/";
-Future<String> getResponse(String request,String token,{Map<String, dynamic>? jsonData}) async 
+enum RequestType
 {
-  HttpClient client=HttpClient();
+  get,put,post,patch
+}
+Future<Map<String,dynamic>> getResponse(String request,String token,RequestType type,{Map<String, dynamic>? jsonData}) async 
+{
+  final dio = Dio();
   try {
-    var uri = Uri.parse(
-      requestAdress+request
-    );
-    
-    var req = await client.getUrl(uri);
-    req.headers.set('Authorization', 'Bearer $token');
-    if(jsonData!=null)
+    Response response;
+    Map<String,dynamic> headers=
+          {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token'
+          };
+    var options=Options(headers: headers);
+    switch(type)
     {
-      req.headers.set('Content-Type', 'application/json');
-      String jsonString = json.encode(jsonData);
-      req.headers.set('Content-Length', jsonString.length.toString());
-      req.write(jsonString);
+      case RequestType.get:
+        response=await dio.get(requestAdress+request,data: jsonData,options: options);
+        break;
+      case RequestType.put:
+        response=await dio.put(requestAdress+request,data: jsonData,options: options);
+        break;
+      case RequestType.post:
+        response=await dio.post(requestAdress+request,data: jsonData,options: options);
+        break;
+      case RequestType.patch:
+        response=await dio.patch(requestAdress+request,data: jsonData,options: options);
+        break;
     }
-    var res=await req.close();
-    String responseBody = await res.transform(utf8.decoder).join();
-    client.close();
-    return responseBody;
+    return response.data;
   } 
   catch(e)
   {
-    client.close();
+    dio.close(force: true);
+    //return {};
     throw(Exception("connection failed, message: \n $e"));
   }
   finally 
   {
-    client.close();
+    dio.close();
   }
 }
 class RealUserDatabase extends UserDatabse
@@ -98,10 +109,9 @@ class RealIngredientDatabase extends IngredientDatabase
   RealIngredientDatabase(this.cubit);
   @override
   SessionCubit cubit;
-  static List<Ingredient> parseIngredientList(String response)
+  static List<Ingredient> parseIngredientList(Map<String,dynamic> response)
   {
-    Map<String,dynamic> map=json.decode(response);
-    List<dynamic> pom=map["ingredients"];
+    List<dynamic> pom=response["ingredients"];
     List<Ingredient> odp=List.empty(growable: true);
     for (var element in pom) {odp.add(IngredientMapper.fromMap(element as Map<String,dynamic>));}
     return odp;
@@ -109,7 +119,7 @@ class RealIngredientDatabase extends IngredientDatabase
   @override
   Future<List<Ingredient>> getAllIngredients() async {
     String request="ingredient";
-    String odp=await getResponse(request,cubit.state.userToken);
+    var odp=await getResponse(request,cubit.state.userToken,RequestType.get);
     return parseIngredientList(odp);
   }
 
@@ -227,15 +237,14 @@ class RealLoginDatabase extends LoginDatabase
 
   @override
   Future<String?> login(String email, String password) async {
-    var response=await getResponse("Account/login", cubit.state.userToken,jsonData: 
+    var response=await getResponse("Account/login", cubit.state.userToken,RequestType.post,jsonData: 
     {
       "email": email,
       "password": password
     });
     try
     {
-      Map<String,dynamic> map=json.decode(response);
-      return map["authorizationToken"];
+      return response["authorizationToken"];
     }
     catch(e)
     {
@@ -245,7 +254,7 @@ class RealLoginDatabase extends LoginDatabase
 
   @override
   Future<String?> register(String username, String email, String password, UserRole userRole) async {
-    var response=await getResponse("Account/register", cubit.state.userToken,jsonData: 
+    var response=await getResponse("Account/register", cubit.state.userToken,RequestType.post,jsonData: 
     {
       "email": email,
       "username": username,
@@ -253,8 +262,7 @@ class RealLoginDatabase extends LoginDatabase
     });
     try
     {
-      Map<String,dynamic> map=json.decode(response);
-      return map["authorizationToken"];
+      return response["authorizationToken"];
     }
     catch(e)
     {
