@@ -1,4 +1,6 @@
-﻿namespace InGreed.Domain.Models;
+﻿using InGreed.Domain.Enums;
+
+namespace InGreed.Domain.Models;
 
 public class Preference
 {
@@ -6,6 +8,6 @@ public class Preference
     public string Name { get; set; } = string.Empty;
     private List<Ingredient> Forbidden { get; } = new();
     private List<Ingredient> Preferred { get; } = new();
-    
+    public Category? Category { get; set; } = null;
     public bool Active { get; set; } = new();
 }
