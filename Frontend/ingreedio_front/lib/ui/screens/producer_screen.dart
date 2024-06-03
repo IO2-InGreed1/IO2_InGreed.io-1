@@ -12,12 +12,7 @@ class ProducerScreen extends StatelessWidget {
     //return const SizedBox(width: 1,height: 1,);
     return Row(
       children: [
-        SingleChildScrollView(child: Expanded(flex:3,
-        child: Center(
-          child: SizedBox(
-            width: 600,
-            child: Center(child: ProductEditScreen(producer: producer,))),
-        ))),
+        Expanded(flex: 3,child: SingleChildScrollView(child: ProductEditScreen(producer: producer,))),
         withClientProfile?Expanded(
                 flex: 1,
                 child: Column(
@@ -56,7 +51,7 @@ class ProducerScreen extends StatelessWidget {
     //return Scaffold(appBar: getAppBar(context),body: getBody(context),);
     return LayoutBuilder(
       builder: (context,constraints) {
-        bool withProfile=constraints.maxWidth>825;
+        bool withProfile=constraints.maxWidth>870;
         return Scaffold(appBar: getUserAppBar(context,withClientProfile: !withProfile,buttonSubmenu: !withProfile,user: producer),
         body: getBody(context,withClientProfile: withProfile),);
       }

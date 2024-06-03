@@ -13,9 +13,7 @@ import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
-import 'package:ingreedio_front/main.dart';
 import 'package:ingreedio_front/ui/widgets/datetime_widget.dart';
-import 'package:ingreedio_front/ui/widgets/product_widget.dart';
 import 'package:ingreedio_front/ui/screens/search_screen.dart';
 class ProductSearchScreen extends SearchScreen<Product> {
   const ProductSearchScreen({super.key});
@@ -138,6 +136,11 @@ class ProductEditScreen extends SearchScreen<Product> {
 
 class _ProductEditScreenState extends _ProductSearchScreenState {
   ProductEditScreen get myWidget=>widget as ProductEditScreen;
+  @override 
+  Widget putWidgets(Widget listWidget,Widget filterWidget)
+  {
+    return listWidget;
+  }
   @override
   Widget build(BuildContext context) {
     columns=1;
@@ -165,12 +168,17 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
             mainAxisAlignment: MainAxisAlignment.center,
             children: 
             [
-              GestureDetector(child: obj.clickableIconWidget(context),
-              onTap: (){
-                Navigator.push(context, widgetShower(ProductAndOpinionWidget(product: obj)));
-              },
-              ),
-              DialogButton<Product>
+              obj.clickableIconWidget(context),
+              // GestureDetector(child: obj.clickableIconWidget(context),
+              // onTap: (){
+              //   Navigator.push(context, widgetShower(ProductAndOpinionWidget(product: obj)));
+              // },
+              // ),
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      DialogButton<Product>
               (
                 creator: 
                 ProductCreator(reference: ItemWrapper(Product.clone(obj)),),
@@ -189,7 +197,9 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
                   },
                 child: const Text("delete"),
               ),
-              TextButton(
+                    ],
+                  ),
+                  TextButton(
                 onPressed: () async {
                  DateTime? dateTime = await showOmniDateTimePicker(context: context,
                  type: OmniDateTimePickerType.date,
@@ -208,6 +218,9 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
                 }
                 },
                 child: PromotionWidget(dateTime: obj.promotionUntil)),
+                ],
+              ),
+              
 
             ],
           );
