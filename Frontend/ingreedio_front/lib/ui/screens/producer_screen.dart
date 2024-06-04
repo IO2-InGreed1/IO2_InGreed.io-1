@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ingreedio_front/creators/creators.dart';
 import 'package:ingreedio_front/logic/users.dart';
+import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:ingreedio_front/ui/screens/product_search_screen.dart';
 import 'package:ingreedio_front/ui/widgets/user_widget.dart';
 
@@ -10,9 +12,26 @@ class ProducerScreen extends StatelessWidget {
   Widget getBody(BuildContext context,{bool withClientProfile=true})
   {
     //return const SizedBox(width: 1,height: 1,);
+    
     return Row(
       children: [
-        Expanded(flex: 3,child: SingleChildScrollView(child: ProductEditScreen(producer: producer,))),
+        Expanded(flex: 3,child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 15,),
+              StandardDecorator(
+                color: Theme.of(context).colorScheme.secondary,
+                child: SizedBox(
+                  width:700,
+                  child: LabelWidget(
+                    label: "My products",
+                    isHorizontal: false,
+                    child: ProductEditScreen(producer: producer,),),
+                ),
+              ),
+              const SizedBox(height: 15,)
+            ],
+          ))),
         withClientProfile?Expanded(
                 flex: 1,
                 child: Column(
