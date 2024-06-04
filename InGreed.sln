@@ -35,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{F3282E6A-A
 		Docs\RemoveUserDiagram.png = Docs\RemoveUserDiagram.png
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InGreed.Frontend", "Src\InGreed.Frontend\InGreed.Frontend.csproj", "{9C72F3BF-AF9C-4450-9B80-15D5A1063B8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{B991E4A8-8A2C-40F8-87FB-1B6769532A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B991E4A8-8A2C-40F8-87FB-1B6769532A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B991E4A8-8A2C-40F8-87FB-1B6769532A5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C72F3BF-AF9C-4450-9B80-15D5A1063B8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C72F3BF-AF9C-4450-9B80-15D5A1063B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C72F3BF-AF9C-4450-9B80-15D5A1063B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C72F3BF-AF9C-4450-9B80-15D5A1063B8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{DEF72C3E-E12B-425B-B7A8-B9F593EB9C92} = {3E74B73E-5BC9-413A-B57F-BD0FAB2D649A}
 		{73541713-9880-455E-BC19-0B642E3526BC} = {3E74B73E-5BC9-413A-B57F-BD0FAB2D649A}
 		{B991E4A8-8A2C-40F8-87FB-1B6769532A5E} = {B49004A4-94FC-4E67-9836-31122C2E90E6}
+		{9C72F3BF-AF9C-4450-9B80-15D5A1063B8A} = {B49004A4-94FC-4E67-9836-31122C2E90E6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {79B20A11-7B19-4A1D-AABF-E10876DCFF74}
