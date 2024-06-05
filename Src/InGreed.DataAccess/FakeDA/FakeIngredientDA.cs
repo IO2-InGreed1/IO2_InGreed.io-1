@@ -8,9 +8,9 @@ public class FakeIngredientDA : IIngredientDA
 {
     private static List<Ingredient> _ingredients = new()
     {
-        new() { Id = 1, IconURL = string.Empty, Name = "Ender Pearl" },
-        new() { Id = 2, IconURL = string.Empty, Name = "Nether Wart" },
-        new() { Id = 3, IconURL = string.Empty, Name = "Bone Meal" }
+        new() { Id = 1, IconURL = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/f/f6/Ender_Pearl_JE3_BE2.png", Name = "Ender Pearl" },
+        new() { Id = 2, IconURL = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/3f/Nether_Wart_(item)_JE2_BE1.png", Name = "Nether Wart" },
+        new() { Id = 3, IconURL = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/b/b1/Bone_Meal_JE3_BE3.png", Name = "Bone Meal" }
     };
     private int currentId = 3;
 
