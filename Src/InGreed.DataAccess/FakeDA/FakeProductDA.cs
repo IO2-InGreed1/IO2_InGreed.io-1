@@ -8,9 +8,12 @@ public class FakeProductDA : IProductDA
 {
     private List<Product> _products = new()
     {
-        new() {Id = 1, Name = "Fermented Spider Eye", PromotedUntil = new(2137, 3, 26), Category = Category.Other},
-        new() {Id = 2, Name = "Chorus Fruit", PromotedUntil = null, Category = Category.Food},
-        new() {Id = 3, Name = "Potion of Fire Resistance", PromotedUntil = null, Category = Category.Drinks }
+        new() {Id = 1, Name = "Fermented Spider Eye", PromotedUntil = new(2137, 3, 26), Category = Category.Other,
+        IconURL = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/8/85/Fermented_Spider_Eye_JE2_BE2.png" },
+        new() {Id = 2, Name = "Chorus Fruit", PromotedUntil = null, Category = Category.Food,
+        IconURL = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/33/Chorus_Fruit_JE2_BE2.png" },
+        new() {Id = 3, Name = "Potion of Fire Resistance", PromotedUntil = null, Category = Category.Drinks,
+        IconURL = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/e/ee/Potion_of_Fire_Resistance_JE3.png" }
     };
     private int currentId = 3;
 
