@@ -67,4 +67,19 @@ public class OpinionController : ControllerBase
         GetAllReportedResponse response = new(result);
         return Ok(response);
     }
+
+    [HttpPut("{id}/report")]
+    public IActionResult AddReport(int opinionId)
+    {
+        OpinionServiceAddReportResponse result = _opinionService.AddReport(opinionId);
+        switch (result)
+        {
+            case OpinionServiceAddReportResponse.Success:
+                return Ok();
+            case OpinionServiceAddReportResponse.NonexistentOpinion:
+                return NotFound($"There is no opinion with an id {opinionId}.");
+            default:
+                return BadRequest("Unexpected error.");
+        }
+    }
 }
