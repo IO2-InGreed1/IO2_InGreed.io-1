@@ -36,100 +36,100 @@ public class JwtTokenServiceTests
     [Fact]
     public void GenerateToken_UserIsNull_ReturnEmptyToken()
     {
-        //Arrange
+        // Arrange
         var sut = new JwtTokenService(dateTimeProviderMock.Object, configurationMock);
 
-        //Act
+        // Act
         var token = sut.GenerateToken(null);
 
-        //Assert
+        // Assert
         Assert.Empty(token);
     }
 
     [Fact]
     public void GenerateToken_UserIsCorrect_ReturnValidToken()
     {
-        //Arrange
+        // Arrange
         var dateTimeProvider = dateTimeProviderMock.Object;
         var sut = new JwtTokenService(dateTimeProvider, configurationMock);
 
-        //Act
+        // Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
         
-        //Assert
+        // Assert
         Assert.NotNull(token);
     }
 
     [Fact]
     public void GenerateToken_UserIsCorrect_TokenValidFromNow()
     {
-        //Arrange
+        // Arrange
         var dateTimeProvider = dateTimeProviderMock.Object;
         var sut = new JwtTokenService(dateTimeProvider, configurationMock);
 
-        //Act
+        // Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
 
-        //Assert
+        // Assert
         Assert.Equal(dateTimeProvider.Now, token.ValidFrom);
     }
 
     [Fact]
     public void GenerateToken_UserIsCorrect_TokenValidForMaxHour()
     {
-        //Arrange
+        // Arrange
         var dateTimeProvider = dateTimeProviderMock.Object;
         var sut = new JwtTokenService(dateTimeProvider, configurationMock);
 
-        //Act
+        // Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
 
-        //Assert
+        // Assert
         Assert.Equal(dateTimeProvider.Now.AddHours(1), token.ValidTo);
     }
 
     [Fact]
     public void GenerateToken_UserIsCorrect_TokenHasValidUsername()
     {
-        //Arrange
+        // Arrange
         var sut = new JwtTokenService(dateTimeProviderMock.Object, configurationMock);
 
-        //Act
+        // Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
         var claims = token.Claims;
         var username = claims.FirstOrDefault(c => c.Type.Equals(JwtRegisteredClaimNames.Name));
 
-        //Assert
+        // Assert
         Assert.Equal(testingUser.Username, username?.Value);
     }
 
     [Fact]
     public void GenerateToken_UserIsCorrect_TokenHasValidEmail()
     {
-        //Arrange
+        // Arrange
         var sut = new JwtTokenService(dateTimeProviderMock.Object, configurationMock);
 
-        //Act
+        // Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
         var claims = token.Claims;
         var email = claims.FirstOrDefault(c => c.Type.Equals(JwtRegisteredClaimNames.Email));
 
-        //Assert
+        // Assert
         Assert.Equal(testingUser.Email, email?.Value);
     }
 
     [Fact]
     public void GenerateToken_UserIsCorrect_TokenHasValidId()
     {
-        //Arrange
+        // Arrange
         var sut = new JwtTokenService(dateTimeProviderMock.Object, configurationMock);
 
-        //Act
+        // Act
         var token = new JwtSecurityToken(sut.GenerateToken(testingUser));
         var claims = token.Claims;
         var id = claims.FirstOrDefault(c => c.Type.Equals(JwtRegisteredClaimNames.Sub));
 
-        //Assert
+        // Assert
         Assert.NotNull(id);
         Assert.Equal(testingUser.Id, int.Parse(id.Value));
     }
