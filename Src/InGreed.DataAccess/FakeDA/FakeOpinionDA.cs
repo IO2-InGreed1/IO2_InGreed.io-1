@@ -1,4 +1,4 @@
-﻿using InGreed.DataAccess.Enums;
+﻿using InGreed.DataAccess.Enums.Opinion;
 using InGreed.DataAccess.Interfaces;
 using InGreed.Domain.Models;
 
@@ -32,13 +32,13 @@ public class FakeOpinionDA : IOpinionDA
         return _opinions.Find(o => o.Id == opinionId);
     }
 
-    public void AddToProduct(int ingredient, int productId)
+    public OpinionDAAddResponse AddToProduct(int ingredient, int productId)
     {
-        return;
+        return OpinionDAAddResponse.Success;
     }
 
-    public void RemoveFromProduct(int ingredientId, int productId)
+    public OpinionDARemoveResponse RemoveFromProduct(int ingredientId, int productId)
     {
-        return;
+        return OpinionDARemoveResponse.Success;
     }
 }

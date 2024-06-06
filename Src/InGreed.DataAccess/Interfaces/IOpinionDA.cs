@@ -5,6 +5,7 @@ namespace InGreed.DataAccess.Interfaces
 {
     public interface IOpinionDA
     {
+        IEnumerable<Opinion> GetAll();
         Opinion? GetById(int ingredientId);
         int Create(Opinion opinion);
         OpinionDAAddResponse AddToProduct(int opinionId, int productId);

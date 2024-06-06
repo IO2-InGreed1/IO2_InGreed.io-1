@@ -1,6 +1,5 @@
 ﻿using InGreed.DataAccess.Interfaces;
 using InGreed.Domain.Models;
-using InGreed.Logic.Enums.Ingredient;
 using InGreed.Logic.Enums.Opinion;
 using InGreed.Logic.Interfaces;
 using InGreed.Logic.Mappers;
@@ -34,6 +33,20 @@ namespace InGreed.Logic.Services
         {
             var response = _opinionDA.RemoveFromProduct(opinionId, productId);
             return _dbtoServiceResponseMapper.RemoveResponseMapper(response);
+        }
+
+        public List<Opinion> GetAllReported()
+        {
+            IEnumerable<Opinion> allOpinions = _opinionDA.GetAll();
+            List<Opinion> allReportedOpinions = new List<Opinion>();
+            foreach (Opinion opinion in allOpinions)
+            {
+                if(opinion.reportCount > 0)
+                {
+                    allReportedOpinions.Add(opinion);
+                }
+            }
+            return allReportedOpinions;
         }
     }
 }

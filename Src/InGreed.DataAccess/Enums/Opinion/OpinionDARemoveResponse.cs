@@ -4,6 +4,6 @@
 public enum OpinionDARemoveResponse
 {
     Success = 0,
-    IngredientNotFromProduct = 1,
+    OpinionNotFromProduct = 1,
     NonexistentProduct = 2
 }

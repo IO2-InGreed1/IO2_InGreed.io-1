@@ -50,12 +50,21 @@ public class OpinionController : ControllerBase
         {
             case OpinionServiceRemoveResponse.Success:
                 return Ok();
-            case OpinionServiceRemoveResponse.IngredientNotFromProduct:
+            case OpinionServiceRemoveResponse.OpinionNotFromProduct:
                 return NotFound($"Product {productId} does not contain an Opinion with an id {opinionId}.");
             case OpinionServiceRemoveResponse.NonexistentProduct:
                 return NotFound($"There is no product with an id {productId}.");
             default:
                 return BadRequest("Unexpected error.");
         }
+    }
+
+    [HttpGet("reported")]
+    public IActionResult GetAllReported()
+    {
+        List<Opinion> result = _opinionService.GetAllReported();
+        if (result is null) return BadRequest();
+        GetAllReportedResponse response = new(result);
+        return Ok(response);
     }
 }
