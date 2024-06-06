@@ -13,7 +13,7 @@ public class UserController : ControllerBase
     private readonly IFavouritesService favouritesService;
     public UserController(IFavouritesService service) 
     { 
-        this.favouritesService = service;
+        favouritesService = service;
     }
 
     [Authorize]

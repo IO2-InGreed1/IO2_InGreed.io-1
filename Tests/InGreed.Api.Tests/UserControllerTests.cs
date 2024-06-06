@@ -14,9 +14,8 @@ public class UserControllerTests
         favouritesServiceMock = new();
     }
 
-    /*
     [Fact]
-    public void AddToFavourites_ExistingProductNotFromFavouritesExistingUser_ShouldReturnStatusOk()
+    public void AddToFavourites_ExistingProductNotFromFavouritesAuthorisedUser_ShouldReturnStatusOk()
     {
         // arrange 
         UserController sut = new(favouritesServiceMock.Object);
@@ -29,7 +28,7 @@ public class UserControllerTests
     }
 
     [Fact]
-    public void AddToFavourites_ExistingProductFromFavouritesExistingUser_ShouldReturnStatusBadRequest()
+    public void AddToFavourites_ExistingProductFromFavouritesAuthorisedUser_ShouldReturnStatusBadRequest()
     {
         // arrange 
         UserController sut = new(favouritesServiceMock.Object);
@@ -55,7 +54,7 @@ public class UserControllerTests
     }
 
     [Fact]
-    public void AddToFavourites_NonexistentUser_ShouldReturnStatusNotFound()
+    public void AddToFavourites_UnauthorisedUser_ShouldReturnStatusNotFound()
     {
         // arrange 
         UserController sut = new(favouritesServiceMock.Object);
@@ -68,7 +67,7 @@ public class UserControllerTests
     }
 
     [Fact]
-    public void RemoveFromFavourites_ExistingProductFromFavouritesExistingUser_ShouldStatusOk()
+    public void RemoveFromFavourites_ExistingProductFromFavouritesAuthorisedUser_ShouldStatusOk()
     {
         // arrange 
         UserController sut = new(favouritesServiceMock.Object);
@@ -81,7 +80,7 @@ public class UserControllerTests
     }
 
     [Fact]
-    public void RemoveFromFavourites_ExistingProductNotFromFavouritesExistingUser_ShouldReturnStatusBadRequest()
+    public void RemoveFromFavourites_ExistingProductNotFromFavouritesAuthorisedUser_ShouldReturnStatusBadRequest()
     {
         // arrange 
         UserController sut = new(favouritesServiceMock.Object);
@@ -107,7 +106,7 @@ public class UserControllerTests
     }
 
     [Fact]
-    public void RemoveFromFavourites_NonexistentUser_ShouldReturnStatusNotFound()
+    public void RemoveFromFavourites_UnauthorisedUser_ShouldReturnStatusNotFound()
     {
         // arrange 
         UserController sut = new(favouritesServiceMock.Object);
@@ -118,5 +117,4 @@ public class UserControllerTests
         // assert
 
     }
-    */
 }
