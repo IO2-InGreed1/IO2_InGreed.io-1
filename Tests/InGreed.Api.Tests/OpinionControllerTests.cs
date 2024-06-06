@@ -37,7 +37,7 @@ public class OpinionControllerTests
     }
 
     [Fact]
-    public void GetById_NonexistentOpinion_ShouldReturnStatusBadRequest()
+    public void GetById_NonexistentOpinion_ShouldReturnStatusNotFound()
     {
         // Arrange
         opinionServiceMock.Setup(osa => osa.GetById(id)).Returns(value: null);
@@ -47,7 +47,7 @@ public class OpinionControllerTests
         var response = sut.GetById(id);
 
         // Assert
-        Assert.IsType<BadRequestResult>(response);
+        Assert.IsType<NotFoundResult>(response);
     }
 
     [Fact]
