@@ -10,25 +10,25 @@ namespace InGreed.Api.Tests;
 public class UserControllerTests
 {
     private Mock<FavouritesService> favouritesServiceMock;
-    private ControllerContext context;
     private readonly int id = 1;
 
     public UserControllerTests() 
     {
         favouritesServiceMock = new();
-        context = new ControllerContext
-        {
-            HttpContext = new DefaultHttpContext
-            {
-                User = new(new List<ClaimsIdentity>() { new(new List<Claim>() { new Claim(ClaimTypes.NameIdentifier, "1") }) })
-            }
-        };
     }
 
     [Fact]
     public void AddToFavourites_ExistingProductNotFromFavouritesAuthorisedUser_ShouldReturnStatusOk()
     {
         // Arrange 
+        var context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new(new List<ClaimsIdentity>() { new(new List<Claim>() { new Claim(ClaimTypes.NameIdentifier, "1") }) })
+            }
+        };
+        favouritesServiceMock.Setup(fsm => fsm.Add(id, id)).Returns(Logic.Enums.FavouritesServiceAddResponse.Success);
         UserController sut = new(favouritesServiceMock.Object);
         sut.ControllerContext = context;
 
@@ -43,6 +43,14 @@ public class UserControllerTests
     public void AddToFavourites_ExistingProductFromFavouritesAuthorisedUser_ShouldReturnStatusBadRequest()
     {
         // Arrange 
+        var context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new(new List<ClaimsIdentity>() { new(new List<Claim>() { new Claim(ClaimTypes.NameIdentifier, "1") }) })
+            }
+        };
+        favouritesServiceMock.Setup(fsm => fsm.Add(id, id)).Returns(Logic.Enums.FavouritesServiceAddResponse.AlreadyInFavourites);
         UserController sut = new(favouritesServiceMock.Object);
         sut.ControllerContext = context;
 
@@ -59,6 +67,14 @@ public class UserControllerTests
     public void AddToFavourites_NonexistentProduct_ShouldReturnStatusNotFound()
     {
         // Arrange 
+        var context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new(new List<ClaimsIdentity>() { new(new List<Claim>() { new Claim(ClaimTypes.NameIdentifier, "1") }) })
+            }
+        };
+        favouritesServiceMock.Setup(fsm => fsm.Add(id, id)).Returns(Logic.Enums.FavouritesServiceAddResponse.InvalidProductId);
         UserController sut = new(favouritesServiceMock.Object);
         sut.ControllerContext = context;
 
@@ -75,6 +91,14 @@ public class UserControllerTests
     public void AddToFavourites_UnauthorizedUser_ShouldReturnStatusUnauthorized()
     {
         // Arrange 
+        var context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = null!
+            }
+        };
+        favouritesServiceMock.Setup(fsm => fsm.Add(id, id)).Returns(Logic.Enums.FavouritesServiceAddResponse.Success);
         UserController sut = new(favouritesServiceMock.Object);
         sut.ControllerContext = context;
 
@@ -89,6 +113,14 @@ public class UserControllerTests
     public void RemoveFromFavourites_ExistingProductFromFavouritesAuthorisedUser_ShouldStatusOk()
     {
         // Arrange 
+        var context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new(new List<ClaimsIdentity>() { new(new List<Claim>() { new Claim(ClaimTypes.NameIdentifier, "1") }) })
+            }
+        };
+        favouritesServiceMock.Setup(fsm => fsm.Delete(id, id)).Returns(Logic.Enums.FavouritesServiceDeleteResponse.Success);
         UserController sut = new(favouritesServiceMock.Object);
         sut.ControllerContext = context;
 
@@ -103,6 +135,14 @@ public class UserControllerTests
     public void RemoveFromFavourites_ExistingProductNotFromFavouritesAuthorisedUser_ShouldReturnStatusBadRequest()
     {
         // Arrange 
+        var context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new(new List<ClaimsIdentity>() { new(new List<Claim>() { new Claim(ClaimTypes.NameIdentifier, "1") }) })
+            }
+        };
+        favouritesServiceMock.Setup(fsm => fsm.Delete(id, id)).Returns(Logic.Enums.FavouritesServiceDeleteResponse.NotFavourited);
         UserController sut = new(favouritesServiceMock.Object);
         sut.ControllerContext = context;
 
@@ -119,6 +159,14 @@ public class UserControllerTests
     public void RemoveFromFavourites_NonexistentProduct_ShouldReturnStatusNotFound()
     {
         // Arrange 
+        var context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new(new List<ClaimsIdentity>() { new(new List<Claim>() { new Claim(ClaimTypes.NameIdentifier, "1") }) })
+            }
+        };
+        favouritesServiceMock.Setup(fsm => fsm.Delete(id, id)).Returns(Logic.Enums.FavouritesServiceDeleteResponse.InvalidProductId);
         UserController sut = new(favouritesServiceMock.Object);
         sut.ControllerContext = context;
 
@@ -135,6 +183,14 @@ public class UserControllerTests
     public void RemoveFromFavourites_UnauthorizedUser_ShouldReturnStatusUnauthorized()
     {
         // Arrange 
+        var context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = null!
+            }
+        };
+        favouritesServiceMock.Setup(fsm => fsm.Delete(id, id)).Returns(Logic.Enums.FavouritesServiceDeleteResponse.Success);
         UserController sut = new(favouritesServiceMock.Object);
         sut.ControllerContext = context;
 
