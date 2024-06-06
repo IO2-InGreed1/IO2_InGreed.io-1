@@ -54,5 +54,11 @@ namespace InGreed.Logic.Services
             var response = _opinionDA.AddReport(opinionId);
             return _dbtoServiceResponseMapper.AddReportResponseMapper(response);
         }
+
+        public OpinionServiceRemoveReportsResponse RemoveReports(int opinionId)
+        {
+            var response = _opinionDA.RemoveReports(opinionId);
+            return _dbtoServiceResponseMapper.RemoveReportsResponseMapper(response);
+        }
     }
 }

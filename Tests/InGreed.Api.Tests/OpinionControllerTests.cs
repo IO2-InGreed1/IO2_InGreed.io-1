@@ -175,4 +175,34 @@ public class OpinionControllerTests
         var responseContent = Assert.IsType<string>(actionResult.Value);
         Assert.Equal($"There is no opinion with an id {id}.", responseContent);
     }
+
+    [Fact]
+    public void RemoveReports_ExistingOpinion_ShouldReturnStatusOk()
+    {
+        // Arrange
+        opinionServiceMock.Setup(osa => osa.RemoveReports(id)).Returns(OpinionServiceRemoveReportsResponse.Success);
+        OpinionController sut = new(opinionServiceMock.Object);
+
+        // Act
+        var response = sut.RemoveReports(id);
+
+        // Assert
+        Assert.IsType<OkResult>(response);
+    }
+
+    [Fact]
+    public void RemoveReports_NonexistentOpinion_ShouldReturnStatusNotFound()
+    {
+        // Arrange
+        opinionServiceMock.Setup(osa => osa.RemoveReports(id)).Returns(OpinionServiceRemoveReportsResponse.NonexistentOpinion);
+        OpinionController sut = new(opinionServiceMock.Object);
+
+        // Act
+        var response = sut.RemoveReports(id);
+
+        // Assert
+        var actionResult = Assert.IsType<NotFoundObjectResult>(response);
+        var responseContent = Assert.IsType<string>(actionResult.Value);
+        Assert.Equal($"There is no opinion with an id {id}.", responseContent);
+    }
 }

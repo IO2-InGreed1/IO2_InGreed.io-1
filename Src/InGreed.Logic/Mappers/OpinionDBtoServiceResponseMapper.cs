@@ -10,4 +10,5 @@ public partial class OpinionDBtoServiceResponseMapper : IOpinionDBtoServiceRespo
     public partial OpinionServiceAddResponse AddResponseMapper(OpinionDAAddResponse DAresponse);
     public partial OpinionServiceRemoveResponse RemoveResponseMapper(OpinionDARemoveResponse DAresponse);
     public partial OpinionServiceAddReportResponse AddReportResponseMapper(OpinionDAAddReportResponse DAresponse);
+    public partial OpinionServiceRemoveReportsResponse RemoveReportsResponseMapper(OpinionDARemoveReportsResponse DAresponse);
 }

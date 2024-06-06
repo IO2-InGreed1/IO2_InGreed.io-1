@@ -9,6 +9,7 @@ namespace InGreed.Logic.Interfaces
         OpinionServiceAddResponse AddToProduct(Opinion opinion, int productId);
         OpinionServiceRemoveResponse RemoveFromProduct(int opinionId, int productId);
         OpinionServiceAddReportResponse AddReport(int opinionId);
+        OpinionServiceRemoveReportsResponse RemoveReports(int opinionId);
         List<Opinion> GetAllReported();
     }
 }
