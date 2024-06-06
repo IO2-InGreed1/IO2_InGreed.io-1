@@ -1,43 +1,39 @@
 ﻿using InGreed.DataAccess.Interfaces;
 using InGreed.Domain.Models;
+using InGreed.Logic.Enums.Ingredient;
+using InGreed.Logic.Enums.Opinion;
 using InGreed.Logic.Interfaces;
+using InGreed.Logic.Mappers;
 
 namespace InGreed.Logic.Services
 {
     public class OpinionService : IOpinionService
     {
-        IOpinionDA _opinionDA;
-        IProductService _productService;
+        private IOpinionDA _opinionDA;
+        private IOpinionDBtoServiceResponseMapper _dbtoServiceResponseMapper;
 
-        public OpinionService(IOpinionDA opinionDA, IProductService productService)
+        public OpinionService(IOpinionDA opinionDA, IOpinionDBtoServiceResponseMapper mapper)
         {
             _opinionDA = opinionDA;
-            _productService = productService;
-        }
-
-        public void AddToProduct(int opinionId, int productId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Opinion> GetAll()
-        {
-            throw new NotImplementedException();
+            _dbtoServiceResponseMapper = mapper;
         }
 
         public Opinion? GetById(int opinionId)
         {
-            throw new NotImplementedException();
+            return _opinionDA.GetById(opinionId);
         }
 
-        public IEnumerable<Opinion>? GetByProduct(int productId)
+        public OpinionServiceAddResponse AddToProduct(Opinion opinion, int productId)
         {
-            throw new NotImplementedException();
+            if (_opinionDA.GetById(opinion.Id) is null) opinion.Id = _opinionDA.Create(opinion);
+            var response = _opinionDA.AddToProduct(opinion.Id, productId);
+            return _dbtoServiceResponseMapper.AddResponseMapper(response);
         }
 
-        public void RemoveFromProduct(int opinionId, int productId)
+        public OpinionServiceRemoveResponse RemoveFromProduct(int opinionId, int productId)
         {
-            throw new NotImplementedException();
+            var response = _opinionDA.RemoveFromProduct(opinionId, productId);
+            return _dbtoServiceResponseMapper.RemoveResponseMapper(response);
         }
     }
 }

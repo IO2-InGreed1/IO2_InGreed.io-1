@@ -1,13 +1,12 @@
 ﻿using InGreed.Domain.Models;
+using InGreed.Logic.Enums.Opinion;
 
 namespace InGreed.Logic.Interfaces
 {
     public interface IOpinionService
-    {
-        IEnumerable<Opinion> GetAll();
-        IEnumerable<Opinion>? GetByProduct(int productId);
+    { 
         Opinion? GetById(int opinionId);
-        void AddToProduct(int opinionId, int productId);
-        void RemoveFromProduct(int opinionId, int productId);
+        OpinionServiceAddResponse AddToProduct(Opinion opinion, int productId);
+        OpinionServiceRemoveResponse RemoveFromProduct(int opinionId, int productId);
     }
 }
