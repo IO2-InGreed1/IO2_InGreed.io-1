@@ -41,4 +41,12 @@ public class FakeOpinionDA : IOpinionDA
     {
         return OpinionDARemoveResponse.Success;
     }
+
+    public OpinionDAAddReportResponse AddReport(int opinionId)
+    {
+        Opinion? opinion;
+        if ((opinion = GetById(opinionId)) is null) return OpinionDAAddReportResponse.NonexistentOpinion;
+        opinion.reportCount++;
+        return OpinionDAAddReportResponse.Success;
+    }
 }

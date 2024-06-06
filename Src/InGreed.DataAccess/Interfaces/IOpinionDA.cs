@@ -10,5 +10,6 @@ namespace InGreed.DataAccess.Interfaces
         int Create(Opinion opinion);
         OpinionDAAddResponse AddToProduct(int opinionId, int productId);
         OpinionDARemoveResponse RemoveFromProduct(int opinionId, int productId);
+        OpinionDAAddReportResponse AddReport(int opinionId);
     }
 }
