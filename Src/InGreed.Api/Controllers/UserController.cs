@@ -47,6 +47,18 @@ public class UserController : ControllerBase
         if (id is null) return Unauthorized();
         int userId = int.Parse(id);
         var response = favouritesService.Delete(productId, userId);
-        return Ok();
+        switch (response)
+        {
+            case Logic.Enums.FavouritesServiceDeleteResponse.NotFavourited:
+                return BadRequest($"Product with {id} is not in favourites.");
+            case Logic.Enums.FavouritesServiceDeleteResponse.InvalidProductId:
+                return NotFound($"There is no product with id {id}.");
+            case Logic.Enums.FavouritesServiceDeleteResponse.InvalidUserId:
+                return NotFound($"There is no user with id {id}.");
+            case Logic.Enums.FavouritesServiceDeleteResponse.Success:
+                return Ok();
+            default:
+                return BadRequest();
+        }
     }
 }
