@@ -1,7 +1,6 @@
-﻿using InGreed.DataAccess.Enums;
-using InGreed.DataAccess.Interfaces;
+﻿using InGreed.DataAccess.Interfaces;
 using InGreed.Domain.Models;
-using InGreed.Logic.Enums;
+using InGreed.Logic.Enums.Ingredient;
 using InGreed.Logic.Interfaces;
 using InGreed.Logic.Mappers;
 

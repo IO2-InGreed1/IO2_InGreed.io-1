@@ -13,6 +13,14 @@ public class FakeUserDA : IUserDA
         new(){Id = 2, Email = "example2@mail.com", Password = "2", Username = "User 2", Role = Role.Moderator, Banned = false,
         IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" },
         new(){Id = 3, Email = "example3@mail.com", Password = "3", Username = "User 3", Role = Role.Producent, Banned =false,
+        IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" },
+        new(){Id = 4, Email = "client", Password = "client", Username = "client", Role = Role.User, Banned = false,
+        IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" },
+        new(){Id = 5, Email = "producer", Password = "producer", Username = "producer", Role = Role.Producent, Banned =false,
+        IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" },
+        new(){Id = 6, Email = "admin", Password = "admin", Username = "admin", Role = Role.Administrator, Banned = false,
+        IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" },
+        new(){Id = 7, Email = "moderator", Password = "moderator", Username = "moderator", Role = Role.Moderator, Banned =false,
         IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" }
     };
 

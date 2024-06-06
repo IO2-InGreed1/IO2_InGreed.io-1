@@ -10,6 +10,7 @@ public static class DependencyInjection
     {
         return services.AddScoped<IUserDA, FakeUserDA>()
                        .AddScoped<IIngredientDA, FakeIngredientDA>()
+                       .AddScoped<IPreferenceDA, FakePreferenceDA>()
                        .AddScoped<IProductDA, FakeProductDA>();
     }
 }

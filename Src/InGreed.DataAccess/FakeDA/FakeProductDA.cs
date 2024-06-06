@@ -6,7 +6,7 @@ namespace InGreed.DataAccess.FakeDA;
 
 public class FakeProductDA : IProductDA
 {
-    private List<Product> _products = new()
+    private static List<Product> _products = new()
     {
         new() {Id = 1, Name = "Fermented Spider Eye", PromotedUntil = new(2137, 3, 26), Category = Category.Other,
         IconURL = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/8/85/Fermented_Spider_Eye_JE2_BE2.png" },

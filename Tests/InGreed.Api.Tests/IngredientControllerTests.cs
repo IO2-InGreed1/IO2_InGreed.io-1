@@ -4,7 +4,7 @@ using InGreed.Domain.Models;
 using Moq;
 using Microsoft.AspNetCore.Mvc;
 using InGreed.Api.Contracts.Ingredient;
-using InGreed.Logic.Enums;
+using InGreed.Logic.Enums.Ingredient;
 
 namespace InGreed.Api.Tests;
 
