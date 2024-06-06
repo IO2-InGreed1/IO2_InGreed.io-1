@@ -7,7 +7,7 @@ import 'package:ingreedio_front/logic/users.dart';
 const String requestAdress="http://127.0.0.1:5000/api/";
 enum RequestType
 {
-  get,put,post,patch
+  get,put,post,patch,delete
 }
 Future<Map<String,dynamic>> getResponse(String request,String token,RequestType type,{Map<String, dynamic>? jsonData}) async 
 {
@@ -34,6 +34,9 @@ Future<Map<String,dynamic>> getResponse(String request,String token,RequestType 
         break;
       case RequestType.patch:
         response=await dio.patch(requestAdress+request,data: jsonData,options: options);
+        break;
+      case RequestType.delete:
+        response=await dio.delete(requestAdress+request,data: jsonData,options: options);
         break;
     }
     return response.data;
@@ -62,19 +65,21 @@ class RealUserDatabase extends UserDatabse
 
   @override
   Future<bool> addPreference(Preference preference) async {
-    // TODO: implement addPreference
+    var response=await getResponse("Preference", cubit.state.userToken,RequestType.post);
     throw UnimplementedError();
   }
 
   @override
   Future<bool> editPreference(Preference oldPreference, Preference editedPreference) async {
-    // TODO: implement editPreference
+    var response=await getResponse("Preference", cubit.state.userToken,RequestType.put,
+    jsonData: null
+    );
     throw UnimplementedError();
   }
 
   @override
   Future<List<Preference>> getUserPreferences(Client client) async {
-    // TODO: implement getUserPreferences
+    var response=await getResponse("Preference", cubit.state.userToken,RequestType.get);
     throw UnimplementedError();
   }
 
@@ -86,7 +91,7 @@ class RealUserDatabase extends UserDatabse
 
   @override
   Future<bool> removePreference(Preference preference)  async{
-    // TODO: implement removePreference
+    var response=await getResponse("Preference?id=${preference.id}", cubit.state.userToken,RequestType.delete);
     throw UnimplementedError();
   }
 
@@ -137,7 +142,16 @@ class RealProductDatabase extends ProductDatabse
 
   @override
   Future<bool> addProduct(Product product) async {
-    // TODO: implement addProduct
+    var response=await getResponse("Product", cubit.state.userToken,RequestType.post,
+    jsonData: 
+    {
+    "id": product.id,
+    "name": product.name,
+    "promotedUntil": product.promotionUntil.toString(),
+    "ingredients": product.ingredients.map((e)=>e.toJson()).toList(),
+    "category": product.category.backendNumber,
+    "iconURL": product.iconURL
+    });
     throw UnimplementedError();
   }
 

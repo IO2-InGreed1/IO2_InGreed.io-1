@@ -31,6 +31,8 @@ class CategoryMapper extends EnumMapper<Category> {
         return Category.food;
       case 'drink':
         return Category.drink;
+      case 'other':
+        return Category.other;
       default:
         throw MapperException.unknownEnumValue(value);
     }
@@ -45,6 +47,8 @@ class CategoryMapper extends EnumMapper<Category> {
         return 'food';
       case Category.drink:
         return 'drink';
+      case Category.other:
+        return 'other';
     }
   }
 }
@@ -95,6 +99,9 @@ class ProductMapper extends ClassMapperBase<Product> {
   static bool _$isReported(Product v) => v.isReported;
   static const Field<Product, bool> _f$isReported =
       Field('isReported', _$isReported, opt: true, def: false);
+  static String _$iconURL(Product v) => v.iconURL;
+  static const Field<Product, String> _f$iconURL =
+      Field('iconURL', _$iconURL, opt: true, def: "");
 
   @override
   final MappableFields<Product> fields = const {
@@ -106,6 +113,7 @@ class ProductMapper extends ClassMapperBase<Product> {
     #producer: _f$producer,
     #promotionUntil: _f$promotionUntil,
     #isReported: _f$isReported,
+    #iconURL: _f$iconURL,
   };
 
   static Product _instantiate(DecodingData data) {
@@ -117,7 +125,8 @@ class ProductMapper extends ClassMapperBase<Product> {
         name: data.dec(_f$name),
         producer: data.dec(_f$producer),
         promotionUntil: data.dec(_f$promotionUntil),
-        isReported: data.dec(_f$isReported));
+        isReported: data.dec(_f$isReported),
+        iconURL: data.dec(_f$iconURL));
   }
 
   @override
@@ -180,7 +189,8 @@ abstract class ProductCopyWith<$R, $In extends Product, $Out>
       String? name,
       Producer? producer,
       DateTime? promotionUntil,
-      bool? isReported});
+      bool? isReported,
+      String? iconURL});
   ProductCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -208,7 +218,8 @@ class _ProductCopyWithImpl<$R, $Out>
           String? name,
           Producer? producer,
           DateTime? promotionUntil,
-          bool? isReported}) =>
+          bool? isReported,
+          String? iconURL}) =>
       $apply(FieldCopyWithData({
         if (category != null) #category: category,
         if (description != null) #description: description,
@@ -217,7 +228,8 @@ class _ProductCopyWithImpl<$R, $Out>
         if (name != null) #name: name,
         if (producer != null) #producer: producer,
         if (promotionUntil != null) #promotionUntil: promotionUntil,
-        if (isReported != null) #isReported: isReported
+        if (isReported != null) #isReported: isReported,
+        if (iconURL != null) #iconURL: iconURL
       }));
   @override
   Product $make(CopyWithData data) => Product.fromAllData(
@@ -228,7 +240,8 @@ class _ProductCopyWithImpl<$R, $Out>
       name: data.get(#name, or: $value.name),
       producer: data.get(#producer, or: $value.producer),
       promotionUntil: data.get(#promotionUntil, or: $value.promotionUntil),
-      isReported: data.get(#isReported, or: $value.isReported));
+      isReported: data.get(#isReported, or: $value.isReported),
+      iconURL: data.get(#iconURL, or: $value.iconURL));
 
   @override
   ProductCopyWith<$R2, Product, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>

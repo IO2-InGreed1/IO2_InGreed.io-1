@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ingreedio_front/assets.dart';
 import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/logic/products.dart';
+import 'package:ingreedio_front/ui/common_ui_elements.dart';
 import 'package:ingreedio_front/ui/screens/producer_screen.dart';
 import 'package:ingreedio_front/ui/widgets/client_widget.dart';
 import 'package:ingreedio_front/ui/widgets/user_widget.dart';
@@ -22,13 +23,29 @@ abstract class User with UserMappable
     required this.isBlocked,
     required this.mail,
     required this.password,
-    required this.username
+    required this.username,
+    this.iconURL=""
   });
   int id;
-  String mail,username;
+  String mail,username,iconURL;
   String? password;
   bool isBlocked;
-  Widget get image=> Assets.placeholderImage;
+  Widget get image
+  {
+    return Image.network(
+      iconURL,
+      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+        if (loadingProgress == null) {
+          return child;
+        } else {
+          return const LoadingWidget();
+        }
+      },
+      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+        return Assets.placeholderImage;
+      },
+    );
+  }
   Widget get userProfileWidget=>UserProfileWidget(user:this);
   Widget get userWidget;
   

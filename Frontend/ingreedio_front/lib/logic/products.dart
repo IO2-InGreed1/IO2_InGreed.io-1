@@ -9,11 +9,13 @@ part 'products.mapper.dart';
 @MappableEnum()
 enum Category
 {
-  cosmetics("cosmetics",Icons.brush),
-  food("food",Icons.fastfood),
-  drink("drink",Icons.local_drink);
-  const Category(this.name,this.icon);
+  cosmetics("cosmetics",Icons.brush,1),
+  food("food",Icons.fastfood,2),
+  drink("drink",Icons.local_drink,3),
+  other("other",Icons.question_mark,4);
+  const Category(this.name,this.icon,this.backendNumber);
   final String name;
+  final int backendNumber;
   final IconData icon;
 }
 @MappableClass()
@@ -25,7 +27,7 @@ class Product with ProductMappable
     if(other is! Product) return false;
     return other.id==id&&other.name==name&&other.category==category&&other.description==description;
   }
-  Product.empty():id=0,name="",description="",promotionUntil=DateTime(0),category=Category.cosmetics,ingredients=[],producer=Producer.fromAllData(companyName: "CompanyName", nip: "1", representativeName: "representativeName", representativeSurname: "representativeSurname", telephoneNumber: "123123123",
+  Product.empty():id=0,name="",description="",promotionUntil=DateTime(0),category=Category.cosmetics,ingredients=[],iconURL="",producer=Producer.fromAllData(companyName: "CompanyName", nip: "1", representativeName: "representativeName", representativeSurname: "representativeSurname", telephoneNumber: "123123123",
       id: 0, isBlocked: false, mail: 'mail', password: '', username: 'producer');
  @MappableConstructor()
   Product.fromAllData({
@@ -36,11 +38,28 @@ class Product with ProductMappable
     required this.name,
     required this.producer,
     required this.promotionUntil,
-    this.isReported=false
+    this.isReported=false,
+    this.iconURL="",
   });
   Product.clone(Product product):this.fromAllData(category: product.category, description: product.description, id: product.id, ingredients: product.ingredients.map((e) => e).toList(), name: product.name, producer: product.producer, promotionUntil: product.promotionUntil);
   Widget get iconWidget=>ProductIconWidget(product: this);
   Widget get productWidget=>ProductWidget(product: this);
+  Widget get image
+  {
+    return Image.network(
+      iconURL,
+      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+        if (loadingProgress == null) {
+          return child;
+        } else {
+          return const LoadingWidget();
+        }
+      },
+      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+        return Assets.placeholderImage;
+      },
+    );
+  }
   Widget clickableIconWidget(BuildContext context)
   {
     return GestureDetector(onTap: (){
@@ -49,18 +68,16 @@ class Product with ProductMappable
         ));
       },child: iconWidget);
   }
-  Widget get image=>Assets.placeholderImage;
   int id;
   String name,description;
   DateTime promotionUntil;
   Producer producer;
   List<Ingredient> ingredients;
   Category category;
+  String iconURL;
   bool isReported=false;
   @override
   int get hashCode => id+name.hashCode*description.hashCode;
-  
-
 }
 @MappableClass()
 class Ingredient with IngredientMappable

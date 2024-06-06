@@ -41,6 +41,9 @@ class ModeratorMapper extends SubClassMapperBase<Moderator> {
   static List<Opinion> _$editedOpinionList(Moderator v) => v.editedOpinionList;
   static const Field<Moderator, List<Opinion>> _f$editedOpinionList =
       Field('editedOpinionList', _$editedOpinionList);
+  static String _$iconURL(Moderator v) => v.iconURL;
+  static const Field<Moderator, String> _f$iconURL =
+      Field('iconURL', _$iconURL, mode: FieldMode.member);
 
   @override
   final MappableFields<Moderator> fields = const {
@@ -51,6 +54,7 @@ class ModeratorMapper extends SubClassMapperBase<Moderator> {
     #username: _f$username,
     #moderatorNumber: _f$moderatorNumber,
     #editedOpinionList: _f$editedOpinionList,
+    #iconURL: _f$iconURL,
   };
 
   @override
@@ -212,6 +216,9 @@ class AdminMapper extends SubClassMapperBase<Admin> {
   static ControlPanel _$controlPanel(Admin v) => v.controlPanel;
   static const Field<Admin, ControlPanel> _f$controlPanel =
       Field('controlPanel', _$controlPanel);
+  static String _$iconURL(Admin v) => v.iconURL;
+  static const Field<Admin, String> _f$iconURL =
+      Field('iconURL', _$iconURL, mode: FieldMode.member);
 
   @override
   final MappableFields<Admin> fields = const {
@@ -221,6 +228,7 @@ class AdminMapper extends SubClassMapperBase<Admin> {
     #password: _f$password,
     #username: _f$username,
     #controlPanel: _f$controlPanel,
+    #iconURL: _f$iconURL,
   };
 
   @override

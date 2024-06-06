@@ -34,6 +34,9 @@ class UserMapper extends ClassMapperBase<User> {
   static const Field<User, String> _f$password = Field('password', _$password);
   static String _$username(User v) => v.username;
   static const Field<User, String> _f$username = Field('username', _$username);
+  static String _$iconURL(User v) => v.iconURL;
+  static const Field<User, String> _f$iconURL =
+      Field('iconURL', _$iconURL, opt: true, def: "");
 
   @override
   final MappableFields<User> fields = const {
@@ -42,6 +45,7 @@ class UserMapper extends ClassMapperBase<User> {
     #mail: _f$mail,
     #password: _f$password,
     #username: _f$username,
+    #iconURL: _f$iconURL,
   };
 
   static User _instantiate(DecodingData data) {
@@ -110,6 +114,9 @@ class ClientMapper extends SubClassMapperBase<Client> {
   static List<Product> _$favoriteProducts(Client v) => v.favoriteProducts;
   static const Field<Client, List<Product>> _f$favoriteProducts =
       Field('favoriteProducts', _$favoriteProducts);
+  static String _$iconURL(Client v) => v.iconURL;
+  static const Field<Client, String> _f$iconURL =
+      Field('iconURL', _$iconURL, mode: FieldMode.member);
 
   @override
   final MappableFields<Client> fields = const {
@@ -119,6 +126,7 @@ class ClientMapper extends SubClassMapperBase<Client> {
     #password: _f$password,
     #username: _f$username,
     #favoriteProducts: _f$favoriteProducts,
+    #iconURL: _f$iconURL,
   };
 
   @override
@@ -280,6 +288,9 @@ class ProducerMapper extends SubClassMapperBase<Producer> {
   static String _$username(Producer v) => v.username;
   static const Field<Producer, String> _f$username =
       Field('username', _$username);
+  static String _$iconURL(Producer v) => v.iconURL;
+  static const Field<Producer, String> _f$iconURL =
+      Field('iconURL', _$iconURL, mode: FieldMode.member);
 
   @override
   final MappableFields<Producer> fields = const {
@@ -293,6 +304,7 @@ class ProducerMapper extends SubClassMapperBase<Producer> {
     #mail: _f$mail,
     #password: _f$password,
     #username: _f$username,
+    #iconURL: _f$iconURL,
   };
 
   @override
