@@ -29,6 +29,9 @@ class ModeratorMapper extends SubClassMapperBase<Moderator> {
       Field('isBlocked', _$isBlocked);
   static String _$mail(Moderator v) => v.mail;
   static const Field<Moderator, String> _f$mail = Field('mail', _$mail);
+  static String _$iconURL(Moderator v) => v.iconURL;
+  static const Field<Moderator, String> _f$iconURL =
+      Field('iconURL', _$iconURL, opt: true, def: "");
   static String? _$password(Moderator v) => v.password;
   static const Field<Moderator, String> _f$password =
       Field('password', _$password);
@@ -41,20 +44,17 @@ class ModeratorMapper extends SubClassMapperBase<Moderator> {
   static List<Opinion> _$editedOpinionList(Moderator v) => v.editedOpinionList;
   static const Field<Moderator, List<Opinion>> _f$editedOpinionList =
       Field('editedOpinionList', _$editedOpinionList);
-  static String _$iconURL(Moderator v) => v.iconURL;
-  static const Field<Moderator, String> _f$iconURL =
-      Field('iconURL', _$iconURL, mode: FieldMode.member);
 
   @override
   final MappableFields<Moderator> fields = const {
     #id: _f$id,
     #isBlocked: _f$isBlocked,
     #mail: _f$mail,
+    #iconURL: _f$iconURL,
     #password: _f$password,
     #username: _f$username,
     #moderatorNumber: _f$moderatorNumber,
     #editedOpinionList: _f$editedOpinionList,
-    #iconURL: _f$iconURL,
   };
 
   @override
@@ -69,6 +69,7 @@ class ModeratorMapper extends SubClassMapperBase<Moderator> {
         id: data.dec(_f$id),
         isBlocked: data.dec(_f$isBlocked),
         mail: data.dec(_f$mail),
+        iconURL: data.dec(_f$iconURL),
         password: data.dec(_f$password),
         username: data.dec(_f$username),
         moderatorNumber: data.dec(_f$moderatorNumber),
@@ -132,6 +133,7 @@ abstract class ModeratorCopyWith<$R, $In extends Moderator, $Out>
       {int? id,
       bool? isBlocked,
       String? mail,
+      String? iconURL,
       String? password,
       String? username,
       int? moderatorNumber,
@@ -156,6 +158,7 @@ class _ModeratorCopyWithImpl<$R, $Out>
           {int? id,
           bool? isBlocked,
           String? mail,
+          String? iconURL,
           Object? password = $none,
           String? username,
           int? moderatorNumber,
@@ -164,6 +167,7 @@ class _ModeratorCopyWithImpl<$R, $Out>
         if (id != null) #id: id,
         if (isBlocked != null) #isBlocked: isBlocked,
         if (mail != null) #mail: mail,
+        if (iconURL != null) #iconURL: iconURL,
         if (password != $none) #password: password,
         if (username != null) #username: username,
         if (moderatorNumber != null) #moderatorNumber: moderatorNumber,
@@ -174,6 +178,7 @@ class _ModeratorCopyWithImpl<$R, $Out>
       id: data.get(#id, or: $value.id),
       isBlocked: data.get(#isBlocked, or: $value.isBlocked),
       mail: data.get(#mail, or: $value.mail),
+      iconURL: data.get(#iconURL, or: $value.iconURL),
       password: data.get(#password, or: $value.password),
       username: data.get(#username, or: $value.username),
       moderatorNumber: data.get(#moderatorNumber, or: $value.moderatorNumber),
@@ -207,6 +212,9 @@ class AdminMapper extends SubClassMapperBase<Admin> {
   static bool _$isBlocked(Admin v) => v.isBlocked;
   static const Field<Admin, bool> _f$isBlocked =
       Field('isBlocked', _$isBlocked);
+  static String _$iconURL(Admin v) => v.iconURL;
+  static const Field<Admin, String> _f$iconURL =
+      Field('iconURL', _$iconURL, opt: true, def: "");
   static String _$mail(Admin v) => v.mail;
   static const Field<Admin, String> _f$mail = Field('mail', _$mail);
   static String? _$password(Admin v) => v.password;
@@ -216,19 +224,16 @@ class AdminMapper extends SubClassMapperBase<Admin> {
   static ControlPanel _$controlPanel(Admin v) => v.controlPanel;
   static const Field<Admin, ControlPanel> _f$controlPanel =
       Field('controlPanel', _$controlPanel);
-  static String _$iconURL(Admin v) => v.iconURL;
-  static const Field<Admin, String> _f$iconURL =
-      Field('iconURL', _$iconURL, mode: FieldMode.member);
 
   @override
   final MappableFields<Admin> fields = const {
     #id: _f$id,
     #isBlocked: _f$isBlocked,
+    #iconURL: _f$iconURL,
     #mail: _f$mail,
     #password: _f$password,
     #username: _f$username,
     #controlPanel: _f$controlPanel,
-    #iconURL: _f$iconURL,
   };
 
   @override
@@ -242,6 +247,7 @@ class AdminMapper extends SubClassMapperBase<Admin> {
     return Admin.fromAllData(
         id: data.dec(_f$id),
         isBlocked: data.dec(_f$isBlocked),
+        iconURL: data.dec(_f$iconURL),
         mail: data.dec(_f$mail),
         password: data.dec(_f$password),
         username: data.dec(_f$username),
@@ -299,6 +305,7 @@ abstract class AdminCopyWith<$R, $In extends Admin, $Out>
   $R call(
       {int? id,
       bool? isBlocked,
+      String? iconURL,
       String? mail,
       String? password,
       String? username,
@@ -319,6 +326,7 @@ class _AdminCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Admin, $Out>
   $R call(
           {int? id,
           bool? isBlocked,
+          String? iconURL,
           String? mail,
           Object? password = $none,
           String? username,
@@ -326,6 +334,7 @@ class _AdminCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Admin, $Out>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (isBlocked != null) #isBlocked: isBlocked,
+        if (iconURL != null) #iconURL: iconURL,
         if (mail != null) #mail: mail,
         if (password != $none) #password: password,
         if (username != null) #username: username,
@@ -335,6 +344,7 @@ class _AdminCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Admin, $Out>
   Admin $make(CopyWithData data) => Admin.fromAllData(
       id: data.get(#id, or: $value.id),
       isBlocked: data.get(#isBlocked, or: $value.isBlocked),
+      iconURL: data.get(#iconURL, or: $value.iconURL),
       mail: data.get(#mail, or: $value.mail),
       password: data.get(#password, or: $value.password),
       username: data.get(#username, or: $value.username),

@@ -694,8 +694,8 @@ class MockupDatabase extends Database
   {
     _ingredientDatabase=MockupIngredientDatabase.filled();
     _productDatabse=MockupProductDatabase.filled(ingredientDatabase as MockupIngredientDatabase);
-    _userDatabse=MockupUserDatabase.filled(ingredientDatabase, productDatabse as MockupProductDatabase);
-    _opinionDatabase=MockupOpinionDatabase.filled(productDatabse as MockupProductDatabase, userDatabse as MockupUserDatabase);
+    _userDatabse=MockupUserDatabase.filled(ingredientDatabase, productDatabase as MockupProductDatabase);
+    _opinionDatabase=MockupOpinionDatabase.filled(productDatabase as MockupProductDatabase, userDatabase as MockupUserDatabase);
     _loginDatabase=MockupLoginDatabase.filled();
   }
   @override
@@ -711,14 +711,14 @@ class MockupDatabase extends Database
   OpinionDatabase get opinionDatabase => _opinionDatabase;
   set opinionDatabase(OpinionDatabase value) => _opinionDatabase=value;
   @override
-  ProductDatabse get productDatabse => _productDatabse;
+  ProductDatabse get productDatabase => _productDatabse;
   set productDatabse(ProductDatabse value) => _productDatabse=value;
   @override
   LoginDatabase get loginDatabase => _loginDatabase;
   set loginDatabase(LoginDatabase value) => _loginDatabase=value;
 
   @override
-  UserDatabse get userDatabse =>_userDatabse;
+  UserDatabse get userDatabase =>_userDatabse;
   set userDatabse(UserDatabse value) => _userDatabse=value;
   
 }

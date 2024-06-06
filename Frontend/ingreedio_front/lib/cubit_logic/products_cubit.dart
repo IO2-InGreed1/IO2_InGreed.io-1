@@ -16,22 +16,22 @@ class ProductCubit extends ListCubit<Product>
   @override
   Future<ListData<Product>> getItems(int from, int to, Filter<Product> filter, BuildContext context) async {
     SessionCubit sessionCubit=SessionCubit.fromContext(context);
-    return sessionCubit.database.productDatabse.filterProducts(from, to, filter as ProductFilter);
+    return sessionCubit.database.productDatabase.filterProducts(from, to, filter as ProductFilter);
   }
   Future<bool> addProduct(Product product,BuildContext context) async
   {
     SessionCubit sessionCubit=SessionCubit.fromContext(context);
-    return await sessionCubit.database.productDatabse.addProduct(product);
+    return await sessionCubit.database.productDatabase.addProduct(product);
   }
   Future<bool> removeProduct(Product product,BuildContext context) async
   {
     SessionCubit sessionCubit=SessionCubit.fromContext(context);
-    return await sessionCubit.database.productDatabse.removeProduct(product);
+    return await sessionCubit.database.productDatabase.removeProduct(product);
   }
   Future<bool> editProduct(Product product,Product editedProduct,BuildContext context) async
   {
     SessionCubit sessionCubit=SessionCubit.fromContext(context);
-    return await sessionCubit.database.productDatabse.editProduct(product,editedProduct);
+    return await sessionCubit.database.productDatabase.editProduct(product,editedProduct);
   }
 }
 class FavouriteProductsCubit extends ListCubit<Product>
@@ -62,13 +62,13 @@ class ReportedProductCubit extends ListCubit<Product>
   ReportedProductCubit.empty() : super.empty();
   @override
   Future<ListData<Product>> getItems(int from, int to, Filter<Product> filter, BuildContext context) {
-    return SessionCubit.fromContext(context).database.productDatabse.filterReportedProducts(from, to, filter);
+    return SessionCubit.fromContext(context).database.productDatabase.filterReportedProducts(from, to, filter);
   }
   Future<bool> removeProduct(Product product, BuildContext context) {
-    return SessionCubit.fromContext(context).database.productDatabse.removeProduct(product);
+    return SessionCubit.fromContext(context).database.productDatabase.removeProduct(product);
   }
   Future<bool> removeProducer(Product product, BuildContext context) {
-    return SessionCubit.fromContext(context).database.productDatabse.removeProducer(product.producer);
+    return SessionCubit.fromContext(context).database.productDatabase.removeProducer(product.producer);
   }
   
 }

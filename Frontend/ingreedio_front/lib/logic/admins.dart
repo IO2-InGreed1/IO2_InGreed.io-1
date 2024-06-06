@@ -21,6 +21,7 @@ class Moderator extends User with ModeratorMappable
   Moderator.fromAllData({required super.id,
     required super.isBlocked,
     required super.mail,
+    super.iconURL,
     required super.password,
     required super.username,
     required this.moderatorNumber,
@@ -51,6 +52,7 @@ class Admin extends User with AdminMappable
   Admin.fromAllData({
     required super.id,
     required super.isBlocked,
+    super.iconURL,
     required super.mail,
     required super.password,
     required super.username,

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:ingreedio_front/database/databse.dart';
+import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/logic/filters.dart';
 import 'package:ingreedio_front/logic/products.dart';
 import 'package:ingreedio_front/logic/users.dart';
@@ -11,6 +12,7 @@ enum RequestType
 }
 Future<Map<String,dynamic>> getResponse(String request,String token,RequestType type,{Map<String, dynamic>? jsonData}) async 
 {
+  //var pom=jsonData.toString(); do debugowania
   final dio = Dio();
   try {
     Response response;
@@ -39,18 +41,43 @@ Future<Map<String,dynamic>> getResponse(String request,String token,RequestType 
         response=await dio.delete(requestAdress+request,data: jsonData,options: options);
         break;
     }
-    return response.data;
+    if(response.data is Map<String,dynamic>) return response.data;
+    return {"success":true,
+    "value":response.data
+    };
   } 
   catch(e)
   {
     dio.close(force: true);
-    //return {};
+    return {"success":false,};
     throw(Exception("connection failed, message: \n $e"));
   }
   finally 
   {
     dio.close();
   }
+}
+List<Ingredient> parseIngredientList(Map<String,dynamic> response,{String listName="ingredients"})
+{
+  List<dynamic> pom=response[listName];
+  List<Ingredient> odp=List.empty(growable: true);
+  for (var element in pom) {odp.add(IngredientMapper.fromMap(element as Map<String,dynamic>));}
+  return odp;
+}
+List<Map<String,dynamic>> codeIngredientList(List<Ingredient> ingredients)
+{
+  List<Map<String,dynamic>> odp=[];
+  for(var i in ingredients)
+  {
+    odp.add(
+      {
+        "id":i.id,
+        "iconURL":i.iconURL,
+        "name":i.name
+      }
+    );
+  }
+  return odp;
 }
 class RealUserDatabase extends UserDatabse
 {
@@ -65,21 +92,48 @@ class RealUserDatabase extends UserDatabse
 
   @override
   Future<bool> addPreference(Preference preference) async {
-    var response=await getResponse("Preference", cubit.state.userToken,RequestType.post);
-    throw UnimplementedError();
+    var response=await getResponse("Preference", cubit.state.userToken,RequestType.post,
+    jsonData: _preferenceToMap(preference),
+    );
+    preference.id=response["value"];
+    return response["success"];
   }
 
   @override
   Future<bool> editPreference(Preference oldPreference, Preference editedPreference) async {
-    var response=await getResponse("Preference", cubit.state.userToken,RequestType.put,
-    jsonData: null
+    var response=await getResponse("Preference?preferenceToModify=${oldPreference.id}", cubit.state.userToken,RequestType.put,
+    jsonData: _preferenceToMap(editedPreference)
     );
-    throw UnimplementedError();
+    return response["success"];
   }
-
+  Preference _preferenceFromMap(Map<String,dynamic> json,Client client)
+  {
+    return Preference.fromAllData(
+      category: Category.fromNumber(json["category"]), 
+      allergens: parseIngredientList(json,listName: "forbidden"), 
+      id: json["id"],
+      name: json["name"], 
+      prefered: parseIngredientList(json,listName: "preferred"), 
+      client: client);
+  }
+  Map<String,dynamic> _preferenceToMap(Preference preference)
+  {
+    return {
+  "preference": {
+    "id": preference.id,
+    "ownerId": preference.client.id,
+    "name": preference.name,
+    "forbidden": codeIngredientList(preference.allergens),
+    "preferred": codeIngredientList(preference.prefered),
+    "category": preference.category==null?0:preference.category!.backendNumber,
+    "active": false,
+  }
+};
+  }
   @override
   Future<List<Preference>> getUserPreferences(Client client) async {
     var response=await getResponse("Preference", cubit.state.userToken,RequestType.get);
+    return (response["preferences"] as List<dynamic>).map((e)=>_preferenceFromMap(e, client)).toList();
     throw UnimplementedError();
   }
 
@@ -92,7 +146,8 @@ class RealUserDatabase extends UserDatabse
   @override
   Future<bool> removePreference(Preference preference)  async{
     var response=await getResponse("Preference?id=${preference.id}", cubit.state.userToken,RequestType.delete);
-    throw UnimplementedError();
+    return true;
+    //throw UnimplementedError();
   }
 
   @override
@@ -103,8 +158,57 @@ class RealUserDatabase extends UserDatabse
   
   @override
   Future<User?> loadUser(String token) async {
-    // TODO: implement loadUser
-    throw UnimplementedError();
+    var response=await getResponse("Account/currentUser", token,RequestType.get);
+    int role=response["role"];
+    switch(role)
+    {
+      case 1: //client
+      return Client.fromAllData(
+        id: response["id"],
+        isBlocked: response["banned"], 
+        iconURL: response["iconURL"],
+        mail: response["email"], 
+        password: response["password"], 
+        username: response["username"], 
+        favoriteProducts: []//TODO: backend ma to potem dodać
+        );
+      case 2: //producent
+      return Producer.fromAllData(
+        id: response["id"],
+        isBlocked: response["banned"], 
+        iconURL: response["iconURL"],
+        mail: response["email"], 
+        password: response["password"], 
+        username: response["username"], 
+        companyName: response["username"], //TODO: do zmianyy jeśli będzie company name
+        nip: '', 
+        representativeName: '', 
+        representativeSurname: '', 
+        telephoneNumber: '', 
+        );
+      case 4://moderator
+      return Moderator.fromAllData(
+        id: response["id"],
+        isBlocked: response["banned"], 
+        iconURL: response["iconURL"],
+        mail: response["email"], 
+        password: response["password"], 
+        username: response["username"], 
+        moderatorNumber: 0, 
+        editedOpinionList: [], 
+        );
+      case 8://admin
+      return Admin.fromAllData(
+        id: response["id"],
+        isBlocked: response["banned"], 
+        iconURL: response["iconURL"],
+        mail: response["email"], 
+        password: response["password"], 
+        username: response["username"], 
+        controlPanel: ControlPanel(), 
+        );
+    }
+    return null;
   }
   
 
@@ -114,13 +218,6 @@ class RealIngredientDatabase extends IngredientDatabase
   RealIngredientDatabase(this.cubit);
   @override
   SessionCubit cubit;
-  static List<Ingredient> parseIngredientList(Map<String,dynamic> response)
-  {
-    List<dynamic> pom=response["ingredients"];
-    List<Ingredient> odp=List.empty(growable: true);
-    for (var element in pom) {odp.add(IngredientMapper.fromMap(element as Map<String,dynamic>));}
-    return odp;
-  }
   @override
   Future<List<Ingredient>> getAllIngredients() async {
     String request="ingredient";
@@ -284,4 +381,32 @@ class RealLoginDatabase extends LoginDatabase
     }
   }
 
+}
+class RealDatabase extends Database
+{
+  RealDatabase(SessionCubit cubit):ingredientDatabase=RealIngredientDatabase(cubit),
+  loginDatabase=RealLoginDatabase(cubit),
+  opinionDatabase=RealOpinionDatabase(cubit),
+  productDatabase=RealProductDatabase(cubit),
+  userDatabase=RealUserDatabase(cubit);
+  @override
+  void clearEditedOpinionList(int moderatorNumber) {
+    //todo
+  }
+  
+  @override
+  RealIngredientDatabase ingredientDatabase;
+  
+  @override
+  RealLoginDatabase loginDatabase;
+  
+  @override
+  RealOpinionDatabase opinionDatabase;
+  
+  @override
+  RealProductDatabase productDatabase;
+  
+  @override
+  RealUserDatabase userDatabase;
+  
 }

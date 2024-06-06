@@ -78,7 +78,8 @@ abstract class UserCopyWith<$R, $In extends User, $Out>
       bool? isBlocked,
       String? mail,
       String? password,
-      String? username});
+      String? username,
+      String? iconURL});
   UserCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -100,6 +101,9 @@ class ClientMapper extends SubClassMapperBase<Client> {
 
   static int _$id(Client v) => v.id;
   static const Field<Client, int> _f$id = Field('id', _$id);
+  static String _$iconURL(Client v) => v.iconURL;
+  static const Field<Client, String> _f$iconURL =
+      Field('iconURL', _$iconURL, opt: true, def: "");
   static bool _$isBlocked(Client v) => v.isBlocked;
   static const Field<Client, bool> _f$isBlocked =
       Field('isBlocked', _$isBlocked);
@@ -114,19 +118,16 @@ class ClientMapper extends SubClassMapperBase<Client> {
   static List<Product> _$favoriteProducts(Client v) => v.favoriteProducts;
   static const Field<Client, List<Product>> _f$favoriteProducts =
       Field('favoriteProducts', _$favoriteProducts);
-  static String _$iconURL(Client v) => v.iconURL;
-  static const Field<Client, String> _f$iconURL =
-      Field('iconURL', _$iconURL, mode: FieldMode.member);
 
   @override
   final MappableFields<Client> fields = const {
     #id: _f$id,
+    #iconURL: _f$iconURL,
     #isBlocked: _f$isBlocked,
     #mail: _f$mail,
     #password: _f$password,
     #username: _f$username,
     #favoriteProducts: _f$favoriteProducts,
-    #iconURL: _f$iconURL,
   };
 
   @override
@@ -139,6 +140,7 @@ class ClientMapper extends SubClassMapperBase<Client> {
   static Client _instantiate(DecodingData data) {
     return Client.fromAllData(
         id: data.dec(_f$id),
+        iconURL: data.dec(_f$iconURL),
         isBlocked: data.dec(_f$isBlocked),
         mail: data.dec(_f$mail),
         password: data.dec(_f$password),
@@ -197,6 +199,7 @@ abstract class ClientCopyWith<$R, $In extends Client, $Out>
   @override
   $R call(
       {int? id,
+      String? iconURL,
       bool? isBlocked,
       String? mail,
       String? password,
@@ -218,6 +221,7 @@ class _ClientCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Client, $Out>
   @override
   $R call(
           {int? id,
+          String? iconURL,
           bool? isBlocked,
           String? mail,
           Object? password = $none,
@@ -225,6 +229,7 @@ class _ClientCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Client, $Out>
           List<Product>? favoriteProducts}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
+        if (iconURL != null) #iconURL: iconURL,
         if (isBlocked != null) #isBlocked: isBlocked,
         if (mail != null) #mail: mail,
         if (password != $none) #password: password,
@@ -234,6 +239,7 @@ class _ClientCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Client, $Out>
   @override
   Client $make(CopyWithData data) => Client.fromAllData(
       id: data.get(#id, or: $value.id),
+      iconURL: data.get(#iconURL, or: $value.iconURL),
       isBlocked: data.get(#isBlocked, or: $value.isBlocked),
       mail: data.get(#mail, or: $value.mail),
       password: data.get(#password, or: $value.password),
@@ -264,6 +270,9 @@ class ProducerMapper extends SubClassMapperBase<Producer> {
   static String _$companyName(Producer v) => v.companyName;
   static const Field<Producer, String> _f$companyName =
       Field('companyName', _$companyName);
+  static String _$iconURL(Producer v) => v.iconURL;
+  static const Field<Producer, String> _f$iconURL =
+      Field('iconURL', _$iconURL, opt: true, def: "");
   static String _$nip(Producer v) => v.nip;
   static const Field<Producer, String> _f$nip = Field('nip', _$nip);
   static String _$representativeName(Producer v) => v.representativeName;
@@ -288,13 +297,11 @@ class ProducerMapper extends SubClassMapperBase<Producer> {
   static String _$username(Producer v) => v.username;
   static const Field<Producer, String> _f$username =
       Field('username', _$username);
-  static String _$iconURL(Producer v) => v.iconURL;
-  static const Field<Producer, String> _f$iconURL =
-      Field('iconURL', _$iconURL, mode: FieldMode.member);
 
   @override
   final MappableFields<Producer> fields = const {
     #companyName: _f$companyName,
+    #iconURL: _f$iconURL,
     #nip: _f$nip,
     #representativeName: _f$representativeName,
     #representativeSurname: _f$representativeSurname,
@@ -304,7 +311,6 @@ class ProducerMapper extends SubClassMapperBase<Producer> {
     #mail: _f$mail,
     #password: _f$password,
     #username: _f$username,
-    #iconURL: _f$iconURL,
   };
 
   @override
@@ -317,6 +323,7 @@ class ProducerMapper extends SubClassMapperBase<Producer> {
   static Producer _instantiate(DecodingData data) {
     return Producer.fromAllData(
         companyName: data.dec(_f$companyName),
+        iconURL: data.dec(_f$iconURL),
         nip: data.dec(_f$nip),
         representativeName: data.dec(_f$representativeName),
         representativeSurname: data.dec(_f$representativeSurname),
@@ -380,6 +387,7 @@ abstract class ProducerCopyWith<$R, $In extends Producer, $Out>
   @override
   $R call(
       {String? companyName,
+      String? iconURL,
       String? nip,
       String? representativeName,
       String? representativeSurname,
@@ -403,6 +411,7 @@ class _ProducerCopyWithImpl<$R, $Out>
   @override
   $R call(
           {String? companyName,
+          String? iconURL,
           String? nip,
           String? representativeName,
           String? representativeSurname,
@@ -414,6 +423,7 @@ class _ProducerCopyWithImpl<$R, $Out>
           String? username}) =>
       $apply(FieldCopyWithData({
         if (companyName != null) #companyName: companyName,
+        if (iconURL != null) #iconURL: iconURL,
         if (nip != null) #nip: nip,
         if (representativeName != null) #representativeName: representativeName,
         if (representativeSurname != null)
@@ -428,6 +438,7 @@ class _ProducerCopyWithImpl<$R, $Out>
   @override
   Producer $make(CopyWithData data) => Producer.fromAllData(
       companyName: data.get(#companyName, or: $value.companyName),
+      iconURL: data.get(#iconURL, or: $value.iconURL),
       nip: data.get(#nip, or: $value.nip),
       representativeName:
           data.get(#representativeName, or: $value.representativeName),

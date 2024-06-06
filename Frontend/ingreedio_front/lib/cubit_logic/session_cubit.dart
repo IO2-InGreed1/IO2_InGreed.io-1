@@ -18,7 +18,7 @@ class SessionCubit extends HydratedCubit<SessionData>
   }
   void refreshUser() async
   {
-    User? user=await database.userDatabse.loadUser(state.userToken);
+    User? user=await database.userDatabase.loadUser(state.userToken);
     if(state.currentUser==null) 
     {
       reset();
@@ -32,7 +32,7 @@ class SessionCubit extends HydratedCubit<SessionData>
   {
     if(state.currentClient!=null)
     {
-      database.userDatabse.setFavouriteProduct(state.currentClient!, product, favourite);
+      database.userDatabase.setFavouriteProduct(state.currentClient!, product, favourite);
       if(!favourite) 
       {
         state.currentClient!.favoriteProducts.remove(product);
@@ -50,6 +50,7 @@ class SessionCubit extends HydratedCubit<SessionData>
   }
   SessionCubit(super.state)
   {
+    //database=RealDatabase(this);
     database=MockupDatabase.filled();//..ingredientDatabase=RealIngredientDatabase(this)..loginDatabase=RealLoginDatabase(this);
   }
   void setData(SessionData data)

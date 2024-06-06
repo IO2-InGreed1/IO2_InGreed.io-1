@@ -14,6 +14,23 @@ enum Category
   drink("drink",Icons.local_drink,3),
   other("other",Icons.question_mark,4);
   const Category(this.name,this.icon,this.backendNumber);
+  static Category? fromNumber(int number)
+  {
+    switch (number) {
+      case 0:
+        return null;
+      case 1:
+        return Category.cosmetics;
+      case 2:
+        return Category.food;
+      case 3:
+        return Category.drink;
+      case 4:
+        return Category.other;
+      default:
+        return null;
+    }
+  }
   final String name;
   final int backendNumber;
   final IconData icon;

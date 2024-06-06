@@ -212,7 +212,7 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
                 {
                   edit.promotionUntil=dateTime;
                   setState(() {
-                    SessionCubit.fromContext(context).database.productDatabse.editProduct(obj, edit);
+                    SessionCubit.fromContext(context).database.productDatabase.editProduct(obj, edit);
                     obj.promotionUntil=dateTime;
                   });
                 }
@@ -310,7 +310,7 @@ class _ReportedProductSearchScreenState extends SearchScreenState<Product>
       child: const Text("Delete"),),
       ConfirmDialogButton(onFinished: (value) 
       {
-        SessionCubit.fromContext(context).database.productDatabse.setProductReportState(obj,state: false);
+        SessionCubit.fromContext(context).database.productDatabase.setProductReportState(obj,state: false);
       },
       child: const Text("Dismiss"),),
     ])

@@ -23,7 +23,7 @@ void main() {
           "iconURL": ""
         },]};
     //Act
-    var parsedData=RealIngredientDatabase.parseIngredientList(response);
+    var parsedData=parseIngredientList(response);
     //Assert
     expect(parsedData, equals([
       Ingredient.fromAllData(iconURL: "", id: 1, name: "Ender Pearl"),

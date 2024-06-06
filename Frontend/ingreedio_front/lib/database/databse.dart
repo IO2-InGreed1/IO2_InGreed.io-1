@@ -12,18 +12,18 @@ class ListData<T>
 }
 abstract class Database
 {
-  ProductDatabse get productDatabse;
-  UserDatabse get userDatabse;
+  ProductDatabse get productDatabase;
+  UserDatabse get userDatabase;
   IngredientDatabase get ingredientDatabase;
   OpinionDatabase get opinionDatabase;
   LoginDatabase get loginDatabase;
   Future<bool> addClient(Client client)
   {
-    return userDatabse.addClient(client);
+    return userDatabase.addClient(client);
   }
   Future<bool> removeClient(Client client)
   {
-    return userDatabse.removeClient(client);
+    return userDatabase.removeClient(client);
   }
   Future<bool> removeOpinion(Opinion opinion)
   {
@@ -34,7 +34,7 @@ abstract class Database
   {
     String? data=await loginDatabase.login(email, password);
     if(data==null) return null;
-    User? user=await userDatabse.loadUser(data);
+    User? user=await userDatabase.loadUser(data);
     if(user==null) return null;
     SessionData sessionData=SessionData.empty()..userToken=data..currentUser=user;
     return sessionData;

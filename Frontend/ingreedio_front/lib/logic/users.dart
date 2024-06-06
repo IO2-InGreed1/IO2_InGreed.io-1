@@ -60,6 +60,7 @@ class Producer extends User with ProducerMappable
  @MappableConstructor()
   Producer.fromAllData({
     required this.companyName,
+    super.iconURL,
     required this.nip,
     required this.representativeName,
     required this.representativeSurname,
@@ -89,6 +90,7 @@ class Client extends User with ClientMappable
 {
  @MappableConstructor()
   Client.fromAllData({required super.id,
+  super.iconURL,
   required super.isBlocked, 
   required super.mail, 
   required super.password, 

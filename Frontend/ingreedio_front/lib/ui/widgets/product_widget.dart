@@ -87,7 +87,7 @@ class ProductWidget extends StatelessWidget {
                       const SizedBox(width: 80,),
                       SessionCubit.fromContext(context).state.isLoggedIn?DialogButton(creator: ConfirmCreator(),
                        onFinished: (val){ 
-                        SessionCubit.fromContext(context).database.productDatabse.setProductReportState(product,state: true);
+                        SessionCubit.fromContext(context).database.productDatabase.setProductReportState(product,state: true);
                        }, child: const Text("Report"))
                       :const Text(""),
                     ],
