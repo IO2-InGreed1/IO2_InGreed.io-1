@@ -61,16 +61,16 @@ class MockupUserDatabase extends UserDatabse
   List<Client> clients;
   List<Preference> preferences;
   List<Moderator> moderators;
-  @override
-  Future<bool> addClient(Client client) async {
-    clients.add(client);
-    return true;
-  }
+  // @override
+  // Future<bool> addClient(Client client) async {
+  //   clients.add(client);
+  //   return true;
+  // }
 
-  @override
-  Future<bool> removeClient(Client client) async {
-    return clients.remove(client);
-  }
+  // @override
+  // Future<bool> removeClient(Client client) async {
+  //   return clients.remove(client);
+  // }
   
   @override
   Future<bool> addPreference(Preference preference) async {

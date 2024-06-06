@@ -17,14 +17,6 @@ abstract class Database
   IngredientDatabase get ingredientDatabase;
   OpinionDatabase get opinionDatabase;
   LoginDatabase get loginDatabase;
-  Future<bool> addClient(Client client)
-  {
-    return userDatabase.addClient(client);
-  }
-  Future<bool> removeClient(Client client)
-  {
-    return userDatabase.removeClient(client);
-  }
   Future<bool> removeOpinion(Opinion opinion)
   {
     return opinionDatabase.removeOpinion(opinion);
@@ -56,8 +48,8 @@ abstract class UserDatabse
 {
   Future<User?> loadUser(String token);
   SessionCubit get cubit=>throw Exception("not implemented");
-  Future<bool> addClient(Client client);
-  Future<bool> removeClient(Client client);
+  //Future<bool> addClient(Client client);
+  //Future<bool> removeClient(Client client);
   Future<List<Preference>> getUserPreferences(Client client);
   Future<bool> setFavouriteProduct(Client client,Product product,bool state);
   Future<bool> addPreference(Preference preference);

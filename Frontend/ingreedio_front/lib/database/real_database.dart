@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
+import 'package:ingreedio_front/database/database_mockup.dart';
 import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/logic/filters.dart';
@@ -49,7 +50,7 @@ Future<Map<String,dynamic>> getResponse(String request,String token,RequestType 
   catch(e)
   {
     dio.close(force: true);
-    return {"success":false,};
+    //return {"success":false,};
     throw(Exception("connection failed, message: \n $e"));
   }
   finally 
@@ -57,15 +58,13 @@ Future<Map<String,dynamic>> getResponse(String request,String token,RequestType 
     dio.close();
   }
 }
-List<Ingredient> parseIngredientList(Map<String,dynamic> response,{String listName="ingredients"})
-{
+List<Ingredient> parseIngredientList(Map<String,dynamic> response,{String listName="ingredients"}){
   List<dynamic> pom=response[listName];
   List<Ingredient> odp=List.empty(growable: true);
   for (var element in pom) {odp.add(IngredientMapper.fromMap(element as Map<String,dynamic>));}
   return odp;
 }
-List<Map<String,dynamic>> codeIngredientList(List<Ingredient> ingredients)
-{
+List<Map<String,dynamic>> codeIngredientList(List<Ingredient> ingredients){
   List<Map<String,dynamic>> odp=[];
   for(var i in ingredients)
   {
@@ -79,17 +78,25 @@ List<Map<String,dynamic>> codeIngredientList(List<Ingredient> ingredients)
   }
   return odp;
 }
+List<Product> parseProductList(Map<String,dynamic> response,{String listName="products"}){
+  List<dynamic> pom=response[listName];
+  List<Product> odp=List.empty(growable: true);
+  for (var element in pom) {odp.add(
+    Product.fromAllData(category: Category.fromNumber(element["category"])!, 
+    description: element["description"], 
+    id: element["id"], 
+    ingredients: parseIngredientList(response), 
+    name: element["name"], 
+    producer: MockupUserDatabase.mockProucer, //TODO: produkty nie zwracają producenta
+    promotionUntil: DateTime.parse(element["promotedUntil"])
+  ));}
+  return odp;
+}
 class RealUserDatabase extends UserDatabse
 {
   RealUserDatabase(this.cubit);
   @override
   SessionCubit cubit;
-  @override
-  Future<bool> addClient(Client client) async {
-    // TODO: implement addClient
-    throw UnimplementedError();
-  }
-
   @override
   Future<bool> addPreference(Preference preference) async {
     var response=await getResponse("Preference", cubit.state.userToken,RequestType.post,
@@ -98,7 +105,6 @@ class RealUserDatabase extends UserDatabse
     preference.id=response["value"];
     return response["success"];
   }
-
   @override
   Future<bool> editPreference(Preference oldPreference, Preference editedPreference) async {
     var response=await getResponse("Preference?preferenceToModify=${oldPreference.id}", cubit.state.userToken,RequestType.put,
@@ -134,26 +140,26 @@ class RealUserDatabase extends UserDatabse
   Future<List<Preference>> getUserPreferences(Client client) async {
     var response=await getResponse("Preference", cubit.state.userToken,RequestType.get);
     return (response["preferences"] as List<dynamic>).map((e)=>_preferenceFromMap(e, client)).toList();
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> removeClient(Client client) async {
-    // TODO: implement removeClient
-    throw UnimplementedError();
   }
 
   @override
   Future<bool> removePreference(Preference preference)  async{
     var response=await getResponse("Preference?id=${preference.id}", cubit.state.userToken,RequestType.delete);
-    return true;
-    //throw UnimplementedError();
+    return response["success"];
   }
 
   @override
   Future<bool> setFavouriteProduct(Client client, Product product, bool state) async {
-    // TODO: implement setFavoutiteProduct
-    throw UnimplementedError();
+    if(state==true)
+    {
+      var response=await getResponse("User/favourites/add/${product.id}", cubit.state.userToken, RequestType.put);
+      return response["success"];
+    }
+    else
+    {
+      var response=await getResponse("User/favourites/remove/${product.id}", cubit.state.userToken, RequestType.delete);
+      return response["success"];
+    }
   }
   
   @override
@@ -170,7 +176,7 @@ class RealUserDatabase extends UserDatabse
         mail: response["email"], 
         password: response["password"], 
         username: response["username"], 
-        favoriteProducts: []//TODO: backend ma to potem dodać
+        favoriteProducts: parseProductList(response,listName: "favourites")
         );
       case 2: //producent
       return Producer.fromAllData(
@@ -244,12 +250,14 @@ class RealProductDatabase extends ProductDatabse
     {
     "id": product.id,
     "name": product.name,
-    "promotedUntil": product.promotionUntil.toString(),
+    "promotedUntil": product.promotionUntil.toIso8601String(),
     "ingredients": product.ingredients.map((e)=>e.toJson()).toList(),
     "category": product.category.backendNumber,
-    "iconURL": product.iconURL
+    "iconURL": product.iconURL,
     });
-    throw UnimplementedError();
+    if(response["success"]==false) return false;
+    product.id=response["value"];
+    return true;
   }
 
   @override
