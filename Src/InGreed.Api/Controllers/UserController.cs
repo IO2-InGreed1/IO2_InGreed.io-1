@@ -20,17 +20,33 @@ public class UserController : ControllerBase
     [HttpPut("favourites/add/{productId}")]
     public IActionResult AddToFavourites(int productId)
     {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (userId is null) return Unauthorized();
-        throw new NotImplementedException();
+        var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (id is null) return Unauthorized();
+        int userId = int.Parse(id);
+        var response = favouritesService.Add(productId, userId);
+        switch (response)
+        {
+            case Logic.Enums.FavouritesServiceAddResponse.AlreadyInFavourites:
+                return BadRequest($"Product with {id} is already in favourites.");
+            case Logic.Enums.FavouritesServiceAddResponse.InvalidProductId:
+                return NotFound($"There is no product with id {id}.");
+            case Logic.Enums.FavouritesServiceAddResponse.InvalidUserId:
+                return NotFound($"There is no user with id {id}.");
+            case Logic.Enums.FavouritesServiceAddResponse.Success:
+                return Ok();
+            default:
+                return BadRequest();
+        }
     }
 
     [Authorize]
     [HttpDelete("favourites/remove/{productId}")]
     public IActionResult RemoveFromFavourites(int productId)
     {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (userId is null) return Unauthorized();
-        throw new NotImplementedException();
+        var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (id is null) return Unauthorized();
+        int userId = int.Parse(id);
+        var response = favouritesService.Delete(productId, userId);
+        return Ok();
     }
 }
