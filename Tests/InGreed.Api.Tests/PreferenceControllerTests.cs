@@ -23,7 +23,7 @@ public class PreferenceControllerTests
     }
 
     [Fact]
-    public void GetByUser_Authorised_ShouldReturnStatusOk()
+    public void GetByUser_AuthorisedUser_ShouldReturnStatusOk()
     {
         // Arrange
         var context = new ControllerContext
@@ -33,7 +33,6 @@ public class PreferenceControllerTests
                 User = new(new List<ClaimsIdentity>() { new(new List<Claim>() { new Claim(ClaimTypes.NameIdentifier, "1") }) })
             }
         };
-
         List<Preference> preferences = new() { testingPreference };
         preferenceServiceMock.Setup(psm => psm.GetByUser(id)).Returns(preferences);
         PreferenceController sut = new(preferenceServiceMock.Object);
@@ -49,7 +48,7 @@ public class PreferenceControllerTests
     }
 
     [Fact]
-    public void GetByUser_Unuthorised_ShouldReturnStatusUnauthorised()
+    public void GetByUser_UnuthorisedUser_ShouldReturnStatusUnauthorised()
     {
         // Arrange
         var context = new ControllerContext
@@ -101,36 +100,6 @@ public class PreferenceControllerTests
         var actionResult = Assert.IsType<NotFoundObjectResult>(response);
         var responseContent = Assert.IsType<string>(actionResult.Value);
         Assert.Equal($"There is no preference with an id {id}.", responseContent);
-    }
-
-    [Fact]
-    public void GetByUser_AuthorisedUser_ShouldReturnStatusOk()
-    {
-        // Arrange
-        List<Preference> preferences = new() { testingPreference };
-        preferenceServiceMock.Setup(psm => psm.GetByUser(id)).Returns(preferences);
-        PreferenceController sut = new(preferenceServiceMock.Object);
-
-        // Act
-        var response = sut.GetByUser();
-
-        // Assert
-        // var actionResult = Assert.IsType<OkObjectResult>(response);
-        // var responseContent = Assert.IsType<GetByUserResponse>(actionResult.Value);
-        // Assert.Equal(preferences, responseContent.preferences);
-    }
-
-    [Fact]
-    public void GetByUser_UnauthorisedUser_ShouldReturnStatusUnauthorised()
-    {
-        // Arrange
-        PreferenceController sut = new(preferenceServiceMock.Object);
-
-        // Act
-        var response = sut.GetByUser();
-
-        // Assert
-        // Assert.IsType<UnauthorizedResult>(response);
     }
 
     [Fact]
