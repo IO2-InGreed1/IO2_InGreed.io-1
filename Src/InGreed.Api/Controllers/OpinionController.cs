@@ -22,7 +22,7 @@ public class OpinionController : ControllerBase
     public IActionResult GetById(int id)
     {
         Opinion? result = _opinionService.GetById(id);
-        if (result is null) return BadRequest();
+        if (result is null) return NotFound();
         GetByIdResponse response = new(result);
         return Ok(response);
     }

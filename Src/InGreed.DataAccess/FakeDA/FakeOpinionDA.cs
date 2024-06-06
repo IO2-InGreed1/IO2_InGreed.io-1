@@ -32,12 +32,12 @@ public class FakeOpinionDA : IOpinionDA
         return _opinions.Find(o => o.Id == opinionId);
     }
 
-    public OpinionDAAddResponse AddToProduct(int ingredient, int productId)
+    public OpinionDAAddResponse AddToProduct(int opinionId, int productId)
     {
         return OpinionDAAddResponse.Success;
     }
 
-    public OpinionDARemoveResponse RemoveFromProduct(int ingredientId, int productId)
+    public OpinionDARemoveResponse RemoveFromProduct(int opinionId, int productId)
     {
         return OpinionDARemoveResponse.Success;
     }
