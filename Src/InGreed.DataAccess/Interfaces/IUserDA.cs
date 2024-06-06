@@ -10,4 +10,6 @@ public interface IUserDA
     void CreateUser(User user);
     void RemoveUserById(int id);
     void UpdateUserRoles(int id, Role newRole);
+    bool AddToFavourites(int productId, int userId);
+    bool RemoveFavourites(int productId, int userId);
 }

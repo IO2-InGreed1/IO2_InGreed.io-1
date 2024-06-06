@@ -17,6 +17,7 @@ public static class DependencyInjection
             .AddScoped<IProductService, ProductService>()
             .AddScoped<IPreferenceService, PreferenceService>()
             .AddScoped<IIngredientDBtoServiceResponseMapper, IngredientDBtoServiceResponseMapper>()
+            .AddScoped<IFavouritesService, FavouritesService>()
             .AddScoped<IPreferenceCreateToModifyResponseMapper, PreferenceCreateToModifyResponseMapper>()
             .AddScoped<IOpinionService, OpinionService>();
     }
