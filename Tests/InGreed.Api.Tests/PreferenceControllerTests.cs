@@ -3,8 +3,10 @@ using InGreed.Api.Controllers;
 using InGreed.Domain.Models;
 using InGreed.Logic.Enums.Preference;
 using InGreed.Logic.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System.Security.Claims;
 
 namespace InGreed.Api.Tests;
 
@@ -18,6 +20,55 @@ public class PreferenceControllerTests
     {
         preferenceServiceMock = new();
         testingPreference = new() { Id = id, OwnerId = id, Active = true, Name = "test" };
+    }
+
+    [Fact]
+    public void GetByUser_Authorised_ShouldReturnStatusOk()
+    {
+        // Arrange
+        var context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new(new List<ClaimsIdentity>() { new(new List<Claim>() { new Claim(ClaimTypes.NameIdentifier, "1") }) })
+            }
+        };
+
+        List<Preference> preferences = new() { testingPreference };
+        preferenceServiceMock.Setup(psm => psm.GetByUser(id)).Returns(preferences);
+        PreferenceController sut = new(preferenceServiceMock.Object);
+        sut.ControllerContext = context;
+
+        // Act
+        var response = sut.GetByUser();
+
+        // Assert
+        var actionResult = Assert.IsType<OkObjectResult>(response);
+        var responseContent = Assert.IsType<GetByUserResponse>(actionResult.Value);
+        Assert.Equal(preferences, responseContent.preferences);
+    }
+
+    [Fact]
+    public void GetByUser_Unuthorised_ShouldReturnStatusUnauthorised()
+    {
+        // Arrange
+        var context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = null!
+            }
+        };
+        List<Preference> preferences = new() { testingPreference };
+        preferenceServiceMock.Setup(psm => psm.GetByUser(id)).Returns(preferences);
+        PreferenceController sut = new(preferenceServiceMock.Object);
+        sut.ControllerContext = context;
+
+        // Act
+        var response = sut.GetByUser();
+
+        // Assert
+        Assert.IsType<UnauthorizedResult>(response);
     }
 
     [Fact]
