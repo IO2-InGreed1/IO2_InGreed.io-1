@@ -8,4 +8,5 @@ public interface IOpinionDBtoServiceResponseMapper
     OpinionServiceAddResponse AddResponseMapper(OpinionDAAddResponse DAresponse);
     OpinionServiceRemoveResponse RemoveResponseMapper(OpinionDARemoveResponse DAresponse);
     OpinionServiceAddReportResponse AddReportResponseMapper(OpinionDAAddReportResponse DAresponse);
+    OpinionServiceRemoveReportsResponse RemoveReportsResponseMapper(OpinionDARemoveReportsResponse DAresponse);
 }

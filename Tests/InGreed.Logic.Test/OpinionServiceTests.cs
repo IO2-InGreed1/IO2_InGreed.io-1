@@ -234,4 +234,34 @@ public class OpinionServiceTests
         // Assert
         Assert.Equal(OpinionServiceAddReportResponse.NonexistentOpinion, result);
     }
+
+    [Fact]
+    public void RemoveReports_ExistingOpinion_ShouldReturnSuccessResponse()
+    {
+        // Arrange
+        opinionDAMock.Setup(oda => oda.GetById(id)).Returns(testingOpinion);
+        opinionDAMock.Setup(oda => oda.RemoveReports(id)).Returns(OpinionDARemoveReportsResponse.Success);
+        OpinionService sut = new(opinionDAMock.Object, mapper);
+
+        // Act
+        var result = sut.RemoveReports(id);
+
+        // Assert
+        Assert.Equal(OpinionServiceRemoveReportsResponse.Success, result);
+    }
+
+    [Fact]
+    public void RemoveReports_NonexistentOpinion_ShouldReturnNonexistentOpinionResponse()
+    {
+        // Arrange
+        opinionDAMock.Setup(oda => oda.GetById(id)).Returns(value: null);
+        opinionDAMock.Setup(oda => oda.RemoveReports(id)).Returns(OpinionDARemoveReportsResponse.NonexistentOpinion);
+        OpinionService sut = new(opinionDAMock.Object, mapper);
+
+        // Act
+        var result = sut.RemoveReports(id);
+
+        // Assert
+        Assert.Equal(OpinionServiceRemoveReportsResponse.NonexistentOpinion, result);
+    }
 }

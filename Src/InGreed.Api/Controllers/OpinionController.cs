@@ -68,7 +68,7 @@ public class OpinionController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPut("{id}/report")]
+    [HttpPost("{opinionId}/report")]
     public IActionResult AddReport(int opinionId)
     {
         OpinionServiceAddReportResponse result = _opinionService.AddReport(opinionId);
@@ -77,6 +77,21 @@ public class OpinionController : ControllerBase
             case OpinionServiceAddReportResponse.Success:
                 return Ok();
             case OpinionServiceAddReportResponse.NonexistentOpinion:
+                return NotFound($"There is no opinion with an id {opinionId}.");
+            default:
+                return BadRequest("Unexpected error.");
+        }
+    }
+
+    [HttpDelete("{opinionId}/reports")]
+    public IActionResult RemoveReports(int opinionId)
+    {
+        OpinionServiceRemoveReportsResponse result = _opinionService.RemoveReports(opinionId);
+        switch (result)
+        {
+            case OpinionServiceRemoveReportsResponse.Success:
+                return Ok();
+            case OpinionServiceRemoveReportsResponse.NonexistentOpinion:
                 return NotFound($"There is no opinion with an id {opinionId}.");
             default:
                 return BadRequest("Unexpected error.");
