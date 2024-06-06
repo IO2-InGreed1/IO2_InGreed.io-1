@@ -1,5 +1,5 @@
 ﻿using InGreed.Domain.Models;
-using InGreed.Logic.Enums;
+using InGreed.Logic.Enums.Ingredient;
 
 namespace InGreed.Logic.Interfaces;
 

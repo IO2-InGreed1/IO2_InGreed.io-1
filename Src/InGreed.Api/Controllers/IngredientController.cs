@@ -2,7 +2,7 @@ using InGreed.Api.Contracts.Ingredient;
 using InGreed.Domain.Models;
 using InGreed.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using InGreed.Logic.Enums;
+using InGreed.Logic.Enums.Ingredient;
 
 namespace InGreed.Api.Controllers;
 
@@ -35,7 +35,7 @@ public class IngredientController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost]
+    [HttpPost("/api/Product/{productId}/add-ingredient")]
     public IActionResult AddToProduct(AdditionRequest request, int productId)
     {
         IngredientServiceAddResponse result = _ingredientService.AddToProduct(request.ingredient, productId);
@@ -50,7 +50,7 @@ public class IngredientController : ControllerBase
         }
     }
 
-    [HttpPut("{ingredientId}/remove-from-product-{productId}")]
+    [HttpDelete("/api/Product/{productId}/remove-ingredient/{ingredientId}")]
     public IActionResult RemoveFromProduct(int ingredientId, int productId)
     {
         IngredientServiceRemoveResponse result = _ingredientService.RemoveFromProduct(ingredientId, productId);

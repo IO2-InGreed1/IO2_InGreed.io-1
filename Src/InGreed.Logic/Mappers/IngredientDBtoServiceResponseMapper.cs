@@ -1,5 +1,5 @@
 ﻿using InGreed.DataAccess.Enums;
-using InGreed.Logic.Enums;
+using InGreed.Logic.Enums.Ingredient;
 using Riok.Mapperly.Abstractions;
 
 namespace InGreed.Logic.Mappers;

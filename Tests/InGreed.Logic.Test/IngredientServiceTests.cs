@@ -2,9 +2,9 @@
 using InGreed.Logic.Services;
 using InGreed.Domain.Models;
 using Moq;
-using InGreed.Logic.Enums;
-using InGreed.DataAccess.Enums;
 using InGreed.Logic.Mappers;
+using InGreed.Logic.Enums.Ingredient;
+using InGreed.DataAccess.Enums;
 
 namespace InGreed.Logic.Tests;
 

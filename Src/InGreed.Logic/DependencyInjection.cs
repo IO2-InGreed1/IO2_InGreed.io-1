@@ -11,9 +11,12 @@ public static class DependencyInjection
     {
         return services
             .AddScoped<IAccountService, AccountService>()
-            .AddScoped<ITokenService, FakeTokenService>()
+            .AddScoped<ITokenService, JwtTokenService>()
+            .AddScoped<IDateTimeProvider, DefaultDateTimeProvider>()
             .AddScoped<IIngredientService, IngredientService>()
             .AddScoped<IProductService, ProductService>()
-            .AddScoped<IIngredientDBtoServiceResponseMapper, IngredientDBtoServiceResponseMapper>();
+            .AddScoped<IPreferenceService, PreferenceService>()
+            .AddScoped<IIngredientDBtoServiceResponseMapper, IngredientDBtoServiceResponseMapper>()
+            .AddScoped<IPreferenceCreateToModifyResponseMapper, PreferenceCreateToModifyResponseMapper>();
     }
 }
