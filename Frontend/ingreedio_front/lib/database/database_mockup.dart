@@ -578,15 +578,15 @@ class MockupOpinionDatabase extends OpinionDatabase
     return true;
   }
 
-  @override
-  Future<List<Opinion>> getClientOpinions(Client client) async {
-    return opinions.where((element) => element.author==client).toList();
-  }
+  // @override
+  // Future<List<Opinion>> getClientOpinions(Client client) async {
+  //   return opinions.where((element) => element.author==client).toList();
+  // }
 
-  @override
-  Future<List<Opinion>> getProductOpinions(Product product) async {
-    return opinions.where((element) => element.product==product).toList();
-  }
+  // @override
+  // Future<List<Opinion>> getProductOpinions(Product product) async {
+  //   return opinions.where((element) => element.product==product).toList();
+  // }
 
   @override
   Future<bool> removeOpinion(Opinion opinion) async {
@@ -606,7 +606,7 @@ class MockupOpinionDatabase extends OpinionDatabase
   
   @override
   Future<ListData<Opinion>> getOpinionsFiltered(int from,int to,Product product, OpinionFilter filter) async {
-    var pom=await getProductOpinions(product);
+    var pom=opinions.where((e)=>e.product==product).toList();
     List<Opinion> odp=List.empty(growable: true);
     for(int i=from;i<to;i++)
     {

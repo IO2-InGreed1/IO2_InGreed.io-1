@@ -305,14 +305,24 @@ class RealOpinionDatabase extends OpinionDatabase
   SessionCubit cubit;
   @override
   Future<bool> addOpinion(Opinion opinion) async {
-    // TODO: implement addOpinion
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<Opinion>> getClientOpinions(Client client) async {
-    // TODO: implement getClientOpinions
-    throw UnimplementedError();
+    var response =await getResponse("Product/add-opinion", cubit.state.userToken, RequestType.put,
+    jsonData: {
+      "opinion": {
+      "id": opinion.id,
+      "productId": opinion.product.id,
+      "authorId": opinion.author.id,
+      "content": opinion.text,
+      "score": opinion.score,
+      "reportCount": 0
+    }
+    }
+    );
+    if(response["success"]==true)
+    {
+      opinion.id=response["value"];
+      return true;
+    }
+    return false;
   }
 
   @override
@@ -320,13 +330,6 @@ class RealOpinionDatabase extends OpinionDatabase
     // TODO: implement getOpinionsFiltered
     throw UnimplementedError();
   }
-
-  @override
-  Future<List<Opinion>> getProductOpinions(Product product) async {
-    // TODO: implement getProductOpinions
-    throw UnimplementedError();
-  }
-
   @override
   Future<ListData<Opinion>> getReportedFilteredOpinions(int from,int to,Filter<Opinion> filter) async {
     // TODO: implement getReportedOpinions
@@ -335,14 +338,20 @@ class RealOpinionDatabase extends OpinionDatabase
 
   @override
   Future<bool> removeOpinion(Opinion opinion) async {
-    // TODO: implement removeOpinion
-    throw UnimplementedError();
+    var response =await getResponse("Product/${opinion.product.id}/remove-opinion/${opinion.id}", cubit.state.userToken, RequestType.delete);
+    return response["success"];
   }
   
   @override
   Future<void> setOpinionReport(Opinion opinion,{bool reportState=true}) async {
-    // TODO: implement reportOpinion
-    throw UnimplementedError();
+    if(reportState)
+    {
+      getResponse("Product/${opinion.id}/report", cubit.state.userToken, RequestType.post);
+    }
+    else 
+    {
+      getResponse("Product/${opinion.id}/reports", cubit.state.userToken, RequestType.delete);
+    }
   }
   
   
