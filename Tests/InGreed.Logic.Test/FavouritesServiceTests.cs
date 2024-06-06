@@ -42,6 +42,7 @@ public class FavouritesServiceTests
     void Add_ExistingProductFromFavouritesExistingUser_ShouldReturnAlreadyInFavouritesResponse()
     {
         // arrange
+        testingUser.Favourites.Add(testingProduct);
         userDAMock.Setup(uda => uda.AddToFavourites(id, id)).Returns(false);
         userDAMock.Setup(uda => uda.GetUserById(id)).Returns(testingUser);
         productDAMock.Setup(pda => pda.GetProductById(id)).Returns(testingProduct);
@@ -88,7 +89,8 @@ public class FavouritesServiceTests
     void Delete_ExistingProductFromFavouritesExistingUser_ShouldReturnSuccessResponse()
     {
         // arrange
-        userDAMock.Setup(uda => uda.AddToFavourites(id, id)).Returns(true);
+        testingUser.Favourites.Add(testingProduct);
+        userDAMock.Setup(uda => uda.RemoveFavourites(id, id)).Returns(true);
         userDAMock.Setup(uda => uda.GetUserById(id)).Returns(testingUser);
         productDAMock.Setup(pda => pda.GetProductById(id)).Returns(testingProduct);
         FavouritesService sut = new(userDAMock.Object, productDAMock.Object);
@@ -120,6 +122,7 @@ public class FavouritesServiceTests
     void Delete_NonexistentProduct_ShouldReturnInvalidProductIdResponse()
     {
         // arrange
+        testingUser.Favourites.Add(testingProduct);
         userDAMock.Setup(uda => uda.GetUserById(id)).Returns(testingUser);
         productDAMock.Setup(pda => pda.GetProductById(id)).Returns(value: null!);
         FavouritesService sut = new(userDAMock.Object, productDAMock.Object);
@@ -135,6 +138,7 @@ public class FavouritesServiceTests
     void Delete_NonexistentUser_ShouldReturnInvalidUserIdResponse()
     {
         // arrange
+        testingUser.Favourites.Add(testingProduct);
         userDAMock.Setup(uda => uda.GetUserById(id)).Returns(value: null!);
         productDAMock.Setup(pda => pda.GetProductById(id)).Returns(testingProduct);
         FavouritesService sut = new(userDAMock.Object, productDAMock.Object);
