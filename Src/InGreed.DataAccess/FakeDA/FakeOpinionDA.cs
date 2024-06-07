@@ -16,7 +16,6 @@ public class FakeOpinionDA : IOpinionDA
 
     public int Create(Opinion opinion)
     {
-        if (GetById(opinion.Id) is not null) return 0;
         opinion.Id = ++currentId;
         _opinions.Add(opinion);
         return currentId;
