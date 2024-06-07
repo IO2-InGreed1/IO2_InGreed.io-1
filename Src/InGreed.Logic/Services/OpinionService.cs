@@ -39,7 +39,9 @@ namespace InGreed.Logic.Services
 
         public PaginatedList<Opinion> GetAllReported(OpinionParameters parameters)
         {
-            return _opinionDA.GetAllReported(parameters);
+            if(parameters.ReportCountGreaterThan == -1)
+                parameters.ReportCountGreaterThan = 0;
+            return _opinionDA.GetAll(parameters);
         }
 
         public OpinionServiceAddReportResponse AddReport(int opinionId)

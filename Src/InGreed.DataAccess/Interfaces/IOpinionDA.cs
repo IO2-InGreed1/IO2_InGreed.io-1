@@ -7,7 +7,7 @@ namespace InGreed.DataAccess.Interfaces
 {
     public interface IOpinionDA
     {
-        PaginatedList<Opinion> GetAllReported(OpinionParameters parameters);
+        PaginatedList<Opinion> GetAll(OpinionParameters parameters);
         Opinion? GetById(int ingredientId);
         int Create(Opinion opinion);
         OpinionDAAddResponse AddToProduct(int opinionId, int productId);
