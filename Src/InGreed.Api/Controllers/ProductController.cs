@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using InGreed.Api.Contracts.Product;
 using Microsoft.AspNetCore.Authorization;
 using InGreed.Domain.Queries;
+using Newtonsoft.Json;
+using InGreed.Domain.Helpers;
 
 namespace InGreed.Api.Controllers;
 
@@ -39,10 +41,23 @@ public class ProductController : ControllerBase
     [HttpGet]
     public IActionResult GetAllProducts([FromQuery]PaginationParameters paginationParameters)
     {
-        List<Product> products = new List<Product>();
-        try { products = service.GetAllProducts(paginationParameters).ToList(); }
+        PaginatedList<Product> result;
+        try { result = service.GetAllProducts(paginationParameters); }
         catch (ArgumentException e) { return NotFound(e.Message); }
-        return Ok(products);
+
+        var metadata = new
+        {
+            result.PageSize,
+            result.PageIndex,
+            result.TotalPages,
+            result.HasPreviousPage,
+            result.HasNextPage
+        };
+
+        if (Response != null)
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+        return Ok(result);
     }
 
     [HttpGet("{id}")]
