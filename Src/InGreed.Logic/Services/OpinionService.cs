@@ -1,5 +1,6 @@
 ﻿using InGreed.DataAccess.Interfaces;
 using InGreed.Domain.Models;
+using InGreed.Domain.Queries;
 using InGreed.Logic.Enums.Opinion;
 using InGreed.Logic.Interfaces;
 using InGreed.Logic.Mappers;
@@ -35,9 +36,9 @@ namespace InGreed.Logic.Services
             return _dbtoServiceResponseMapper.RemoveResponseMapper(response);
         }
 
-        public List<Opinion> GetAllReported()
+        public List<Opinion> GetAllReported(PaginationParameters paginationParameters)
         {
-            IEnumerable<Opinion> allOpinions = _opinionDA.GetAll();
+            IEnumerable<Opinion> allOpinions = _opinionDA.GetAll(paginationParameters);
             List<Opinion> allReportedOpinions = new List<Opinion>();
             foreach (Opinion opinion in allOpinions)
             {

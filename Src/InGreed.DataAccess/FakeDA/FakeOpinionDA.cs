@@ -1,6 +1,7 @@
 ﻿using InGreed.DataAccess.Enums.Opinion;
 using InGreed.DataAccess.Interfaces;
 using InGreed.Domain.Models;
+using InGreed.Domain.Queries;
 
 namespace InGreed.DataAccess.FakeDA;
 
@@ -21,9 +22,11 @@ public class FakeOpinionDA : IOpinionDA
         return currentId;
     }
 
-    public IEnumerable<Opinion> GetAll()
+    public IEnumerable<Opinion> GetAll(PaginationParameters paginationParameters)
     {
-        return _opinions;
+        return _opinions
+            .Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize)
+            .Take(paginationParameters.PageSize);
     }
 
     public Opinion? GetById(int opinionId)
