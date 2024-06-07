@@ -28,7 +28,9 @@ public class FakeProductDA : IProductDA
 
     public PaginatedList<Product> GetAll(ProductParameters parameters)
     {
-        Func<Product, bool> pred = p => parameters.Category is null || p.Category == parameters.Category;
+        Func<Product, bool> pred = p => (parameters.Category is null || p.Category == parameters.Category)
+            && !parameters.usedIngredientsId.Except(p.Ingredients.Select(i => i.Id)).Any()
+            && !parameters.bannedIngredientsId.Intersect(p.Ingredients.Select(i => i.Id)).Any();
 
         var products = _products
             .Where(pred)
