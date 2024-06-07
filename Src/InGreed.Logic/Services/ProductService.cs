@@ -1,6 +1,7 @@
 ﻿using InGreed.DataAccess.Interfaces;
 using InGreed.Logic.Interfaces;
 using InGreed.Domain.Models;
+using InGreed.Domain.Queries;
 
 namespace InGreed.Logic.Services;
 
@@ -23,9 +24,9 @@ public class ProductService : IProductService
         _productDA.ModifyProduct(productIdToModify, product);
     }
 
-    public IEnumerable<Product> GetAllProducts()
+    public IEnumerable<Product> GetAllProducts(PaginationParameters paginationParameters)
     {
-        return _productDA.GetAll();
+        return _productDA.GetAll(paginationParameters);
     }
 
     public Product GetProductById(int productId)

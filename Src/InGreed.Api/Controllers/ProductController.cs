@@ -3,6 +3,7 @@ using InGreed.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InGreed.Api.Contracts.Product;
 using Microsoft.AspNetCore.Authorization;
+using InGreed.Domain.Queries;
 
 namespace InGreed.Api.Controllers;
 
@@ -36,10 +37,10 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAllProducts()
+    public IActionResult GetAllProducts([FromQuery]PaginationParameters paginationParameters)
     {
         List<Product> products = new List<Product>();
-        try { products = service.GetAllProducts().ToList(); }
+        try { products = service.GetAllProducts(paginationParameters).ToList(); }
         catch (ArgumentException e) { return NotFound(e.Message); }
         return Ok(products);
     }

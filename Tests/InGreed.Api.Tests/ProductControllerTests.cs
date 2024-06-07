@@ -4,6 +4,7 @@ using InGreed.Domain.Models;
 using InGreed.Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using InGreed.Api.Contracts.Product;
+using InGreed.Domain.Queries;
 
 namespace InGreed.Api.Tests;
 
@@ -23,12 +24,13 @@ public class ProductControllerTests
     public void GetAllProducts_ShouldReturnStatusOk()
     {
         // Act
+        PaginationParameters paginationParameters = new();
         List<Product> ingredients = new() { testingProduct };
-        productServiceMock.Setup(isa => isa.GetAllProducts()).Returns(ingredients);
+        productServiceMock.Setup(isa => isa.GetAllProducts(paginationParameters)).Returns(ingredients);
         ProductController sut = new(productServiceMock.Object);
 
         // Arrange
-        var response = sut.GetAllProducts();
+        var response = sut.GetAllProducts(paginationParameters);
 
         // Assert
         var actionResult = Assert.IsType<OkObjectResult>(response);

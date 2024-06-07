@@ -1,6 +1,7 @@
 ﻿using InGreed.DataAccess.Interfaces;
 using InGreed.Domain.Models;
 using InGreed.Domain.Enums;
+using InGreed.Domain.Queries;
 
 namespace InGreed.DataAccess.FakeDA;
 
@@ -24,9 +25,11 @@ public class FakeProductDA : IProductDA
         return currentId;
     }
 
-    public IEnumerable<Product> GetAll()
+    public IEnumerable<Product> GetAll(PaginationParameters paginationParameters)
     {
-        return _products;
+        return _products
+            .Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize)
+            .Take(paginationParameters.PageSize); ;
     }
 
     public Product GetProductById(int productId)

@@ -5,6 +5,8 @@ using Moq;
 using InGreed.Logic.Mappers;
 using InGreed.Logic.Enums.Opinion;
 using InGreed.DataAccess.Enums.Opinion;
+using InGreed.Domain.Queries;
+using InGreed.Domain.Helpers;
 
 namespace InGreed.Logic.Tests;
 public class OpinionServiceTests
@@ -195,13 +197,14 @@ public class OpinionServiceTests
     public void GetAllReported_ShouldReturnAllReportedOpinions()
     {
         // Arrange
+        PaginationParameters paginationParameters = new();
         testingOpinion.reportCount = 1;
         List<Opinion> opinions = new() { testingOpinion };
-        opinionDAMock.Setup(oda => oda.GetAll()).Returns(opinions);
+        opinionDAMock.Setup(oda => oda.GetAllReported(paginationParameters)).Returns(new PaginatedList<Opinion>(opinions, 1, 1, paginationParameters.PageSize));
         OpinionService sut = new(opinionDAMock.Object, mapper);
 
         // Act
-        var result = sut.GetAllReported();
+        var result = sut.GetAllReported(paginationParameters);
 
         // Assert
         Assert.Equal(result, opinions);
