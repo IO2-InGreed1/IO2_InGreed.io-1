@@ -10,11 +10,11 @@ public class FakeProductDA : IProductDA
 {
     private static List<Product> _products = new()
     {
-        new() {Id = 1, Name = "Fermented Spider Eye", PromotedUntil = new(2137, 3, 26), Category = Category.Other,
+        new() {Id = 1, Name = "Fermented Spider Eye", PromotedUntil = new(2137, 3, 26), Category = Category.Other, ReportCount = 0, 
         IconURL = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/8/85/Fermented_Spider_Eye_JE2_BE2.png", ProducentId = 5 },
-        new() {Id = 2, Name = "Chorus Fruit", PromotedUntil = null, Category = Category.Food,
+        new() {Id = 2, Name = "Chorus Fruit", PromotedUntil = null, Category = Category.Food, ReportCount = 0,
         IconURL = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/33/Chorus_Fruit_JE2_BE2.png", ProducentId = 5 },
-        new() {Id = 3, Name = "Potion of Fire Resistance", PromotedUntil = null, Category = Category.Drinks,
+        new() {Id = 3, Name = "Potion of Fire Resistance", PromotedUntil = null, Category = Category.Drinks, ReportCount = 1,
         IconURL = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/e/ee/Potion_of_Fire_Resistance_JE3.png", ProducentId = 3 }
     };
     private static int currentId = 3;
@@ -65,11 +65,17 @@ public class FakeProductDA : IProductDA
 
     public bool RemoveReports(int productId)
     {
-        throw new NotImplementedException();
+        Product? toModify = GetProductById(productId);
+        if (toModify is null) return false;
+        toModify.ReportCount = 0;
+        return true;
     }
 
     public bool Report(int productId)
     {
-        throw new NotImplementedException();
+        Product? toReport = GetProductById(productId);
+        if (toReport is null) return false;
+        ++toReport.ReportCount;
+        return true;
     }
 }

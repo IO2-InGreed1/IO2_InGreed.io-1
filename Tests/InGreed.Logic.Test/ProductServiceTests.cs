@@ -121,4 +121,64 @@ public class ProductServiceTests
         // Assert
         Assert.Equal(product1, result);
     }
+
+    [Fact]
+    public void Report_ExistingProduct_ShouldReturnTrue()
+    {
+        // Arrange
+        int id = 1;
+        mockProductDA.Setup(pda => pda.Report(id)).Returns(true);
+        var sut = new ProductService(mockProductDA.Object);
+
+        // Act
+        var result = sut.Report(id);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void Report_NonexistentProduct_ShouldReturnFalse()
+    {
+        // Arrange
+        int id = 1;
+        mockProductDA.Setup(pda => pda.Report(id)).Returns(false);
+        var sut = new ProductService(mockProductDA.Object);
+
+        // Act
+        var result = sut.Report(id);
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void RemoveReports_ExistingProduct_ShouldReturnTrue()
+    {
+        // Arrange
+        int id = 1;
+        mockProductDA.Setup(pda => pda.RemoveReports(id)).Returns(true);
+        var sut = new ProductService(mockProductDA.Object);
+
+        // Act
+        var result = sut.RemoveReports(id);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void RemoveReports_NonexistentProduct_ShouldReturnFalse()
+    {
+        // Arrange
+        int id = 1;
+        mockProductDA.Setup(pda => pda.RemoveReports(id)).Returns(false);
+        var sut = new ProductService(mockProductDA.Object);
+
+        // Act
+        var result = sut.RemoveReports(id);
+
+        // Assert
+        Assert.False(result);
+    }
 }
