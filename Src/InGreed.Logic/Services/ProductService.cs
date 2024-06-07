@@ -25,9 +25,9 @@ public class ProductService : IProductService
         _productDA.ModifyProduct(productIdToModify, product);
     }
 
-    public PaginatedList<Product> GetAllProducts(PaginationParameters paginationParameters)
+    public PaginatedList<Product> GetAllProducts(ProductParameters parameters)
     {
-        return _productDA.GetAll(paginationParameters);
+        return _productDA.GetAll(parameters);
     }
 
     public Product GetProductById(int productId)

@@ -24,17 +24,17 @@ public class FakeOpinionDA : IOpinionDA
         return currentId;
     }
 
-    public PaginatedList<Opinion> GetAllReported(PaginationParameters paginationParameters)
+    public PaginatedList<Opinion> GetAllReported(OpinionParameters parameters)
     {
         var opinions = _opinions
             .Where(o => o.reportCount > 0)
-            .Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize)
-            .Take(paginationParameters.PageSize);
+            .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+            .Take(parameters.PageSize);
 
         var count = _opinions.Where(o => o.reportCount > 0).Count();
-        var totalPages = (int)Math.Ceiling(count / (double)paginationParameters.PageSize);
+        var totalPages = (int)Math.Ceiling(count / (double)parameters.PageSize);
 
-        return new PaginatedList<Opinion>(opinions, paginationParameters.PageNumber, totalPages, paginationParameters.PageSize);
+        return new PaginatedList<Opinion>(opinions, parameters.PageNumber, totalPages, parameters.PageSize);
     }
 
     public Opinion? GetById(int opinionId)
