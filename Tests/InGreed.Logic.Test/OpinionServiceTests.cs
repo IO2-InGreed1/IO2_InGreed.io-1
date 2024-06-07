@@ -200,7 +200,7 @@ public class OpinionServiceTests
         PaginationParameters paginationParameters = new();
         testingOpinion.reportCount = 1;
         List<Opinion> opinions = new() { testingOpinion };
-        opinionDAMock.Setup(oda => oda.GetAllReported(paginationParameters)).Returns(new PaginatedList<Opinion>(opinions, 1, 1));
+        opinionDAMock.Setup(oda => oda.GetAllReported(paginationParameters)).Returns(new PaginatedList<Opinion>(opinions, 1, 1, paginationParameters.PageSize));
         OpinionService sut = new(opinionDAMock.Object, mapper);
 
         // Act
