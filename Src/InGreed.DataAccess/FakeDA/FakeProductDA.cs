@@ -15,7 +15,7 @@ public class FakeProductDA : IProductDA
         new() {Id = 3, Name = "Potion of Fire Resistance", PromotedUntil = null, Category = Category.Drinks,
         IconURL = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/e/ee/Potion_of_Fire_Resistance_JE3.png", ProducentId = 3 }
     };
-    private int currentId = 3;
+    private static int currentId = 3;
 
     public int CreateProduct(Product product)
     {
