@@ -4,7 +4,6 @@ using InGreed.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InGreed.Logic.Enums.Opinion;
 
-
 namespace InGreed.Api.Controllers;
 
 [Route("api/[controller]")]
@@ -12,10 +11,12 @@ namespace InGreed.Api.Controllers;
 public class OpinionController : ControllerBase
 {
     IOpinionService _opinionService;
+    IAccountService _accountService;
 
-    public OpinionController(IOpinionService opinionService)
+    public OpinionController(IOpinionService opinionService, IAccountService accountService)
     {
         _opinionService = opinionService;
+        _accountService = accountService;
     }
 
     [HttpGet("{id}")]
@@ -23,7 +24,7 @@ public class OpinionController : ControllerBase
     {
         Opinion? result = _opinionService.GetById(id);
         if (result is null) return NotFound();
-        GetByIdResponse response = new(result);
+        GetByIdResponse response = new(result, _accountService.GetUserById(result.authorId).Username);
         return Ok(response);
     }
 
@@ -64,7 +65,9 @@ public class OpinionController : ControllerBase
     {
         List<Opinion> result = _opinionService.GetAllReported();
         if (result is null) return BadRequest();
-        GetAllReportedResponse response = new(result);
+        List<(Opinion, string)> opinionsWithAuthors = new(result.Count);
+        foreach (Opinion opinion in result) opinionsWithAuthors.Add((opinion, _accountService.GetUserById(opinion.authorId).Username));
+        GetAllReportedResponse response = new(opinionsWithAuthors);
         return Ok(response);
     }
 

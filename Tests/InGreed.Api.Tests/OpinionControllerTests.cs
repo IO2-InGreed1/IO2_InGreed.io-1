@@ -11,21 +11,26 @@ namespace InGreed.Api.Tests;
 public class OpinionControllerTests
 {
     private Mock<IOpinionService> opinionServiceMock;
+    private Mock<IAccountService> accountServiceMock;
     private Opinion testingOpinion;
+    private User testingUser;
     private readonly int id = 1;
 
     public OpinionControllerTests()
     {
         opinionServiceMock = new();
+        accountServiceMock = new();
         testingOpinion = new() { Id = id, productId = 1, authorId = 1, Content = "test opinion", reportCount = 0 };
+        testingUser = new() { Id = id, Banned = false, Email = "test", IconURL = "test", Password = "test", Role = Domain.Enums.Role.User, Username = "test" };
     }
 
     [Fact]
     public void GetById_ExistingOpinion_ShouldReturnStatusOk()
     {
         // Arrange
+        accountServiceMock.Setup(asm => asm.GetUserById(id)).Returns(testingUser);
         opinionServiceMock.Setup(osa => osa.GetById(id)).Returns(testingOpinion);
-        OpinionController sut = new(opinionServiceMock.Object);
+        OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object);
 
         // Act
         var response = sut.GetById(id);
@@ -40,8 +45,9 @@ public class OpinionControllerTests
     public void GetById_NonexistentOpinion_ShouldReturnStatusNotFound()
     {
         // Arrange
+        accountServiceMock.Setup(asm => asm.GetUserById(id)).Returns(testingUser);
         opinionServiceMock.Setup(osa => osa.GetById(id)).Returns(value: null);
-        OpinionController sut = new(opinionServiceMock.Object);
+        OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object);
 
         // Act
         var response = sut.GetById(id);
@@ -55,7 +61,7 @@ public class OpinionControllerTests
     {
         // Arrange
         opinionServiceMock.Setup(osa => osa.AddToProduct(testingOpinion, id)).Returns((OpinionServiceAddResponse.Success, id));
-        OpinionController sut = new(opinionServiceMock.Object);
+        OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object);
         AdditionRequest request = new(testingOpinion);
 
         // Act
@@ -70,7 +76,7 @@ public class OpinionControllerTests
     {
         // Arrange
         opinionServiceMock.Setup(osa => osa.AddToProduct(testingOpinion, id)).Returns((OpinionServiceAddResponse.NonexistentProduct, id));
-        OpinionController sut = new(opinionServiceMock.Object);
+        OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object);
         AdditionRequest request = new(testingOpinion);
 
         // Act
@@ -87,7 +93,7 @@ public class OpinionControllerTests
     {
         // Arrange
         opinionServiceMock.Setup(osa => osa.RemoveFromProduct(id, id)).Returns(OpinionServiceRemoveResponse.Success);
-        OpinionController sut = new(opinionServiceMock.Object);
+        OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object);
 
         // Act
         var response = sut.RemoveFromProduct(id, id);
@@ -101,7 +107,7 @@ public class OpinionControllerTests
     {
         // Arrange
         opinionServiceMock.Setup(osa => osa.RemoveFromProduct(id, id)).Returns(OpinionServiceRemoveResponse.NonexistentProduct);
-        OpinionController sut = new(opinionServiceMock.Object);
+        OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object);
 
         // Act
         var response = sut.RemoveFromProduct(id, id);
@@ -117,7 +123,7 @@ public class OpinionControllerTests
     {
         // Arrange
         opinionServiceMock.Setup(osa => osa.RemoveFromProduct(id, id)).Returns(OpinionServiceRemoveResponse.OpinionNotFromProduct);
-        OpinionController sut = new(opinionServiceMock.Object);
+        OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object);
 
         // Act
         var response = sut.RemoveFromProduct(id, id);
@@ -132,10 +138,12 @@ public class OpinionControllerTests
     public void GetAllReported_ShouldReturnStatusOk()
     {
         // Arrange
+        accountServiceMock.Setup(asm => asm.GetUserById(id)).Returns(testingUser);
         testingOpinion.reportCount = 1;
         List<Opinion> opinions = new() { testingOpinion };
+        List<(Opinion, string)> opinionsWithAuthors = new() { (testingOpinion, testingUser.Username) };
         opinionServiceMock.Setup(osa => osa.GetAllReported()).Returns(opinions);
-        OpinionController sut = new(opinionServiceMock.Object);
+        OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object);
 
         // Act
         var response = sut.GetAllReported();
@@ -143,7 +151,7 @@ public class OpinionControllerTests
         // Assert
         var actionResult = Assert.IsType<OkObjectResult>(response);
         var responseContent = Assert.IsType<GetAllReportedResponse>(actionResult.Value);
-        Assert.Equal(responseContent.opinions, opinions);
+        Assert.Equal(responseContent.opinions, opinionsWithAuthors);
     }
 
     [Fact]
@@ -151,7 +159,7 @@ public class OpinionControllerTests
     {
         // Arrange
         opinionServiceMock.Setup(osa => osa.AddReport(id)).Returns(OpinionServiceAddReportResponse.Success);
-        OpinionController sut = new(opinionServiceMock.Object);
+        OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object);
 
         // Act
         var response = sut.AddReport(id);
@@ -165,7 +173,7 @@ public class OpinionControllerTests
     {
         // Arrange
         opinionServiceMock.Setup(osa => osa.AddReport(id)).Returns(OpinionServiceAddReportResponse.NonexistentOpinion);
-        OpinionController sut = new(opinionServiceMock.Object);
+        OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object);
 
         // Act
         var response = sut.AddReport(id);
@@ -181,7 +189,7 @@ public class OpinionControllerTests
     {
         // Arrange
         opinionServiceMock.Setup(osa => osa.RemoveReports(id)).Returns(OpinionServiceRemoveReportsResponse.Success);
-        OpinionController sut = new(opinionServiceMock.Object);
+        OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object);
 
         // Act
         var response = sut.RemoveReports(id);
@@ -195,7 +203,7 @@ public class OpinionControllerTests
     {
         // Arrange
         opinionServiceMock.Setup(osa => osa.RemoveReports(id)).Returns(OpinionServiceRemoveReportsResponse.NonexistentOpinion);
-        OpinionController sut = new(opinionServiceMock.Object);
+        OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object);
 
         // Act
         var response = sut.RemoveReports(id);
