@@ -23,6 +23,7 @@ public class FakeUserDA : IUserDA
         new(){Id = 7, Email = "moderator", Password = "moderator", Username = "moderator", Role = Role.Moderator, Banned =false,
         IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" }
     };
+    private static int currentId = 7;
 
     public bool AddToFavourites(int productId, int userId)
     {
@@ -37,6 +38,7 @@ public class FakeUserDA : IUserDA
 
     public void CreateUser(User user)
     {
+        user.Id = ++currentId;
         _users.Add(user);
     }
 

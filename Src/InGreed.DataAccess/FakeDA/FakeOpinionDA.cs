@@ -12,7 +12,7 @@ public class FakeOpinionDA : IOpinionDA
         new() { Id = 2, productId = 2, authorId = 2, Content = "Not what I expected.", Score = 2.0f, reportCount = 1 },
         new() { Id = 3, productId = 1, authorId = 3, Content = "Amazing value for money.", Score = 5.0f, reportCount = 0 }
     };
-    private int currentId = 3;
+    private static int currentId = 3;
 
     public int Create(Opinion opinion)
     {

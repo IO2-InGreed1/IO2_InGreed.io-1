@@ -11,7 +11,7 @@ public class FakePreferenceDA : IPreferenceDA
         new() { Id = 2, Active = true, Name = "preference 2", OwnerId = 1 },
         new() { Id = 3, Active = false, Name = "preference 3", OwnerId = 2 }
     };
-    private int currentId = 3;
+    private static int currentId = 3;
 
     public bool Contains(int preferenceId)
     {

@@ -11,4 +11,5 @@ public class Product
     public List<Opinion> Opinions { get; } = new();
     public Category Category { get; set; } = Category.Other;
     public string IconURL { get; set; } = string.Empty;
+    public int ProducentId { get; set; }
 }

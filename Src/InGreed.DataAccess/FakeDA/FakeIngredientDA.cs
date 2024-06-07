@@ -12,7 +12,7 @@ public class FakeIngredientDA : IIngredientDA
         new() { Id = 2, IconURL = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/3f/Nether_Wart_(item)_JE2_BE1.png", Name = "Nether Wart" },
         new() { Id = 3, IconURL = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/b/b1/Bone_Meal_JE3_BE3.png", Name = "Bone Meal" }
     };
-    private int currentId = 3;
+    private static int currentId = 3;
 
     public IngredientDAAddResponse AddToProduct(int ingredient, int productId)
     {

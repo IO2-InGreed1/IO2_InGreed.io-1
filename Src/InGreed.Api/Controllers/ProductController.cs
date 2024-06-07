@@ -2,6 +2,7 @@
 using InGreed.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InGreed.Api.Contracts.Product;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InGreed.Api.Controllers;
 
@@ -16,6 +17,7 @@ public class ProductController : ControllerBase
         this.service = service;
     }
 
+    [Authorize(Roles = "Producent")]
     [HttpPost]
     public IActionResult Create(CreateRequest request)
     {
@@ -23,6 +25,8 @@ public class ProductController : ControllerBase
         service.CreateProduct(request.product);
         return Ok(request.product);
     }
+
+    [Authorize(Roles = "Producent")]
     [HttpPut]
     public IActionResult Modify(ModifyRequest request, int productToModifyId)
     {
@@ -30,6 +34,7 @@ public class ProductController : ControllerBase
         service.ModifyProduct(productToModifyId, request.product);
         return Ok(request.product);
     }
+
     [HttpGet]
     public IActionResult GetAllProducts()
     {
