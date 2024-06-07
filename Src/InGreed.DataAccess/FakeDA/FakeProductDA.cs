@@ -26,16 +26,21 @@ public class FakeProductDA : IProductDA
         return currentId;
     }
 
-    public PaginatedList<Product> GetAll(PaginationParameters paginationParameters)
+    public PaginatedList<Product> GetAll(ProductParameters parameters)
     {
+        Func<Product, bool> pred = p => (parameters.Category is null || p.Category == parameters.Category)
+            && !parameters.usedIngredientsId.Except(p.Ingredients.Select(i => i.Id)).Any()
+            && !parameters.bannedIngredientsId.Intersect(p.Ingredients.Select(i => i.Id)).Any();
+
         var products = _products
-            .Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize)
-            .Take(paginationParameters.PageSize);
+            .Where(pred)
+            .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+            .Take(parameters.PageSize);
 
-        var count = _products.Count();
-        var totalPages = (int)Math.Ceiling(count / (double)paginationParameters.PageSize);
+        var count = _products.Where(pred).Count();
+        var totalPages = (int)Math.Ceiling(count / (double)parameters.PageSize);
 
-        return new PaginatedList<Product>(products, paginationParameters.PageNumber, totalPages, paginationParameters.PageSize);
+        return new PaginatedList<Product>(products, parameters.PageNumber, totalPages, parameters.PageSize);
     }
 
     public Product GetProductById(int productId)

@@ -25,13 +25,13 @@ public class ProductControllerTests
     public void GetAllProducts_ShouldReturnStatusOk()
     {
         // Act
-        PaginationParameters paginationParameters = new();
+        ProductParameters parameters = new();
         List<Product> ingredients = new() { testingProduct };
-        productServiceMock.Setup(isa => isa.GetAllProducts(paginationParameters)).Returns(new PaginatedList<Product>(ingredients, 1, 1, paginationParameters.PageSize));
+        productServiceMock.Setup(isa => isa.GetAllProducts(parameters)).Returns(new PaginatedList<Product>(ingredients, 1, 1, parameters.PageSize));
         ProductController sut = new(productServiceMock.Object);
 
         // Arrange
-        var response = sut.GetAllProducts(paginationParameters);
+        var response = sut.GetAllProducts(parameters);
 
         // Assert
         var actionResult = Assert.IsType<OkObjectResult>(response);

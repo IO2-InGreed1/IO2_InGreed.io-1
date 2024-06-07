@@ -197,14 +197,14 @@ public class OpinionServiceTests
     public void GetAllReported_ShouldReturnAllReportedOpinions()
     {
         // Arrange
-        PaginationParameters paginationParameters = new();
+        OpinionParameters parameters = new();
         testingOpinion.reportCount = 1;
         List<Opinion> opinions = new() { testingOpinion };
-        opinionDAMock.Setup(oda => oda.GetAllReported(paginationParameters)).Returns(new PaginatedList<Opinion>(opinions, 1, 1, paginationParameters.PageSize));
+        opinionDAMock.Setup(oda => oda.GetAll(parameters)).Returns(new PaginatedList<Opinion>(opinions, 1, 1, parameters.PageSize));
         OpinionService sut = new(opinionDAMock.Object, mapper);
 
         // Act
-        var result = sut.GetAllReported(paginationParameters);
+        var result = sut.GetAllReported(parameters);
 
         // Assert
         Assert.Equal(result, opinions);

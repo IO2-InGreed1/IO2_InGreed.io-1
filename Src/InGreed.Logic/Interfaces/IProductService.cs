@@ -6,7 +6,7 @@ namespace InGreed.Logic.Interfaces;
 
 public interface IProductService
 {
-    PaginatedList<Product> GetAllProducts(PaginationParameters paginationParameters);
+    PaginatedList<Product> GetAllProducts(ProductParameters parameters);
     Product GetProductById(int productId);
     int CreateProduct(Product product);
     void ModifyProduct(int productIdToModify, Product product);

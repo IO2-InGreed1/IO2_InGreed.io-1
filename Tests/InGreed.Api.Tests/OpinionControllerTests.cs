@@ -140,16 +140,16 @@ public class OpinionControllerTests
     public void GetAllReported_ShouldReturnStatusOk()
     {
         // Arrange
-        PaginationParameters paginationParameters = new();
-        accountServiceMock.Setup(asm => asm.GetUserById(id)).Returns(testingUser);
+        OpinionParameters parameters = new();
         testingOpinion.reportCount = 1;
         List<Opinion> opinions = new() { testingOpinion };
         List<(Opinion, string, string)> opinionsWithAuthors = new() { (testingOpinion, testingUser.Username, testingUser.IconURL) };
+        accountServiceMock.Setup(asm => asm.GetUserById(id)).Returns(testingUser);
         opinionServiceMock.Setup(osa => osa.GetAllReported(paginationParameters)).Returns(new PaginatedList<Opinion>(opinions, 1, 1, paginationParameters.PageSize));
         OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object);
 
         // Act
-        var response = sut.GetAllReported(paginationParameters);
+        var response = sut.GetAllReported(parameters);
 
         // Assert
         var actionResult = Assert.IsType<OkObjectResult>(response);
