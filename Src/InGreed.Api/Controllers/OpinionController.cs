@@ -27,16 +27,16 @@ public class OpinionController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost("/api/Product/{productId}/add-opinion")]
-    public IActionResult AddToProduct(AdditionRequest request, int productId)
+    [HttpPost("/api/Product/add-opinion")]
+    public IActionResult AddToProduct(AdditionRequest request)
     {
-        OpinionServiceAddResponse result = _opinionService.AddToProduct(request.opinion, productId);
-        switch (result)
+        (OpinionServiceAddResponse response, int resId) result = _opinionService.AddToProduct(request.opinion, request.opinion.productId);
+        switch (result.response)
         {
             case OpinionServiceAddResponse.NonexistentProduct:
-                return NotFound($"There is no product with an id {productId}.");
+                return NotFound($"There is no product with an id {request.opinion.productId}.");
             case OpinionServiceAddResponse.Success:
-                return Ok();
+                return Ok(result.resId);
             default:
                 return BadRequest("Unexpected error.");
         }

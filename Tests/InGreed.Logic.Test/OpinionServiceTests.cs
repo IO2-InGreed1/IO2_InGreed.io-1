@@ -65,7 +65,7 @@ public class OpinionServiceTests
         var result = sut.AddToProduct(testingOpinion, id);
 
         // Assert
-        Assert.Equal(OpinionServiceAddResponse.Success, result);
+        Assert.Equal((OpinionServiceAddResponse.Success, id), result);
     }
 
     [Fact]
@@ -81,7 +81,7 @@ public class OpinionServiceTests
         var result = sut.AddToProduct(testingOpinion, id);
 
         // Assert
-        Assert.Equal(OpinionServiceAddResponse.NonexistentProduct, result);
+        Assert.Equal((OpinionServiceAddResponse.NonexistentProduct, id), result);
     }
 
     [Fact]
@@ -96,7 +96,7 @@ public class OpinionServiceTests
         var result = sut.AddToProduct(testingOpinion, id);
 
         // Assert
-        Assert.Equal(OpinionServiceAddResponse.Success, result);
+        Assert.Equal((OpinionServiceAddResponse.Success, id), result);
     }
 
     [Fact]
@@ -111,7 +111,7 @@ public class OpinionServiceTests
         var result = sut.AddToProduct(testingOpinion, id);
 
         // Assert
-        Assert.Equal(OpinionServiceAddResponse.NonexistentProduct, result);
+        Assert.Equal((OpinionServiceAddResponse.NonexistentProduct, id), result);
     }
 
     [Fact]
