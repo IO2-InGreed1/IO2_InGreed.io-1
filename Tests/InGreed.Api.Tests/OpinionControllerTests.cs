@@ -145,7 +145,7 @@ public class OpinionControllerTests
         testingOpinion.reportCount = 1;
         List<Opinion> opinions = new() { testingOpinion };
         List<(Opinion, string, string)> opinionsWithAuthors = new() { (testingOpinion, testingUser.Username, testingUser.IconURL) };
-        opinionServiceMock.Setup(osa => osa.GetAllReported()).Returns(new PaginatedList<Opinion>(opinions, 1, 1, paginationParameters.PageSize));
+        opinionServiceMock.Setup(osa => osa.GetAllReported(paginationParameters)).Returns(new PaginatedList<Opinion>(opinions, 1, 1, paginationParameters.PageSize));
         OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object);
 
         // Act
