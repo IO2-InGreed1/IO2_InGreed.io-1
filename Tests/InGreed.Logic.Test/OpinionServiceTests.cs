@@ -88,6 +88,7 @@ public class OpinionServiceTests
     public void AddToProduct_ExistingOpinionExistingProduct_ShouldReturnSuccessResponse()
     {
         // Arrange
+        opinionDAMock.Setup(oda => oda.Create(testingOpinion)).Returns(id);
         opinionDAMock.Setup(oda => oda.GetById(id)).Returns(testingOpinion);
         opinionDAMock.Setup(oda => oda.AddToProduct(id, id)).Returns(OpinionDAAddResponse.Success);
         OpinionService sut = new(opinionDAMock.Object, mapper);
@@ -98,11 +99,12 @@ public class OpinionServiceTests
         // Assert
         Assert.Equal((OpinionServiceAddResponse.Success, id), result);
     }
-
+    
     [Fact]
     public void AddToProduct_ExistingOpinionNonexistentProduct_ShouldReturnNonexistentProductResponse()
     {
         // Arrange
+        opinionDAMock.Setup(oda => oda.Create(testingOpinion)).Returns(id);
         opinionDAMock.Setup(oda => oda.GetById(id)).Returns(testingOpinion);
         opinionDAMock.Setup(oda => oda.AddToProduct(id, id)).Returns(OpinionDAAddResponse.NonexistentProduct);
         OpinionService sut = new(opinionDAMock.Object, mapper);
