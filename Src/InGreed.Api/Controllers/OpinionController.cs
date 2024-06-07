@@ -7,7 +7,6 @@ using InGreed.Domain.Queries;
 using InGreed.Domain.Helpers;
 using Newtonsoft.Json;
 
-
 namespace InGreed.Api.Controllers;
 
 [Route("api/[controller]")]
@@ -15,10 +14,12 @@ namespace InGreed.Api.Controllers;
 public class OpinionController : ControllerBase
 {
     IOpinionService _opinionService;
+    IAccountService _accountService;
 
-    public OpinionController(IOpinionService opinionService)
+    public OpinionController(IOpinionService opinionService, IAccountService accountService)
     {
         _opinionService = opinionService;
+        _accountService = accountService;
     }
 
     [HttpGet("{id}")]
@@ -26,7 +27,8 @@ public class OpinionController : ControllerBase
     {
         Opinion? result = _opinionService.GetById(id);
         if (result is null) return NotFound();
-        GetByIdResponse response = new(result);
+        User author = _accountService.GetUserById(result.authorId);
+        GetByIdResponse response = new(result, author.Username, author.IconURL);
         return Ok(response);
     }
 
@@ -67,8 +69,15 @@ public class OpinionController : ControllerBase
     {
         PaginatedList<Opinion> result = _opinionService.GetAllReported(parameters);
         if (result is null) return BadRequest();
-        GetAllReportedResponse response = new(result);
-
+        List<(Opinion, string, string)> opinionsWithAuthors = new(result.Count);
+        User author;
+        foreach (Opinion opinion in result)
+        {
+            author = _accountService.GetUserById(opinion.authorId);
+            opinionsWithAuthors.Add((opinion, author.Username, author.IconURL));
+        }
+        GetAllReportedResponse response = new(opinionsWithAuthors);
+        
         var metadata = new
         {
             result.PageSize,
