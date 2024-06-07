@@ -22,11 +22,11 @@ namespace InGreed.Logic.Services
             return _opinionDA.GetById(opinionId);
         }
 
-        public OpinionServiceAddResponse AddToProduct(Opinion opinion, int productId)
+        public (OpinionServiceAddResponse, int) AddToProduct(Opinion opinion, int productId)
         {
             if (_opinionDA.GetById(opinion.Id) is null) opinion.Id = _opinionDA.Create(opinion);
             var response = _opinionDA.AddToProduct(opinion.Id, productId);
-            return _dbtoServiceResponseMapper.AddResponseMapper(response);
+            return (_dbtoServiceResponseMapper.AddResponseMapper(response), opinion.Id);
         }
 
         public OpinionServiceRemoveResponse RemoveFromProduct(int opinionId, int productId)

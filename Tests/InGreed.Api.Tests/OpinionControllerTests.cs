@@ -54,27 +54,27 @@ public class OpinionControllerTests
     public void AddToProduct_ExistingProduct_ShouldReturnStatusOk()
     {
         // Arrange
-        opinionServiceMock.Setup(osa => osa.AddToProduct(testingOpinion, id)).Returns(OpinionServiceAddResponse.Success);
+        opinionServiceMock.Setup(osa => osa.AddToProduct(testingOpinion, id)).Returns((OpinionServiceAddResponse.Success, id));
         OpinionController sut = new(opinionServiceMock.Object);
         AdditionRequest request = new(testingOpinion);
 
         // Act
-        var response = sut.AddToProduct(request, id);
+        var response = sut.AddToProduct(request);
 
         // Assert
-        Assert.IsType<OkResult>(response);
+        Assert.IsType<OkObjectResult>(response);
     }
 
     [Fact]
     public void AddToProduct_NonexistentProduct_ShouldReturnStatusBadRequest()
     {
         // Arrange
-        opinionServiceMock.Setup(osa => osa.AddToProduct(testingOpinion, id)).Returns(OpinionServiceAddResponse.NonexistentProduct);
+        opinionServiceMock.Setup(osa => osa.AddToProduct(testingOpinion, id)).Returns((OpinionServiceAddResponse.NonexistentProduct, id));
         OpinionController sut = new(opinionServiceMock.Object);
         AdditionRequest request = new(testingOpinion);
 
         // Act
-        var response = sut.AddToProduct(request, id);
+        var response = sut.AddToProduct(request);
 
         // Assert
         var actionResult = Assert.IsType<NotFoundObjectResult>(response);
