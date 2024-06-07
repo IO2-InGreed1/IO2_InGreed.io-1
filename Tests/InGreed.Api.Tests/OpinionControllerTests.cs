@@ -141,7 +141,7 @@ public class OpinionControllerTests
         accountServiceMock.Setup(asm => asm.GetUserById(id)).Returns(testingUser);
         testingOpinion.reportCount = 1;
         List<Opinion> opinions = new() { testingOpinion };
-        List<(Opinion, string)> opinionsWithAuthors = new() { (testingOpinion, testingUser.Username) };
+        List<(Opinion, string, string)> opinionsWithAuthors = new() { (testingOpinion, testingUser.Username, testingUser.IconURL) };
         opinionServiceMock.Setup(osa => osa.GetAllReported()).Returns(opinions);
         OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object);
 

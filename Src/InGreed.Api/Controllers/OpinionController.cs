@@ -24,7 +24,8 @@ public class OpinionController : ControllerBase
     {
         Opinion? result = _opinionService.GetById(id);
         if (result is null) return NotFound();
-        GetByIdResponse response = new(result, _accountService.GetUserById(result.authorId).Username);
+        User author = _accountService.GetUserById(result.authorId);
+        GetByIdResponse response = new(result, author.Username, author.IconURL);
         return Ok(response);
     }
 
@@ -65,8 +66,13 @@ public class OpinionController : ControllerBase
     {
         List<Opinion> result = _opinionService.GetAllReported();
         if (result is null) return BadRequest();
-        List<(Opinion, string)> opinionsWithAuthors = new(result.Count);
-        foreach (Opinion opinion in result) opinionsWithAuthors.Add((opinion, _accountService.GetUserById(opinion.authorId).Username));
+        List<(Opinion, string, string)> opinionsWithAuthors = new(result.Count);
+        User author;
+        foreach (Opinion opinion in result)
+        {
+            author = _accountService.GetUserById(opinion.authorId);
+            opinionsWithAuthors.Add((opinion, author.Username, author.IconURL));
+        }
         GetAllReportedResponse response = new(opinionsWithAuthors);
         return Ok(response);
     }
