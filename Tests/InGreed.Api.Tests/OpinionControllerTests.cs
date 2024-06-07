@@ -5,6 +5,8 @@ using Moq;
 using Microsoft.AspNetCore.Mvc;
 using InGreed.Api.Contracts.Opinion;
 using InGreed.Logic.Enums.Opinion;
+using InGreed.Domain.Queries;
+using InGreed.Domain.Helpers;
 
 namespace InGreed.Api.Tests;
 
@@ -138,15 +140,16 @@ public class OpinionControllerTests
     public void GetAllReported_ShouldReturnStatusOk()
     {
         // Arrange
+        PaginationParameters paginationParameters = new();
         accountServiceMock.Setup(asm => asm.GetUserById(id)).Returns(testingUser);
         testingOpinion.reportCount = 1;
         List<Opinion> opinions = new() { testingOpinion };
         List<(Opinion, string, string)> opinionsWithAuthors = new() { (testingOpinion, testingUser.Username, testingUser.IconURL) };
-        opinionServiceMock.Setup(osa => osa.GetAllReported()).Returns(opinions);
+        opinionServiceMock.Setup(osa => osa.GetAllReported()).Returns(new PaginatedList<Opinion>(opinions, 1, 1, paginationParameters.PageSize));
         OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object);
 
         // Act
-        var response = sut.GetAllReported();
+        var response = sut.GetAllReported(paginationParameters);
 
         // Assert
         var actionResult = Assert.IsType<OkObjectResult>(response);
