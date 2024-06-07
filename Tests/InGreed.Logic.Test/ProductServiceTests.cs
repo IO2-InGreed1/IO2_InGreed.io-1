@@ -5,6 +5,7 @@ using Moq;
 using InGreed.Logic.Interfaces;
 using InGreed.Domain.Enums;
 using InGreed.Domain.Queries;
+using InGreed.Domain.Helpers;
 
 namespace InGreed.Logic.Test;
 
@@ -93,7 +94,7 @@ public class ProductServiceTests
         products.Add(product1);
         products.Add(product2);
 
-        mockProductDA.Setup(pda => pda.GetAll(paginationParameters)).Returns(products);
+        mockProductDA.Setup(pda => pda.GetAll(paginationParameters)).Returns(new PaginatedList<Product>(products, 1, 1, paginationParameters.PageSize));
         var productService = new ProductService(mockProductDA.Object);
 
         // Act

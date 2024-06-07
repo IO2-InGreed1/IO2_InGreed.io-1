@@ -2,6 +2,7 @@
 using InGreed.Logic.Interfaces;
 using InGreed.Domain.Models;
 using InGreed.Domain.Queries;
+using InGreed.Domain.Helpers;
 
 namespace InGreed.Logic.Services;
 
@@ -24,7 +25,7 @@ public class ProductService : IProductService
         _productDA.ModifyProduct(productIdToModify, product);
     }
 
-    public IEnumerable<Product> GetAllProducts(PaginationParameters paginationParameters)
+    public PaginatedList<Product> GetAllProducts(PaginationParameters paginationParameters)
     {
         return _productDA.GetAll(paginationParameters);
     }
