@@ -28,11 +28,14 @@ public class FakeProductDA : IProductDA
 
     public PaginatedList<Product> GetAll(ProductParameters parameters)
     {
+        Func<Product, bool> pred = p => parameters.Category is null || p.Category == parameters.Category;
+
         var products = _products
+            .Where(pred)
             .Skip((parameters.PageNumber - 1) * parameters.PageSize)
             .Take(parameters.PageSize);
 
-        var count = _products.Count();
+        var count = _products.Where(pred).Count();
         var totalPages = (int)Math.Ceiling(count / (double)parameters.PageSize);
 
         return new PaginatedList<Product>(products, parameters.PageNumber, totalPages, parameters.PageSize);
