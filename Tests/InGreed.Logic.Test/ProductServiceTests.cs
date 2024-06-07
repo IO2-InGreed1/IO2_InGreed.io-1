@@ -4,6 +4,7 @@ using InGreed.Domain.Models;
 using Moq;
 using InGreed.Logic.Interfaces;
 using InGreed.Domain.Enums;
+using InGreed.Domain.Queries;
 
 namespace InGreed.Logic.Test;
 
@@ -79,6 +80,7 @@ public class ProductServiceTests
     public void GetAllProducts_ShouldReturnListOfAllProducts()
     {
         // Arrange
+        PaginationParameters paginationParameters = new();
         List<Product> products = new List<Product>();
         Product product1 = new Product()
         {
@@ -91,11 +93,11 @@ public class ProductServiceTests
         products.Add(product1);
         products.Add(product2);
 
-        mockProductDA.Setup(pda => pda.GetAll()).Returns(products);
+        mockProductDA.Setup(pda => pda.GetAll(paginationParameters)).Returns(products);
         var productService = new ProductService(mockProductDA.Object);
 
         // Act
-        var result = productService.GetAllProducts().ToList();
+        var result = productService.GetAllProducts(paginationParameters).ToList();
 
         // Assert
         Assert.Equal(products, result);
