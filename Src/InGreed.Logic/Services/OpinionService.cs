@@ -24,7 +24,7 @@ namespace InGreed.Logic.Services
 
         public (OpinionServiceAddResponse, int) AddToProduct(Opinion opinion, int productId)
         {
-            if (_opinionDA.GetById(opinion.Id) is null) opinion.Id = _opinionDA.Create(opinion);
+            opinion.Id = _opinionDA.Create(opinion);
             var response = _opinionDA.AddToProduct(opinion.Id, productId);
             return (_dbtoServiceResponseMapper.AddResponseMapper(response), opinion.Id);
         }
