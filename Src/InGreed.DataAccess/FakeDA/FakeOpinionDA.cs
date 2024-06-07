@@ -1,7 +1,9 @@
 ﻿using InGreed.DataAccess.Enums.Opinion;
 using InGreed.DataAccess.Interfaces;
+using InGreed.Domain.Helpers;
 using InGreed.Domain.Models;
 using InGreed.Domain.Queries;
+using System.Numerics;
 
 namespace InGreed.DataAccess.FakeDA;
 
@@ -22,11 +24,17 @@ public class FakeOpinionDA : IOpinionDA
         return currentId;
     }
 
-    public IEnumerable<Opinion> GetAll(PaginationParameters paginationParameters)
+    public PaginatedList<Opinion> GetAllReported(PaginationParameters paginationParameters)
     {
-        return _opinions
+        var opinions = _opinions
+            .Where(o => o.reportCount > 0)
             .Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize)
             .Take(paginationParameters.PageSize);
+
+        var count = _opinions.Where(o => o.reportCount > 0).Count();
+        var totalPages = (int)Math.Ceiling(count / (double)paginationParameters.PageSize);
+
+        return new PaginatedList<Opinion>(opinions, paginationParameters.PageNumber, totalPages, paginationParameters.PageSize);
     }
 
     public Opinion? GetById(int opinionId)

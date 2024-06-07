@@ -4,6 +4,8 @@ using InGreed.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InGreed.Logic.Enums.Opinion;
 using InGreed.Domain.Queries;
+using InGreed.Domain.Helpers;
+using Newtonsoft.Json;
 
 
 namespace InGreed.Api.Controllers;
@@ -63,9 +65,22 @@ public class OpinionController : ControllerBase
     [HttpGet("reported")]
     public IActionResult GetAllReported([FromQuery]PaginationParameters paginationParameters)
     {
-        List<Opinion> result = _opinionService.GetAllReported(paginationParameters);
+        PaginatedList<Opinion> result = _opinionService.GetAllReported(paginationParameters);
         if (result is null) return BadRequest();
         GetAllReportedResponse response = new(result);
+
+        var metadata = new
+        {
+            result.PageSize,
+            result.PageIndex,
+            result.TotalPages,
+            result.HasPreviousPage,
+            result.HasNextPage
+        };
+
+        if(Response != null)
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
         return Ok(response);
     }
 

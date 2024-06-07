@@ -1,4 +1,5 @@
-﻿using InGreed.Domain.Models;
+﻿using InGreed.Domain.Helpers;
+using InGreed.Domain.Models;
 using InGreed.Domain.Queries;
 using InGreed.Logic.Enums.Opinion;
 
@@ -11,6 +12,6 @@ namespace InGreed.Logic.Interfaces
         OpinionServiceRemoveResponse RemoveFromProduct(int opinionId, int productId);
         OpinionServiceAddReportResponse AddReport(int opinionId);
         OpinionServiceRemoveReportsResponse RemoveReports(int opinionId);
-        List<Opinion> GetAllReported(PaginationParameters paginationParameters);
+        PaginatedList<Opinion> GetAllReported(PaginationParameters paginationParameters);
     }
 }

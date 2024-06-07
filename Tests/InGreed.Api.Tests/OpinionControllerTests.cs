@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using InGreed.Api.Contracts.Opinion;
 using InGreed.Logic.Enums.Opinion;
 using InGreed.Domain.Queries;
+using InGreed.Domain.Helpers;
 
 namespace InGreed.Api.Tests;
 
@@ -136,7 +137,7 @@ public class OpinionControllerTests
         PaginationParameters paginationParameters = new();
         testingOpinion.reportCount = 1;
         List<Opinion> opinions = new() { testingOpinion };
-        opinionServiceMock.Setup(osa => osa.GetAllReported(paginationParameters)).Returns(opinions);
+        opinionServiceMock.Setup(osa => osa.GetAllReported(paginationParameters)).Returns(new PaginatedList<Opinion>(opinions, 1, 1));
         OpinionController sut = new(opinionServiceMock.Object);
 
         // Act

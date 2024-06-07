@@ -1,4 +1,5 @@
 ﻿using InGreed.DataAccess.Enums.Opinion;
+using InGreed.Domain.Helpers;
 using InGreed.Domain.Models;
 using InGreed.Domain.Queries;
 
@@ -6,7 +7,7 @@ namespace InGreed.DataAccess.Interfaces
 {
     public interface IOpinionDA
     {
-        IEnumerable<Opinion> GetAll(PaginationParameters paginationParameters);
+        PaginatedList<Opinion> GetAllReported(PaginationParameters paginationParameters);
         Opinion? GetById(int ingredientId);
         int Create(Opinion opinion);
         OpinionDAAddResponse AddToProduct(int opinionId, int productId);

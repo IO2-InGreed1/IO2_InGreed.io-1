@@ -6,6 +6,7 @@ using InGreed.Logic.Mappers;
 using InGreed.Logic.Enums.Opinion;
 using InGreed.DataAccess.Enums.Opinion;
 using InGreed.Domain.Queries;
+using InGreed.Domain.Helpers;
 
 namespace InGreed.Logic.Tests;
 public class OpinionServiceTests
@@ -199,7 +200,7 @@ public class OpinionServiceTests
         PaginationParameters paginationParameters = new();
         testingOpinion.reportCount = 1;
         List<Opinion> opinions = new() { testingOpinion };
-        opinionDAMock.Setup(oda => oda.GetAll(paginationParameters)).Returns(opinions);
+        opinionDAMock.Setup(oda => oda.GetAllReported(paginationParameters)).Returns(new PaginatedList<Opinion>(opinions, 1, 1));
         OpinionService sut = new(opinionDAMock.Object, mapper);
 
         // Act
