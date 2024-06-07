@@ -9,5 +9,5 @@ public interface IProductDA
     Product GetProductById(int productId);
     int CreateProduct(Product product);
     void ModifyProduct(int productIdToModify, Product product);
-    PaginatedList<Product> GetAll(PaginationParameters paginationParameters);
+    PaginatedList<Product> GetAll(ProductParameters parameters);
 }

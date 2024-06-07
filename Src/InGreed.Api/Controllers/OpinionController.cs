@@ -63,9 +63,9 @@ public class OpinionController : ControllerBase
     }
 
     [HttpGet("reported")]
-    public IActionResult GetAllReported([FromQuery]PaginationParameters paginationParameters)
+    public IActionResult GetAllReported([FromQuery]OpinionParameters parameters)
     {
-        PaginatedList<Opinion> result = _opinionService.GetAllReported(paginationParameters);
+        PaginatedList<Opinion> result = _opinionService.GetAllReported(parameters);
         if (result is null) return BadRequest();
         GetAllReportedResponse response = new(result);
 

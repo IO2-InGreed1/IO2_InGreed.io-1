@@ -12,6 +12,6 @@ namespace InGreed.Logic.Interfaces
         OpinionServiceRemoveResponse RemoveFromProduct(int opinionId, int productId);
         OpinionServiceAddReportResponse AddReport(int opinionId);
         OpinionServiceRemoveReportsResponse RemoveReports(int opinionId);
-        PaginatedList<Opinion> GetAllReported(PaginationParameters paginationParameters);
+        PaginatedList<Opinion> GetAllReported(OpinionParameters parameters);
     }
 }

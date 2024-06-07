@@ -39,10 +39,10 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAllProducts([FromQuery]PaginationParameters paginationParameters)
+    public IActionResult GetAllProducts([FromQuery]ProductParameters parameters)
     {
         PaginatedList<Product> result;
-        try { result = service.GetAllProducts(paginationParameters); }
+        try { result = service.GetAllProducts(parameters); }
         catch (ArgumentException e) { return NotFound(e.Message); }
 
         var metadata = new

@@ -37,9 +37,11 @@ namespace InGreed.Logic.Services
             return _dbtoServiceResponseMapper.RemoveResponseMapper(response);
         }
 
-        public PaginatedList<Opinion> GetAllReported(PaginationParameters paginationParameters)
+        public PaginatedList<Opinion> GetAllReported(OpinionParameters parameters)
         {
-            return _opinionDA.GetAllReported(paginationParameters);
+            if(parameters.ReportCountGreaterThan == -1)
+                parameters.ReportCountGreaterThan = 0;
+            return _opinionDA.GetAll(parameters);
         }
 
         public OpinionServiceAddReportResponse AddReport(int opinionId)
