@@ -254,6 +254,7 @@ class RealProductDatabase extends ProductDatabse
     "ingredients": product.ingredients.map((e)=>e.toJson()).toList(),
     "category": product.category.backendNumber,
     "iconURL": product.iconURL,
+    "producentId": product.producer.id//TODO: pewnie się zmieni
     });
     if(response["success"]==false) return false;
     product.id=response["value"];
@@ -262,13 +263,26 @@ class RealProductDatabase extends ProductDatabse
 
   @override
   Future<bool> editProduct(Product product, Product editedProduct) async {
-    // TODO: implement editProduct
-    throw UnimplementedError();
+   var response=await getResponse("Product?productToModifyId=${product.id}", cubit.state.userToken,RequestType.put,
+    jsonData: 
+    {
+    "id": editedProduct.id,
+    "name": editedProduct.name,
+    "promotedUntil": editedProduct.promotionUntil.toIso8601String(),
+    "ingredients": editedProduct.ingredients.map((e)=>e.toJson()).toList(),
+    "category": editedProduct.category.backendNumber,
+    "iconURL": editedProduct.iconURL,
+    "producentId": product.producer.id//TODO: pewnie się zmieni
+    });
+    if(response["success"]==false) return false;
+    product.id=response["value"];
+    return true;
   }
 
   @override
   Future<ListData<Product>> filterProducts(int from, int to, ProductFilter filter) async {
     // TODO: implement filterProducts
+    return ListData([], 0);
     throw UnimplementedError();
   }
 
@@ -280,8 +294,9 @@ class RealProductDatabase extends ProductDatabse
 
   @override
   Future<bool> removeProduct(Product product) async{
-    // TODO: implement removeProduct
-    throw UnimplementedError();
+    //TODO: sprawidzić czy na backendzie endpoint nazywa się tak samo
+    var response =await getResponse("Product/${product.id}", cubit.state.userToken, RequestType.delete);
+    return response["success"];
   }
   
   @override

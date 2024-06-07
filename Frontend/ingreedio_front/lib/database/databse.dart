@@ -61,8 +61,8 @@ abstract class OpinionDatabase
   SessionCubit get cubit=>throw Exception("not implemented");
   Future<bool> addOpinion(Opinion opinion);
   Future<bool> removeOpinion(Opinion opinion);
-  Future<List<Opinion>> getClientOpinions(Client client);
-  Future<List<Opinion>> getProductOpinions(Product product);
+  //Future<List<Opinion>> getClientOpinions(Client client);
+  //Future<List<Opinion>> getProductOpinions(Product product);
   Future<ListData<Opinion>> getReportedFilteredOpinions(int from,int to,Filter<Opinion> filter);
   Future<ListData<Opinion>> getOpinionsFiltered(int from,int to,Product product,OpinionFilter filter);
   Future<void> setOpinionReport(Opinion opinion,{bool reportState=true});
