@@ -68,4 +68,25 @@ public class ProductController : ControllerBase
         catch (ArgumentException e) { return NotFound(e.Message); }
         return Ok(product);
     }
+
+    [Authorize(Roles = "Moderator,Administrator")]
+    [HttpGet("reported")]
+    public IActionResult GetReported([FromQuery] PaginationParameters paginationParameters)
+    {
+        throw new NotImplementedException();
+    }
+
+    [Authorize(Roles = "Moderator,Administrator")]
+    [HttpDelete("reported")]
+    public IActionResult RemoveReports(int productId)
+    {
+        throw new NotImplementedException();
+    }
+
+    [Authorize]
+    [HttpPost("{productId}/report")]
+    public IActionResult AddReport(int productId)
+    {
+        throw new NotImplementedException();
+    }
 }

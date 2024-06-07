@@ -24,13 +24,12 @@ public class ProductControllerTests
     [Fact]
     public void GetAllProducts_ShouldReturnStatusOk()
     {
-        // Act
+        // Arrange
         ProductParameters parameters = new();
         List<Product> ingredients = new() { testingProduct };
         productServiceMock.Setup(isa => isa.GetAllProducts(parameters)).Returns(new PaginatedList<Product>(ingredients, 1, 1, parameters.PageSize));
         ProductController sut = new(productServiceMock.Object);
 
-        // Arrange
         var response = sut.GetAllProducts(parameters);
 
         // Assert
@@ -42,11 +41,11 @@ public class ProductControllerTests
     [Fact]
     public void GetById_ExistingProduct_ShouldReturnStatusOk()
     {
-        // Act
+        // Arrange
         productServiceMock.Setup(isa => isa.GetProductById(id)).Returns(testingProduct);
         ProductController sut = new(productServiceMock.Object);
 
-        // Arrange
+        // Act
         var response = sut.GetById(id);
 
         // Assert
@@ -58,11 +57,11 @@ public class ProductControllerTests
     [Fact]
     public void GetById_NonexistentProduct_ShouldReturnStatusNotFound()
     {
-        // Act
+        // Arrange
         productServiceMock.Setup(isa => isa.GetProductById(id)).Throws(new ArgumentException());
         ProductController sut = new(productServiceMock.Object);
 
-        // Arrange
+        // Act
         var response = sut.GetById(id);
 
         // Assert
@@ -72,13 +71,13 @@ public class ProductControllerTests
     [Fact]
     public void Create_ShouldReturnStatusOk()
     {
-        // Act
+        // Arrange
         int newId = 2;
         productServiceMock.Setup(isa => isa.CreateProduct(testingProduct)).Returns(newId);
         ProductController sut = new(productServiceMock.Object);
         CreateRequest request = new(testingProduct);
 
-        // Arrange
+        // Act
         var response = sut.Create(request);
 
         // Assert
@@ -91,14 +90,79 @@ public class ProductControllerTests
     [Fact]
     public void Modify_ExistingProduct_ShouldReturnStatusOk()
     {
-        // Act
+        // Arrange
         ProductController sut = new(productServiceMock.Object);
         ModifyRequest request= new(testingProduct);
 
-        // Arrange
+        // Act
         var response = sut.Modify(request, id);
 
         // Assert
         Assert.IsType<OkObjectResult>(response);
+    }
+
+    [Fact]
+    public void GetReported_ShouldReturnStatusOk()
+    {
+        // Arrange
+
+
+        // Act
+
+
+        // Assert
+
+    }
+
+    [Fact]
+    public void RemoveReports_ExistingProduct_ShouldReturnStatusOk()
+    {
+        // Arrange
+
+
+        // Act
+
+
+        // Assert
+
+    }
+
+    [Fact]
+    public void RemoveReports_nonexistentProduct_ShouldReturnStatusNotFound()
+    {
+        // Arrange
+
+
+        // Act
+
+
+        // Assert
+
+    }
+
+    [Fact]
+    public void AddReport_ExistingProduct_ShouldReturnStatusOk()
+    {
+        // Arrange
+
+
+        // Act
+
+
+        // Assert
+
+    }
+
+    [Fact]
+    public void AddReport_nonexistentProduct_ShouldReturnStatusNotFound()
+    {
+        // Arrange
+
+
+        // Act
+
+
+        // Assert
+
     }
 }

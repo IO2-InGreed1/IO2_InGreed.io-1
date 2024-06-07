@@ -2,7 +2,6 @@
 using InGreed.Logic.Services;
 using InGreed.Domain.Models;
 using Moq;
-using InGreed.Logic.Interfaces;
 using InGreed.Domain.Enums;
 using InGreed.Domain.Queries;
 using InGreed.Domain.Helpers;

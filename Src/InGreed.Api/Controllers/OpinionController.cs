@@ -6,6 +6,7 @@ using InGreed.Logic.Enums.Opinion;
 using InGreed.Domain.Queries;
 using InGreed.Domain.Helpers;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InGreed.Api.Controllers;
 
@@ -64,6 +65,7 @@ public class OpinionController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Moderator,Administrator")]
     [HttpGet("reported")]
     public IActionResult GetAllReported([FromQuery]OpinionParameters parameters)
     {
@@ -108,6 +110,7 @@ public class OpinionController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Moderator,Administrator")]
     [HttpDelete("{opinionId}/reports")]
     public IActionResult RemoveReports(int opinionId)
     {

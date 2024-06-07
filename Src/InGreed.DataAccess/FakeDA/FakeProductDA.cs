@@ -62,4 +62,14 @@ public class FakeProductDA : IProductDA
             foreach (Opinion opinion in product.Opinions) toModify.Opinions.Add(opinion);
         }
     }
+
+    public bool RemoveReports(int productId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool Report(int productId)
+    {
+        throw new NotImplementedException();
+    }
 }

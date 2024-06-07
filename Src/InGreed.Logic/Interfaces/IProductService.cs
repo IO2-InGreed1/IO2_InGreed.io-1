@@ -10,4 +10,6 @@ public interface IProductService
     Product GetProductById(int productId);
     int CreateProduct(Product product);
     void ModifyProduct(int productIdToModify, Product product);
+    bool Report(int productId);
+    bool RemoveReports(int productId);
 }

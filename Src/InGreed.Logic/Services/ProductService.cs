@@ -35,4 +35,14 @@ public class ProductService : IProductService
         try { return _productDA.GetProductById(productId); }
         catch(Exception ex) { throw new ArgumentException(ex.Message); }
     }
+
+    public bool Report(int productId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool RemoveReports(int productId)
+    {
+        throw new NotImplementedException();
+    }
 }
