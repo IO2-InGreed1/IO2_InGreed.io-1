@@ -70,7 +70,7 @@ public class ProductController : ControllerBase
     }
 
     [Authorize(Roles = "Moderator,Administrator")]
-    [HttpDelete("reported")]
+    [HttpDelete("{productId}/reports")]
     public IActionResult RemoveReports(int productId)
     {
         if (service.RemoveReports(productId)) return Ok();
