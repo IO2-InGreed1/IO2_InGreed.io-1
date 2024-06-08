@@ -84,7 +84,7 @@ public class ProductServiceTests
     {
         // Arrange
         ProductParameters parameters = new();
-        List<(Product, string)> products = new();
+        List<ProductWithOwner> products = new();
         Product product1 = new Product()
         {
             Id = 1
@@ -93,10 +93,10 @@ public class ProductServiceTests
         {
             Id = 2
         };
-        products.Add((product1,"Producent 1"));
-        products.Add((product2, "Producent 2"));
+        products.Add(new() { Product = product1, Owner = "Producent 1" });
+        products.Add(new() { Product = product2, Owner = "Producent 2" });
 
-        mockProductDA.Setup(pda => pda.GetAll(parameters)).Returns(new PaginatedList<(Product, string)>(products, 1, 1, parameters.PageSize));
+        mockProductDA.Setup(pda => pda.GetAll(parameters)).Returns(new PaginatedList<ProductWithOwner>(products, 1, 1, parameters.PageSize));
         var productService = new ProductService(mockProductDA.Object, mockUserDA.Object);
 
         // Act
@@ -115,16 +115,17 @@ public class ProductServiceTests
             Id = 1
         };
         User p = new() { Id = 1, Username = producent };
+        ProductWithOwner po = new ProductWithOwner { Product = product1, Owner = producent };
         int testedId = 1;
         mockUserDA.Setup(mud => mud.GetUserById(product1.ProducentId)).Returns(p);
-        mockProductDA.Setup(pda => pda.GetProductById(testedId)).Returns(product1);
+        mockProductDA.Setup(pda => pda.GetProductById(testedId)).Returns(po);
         var productService = new ProductService(mockProductDA.Object, mockUserDA.Object);
 
         // Act
         var result = productService.GetProductById(testedId);
 
         // Assert
-        Assert.Equal((product1,producent), result);
+        Assert.Equal(po, result);
     }
 
     [Fact]

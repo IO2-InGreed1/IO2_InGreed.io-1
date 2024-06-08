@@ -30,7 +30,7 @@ public class FakeUserDA : IUserDA
         User toUpdate = GetUserById(userId);
         if (toUpdate is null) return false;
         if (toUpdate.Favourites.Any(pr => pr.Id  == productId)) return false;
-        Product p = new FakeProductDA().GetProductById(productId);
+        Product p = new FakeProductDA().GetProductById(productId).Product;
         if (p is null) return false;
         toUpdate.Favourites.Add(p);
         return true;
@@ -57,7 +57,7 @@ public class FakeUserDA : IUserDA
         User toUpdate = GetUserById(userId);
         if (toUpdate is null) return false;
         if (!toUpdate.Favourites.Any(pr => pr.Id == productId)) return false;
-        Product p = new FakeProductDA().GetProductById(productId);
+        Product p = new FakeProductDA().GetProductById(productId).Product;
         if (p is null) return false;
         toUpdate.Favourites.Remove(p);
         return true;

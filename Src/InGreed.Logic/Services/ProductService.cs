@@ -28,17 +28,14 @@ public class ProductService : IProductService
         _productDA.ModifyProduct(productIdToModify, product);
     }
 
-    public PaginatedList<(Product,string)> GetAllProducts(ProductParameters parameters)
+    public PaginatedList<ProductWithOwner> GetAllProducts(ProductParameters parameters)
     {
         return _productDA.GetAll(parameters);
     }
 
-    public (Product, string) GetProductById(int productId)
+    public ProductWithOwner GetProductById(int productId)
     {
-        Product p = _productDA.GetProductById(productId);
-        if (p is null) return (null!, string.Empty);
-        try { return (p, _userDA.GetUserById(p.ProducentId).Username); }
-        catch(Exception ex) { throw new ArgumentException(ex.Message); }
+        return _productDA.GetProductById(productId);
     }
 
     public bool Report(int productId)

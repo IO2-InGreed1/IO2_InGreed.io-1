@@ -41,7 +41,7 @@ public class ProductController : ControllerBase
     [HttpGet]
     public IActionResult GetAllProducts([FromQuery]ProductParameters parameters)
     {
-        PaginatedList<(Product, string)> result;
+        PaginatedList<ProductWithOwner> result;
         try { result = service.GetAllProducts(parameters); }
         catch (ArgumentException e) { return NotFound(e.Message); }
 
@@ -63,9 +63,9 @@ public class ProductController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
-        (Product, string) product = service.GetProductById(id);
-        if (product.Item1 is null) return NotFound();
-        return Ok(new GetByIdResponse(product.Item1, product.Item2));
+        ProductWithOwner product = service.GetProductById(id);
+        if (product.Product is null) return NotFound();
+        return Ok(new GetByIdResponse(product.Product, product.Owner));
     }
 
     [Authorize(Roles = "Moderator,Administrator")]

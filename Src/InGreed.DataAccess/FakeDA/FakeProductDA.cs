@@ -26,7 +26,7 @@ public class FakeProductDA : IProductDA
         return currentId;
     }
 
-    public PaginatedList<(Product, string)> GetAll(ProductParameters parameters)
+    public PaginatedList<ProductWithOwner> GetAll(ProductParameters parameters)
     {
         Func<Product, bool> pred = p => (parameters.Category is null || p.Category == parameters.Category)
             && !parameters.usedIngredientsId.Except(p.Ingredients.Select(i => i.Id)).Any()
@@ -39,20 +39,22 @@ public class FakeProductDA : IProductDA
 
         var count = _products.Where(pred).Count();
         var totalPages = (int)Math.Ceiling(count / (double)parameters.PageSize);
-        List<(Product, string)> productsWithOwners = new();
+        List<ProductWithOwner> productsWithOwners = new();
         IUserDA userDA = new FakeUserDA();
-        foreach (var product in products) productsWithOwners.Add((product, userDA.GetUserById(product.ProducentId).Username));
-        return new PaginatedList<(Product, string)>(productsWithOwners, parameters.PageNumber, totalPages, parameters.PageSize);
+        foreach (var product in products) productsWithOwners.Add(new() { Product = product, Owner = userDA.GetUserById(product.ProducentId).Username });
+        return new PaginatedList<ProductWithOwner>(productsWithOwners, parameters.PageNumber, totalPages, parameters.PageSize);
     }
 
-    public Product GetProductById(int productId)
+    public ProductWithOwner GetProductById(int productId)
     {
-        return _products.Find(p => p.Id == productId)!;
+        Product result = _products.Find(p => p.Id == productId)!;
+        if (result is null) return new() { Product = null!, Owner = string.Empty };
+        return new() { Product = result, Owner = new FakeUserDA().GetUserById(result.ProducentId).Username };
     }
 
     public void ModifyProduct(int productIdToModify, Product product)
     {
-        Product toModify = GetProductById(productIdToModify);
+        Product toModify = GetProductById(productIdToModify).Product;
         if (toModify is not null)
         {
             toModify.Name = product.Name;
@@ -67,7 +69,7 @@ public class FakeProductDA : IProductDA
 
     public bool RemoveReports(int productId)
     {
-        Product? toModify = GetProductById(productId);
+        Product? toModify = GetProductById(productId).Product;
         if (toModify is null) return false;
         toModify.ReportCount = 0;
         return true;
@@ -75,7 +77,7 @@ public class FakeProductDA : IProductDA
 
     public bool Report(int productId)
     {
-        Product? toReport = GetProductById(productId);
+        Product? toReport = GetProductById(productId).Product;
         if (toReport is null) return false;
         ++toReport.ReportCount;
         return true;

@@ -26,15 +26,15 @@ public class ProductControllerTests
     {
         // Arrange
         ProductParameters parameters = new();
-        List<(Product, string)> products = new() { (testingProduct, "Producent") };
-        productServiceMock.Setup(isa => isa.GetAllProducts(parameters)).Returns(new PaginatedList<(Product,string)>(products, 1, 1, parameters.PageSize));
+        List<ProductWithOwner> products = new() { new() { Product = testingProduct, Owner = "Producent" } };
+        productServiceMock.Setup(isa => isa.GetAllProducts(parameters)).Returns(new PaginatedList<ProductWithOwner>(products, 1, 1, parameters.PageSize));
         ProductController sut = new(productServiceMock.Object);
 
         var response = sut.GetAllProducts(parameters);
 
         // Assert
         var actionResult = Assert.IsType<OkObjectResult>(response);
-        var responseContent = Assert.IsType<PaginatedList<(Product, string)>>(actionResult.Value);
+        var responseContent = Assert.IsType<PaginatedList<ProductWithOwner>>(actionResult.Value);
         Assert.Equal(responseContent, products);
     }
 
@@ -42,7 +42,7 @@ public class ProductControllerTests
     public void GetById_ExistingProduct_ShouldReturnStatusOk()
     {
         // Arrange
-        (Product, string) productWithOwner = (testingProduct, "Producent");
+        ProductWithOwner productWithOwner = new() { Product = testingProduct, Owner = "Producent" };
         productServiceMock.Setup(isa => isa.GetProductById(id)).Returns(productWithOwner);
         ProductController sut = new(productServiceMock.Object);
 
@@ -52,14 +52,14 @@ public class ProductControllerTests
         // Assert
         var actionResult = Assert.IsType<OkObjectResult>(response);
         var responseContent = Assert.IsType<GetByIdResponse>(actionResult.Value);
-        Assert.Equal(responseContent, new GetByIdResponse(productWithOwner.Item1, productWithOwner.Item2));
+        Assert.Equal(responseContent, new GetByIdResponse(productWithOwner.Product, productWithOwner.Owner));
     }
 
     [Fact]
     public void GetById_NonexistentProduct_ShouldReturnStatusNotFound()
     {
         // Arrange
-        productServiceMock.Setup(isa => isa.GetProductById(id)).Returns((null, string.Empty)!);
+        productServiceMock.Setup(isa => isa.GetProductById(id)).Returns( new ProductWithOwner() { Product = null!, Owner = string.Empty });
         ProductController sut = new(productServiceMock.Object);
 
         // Act
