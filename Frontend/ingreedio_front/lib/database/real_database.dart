@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
 import 'package:ingreedio_front/database/database_mockup.dart';
@@ -42,9 +43,15 @@ Future<Map<String,dynamic>> getResponse(String request,String token,RequestType 
         response=await dio.delete(requestAdress+request,data: jsonData,options: options);
         break;
     }
-    if(response.data is Map<String,dynamic>) return response.data;
-    return {"success":true,
-    "value":response.data
+    if(response.data is Map<String,dynamic>) 
+    {
+      response.data["responseHeaders"]=response.headers;
+      return response.data;
+    }
+    return {
+      "success":true,
+      "value":response.data,
+      "responseHeaders":response.headers
     };
   } 
   catch(e)
@@ -63,6 +70,28 @@ List<Ingredient> parseIngredientList(Map<String,dynamic> response,{String listNa
   List<Ingredient> odp=List.empty(growable: true);
   for (var element in pom) {odp.add(IngredientMapper.fromMap(element as Map<String,dynamic>));}
   return odp;
+}
+Opinion parseOpinion(Map<String,dynamic> response,Product product)
+{
+  Map<String, dynamic> map=response["opinion"];
+  return Opinion.fromAllData(author: Client.empty()..username=response["owner"]..iconURL=response["iconURL"], 
+  id: map["id"], 
+  product: product, 
+  score: (map["score"] as num).toDouble(), 
+  text: map["content"],);
+}
+Product parseProduct(Map<String,dynamic> response)
+{
+  Map<String, dynamic> map=response["product"];
+  return Product.fromAllData(category: Category.fromNumber(map["category"])!, 
+  description: map["description"], 
+  id: map["id"], 
+  ingredients: parseIngredientList(response), 
+  name: map["name"], 
+  producer: Producer.fromAllData(companyName: response["owner"], nip: "", 
+  representativeName: "", representativeSurname: "", telephoneNumber: "", id: map["producentId"], 
+  isBlocked: false, mail: "", password: "", username: response["owner"]), 
+  promotionUntil: DateTime.tryParse(map["promotedUntil"])==null?DateTime(1900):DateTime.tryParse(map["promotedUntil"])!);
 }
 List<Map<String,dynamic>> codeIngredientList(List<Ingredient> ingredients){
   List<Map<String,dynamic>> odp=[];
@@ -281,9 +310,34 @@ class RealProductDatabase extends ProductDatabse
 
   @override
   Future<ListData<Product>> filterProducts(int from, int to, ProductFilter filter) async {
-    // TODO: implement filterProducts
-    return ListData([], 0);
-    throw UnimplementedError();
+    int pageSize=to-from;
+    int pageNumber=from~/(to-from);
+    String requestUrl="Product?";
+    if(filter.category!=null)
+    {
+      requestUrl+="Category=${filter.category!.backendNumber}&";
+    }
+    for(Ingredient i in filter.preference)
+    {
+      requestUrl+="usedIngredientsId=${i.id}&";
+    }
+    for(Ingredient i in filter.allergens)
+    {
+      requestUrl+="bannedIngredientsId=${i.id}&";
+    }
+    requestUrl+="PageNumber=$pageNumber&";
+    requestUrl+="PageSize=$pageSize";
+    var response =await getResponse(requestUrl, cubit.state.userToken, RequestType.get);
+    List<dynamic> pom=response["value"];
+    List<Product> odp=[];
+    for(var map in pom)
+    {
+      odp.add(parseProduct(map));
+    }
+    var headers=response["responseHeaders"] as Headers;
+    Map<String,dynamic> paginationMap=jsonDecode(headers.map["x-pagination"]![0]);
+    int maxItems=paginationMap["TotalPages"]*pageSize;
+    return ListData(odp, maxItems>=to+to-from?maxItems:from+odp.length);
   }
 
   @override
@@ -301,14 +355,33 @@ class RealProductDatabase extends ProductDatabse
   
   @override
   Future<bool> setProductReportState(Product product, {bool state = false}) async {
-    // TODO: implement setProductReportState
-    throw UnimplementedError();
+    if(state)
+    {
+      var response=await getResponse("Product/${product.id}/report", cubit.state.userToken, RequestType.post);
+      return response["success"];
+    }
+    else 
+    {
+      var response=await getResponse("Product/${product.id}/reports", cubit.state.userToken, RequestType.delete);
+      return response["success"];
+    }
   }
   
   @override
   Future<ListData<Product>> filterReportedProducts(int from, int to, Filter<Product> filter) async {
-    // TODO: implement filterReportedProducts
-    throw UnimplementedError();
+    int pageSize=to-from;
+    int pageNumber=from~/(to-from);
+    var response =await getResponse("Product/reported?PageNumber=$pageNumber&PageSize=$pageSize", cubit.state.userToken, RequestType.get);
+    List<dynamic> pom=response["value"];
+    List<Product> odp=[];
+    for(var map in pom)
+    {
+      odp.add(parseProduct(map));
+    }
+    var headers=response["responseHeaders"] as Headers;
+    Map<String,dynamic> paginationMap=jsonDecode(headers.map["x-pagination"]![0]);
+    int maxItems=paginationMap["TotalPages"]*pageSize;
+    return ListData(odp, maxItems>=to+to-from?maxItems:from+odp.length);
   }
  
 
@@ -342,13 +415,35 @@ class RealOpinionDatabase extends OpinionDatabase
 
   @override
   Future<ListData<Opinion>> getOpinionsFiltered(int from, int to, Product product, OpinionFilter filter) async {
-    // TODO: implement getOpinionsFiltered
-    throw UnimplementedError();
+    int pageSize=to-from;
+    int pageNumber=from~/(to-from);
+    var response =await getResponse("Product/${product.id}/opinions?ReportCountGreaterThan=-1&PageNumber=$pageNumber&PageSize=$pageSize", cubit.state.userToken, RequestType.get);
+    List<dynamic> pom=response["value"];
+    List<Opinion> odp=[];
+    for(var map in pom)
+    {
+      odp.add(parseOpinion(map, product));
+    }
+    var headers=response["responseHeaders"] as Headers;
+    Map<String,dynamic> paginationMap=jsonDecode(headers.map["x-pagination"]![0]);
+    int maxItems=paginationMap["TotalPages"]*pageSize;
+    return ListData(odp, maxItems>=to+to-from?maxItems:from+odp.length);
   }
   @override
   Future<ListData<Opinion>> getReportedFilteredOpinions(int from,int to,Filter<Opinion> filter) async {
-    // TODO: implement getReportedOpinions
-    throw UnimplementedError();
+    int pageSize=to-from;
+    int pageNumber=from~/(to-from);
+    var response =await getResponse("Opinion/reported?ReportCountGreaterThan=0&PageNumber=$pageNumber&PageSize=$pageSize", cubit.state.userToken, RequestType.get);
+    List<dynamic> pom=response["value"];
+    List<Opinion> odp=[];
+    for(var map in pom)
+    {
+      odp.add(parseOpinion(map, map["opinion"]["productId"]));
+    }
+    var headers=response["responseHeaders"] as Headers;
+    Map<String,dynamic> paginationMap=jsonDecode(headers.map["x-pagination"]![0]);
+    int maxItems=paginationMap["TotalPages"]*pageSize;
+    return ListData(odp, maxItems>=to+to-from?maxItems:from+odp.length);
   }
 
   @override
