@@ -71,8 +71,6 @@ public class FakeProductDA : IProductDA
             toModify.Category = product.Category;
             toModify.Ingredients.Clear();
             foreach (Ingredient ingredient in product.Ingredients) toModify.Ingredients.Add(ingredient);
-            toModify.Opinions.Clear();
-            foreach (Opinion opinion in product.Opinions) toModify.Opinions.Add(opinion);
         }
     }
 

@@ -37,7 +37,7 @@ namespace InGreed.Logic.Services
             return _dbtoServiceResponseMapper.RemoveResponseMapper(response);
         }
 
-        public PaginatedList<Opinion> GetAllReported(OpinionParameters parameters)
+        public PaginatedList<OpinionWithAuthor> GetAllReported(OpinionParameters parameters)
         {
             if(parameters.ReportCountGreaterThan == -1)
                 parameters.ReportCountGreaterThan = 0;
@@ -54,6 +54,13 @@ namespace InGreed.Logic.Services
         {
             var response = _opinionDA.RemoveReports(opinionId);
             return _dbtoServiceResponseMapper.RemoveReportsResponseMapper(response);
+        }
+
+        public PaginatedList<OpinionWithAuthor> GetByProduct(OpinionParameters parameters, int productId)
+        {
+            if (parameters.ReportCountGreaterThan == -1)
+                parameters.ReportCountGreaterThan = 0;
+            return _opinionDA.GetByProduct(parameters, productId);
         }
     }
 }

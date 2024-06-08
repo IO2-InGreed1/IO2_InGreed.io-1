@@ -61,8 +61,6 @@ public class ProductServiceTests
             oldProduct.Category = obj.Category;
             oldProduct.Ingredients.Clear();
             foreach (Ingredient ingredient in obj.Ingredients) oldProduct.Ingredients.Add(ingredient);
-            oldProduct.Opinions.Clear();
-            foreach (Opinion opinion in obj.Opinions) oldProduct.Opinions.Add(opinion);
         });
         var productService = new ProductService(mockProductDA.Object, mockUserDA.Object);
 
@@ -76,7 +74,6 @@ public class ProductServiceTests
         Assert.Equal(oldProduct.PromotedUntil, newProduct.PromotedUntil);
         Assert.Equal(oldProduct.Category, newProduct.Category);
         Assert.Equal(oldProduct.Ingredients, newProduct.Ingredients);
-        Assert.Equal(oldProduct.Opinions, newProduct.Opinions);
     }
 
     [Fact]
