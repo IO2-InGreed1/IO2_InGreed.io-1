@@ -16,11 +16,13 @@ public class OpinionController : ControllerBase
 {
     IOpinionService _opinionService;
     IAccountService _accountService;
+    IProductService _productService;
 
-    public OpinionController(IOpinionService opinionService, IAccountService accountService)
+    public OpinionController(IOpinionService opinionService, IAccountService accountService, IProductService productService)
     {
         _opinionService = opinionService;
         _accountService = accountService;
+        _productService = productService;
     }
 
     [HttpGet("{id}")]
@@ -31,6 +33,27 @@ public class OpinionController : ControllerBase
         User author = _accountService.GetUserById(result.authorId);
         GetByIdResponse response = new(result, author.Username, author.IconURL);
         return Ok(response);
+    }
+
+    [HttpGet("/api/Product/{productId}/opinions")]
+    public IActionResult GetByProduct([FromQuery] OpinionParameters parameters, int productId)
+    {
+        if (_productService.GetProductById(productId) is null) return NotFound($"There is no product with the id {productId}.");
+        PaginatedList<OpinionWithAuthor> result = _opinionService.GetByProduct(parameters, productId);
+        if (result is null) return BadRequest();
+        var metadata = new
+        {
+            result.PageSize,
+            result.PageIndex,
+            result.TotalPages,
+            result.HasPreviousPage,
+            result.HasNextPage
+        };
+
+        if (Response != null)
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+        return Ok(result);
     }
 
     [HttpPost("/api/Product/add-opinion")]
@@ -69,17 +92,8 @@ public class OpinionController : ControllerBase
     [HttpGet("reported")]
     public IActionResult GetAllReported([FromQuery]OpinionParameters parameters)
     {
-        PaginatedList<Opinion> result = _opinionService.GetAllReported(parameters);
+        PaginatedList<OpinionWithAuthor> result = _opinionService.GetAllReported(parameters);
         if (result is null) return BadRequest();
-        List<(Opinion, string, string)> opinionsWithAuthors = new(result.Count);
-        User author;
-        foreach (Opinion opinion in result)
-        {
-            author = _accountService.GetUserById(opinion.authorId);
-            opinionsWithAuthors.Add((opinion, author.Username, author.IconURL));
-        }
-        GetAllReportedResponse response = new(opinionsWithAuthors);
-        
         var metadata = new
         {
             result.PageSize,
@@ -92,7 +106,7 @@ public class OpinionController : ControllerBase
         if(Response != null)
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 
-        return Ok(response);
+        return Ok(new GetAllReportedResponse(result));
     }
 
     [HttpPost("{opinionId}/report")]

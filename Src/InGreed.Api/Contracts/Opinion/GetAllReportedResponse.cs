@@ -1,3 +1,5 @@
+using InGreed.Domain.Helpers;
+
 namespace InGreed.Api.Contracts.Opinion;
 
-public record GetAllReportedResponse(List<(Domain.Models.Opinion, string, string)> opinions);
+public record GetAllReportedResponse(List<OpinionWithAuthor> opinions);

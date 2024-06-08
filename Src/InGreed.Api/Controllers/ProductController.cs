@@ -84,7 +84,7 @@ public class ProductController : ControllerBase
         else return NotFound($"Cannot report product with the id {productId} as such product does not exist.");
     }
 
-    [HttpGet]
+    [HttpGet("reported")]
     public IActionResult GetReported([FromQuery] ProductParameters parameters)
     {
         PaginatedList<ProductWithOwner> result;

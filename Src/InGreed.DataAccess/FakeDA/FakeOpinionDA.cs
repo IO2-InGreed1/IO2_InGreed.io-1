@@ -3,7 +3,6 @@ using InGreed.DataAccess.Interfaces;
 using InGreed.Domain.Helpers;
 using InGreed.Domain.Models;
 using InGreed.Domain.Queries;
-using System.Numerics;
 
 namespace InGreed.DataAccess.FakeDA;
 
@@ -24,7 +23,7 @@ public class FakeOpinionDA : IOpinionDA
         return currentId;
     }
 
-    public PaginatedList<Opinion> GetAll(OpinionParameters parameters)
+    public PaginatedList<OpinionWithAuthor> GetAll(OpinionParameters parameters)
     {
         var opinions = _opinions
             .Where(o => o.reportCount > parameters.ReportCountGreaterThan)
@@ -34,7 +33,16 @@ public class FakeOpinionDA : IOpinionDA
         var count = _opinions.Where(o => o.reportCount > parameters.ReportCountGreaterThan).Count();
         var totalPages = (int)Math.Ceiling(count / (double)parameters.PageSize);
 
-        return new PaginatedList<Opinion>(opinions, parameters.PageNumber, totalPages, parameters.PageSize);
+        List<OpinionWithAuthor> opinionsWithAuthor = new List<OpinionWithAuthor>(opinions.Count());
+        User author;
+        FakeUserDA uda = new();
+        foreach (Opinion o in opinions) 
+        {
+            author = uda.GetUserById(o.authorId);
+            opinionsWithAuthor.Add(new() { Opinion = o, Owner = author.Username, IconURL = author.IconURL });
+        }
+
+        return new PaginatedList<OpinionWithAuthor>(opinionsWithAuthor, parameters.PageNumber, totalPages, parameters.PageSize);
     }
 
     public Opinion? GetById(int opinionId)
@@ -66,5 +74,27 @@ public class FakeOpinionDA : IOpinionDA
         if ((opinion = GetById(opinionId)) is null) return OpinionDARemoveReportsResponse.NonexistentOpinion;
         opinion.reportCount = 0;
         return OpinionDARemoveReportsResponse.Success;
+    }
+
+    public PaginatedList<OpinionWithAuthor> GetByProduct(OpinionParameters parameters, int productId)
+    {
+        var opinions = _opinions
+            .Where(o => o.productId == productId)
+            .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+            .Take(parameters.PageSize);
+
+        var count = _opinions.Where(o => o.reportCount > parameters.ReportCountGreaterThan).Count();
+        var totalPages = (int)Math.Ceiling(count / (double)parameters.PageSize);
+
+        List<OpinionWithAuthor> opinionsWithAuthor = new List<OpinionWithAuthor>(opinions.Count());
+        User author;
+        FakeUserDA uda = new();
+        foreach (Opinion o in opinions)
+        {
+            author = uda.GetUserById(o.authorId);
+            opinionsWithAuthor.Add(new() { Opinion = o, Owner = author.Username, IconURL = author.IconURL });
+        }
+
+        return new PaginatedList<OpinionWithAuthor>(opinionsWithAuthor, parameters.PageNumber, totalPages, parameters.PageSize);
     }
 }
