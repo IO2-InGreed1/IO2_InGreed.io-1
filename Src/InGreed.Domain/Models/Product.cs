@@ -12,6 +12,5 @@ public class Product
     public Category Category { get; set; } = Category.Other;
     public string IconURL { get; set; } = string.Empty;
     public int ProducentId { get; set; }
-
     public int ReportCount { get; set; } = 0;
 }

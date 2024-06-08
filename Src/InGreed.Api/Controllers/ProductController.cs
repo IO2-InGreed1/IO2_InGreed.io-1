@@ -41,7 +41,7 @@ public class ProductController : ControllerBase
     [HttpGet]
     public IActionResult GetAllProducts([FromQuery]ProductParameters parameters)
     {
-        PaginatedList<Product> result;
+        PaginatedList<(Product, string)> result;
         try { result = service.GetAllProducts(parameters); }
         catch (ArgumentException e) { return NotFound(e.Message); }
 
@@ -63,10 +63,9 @@ public class ProductController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
-        Product product;
-        try { product = service.GetProductById(id); }
-        catch (ArgumentException e) { return NotFound(e.Message); }
-        return Ok(product);
+        (Product, string) product = service.GetProductById(id);
+        if (product.Item1 is null) return NotFound();
+        return Ok(new GetByIdResponse(product.Item1, product.Item2));
     }
 
     [Authorize(Roles = "Moderator,Administrator")]

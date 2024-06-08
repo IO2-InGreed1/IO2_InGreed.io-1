@@ -9,9 +9,12 @@ namespace InGreed.Logic.Services;
 public class ProductService : IProductService
 {
     IProductDA _productDA;
-    public ProductService(IProductDA productDA)
+    IUserDA _userDA;
+    public ProductService(IProductDA productDA, IUserDA userDA)
     {
         _productDA = productDA;
+        _userDA = userDA;
+
     }
 
     public int CreateProduct(Product product)
@@ -25,14 +28,16 @@ public class ProductService : IProductService
         _productDA.ModifyProduct(productIdToModify, product);
     }
 
-    public PaginatedList<Product> GetAllProducts(ProductParameters parameters)
+    public PaginatedList<(Product,string)> GetAllProducts(ProductParameters parameters)
     {
         return _productDA.GetAll(parameters);
     }
 
-    public Product GetProductById(int productId)
+    public (Product, string) GetProductById(int productId)
     {
-        try { return _productDA.GetProductById(productId); }
+        Product p = _productDA.GetProductById(productId);
+        if (p is null) return (null!, string.Empty);
+        try { return (p, _userDA.GetUserById(p.ProducentId).Username); }
         catch(Exception ex) { throw new ArgumentException(ex.Message); }
     }
 

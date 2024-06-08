@@ -26,7 +26,7 @@ public class FakeProductDA : IProductDA
         return currentId;
     }
 
-    public PaginatedList<Product> GetAll(ProductParameters parameters)
+    public PaginatedList<(Product, string)> GetAll(ProductParameters parameters)
     {
         Func<Product, bool> pred = p => (parameters.Category is null || p.Category == parameters.Category)
             && !parameters.usedIngredientsId.Except(p.Ingredients.Select(i => i.Id)).Any()
@@ -39,8 +39,10 @@ public class FakeProductDA : IProductDA
 
         var count = _products.Where(pred).Count();
         var totalPages = (int)Math.Ceiling(count / (double)parameters.PageSize);
-
-        return new PaginatedList<Product>(products, parameters.PageNumber, totalPages, parameters.PageSize);
+        List<(Product, string)> productsWithOwners = new();
+        IUserDA userDA = new FakeUserDA();
+        foreach (var product in products) productsWithOwners.Add((product, userDA.GetUserById(product.ProducentId).Username));
+        return new PaginatedList<(Product, string)>(productsWithOwners, parameters.PageNumber, totalPages, parameters.PageSize);
     }
 
     public Product GetProductById(int productId)
