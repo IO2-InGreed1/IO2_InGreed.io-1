@@ -1,5 +1,4 @@
-﻿using InGreed.Domain.Models;
-using InGreed.Logic.Interfaces;
+﻿using InGreed.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InGreed.Api.Contracts.Product;
 using Microsoft.AspNetCore.Authorization;
