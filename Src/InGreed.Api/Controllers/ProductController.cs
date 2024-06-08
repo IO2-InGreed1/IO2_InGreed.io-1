@@ -70,23 +70,18 @@ public class ProductController : ControllerBase
     }
 
     [Authorize(Roles = "Moderator,Administrator")]
-    [HttpGet("reported")]
-    public IActionResult GetReported([FromQuery] PaginationParameters paginationParameters)
-    {
-        throw new NotImplementedException();
-    }
-
-    [Authorize(Roles = "Moderator,Administrator")]
     [HttpDelete("reported")]
     public IActionResult RemoveReports(int productId)
     {
-        throw new NotImplementedException();
+        if (service.RemoveReports(productId)) return Ok();
+        else return NotFound($"Cannot reset report count for product with the id {productId} as such product does not exist.");
     }
 
     [Authorize]
     [HttpPost("{productId}/report")]
     public IActionResult AddReport(int productId)
     {
-        throw new NotImplementedException();
+        if (service.Report(productId)) return Ok();
+        else return NotFound($"Cannot report product with the id {productId} as such product does not exist.");
     }
 }

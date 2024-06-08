@@ -38,11 +38,11 @@ public class ProductService : IProductService
 
     public bool Report(int productId)
     {
-        throw new NotImplementedException();
+        return _productDA.Report(productId);
     }
 
     public bool RemoveReports(int productId)
     {
-        throw new NotImplementedException();
+        return _productDA.RemoveReports(productId);
     }
 }

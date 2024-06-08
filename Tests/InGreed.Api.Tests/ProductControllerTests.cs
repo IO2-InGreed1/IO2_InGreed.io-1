@@ -18,7 +18,7 @@ public class ProductControllerTests
     public ProductControllerTests()
     {
         productServiceMock = new();
-        testingProduct = new() { Id = id, Category = Domain.Enums.Category.None, Name="test", PromotedUntil=null };
+        testingProduct = new() { Id = id, Category = Domain.Enums.Category.None, Name="test", PromotedUntil=null, ReportCount = 0, ProducentId = id, IconURL = "test" };
     }
 
     [Fact]
@@ -102,67 +102,62 @@ public class ProductControllerTests
     }
 
     [Fact]
-    public void GetReported_ShouldReturnStatusOk()
-    {
-        // Arrange
-
-
-        // Act
-
-
-        // Assert
-
-    }
-
-    [Fact]
     public void RemoveReports_ExistingProduct_ShouldReturnStatusOk()
     {
         // Arrange
-
+        productServiceMock.Setup(ps => ps.RemoveReports(id)).Returns(true);
+        ProductController sut = new(productServiceMock.Object);
 
         // Act
-
+        var response = sut.RemoveReports(id);
 
         // Assert
-
+        Assert.IsType<OkResult>(response);
     }
 
     [Fact]
-    public void RemoveReports_nonexistentProduct_ShouldReturnStatusNotFound()
+    public void RemoveReports_NonexistentProduct_ShouldReturnStatusNotFound()
     {
         // Arrange
-
+        productServiceMock.Setup(ps => ps.RemoveReports(id)).Returns(false);
+        ProductController sut = new(productServiceMock.Object);
 
         // Act
-
+        var response = sut.RemoveReports(id);
 
         // Assert
-
+        var ActionResult = Assert.IsType<NotFoundObjectResult>(response);
+        var ResponseContent = Assert.IsType<string>(ActionResult.Value);
+        Assert.Equal($"Cannot reset report count for product with the id {id} as such product does not exist.", ResponseContent);
     }
 
     [Fact]
     public void AddReport_ExistingProduct_ShouldReturnStatusOk()
     {
         // Arrange
-
+        productServiceMock.Setup(ps => ps.Report(id)).Returns(true);
+        ProductController sut = new(productServiceMock.Object);
 
         // Act
-
+        var response = sut.AddReport(id);
 
         // Assert
-
+        Assert.IsType<OkResult>(response);
     }
 
     [Fact]
-    public void AddReport_nonexistentProduct_ShouldReturnStatusNotFound()
+    public void AddReport_NonexistentProduct_ShouldReturnStatusNotFound()
     {
         // Arrange
-
+        productServiceMock.Setup(ps => ps.Report(id)).Returns(false);
+        ProductController sut = new(productServiceMock.Object);
 
         // Act
-
+        var response = sut.AddReport(id);
 
         // Assert
-
+        var ActionResult = Assert.IsType<NotFoundObjectResult>(response);
+        var ResponseContent = Assert.IsType<string>(ActionResult.Value);
+        Assert.Equal($"Cannot report product with the id {id} as such product does not exist.", ResponseContent);
     }
 }
