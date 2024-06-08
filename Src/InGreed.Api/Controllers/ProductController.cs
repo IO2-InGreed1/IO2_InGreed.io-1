@@ -41,7 +41,7 @@ public class ProductController : ControllerBase
     [HttpGet]
     public IActionResult GetAllProducts([FromQuery]ProductParameters parameters)
     {
-        PaginatedList<Product> result;
+        PaginatedList<ProductWithOwner> result;
         try { result = service.GetAllProducts(parameters); }
         catch (ArgumentException e) { return NotFound(e.Message); }
 
@@ -63,9 +63,46 @@ public class ProductController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
-        Product product;
-        try { product = service.GetProductById(id); }
+        ProductWithOwner product = service.GetProductById(id);
+        if (product.Product is null) return NotFound();
+        return Ok(new GetByIdResponse(product.Product, product.Owner));
+    }
+
+    [Authorize(Roles = "Moderator,Administrator")]
+    [HttpDelete("{productId}/reports")]
+    public IActionResult RemoveReports(int productId)
+    {
+        if (service.RemoveReports(productId)) return Ok();
+        else return NotFound($"Cannot reset report count for product with the id {productId} as such product does not exist.");
+    }
+
+    [Authorize]
+    [HttpPost("{productId}/report")]
+    public IActionResult AddReport(int productId)
+    {
+        if (service.Report(productId)) return Ok();
+        else return NotFound($"Cannot report product with the id {productId} as such product does not exist.");
+    }
+
+    [HttpGet]
+    public IActionResult GetReported([FromQuery] ProductParameters parameters)
+    {
+        PaginatedList<ProductWithOwner> result;
+        try { result = service.GetReported(parameters); }
         catch (ArgumentException e) { return NotFound(e.Message); }
-        return Ok(product);
+
+        var metadata = new
+        {
+            result.PageSize,
+            result.PageIndex,
+            result.TotalPages,
+            result.HasPreviousPage,
+            result.HasNextPage
+        };
+
+        if (Response != null)
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+        return Ok(result);
     }
 }

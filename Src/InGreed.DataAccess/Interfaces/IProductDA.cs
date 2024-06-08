@@ -6,8 +6,11 @@ namespace InGreed.DataAccess.Interfaces;
 
 public interface IProductDA
 {
-    Product GetProductById(int productId);
+    ProductWithOwner GetProductById(int productId);
     int CreateProduct(Product product);
     void ModifyProduct(int productIdToModify, Product product);
-    PaginatedList<Product> GetAll(ProductParameters parameters);
+    PaginatedList<ProductWithOwner> GetAll(ProductParameters parameters);
+    PaginatedList<ProductWithOwner> GetReported(ProductParameters parameters);
+    bool Report(int productId);
+    bool RemoveReports(int productId);
 }

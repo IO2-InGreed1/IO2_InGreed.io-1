@@ -2,7 +2,6 @@
 using InGreed.Logic.Services;
 using InGreed.Domain.Models;
 using Moq;
-using InGreed.Logic.Interfaces;
 using InGreed.Domain.Enums;
 using InGreed.Domain.Queries;
 using InGreed.Domain.Helpers;
@@ -11,10 +10,13 @@ namespace InGreed.Logic.Test;
 
 public class ProductServiceTests
 {
-    Mock<IProductDA> mockProductDA;
+    private Mock<IUserDA> mockUserDA;
+    private Mock<IProductDA> mockProductDA;
+    private readonly string producent = "Producent";
 
     public ProductServiceTests()
     {
+        mockUserDA = new();
         mockProductDA = new Mock<IProductDA>();
     }
 
@@ -28,7 +30,7 @@ public class ProductServiceTests
         };
         int testedId = 1;
         mockProductDA.Setup(pda => pda.CreateProduct(product1)).Returns(testedId);
-        var productService = new ProductService(mockProductDA.Object);
+        var productService = new ProductService(mockProductDA.Object, mockUserDA.Object);
 
         // Act
         var result = productService.CreateProduct(product1);
@@ -62,7 +64,7 @@ public class ProductServiceTests
             oldProduct.Opinions.Clear();
             foreach (Opinion opinion in obj.Opinions) oldProduct.Opinions.Add(opinion);
         });
-        var productService = new ProductService(mockProductDA.Object);
+        var productService = new ProductService(mockProductDA.Object, mockUserDA.Object);
 
         // Act 
         productService.ModifyProduct(testedId, newProduct);
@@ -82,7 +84,7 @@ public class ProductServiceTests
     {
         // Arrange
         ProductParameters parameters = new();
-        List<Product> products = new List<Product>();
+        List<ProductWithOwner> products = new();
         Product product1 = new Product()
         {
             Id = 1
@@ -91,11 +93,11 @@ public class ProductServiceTests
         {
             Id = 2
         };
-        products.Add(product1);
-        products.Add(product2);
+        products.Add(new() { Product = product1, Owner = "Producent 1" });
+        products.Add(new() { Product = product2, Owner = "Producent 2" });
 
-        mockProductDA.Setup(pda => pda.GetAll(parameters)).Returns(new PaginatedList<Product>(products, 1, 1, parameters.PageSize));
-        var productService = new ProductService(mockProductDA.Object);
+        mockProductDA.Setup(pda => pda.GetAll(parameters)).Returns(new PaginatedList<ProductWithOwner>(products, 1, 1, parameters.PageSize));
+        var productService = new ProductService(mockProductDA.Object, mockUserDA.Object);
 
         // Act
         var result = productService.GetAllProducts(parameters).ToList();
@@ -112,14 +114,77 @@ public class ProductServiceTests
         {
             Id = 1
         };
+        User p = new() { Id = 1, Username = producent };
+        ProductWithOwner po = new ProductWithOwner { Product = product1, Owner = producent };
         int testedId = 1;
-        mockProductDA.Setup(pda => pda.GetProductById(testedId)).Returns(product1);
-        var productService = new ProductService(mockProductDA.Object);
+        mockUserDA.Setup(mud => mud.GetUserById(product1.ProducentId)).Returns(p);
+        mockProductDA.Setup(pda => pda.GetProductById(testedId)).Returns(po);
+        var productService = new ProductService(mockProductDA.Object, mockUserDA.Object);
 
         // Act
         var result = productService.GetProductById(testedId);
 
         // Assert
-        Assert.Equal(product1, result);
+        Assert.Equal(po, result);
+    }
+
+    [Fact]
+    public void Report_ExistingProduct_ShouldReturnTrue()
+    {
+        // Arrange
+        int id = 1;
+        mockProductDA.Setup(pda => pda.Report(id)).Returns(true);
+        var sut = new ProductService(mockProductDA.Object, mockUserDA.Object);
+
+        // Act
+        var result = sut.Report(id);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void Report_NonexistentProduct_ShouldReturnFalse()
+    {
+        // Arrange
+        int id = 1;
+        mockProductDA.Setup(pda => pda.Report(id)).Returns(false);
+        var sut = new ProductService(mockProductDA.Object, mockUserDA.Object);
+
+        // Act
+        var result = sut.Report(id);
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void RemoveReports_ExistingProduct_ShouldReturnTrue()
+    {
+        // Arrange
+        int id = 1;
+        mockProductDA.Setup(pda => pda.RemoveReports(id)).Returns(true);
+        var sut = new ProductService(mockProductDA.Object, mockUserDA.Object);
+
+        // Act
+        var result = sut.RemoveReports(id);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void RemoveReports_NonexistentProduct_ShouldReturnFalse()
+    {
+        // Arrange
+        int id = 1;
+        mockProductDA.Setup(pda => pda.RemoveReports(id)).Returns(false);
+        var sut = new ProductService(mockProductDA.Object, mockUserDA.Object);
+
+        // Act
+        var result = sut.RemoveReports(id);
+
+        // Assert
+        Assert.False(result);
     }
 }

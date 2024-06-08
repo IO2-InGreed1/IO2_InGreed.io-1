@@ -12,11 +12,11 @@ public class FakeUserDA : IUserDA
         IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" },
         new(){Id = 2, Email = "example2@mail.com", Password = "2", Username = "User 2", Role = Role.Moderator, Banned = false,
         IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" },
-        new(){Id = 3, Email = "example3@mail.com", Password = "3", Username = "User 3", Role = Role.Producent, Banned =false,
+        new(){Id = 3, Email = "example3@mail.com", Password = "3", Username = "Best Products", Role = Role.Producent, Banned =false,
         IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" },
         new(){Id = 4, Email = "client", Password = "client", Username = "client", Role = Role.User, Banned = false,
         IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" },
-        new(){Id = 5, Email = "producer", Password = "producer", Username = "producer", Role = Role.Producent, Banned =false,
+        new(){Id = 5, Email = "producer", Password = "producer", Username = "Worst Products", Role = Role.Producent, Banned =false,
         IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" },
         new(){Id = 6, Email = "admin", Password = "admin", Username = "admin", Role = Role.Administrator, Banned = false,
         IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" },
@@ -30,7 +30,7 @@ public class FakeUserDA : IUserDA
         User toUpdate = GetUserById(userId);
         if (toUpdate is null) return false;
         if (toUpdate.Favourites.Any(pr => pr.Id  == productId)) return false;
-        Product p = new FakeProductDA().GetProductById(productId);
+        Product p = new FakeProductDA().GetProductById(productId).Product;
         if (p is null) return false;
         toUpdate.Favourites.Add(p);
         return true;
@@ -57,7 +57,7 @@ public class FakeUserDA : IUserDA
         User toUpdate = GetUserById(userId);
         if (toUpdate is null) return false;
         if (!toUpdate.Favourites.Any(pr => pr.Id == productId)) return false;
-        Product p = new FakeProductDA().GetProductById(productId);
+        Product p = new FakeProductDA().GetProductById(productId).Product;
         if (p is null) return false;
         toUpdate.Favourites.Remove(p);
         return true;
