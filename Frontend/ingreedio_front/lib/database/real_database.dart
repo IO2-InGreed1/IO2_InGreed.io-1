@@ -86,12 +86,12 @@ Product parseProduct(Map<String,dynamic> response)
   return Product.fromAllData(category: Category.fromNumber(map["category"])!, 
   description: map["description"], 
   id: map["id"], 
-  ingredients: parseIngredientList(response), 
+  ingredients: parseIngredientList(map), 
   name: map["name"], 
   producer: Producer.fromAllData(companyName: response["owner"], nip: "", 
   representativeName: "", representativeSurname: "", telephoneNumber: "", id: map["producentId"], 
   isBlocked: false, mail: "", password: "", username: response["owner"]), 
-  promotionUntil: DateTime.tryParse(map["promotedUntil"])==null?DateTime(1900):DateTime.tryParse(map["promotedUntil"])!);
+  promotionUntil: map["promotedUntil"]==null?DateTime(1900):DateTime.tryParse(map["promotedUntil"])!);
 }
 List<Map<String,dynamic>> codeIngredientList(List<Ingredient> ingredients){
   List<Map<String,dynamic>> odp=[];

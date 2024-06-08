@@ -50,8 +50,8 @@ class SessionCubit extends HydratedCubit<SessionData>
   }
   SessionCubit(super.state)
   {
-    //database=RealDatabase(this);
-    database=MockupDatabase.filled();//..ingredientDatabase=RealIngredientDatabase(this)..loginDatabase=RealLoginDatabase(this);
+    database=RealDatabase(this);
+    //database=MockupDatabase.filled();
   }
   void setData(SessionData data)
   {
