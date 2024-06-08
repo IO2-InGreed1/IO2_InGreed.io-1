@@ -393,7 +393,7 @@ class RealOpinionDatabase extends OpinionDatabase
   SessionCubit cubit;
   @override
   Future<bool> addOpinion(Opinion opinion) async {
-    var response =await getResponse("Product/add-opinion", cubit.state.userToken, RequestType.put,
+    var response =await getResponse("Product/add-opinion", cubit.state.userToken, RequestType.post,
     jsonData: {
       "opinion": {
       "id": opinion.id,
