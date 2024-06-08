@@ -10,6 +10,7 @@ public interface IProductDA
     int CreateProduct(Product product);
     void ModifyProduct(int productIdToModify, Product product);
     PaginatedList<ProductWithOwner> GetAll(ProductParameters parameters);
+    PaginatedList<ProductWithOwner> GetReported(ProductParameters parameters);
     bool Report(int productId);
     bool RemoveReports(int productId);
 }

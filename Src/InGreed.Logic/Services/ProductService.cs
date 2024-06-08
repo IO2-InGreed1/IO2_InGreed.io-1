@@ -33,6 +33,11 @@ public class ProductService : IProductService
         return _productDA.GetAll(parameters);
     }
 
+    public PaginatedList<ProductWithOwner> GetReported(ProductParameters parameters)
+    {
+        return _productDA.GetReported(parameters);
+    }
+
     public ProductWithOwner GetProductById(int productId)
     {
         return _productDA.GetProductById(productId);

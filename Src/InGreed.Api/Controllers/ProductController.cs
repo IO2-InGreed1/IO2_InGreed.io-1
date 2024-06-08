@@ -83,4 +83,26 @@ public class ProductController : ControllerBase
         if (service.Report(productId)) return Ok();
         else return NotFound($"Cannot report product with the id {productId} as such product does not exist.");
     }
+
+    [HttpGet]
+    public IActionResult GetReported([FromQuery] ProductParameters parameters)
+    {
+        PaginatedList<ProductWithOwner> result;
+        try { result = service.GetReported(parameters); }
+        catch (ArgumentException e) { return NotFound(e.Message); }
+
+        var metadata = new
+        {
+            result.PageSize,
+            result.PageIndex,
+            result.TotalPages,
+            result.HasPreviousPage,
+            result.HasNextPage
+        };
+
+        if (Response != null)
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+        return Ok(result);
+    }
 }

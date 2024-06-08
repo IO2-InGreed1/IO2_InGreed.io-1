@@ -45,6 +45,15 @@ public class FakeProductDA : IProductDA
         return new PaginatedList<ProductWithOwner>(productsWithOwners, parameters.PageNumber, totalPages, parameters.PageSize);
     }
 
+    public PaginatedList<ProductWithOwner> GetReported(ProductParameters parameters)
+    {
+        List<Product> temp = new(_products);
+        _products = _products.Where(p => p.ReportCount > 0).ToList();
+        var result = GetAll(parameters);
+        _products = temp;
+        return result;
+    }
+
     public ProductWithOwner GetProductById(int productId)
     {
         Product result = _products.Find(p => p.Id == productId)!;
