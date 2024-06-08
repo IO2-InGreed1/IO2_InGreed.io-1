@@ -12,4 +12,5 @@ public class Product
     public string IconURL { get; set; } = string.Empty;
     public int ProducentId { get; set; }
     public int ReportCount { get; set; } = 0;
+    public string Description {  get; set; } = string.Empty;
 }
