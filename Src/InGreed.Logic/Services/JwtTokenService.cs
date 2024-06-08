@@ -1,4 +1,5 @@
-﻿using InGreed.Domain.Models;
+﻿using InGreed.Domain.Enums;
+using InGreed.Domain.Models;
 using InGreed.Logic.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -32,7 +33,8 @@ public class JwtTokenService : ITokenService
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim(JwtRegisteredClaimNames.Name, user.Username)
+            new Claim(JwtRegisteredClaimNames.Name, user.Username),
+            new Claim(ClaimTypes.Role, user.Role.ToString("G"))
         };
         var jwtToken = new JwtSecurityToken(
         claims: claims,
