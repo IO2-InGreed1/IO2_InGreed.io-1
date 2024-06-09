@@ -135,4 +135,9 @@ public class FakeProductDA : IProductDA
         ++toReport.ReportCount;
         return true;
     }
+
+    public bool Delete(int id)
+    {
+        return _products.Remove(GetProductById(id).Product);
+    }
 }

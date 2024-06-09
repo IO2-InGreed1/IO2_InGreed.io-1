@@ -13,4 +13,5 @@ public interface IProductDA
     PaginatedList<ProductWithOwner> GetReported(ProductParameters parameters);
     bool Report(int productId);
     bool RemoveReports(int productId);
+    bool Delete(int id);
 }

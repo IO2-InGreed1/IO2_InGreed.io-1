@@ -52,4 +52,9 @@ public class ProductService : IProductService
     {
         return _productDA.RemoveReports(productId);
     }
+
+    public bool Delete(int id)
+    {
+        return _productDA.Delete(id);
+    }
 }
