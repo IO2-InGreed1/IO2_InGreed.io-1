@@ -310,7 +310,7 @@ class RealProductDatabase extends ProductDatabse
   @override
   Future<ListData<Product>> filterProducts(int from, int to, ProductFilter filter) async {
     int pageSize=to-from;
-    int pageNumber=from~/(to-from);
+    int pageNumber=1+(from~/(to-from));
     String requestUrl="Product?";
     if(filter.nameFilter.isNotEmpty)
     {
@@ -340,7 +340,8 @@ class RealProductDatabase extends ProductDatabse
     var headers=response["responseHeaders"] as Headers;
     Map<String,dynamic> paginationMap=jsonDecode(headers.map["x-pagination"]![0]);
     int maxItems=paginationMap["TotalPages"]*pageSize;
-    return ListData(odp, maxItems);
+    bool hasNextPage=paginationMap["HasNextPage"];
+    return ListData(odp, hasNextPage?maxItems:to);
   }
 
   @override
@@ -373,7 +374,7 @@ class RealProductDatabase extends ProductDatabse
   @override
   Future<ListData<Product>> filterReportedProducts(int from, int to, Filter<Product> filter) async {
     int pageSize=to-from;
-    int pageNumber=from~/(to-from);
+    int pageNumber=1+(from~/(to-from));
     var response =await getResponse("Product/reported?PageNumber=$pageNumber&PageSize=$pageSize", cubit.state.userToken, RequestType.get);
     List<dynamic> pom=response["value"];
     List<Product> odp=[];
@@ -384,7 +385,8 @@ class RealProductDatabase extends ProductDatabse
     var headers=response["responseHeaders"] as Headers;
     Map<String,dynamic> paginationMap=jsonDecode(headers.map["x-pagination"]![0]);
     int maxItems=paginationMap["TotalPages"]*pageSize;
-    return ListData(odp, maxItems);
+        bool hasNextPage=paginationMap["HasNextPage"];
+    return ListData(odp, hasNextPage?maxItems:to);
   }
  
 
@@ -419,7 +421,7 @@ class RealOpinionDatabase extends OpinionDatabase
   @override
   Future<ListData<Opinion>> getOpinionsFiltered(int from, int to, Product product, OpinionFilter filter) async {
     int pageSize=to-from;
-    int pageNumber=from~/(to-from);
+    int pageNumber=1+(from~/(to-from));
     var response =await getResponse("Product/${product.id}/opinions?ReportCountGreaterThan=-1&PageNumber=$pageNumber&PageSize=$pageSize", cubit.state.userToken, RequestType.get);
     List<dynamic> pom=response["value"];
     List<Opinion> odp=[];
@@ -430,12 +432,13 @@ class RealOpinionDatabase extends OpinionDatabase
     var headers=response["responseHeaders"] as Headers;
     Map<String,dynamic> paginationMap=jsonDecode(headers.map["x-pagination"]![0]);
     int maxItems=paginationMap["TotalPages"]*pageSize;
-    return ListData(odp, maxItems);
+        bool hasNextPage=paginationMap["HasNextPage"];
+    return ListData(odp, hasNextPage?maxItems:to);
   }
   @override
   Future<ListData<Opinion>> getReportedFilteredOpinions(int from,int to,Filter<Opinion> filter) async {
     int pageSize=to-from;
-    int pageNumber=from~/(to-from);
+    int pageNumber=1+(from~/(to-from));
     var response =await getResponse("Opinion/reported?ReportCountGreaterThan=0&PageNumber=$pageNumber&PageSize=$pageSize", cubit.state.userToken, RequestType.get);
     List<dynamic> pom=response["opinions"];
     List<Opinion> odp=[];
@@ -446,7 +449,8 @@ class RealOpinionDatabase extends OpinionDatabase
     var headers=response["responseHeaders"] as Headers;
     Map<String,dynamic> paginationMap=jsonDecode(headers.map["x-pagination"]![0]);
     int maxItems=paginationMap["TotalPages"]*pageSize;
-    return ListData(odp, maxItems);
+        bool hasNextPage=paginationMap["HasNextPage"];
+    return ListData(odp, hasNextPage?maxItems:to);
   }
 
   @override
