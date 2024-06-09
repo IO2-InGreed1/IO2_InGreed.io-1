@@ -48,6 +48,13 @@ class _ProductCreatorState extends State<ProductCreator> {
      ingredients: ingredients ?? [],
      onChanged: (value){widget.item.ingredients=value;},);
     Widget padding=const SizedBox(height: 7,width: 7,);
+    Widget urlInput=StringCreator(
+          onChanged: (value)
+          {
+            widget.item.iconURL=value;
+          },
+          item: widget.item.iconURL,
+        );
     return Column(
       children: [
         LabelWidget(label: "name: ",child: nameInput),
@@ -57,6 +64,8 @@ class _ProductCreatorState extends State<ProductCreator> {
         LabelWidget(label: "category: ",child: catogoryInput),
         padding,
         LabelWidget(label: "ingredients: ",child: ingredientsInput),
+        padding,
+        LabelWidget(label: "image url: ",child: urlInput)
       ],
     );
     });

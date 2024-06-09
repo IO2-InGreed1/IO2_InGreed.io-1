@@ -14,7 +14,7 @@ enum RequestType
 }
 Future<Map<String,dynamic>> getResponse(String request,String token,RequestType type,{Map<String, dynamic>? jsonData}) async 
 {
-  //var pom=jsonData.toString(); do debugowania
+  //var pom=jsonData.toString(); //do debugowania
   final dio = Dio();
   try {
     Response response;
@@ -275,36 +275,40 @@ class RealProductDatabase extends ProductDatabse
   @override
   Future<bool> addProduct(Product product) async {
     var response=await getResponse("Product", cubit.state.userToken,RequestType.post,
-    jsonData: 
-    {
+    jsonData: {
+    "product": {
     "id": product.id,
     "name": product.name,
     "promotedUntil": product.promotionUntil.toIso8601String(),
-    "ingredients": product.ingredients.map((e)=>e.toJson()).toList(),
+    "ingredients":codeIngredientList(product.ingredients),
     "category": product.category.backendNumber,
     "iconURL": product.iconURL,
-    "producentId": product.producer.id//TODO: pewnie się zmieni
-    });
+    "reportCount":0,
+    "producentId": product.producer.id,
+    "description": product.description,//TODO: pewnie się zmieni
+    }});
     if(response["success"]==false) return false;
-    product.id=response["value"];
+    product.id=response["id"];
     return true;
   }
 
   @override
   Future<bool> editProduct(Product product, Product editedProduct) async {
    var response=await getResponse("Product?productToModifyId=${product.id}", cubit.state.userToken,RequestType.put,
-    jsonData: 
-    {
+    jsonData:{ 
+    "product":{
     "id": editedProduct.id,
     "name": editedProduct.name,
     "promotedUntil": editedProduct.promotionUntil.toIso8601String(),
-    "ingredients": editedProduct.ingredients.map((e)=>e.toJson()).toList(),
+    "ingredients": codeIngredientList(editedProduct.ingredients),
     "category": editedProduct.category.backendNumber,
     "iconURL": editedProduct.iconURL,
-    "producentId": product.producer.id//TODO: pewnie się zmieni
-    });
+    "producentId": product.producer.id,
+    "description": editedProduct.description,
+    "reportCount":0
+    }});
     if(response["success"]==false) return false;
-    product.id=response["value"];
+    //product.id=response["value"];
     return true;
   }
 
@@ -434,11 +438,11 @@ class RealOpinionDatabase extends OpinionDatabase
     int pageSize=to-from;
     int pageNumber=from~/(to-from);
     var response =await getResponse("Opinion/reported?ReportCountGreaterThan=0&PageNumber=$pageNumber&PageSize=$pageSize", cubit.state.userToken, RequestType.get);
-    List<dynamic> pom=response["value"];
+    List<dynamic> pom=response["opinions"];
     List<Opinion> odp=[];
     for(var map in pom)
     {
-      odp.add(parseOpinion(map, map["opinion"]["productId"]));
+      odp.add(parseOpinion(map,Product.empty()..id=map["opinion"]["productId"]));
     }
     var headers=response["responseHeaders"] as Headers;
     Map<String,dynamic> paginationMap=jsonDecode(headers.map["x-pagination"]![0]);

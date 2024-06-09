@@ -44,7 +44,7 @@ class Product with ProductMappable
     if(other is! Product) return false;
     return other.id==id&&other.name==name&&other.category==category&&other.description==description;
   }
-  Product.empty():id=0,name="",description="",promotionUntil=DateTime(0),category=Category.cosmetics,ingredients=[],iconURL="",producer=Producer.fromAllData(companyName: "CompanyName", nip: "1", representativeName: "representativeName", representativeSurname: "representativeSurname", telephoneNumber: "123123123",
+  Product.empty():id=0,name="",description="",promotionUntil=DateTime(2000),category=Category.cosmetics,ingredients=[],iconURL="",producer=Producer.fromAllData(companyName: "CompanyName", nip: "1", representativeName: "representativeName", representativeSurname: "representativeSurname", telephoneNumber: "123123123",
       id: 0, isBlocked: false, mail: 'mail', password: '', username: 'producer');
  @MappableConstructor()
   Product.fromAllData({
@@ -58,7 +58,7 @@ class Product with ProductMappable
     this.isReported=false,
     this.iconURL="",
   });
-  Product.clone(Product product):this.fromAllData(category: product.category, description: product.description, id: product.id, ingredients: product.ingredients.map((e) => e).toList(), name: product.name, producer: product.producer, promotionUntil: product.promotionUntil);
+  Product.clone(Product product):this.fromAllData(category: product.category, description: product.description, id: product.id, ingredients: product.ingredients.map((e) => e).toList(), name: product.name, producer: product.producer, promotionUntil: product.promotionUntil,iconURL: product.iconURL);
   Widget get iconWidget=>ProductIconWidget(product: this);
   Widget get productWidget=>ProductWidget(product: this);
   Widget get image
