@@ -46,8 +46,9 @@ class _ProductFilterCreatorState extends State<ProductFilterCreator> {
                      ),
                        ),
           const SizedBox(height: 15,),
-          LabelWidget(isHorizontal: false,label: "order by: ", child:Selector<ProductOrderType>(reference: ItemWrapper(widget.item.orderType), items: ProductOrderType.values, onChanged: (value)=>widget.item.orderType=value)),
-          const SizedBox(height: 15,),
+          //TODO:??? dodać sortowanie na backendzie
+          //LabelWidget(isHorizontal: false,label: "order by: ", child:Selector<ProductOrderType>(reference: ItemWrapper(widget.item.orderType), items: ProductOrderType.values, onChanged: (value)=>widget.item.orderType=value)),
+          //const SizedBox(height: 15,),
           LabelWidget(label: "Product categoty", child:NullableSelector<prod.Category>(enableFilter: false,reference: ItemWrapper(widget.item.category), items: prod.Category.values,
            onChanged: (value)=>widget.item.category=value))
         ],

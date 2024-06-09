@@ -40,6 +40,22 @@ class OpinionWidget extends StatelessWidget {
     Widget reportButton=DialogButton(creator: OpinionReportCreator(opinion: opinion,reference: ItemWrapper(true),), onFinished: (value){
       SessionCubit.fromContext(context).database.opinionDatabase.setOpinionReport(opinion);
     }, child: const Text("report"));
+    try
+    {
+      var client= SessionCubit.fromContext(context).state.currentClient;
+      if(client!=null)
+      {
+        if(client.id==opinion.author.id)
+        {
+          reportButton=DialogButton(creator: ConfirmCreator(), onFinished: (value)=>
+          SessionCubit.fromContext(context).database.opinionDatabase.removeOpinion(opinion), child: const Text("delete"));
+        }
+      }
+    }
+    catch(e)
+    {
+      //
+    }
     List<Widget> widgets=showReportButton?[opinion.author.userWidget,reportButton]:[opinion.author.userWidget];
     return StandardDecorator(
       color: c,

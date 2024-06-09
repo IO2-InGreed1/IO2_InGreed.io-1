@@ -73,7 +73,7 @@ List<Ingredient> parseIngredientList(Map<String,dynamic> response,{String listNa
 Opinion parseOpinion(Map<String,dynamic> response,Product product)
 {
   Map<String, dynamic> map=response["opinion"];
-  return Opinion.fromAllData(author: Client.empty()..username=response["owner"]..iconURL=response["iconURL"], 
+  return Opinion.fromAllData(author: Client.empty()..username=response["owner"]..iconURL=response["iconURL"]..id=map["authorId"], 
   id: map["id"], 
   product: product, 
   score: (map["score"] as num).toDouble(), 
@@ -93,19 +93,20 @@ Product parseProduct(Map<String,dynamic> response)
   isBlocked: false, mail: "", password: "", username: response["owner"]), 
   promotionUntil: map["promotedUntil"]==null?DateTime(1900):DateTime.tryParse(map["promotedUntil"])!);
 }
-List<Map<String,dynamic>> codeIngredientList(List<Ingredient> ingredients){
-  List<Map<String,dynamic>> odp=[];
-  for(var i in ingredients)
-  {
-    odp.add(
-      {
-        "id":i.id,
-        "iconURL":i.iconURL,
-        "name":i.name
-      }
-    );
-  }
-  return odp;
+List<String> codeIngredientList(List<Ingredient> ingredients){
+  return ingredients.map((e)=>e.toJson()).toList();
+  // List<Map<String,dynamic>> odp=[];
+  // for(var i in ingredients)
+  // {
+  //   odp.add(
+  //     {
+  //       "id":i.id,
+  //       "iconURL":i.iconURL,
+  //       "name":i.name
+  //     }
+  //   );
+  // }
+  // return odp;
 }
 List<Product> parseProductList(Map<String,dynamic> response,{String listName="products"}){
   List<dynamic> pom=response[listName];
@@ -155,13 +156,13 @@ class RealUserDatabase extends UserDatabse
   {
     return {
   "\"preference\"": {
-    "\"id\"": "\"${preference.id}\"",
-    "\"ownerId\"": "\"${preference.client.id}\"",
+    "\"id\"": preference.id,
+    "\"ownerId\"": preference.client.id,
     "\"name\"": "\"${preference.name}\"",
     "\"forbidden\"": codeIngredientList(preference.allergens),
     "\"preferred\"": codeIngredientList(preference.prefered),
-    "\"category\"": "\"${preference.category==null?0:preference.category!.backendNumber}\"",
-    "\"active\"": "\"${(false).toString()}\"",
+    "\"category\"": preference.category==null?0:preference.category!.backendNumber,
+    "\"active\"": false,
   }
 }.toString();
   }
@@ -319,6 +320,10 @@ class RealProductDatabase extends ProductDatabse
     int pageSize=to-from;
     int pageNumber=from~/(to-from);
     String requestUrl="Product?";
+    if(filter.nameFilter.isNotEmpty)
+    {
+      requestUrl+="?Name=${filter.nameFilter}&";
+    }
     if(filter.category!=null)
     {
       requestUrl+="Category=${filter.category!.backendNumber}&";
