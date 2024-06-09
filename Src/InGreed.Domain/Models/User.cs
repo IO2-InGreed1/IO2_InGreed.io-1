@@ -11,5 +11,5 @@ public class User
     public Role Role { get; set; } = 0;
     public bool Banned { get; set; } = false;
     public string IconURL { get; set; } = string.Empty;
-    public List<Product> Favourites { get; set; } = new();
+    public List<int> Favourites { get; set; } = new();
 }

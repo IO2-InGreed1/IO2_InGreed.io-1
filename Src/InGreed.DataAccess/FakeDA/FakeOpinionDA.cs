@@ -12,9 +12,36 @@ public class FakeOpinionDA : IOpinionDA
     {
         new() { Id = 1, productId = 1, authorId = 1, Content = "Great product!", Score = 4.5f, reportCount = 0 },
         new() { Id = 2, productId = 2, authorId = 2, Content = "Not what I expected.", Score = 2.0f, reportCount = 1 },
-        new() { Id = 3, productId = 1, authorId = 3, Content = "Amazing value for money.", Score = 5.0f, reportCount = 0 }
+        new() { Id = 3, productId = 1, authorId = 3, Content = "Amazing value for money.", Score = 5.0f, reportCount = 0 },
+        new() { Id = 4, productId = 1, authorId = 1, Content = "Great product!", Score = 4.5f, reportCount = 0 },
+        new() { Id = 5, productId = 2, authorId = 2, Content = "Not what I expected.", Score = 2.0f, reportCount = 1 },
+        new() { Id = 6, productId = 1, authorId = 3, Content = "Amazing value for money.", Score = 5.0f, reportCount = 0 },
+        new() { Id = 7, productId = 4, authorId = 1, Content = "Great product!", Score = 4.5f, reportCount = 0 },
+        new() { Id = 8, productId = 5, authorId = 2, Content = "Not what I expected.", Score = 2.0f, reportCount = 1 },
+        new() { Id = 9, productId = 6, authorId = 3, Content = "Amazing value for money.", Score = 5.0f, reportCount = 0 },
+        new() { Id = 10, productId = 6, authorId = 5, Content = "Red is sus.", Score = 4.5f, reportCount = 10 },
+        new() { Id = 11, productId = 6, authorId = 2, Content = "Amongus, hu hu hu.", Score = 2.0f, reportCount = 1 },
+        new() { Id = 12, productId = 6, authorId = 1, Content = "SUS OwO", Score = 4.0f, reportCount = 3 },
+        new() { Id = 13, productId = 7, authorId = 2, Content = "It didn't work...", Score = 1.0f, reportCount = 1 },
+        new() { Id = 14, productId = 8, authorId = 2, Content = "Useless, I'm colourblind.", Score = 2.0f, reportCount = 1 },
+        new() { Id = 15, productId = 8, authorId = 1, Content = "It's smurfing time, babe.", Score = 5.0f, reportCount = 0 },
+        new() { Id = 16, productId = 9, authorId = 4, Content = "Decent quality.", Score = 3.5f, reportCount = 0 },
+        new() { Id = 17, productId = 10, authorId = 5, Content = "Exceeded my expectations!", Score = 5.0f, reportCount = 0 },
+        new() { Id = 18, productId = 11, authorId = 6, Content = "Wouldn't recommend.", Score = 1.5f, reportCount = 2 },
+        new() { Id = 19, productId = 1, authorId = 7, Content = "Good, but could be better.", Score = 3.0f, reportCount = 1 },
+        new() { Id = 20, productId = 1, authorId = 1, Content = "Terrible product, avoid!", Score = 0.5f, reportCount = 3 },
+        new() { Id = 21, productId = 1, authorId = 1, Content = "I'm very satisfied.", Score = 4.5f, reportCount = 0 },
+        new() { Id = 22, productId = 1, authorId = 1, Content = "Just okay.", Score = 3.0f, reportCount = 0 },
+        new() { Id = 23, productId = 1, authorId = 1, Content = "Highly recommended!", Score = 5.0f, reportCount = 0 },
+        new() { Id = 24, productId = 1, authorId = 1, Content = "Not worth the money.", Score = 1.0f, reportCount = 2 },
+        new() { Id = 25, productId = 1, authorId = 1, Content = "HOT CHICKS PICS HERE >>>>>> http://website.com", Score = 2.5f, reportCount = 0 },
+        new() { Id = 26, productId = 1, authorId = 1, Content = "Loved it!", Score = 4.5f, reportCount = 0 },
+        new() { Id = 27, productId = 2, authorId = 1, Content = "Could be improved.", Score = 3.0f, reportCount = 1 },
+        new() { Id = 28, productId = 2, authorId = 1, Content = "Fantastic product!", Score = 5.0f, reportCount = 0 },
+        new() { Id = 29, productId = 2, authorId = 1, Content = "Disappointing.", Score = 2.0f, reportCount = 1 },
+        new() { Id = 30, productId = 2, authorId = 1, Content = "Solid purchase.", Score = 4.0f, reportCount = 0 },
     };
-    private static int currentId = 3;
+    private static int currentId = 30;
 
     public int Create(Opinion opinion)
     {

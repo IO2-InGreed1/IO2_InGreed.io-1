@@ -69,12 +69,12 @@ public class PreferenceController : ControllerBase
     }
 
     [HttpDelete]
-    [Authorize(Roles = "Administrator,Moderator,Producent")]
+    [Authorize]
     public IActionResult Delete(int id) 
     {
         var userRole = User.FindFirstValue(ClaimTypes.Role);
         if (userRole is null) return Unauthorized();
-        else if (userRole == "Producent")
+        else if (userRole != "Moderator" && userRole != "Administrator")
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId is null) return Unauthorized();
