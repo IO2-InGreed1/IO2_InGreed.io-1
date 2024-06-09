@@ -70,7 +70,7 @@ class ProductWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.baseline,
                 textBaseline: TextBaseline.alphabetic,
                 children: [
-                  StandardDecorator(child: OpinionText(text:product.description,maxLength: 45,)),
+                  StandardDecorator(child: OpinionText(text:product.description,maxLength: 55,)),
                   padding,
                   LabelWidget(label: "Brand: ", child: Text(product.producer.companyName)),
                   padding,

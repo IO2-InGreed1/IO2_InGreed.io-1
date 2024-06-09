@@ -81,25 +81,49 @@ class OpinionWidget extends StatelessWidget {
     );
   }
 }
+
 class OpinionText extends StatelessWidget {
   final String text;
   final int maxLength;
-  const OpinionText({super.key, required this.text, this.maxLength=20});
+  const OpinionText({super.key, required this.text, this.maxLength = 20});
 
   @override
   Widget build(BuildContext context) {
-    bool isTextLong = text.length > maxLength;
-    String displayText = isTextLong ? '${text.substring(0, maxLength)}...' : text;
-    if(isTextLong)
-    {
-      return Tooltip(
-      message: text,
-      child: Text(displayText),
+    // Function to split text into lines without breaking words
+    List<String> splitTextIntoLines(String text, int maxLength) {
+      List<String> lines = [];
+      String currentLine = '';
+      for (String word in text.split(' ')) {
+        if (currentLine.isEmpty) {
+          currentLine = word;
+        } else if ((currentLine.length + word.length + 1) <= maxLength) {
+          currentLine += ' ' + word;
+        } else {
+          lines.add(currentLine);
+          currentLine = word;
+        }
+      }
+      if (currentLine.isNotEmpty) {
+        lines.add(currentLine);
+      }
+      return lines;
+    }
+
+    // Split the text into lines
+    List<String> lines = splitTextIntoLines(text, maxLength);
+
+    // Join the chunks with newlines and limit to 3 lines
+    String displayText = lines.take(3).join('\n');
+    bool isTextLong = lines.length > 3;
+
+    return Tooltip(
+      message: isTextLong ? text : '',
+      child: Text(
+        displayText,
+        softWrap: true,
+        overflow: TextOverflow.clip,
+        maxLines: 3,
+      ),
     );
-    }
-    else
-    {
-      return Text(text);
-    }
   }
 }
