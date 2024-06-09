@@ -340,7 +340,7 @@ class RealProductDatabase extends ProductDatabse
     var headers=response["responseHeaders"] as Headers;
     Map<String,dynamic> paginationMap=jsonDecode(headers.map["x-pagination"]![0]);
     int maxItems=paginationMap["TotalPages"]*pageSize;
-    return ListData(odp, maxItems>=to+to-from?maxItems:from+odp.length);
+    return ListData(odp, maxItems);
   }
 
   @override
@@ -384,7 +384,7 @@ class RealProductDatabase extends ProductDatabse
     var headers=response["responseHeaders"] as Headers;
     Map<String,dynamic> paginationMap=jsonDecode(headers.map["x-pagination"]![0]);
     int maxItems=paginationMap["TotalPages"]*pageSize;
-    return ListData(odp, maxItems>=to+to-from?maxItems:from+odp.length);
+    return ListData(odp, maxItems);
   }
  
 
@@ -430,7 +430,7 @@ class RealOpinionDatabase extends OpinionDatabase
     var headers=response["responseHeaders"] as Headers;
     Map<String,dynamic> paginationMap=jsonDecode(headers.map["x-pagination"]![0]);
     int maxItems=paginationMap["TotalPages"]*pageSize;
-    return ListData(odp, maxItems>=to+to-from?maxItems:from+odp.length);
+    return ListData(odp, maxItems);
   }
   @override
   Future<ListData<Opinion>> getReportedFilteredOpinions(int from,int to,Filter<Opinion> filter) async {
@@ -446,7 +446,7 @@ class RealOpinionDatabase extends OpinionDatabase
     var headers=response["responseHeaders"] as Headers;
     Map<String,dynamic> paginationMap=jsonDecode(headers.map["x-pagination"]![0]);
     int maxItems=paginationMap["TotalPages"]*pageSize;
-    return ListData(odp, maxItems>=to+to-from?maxItems:from+odp.length);
+    return ListData(odp, maxItems);
   }
 
   @override
