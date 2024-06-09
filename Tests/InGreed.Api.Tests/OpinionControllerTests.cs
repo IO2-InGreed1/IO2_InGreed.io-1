@@ -7,6 +7,8 @@ using InGreed.Api.Contracts.Opinion;
 using InGreed.Logic.Enums.Opinion;
 using InGreed.Domain.Queries;
 using InGreed.Domain.Helpers;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace InGreed.Api.Tests;
 
@@ -64,9 +66,24 @@ public class OpinionControllerTests
     public void AddToProduct_ExistingProduct_ShouldReturnStatusOk()
     {
         // Arrange
+        var context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new(new List<ClaimsIdentity>() 
+                { 
+                    new(new List<Claim>() 
+                    { 
+                        new Claim(ClaimTypes.Role, "Administrator"),
+                        new Claim(ClaimTypes.NameIdentifier, id.ToString())
+                    }) 
+                })
+            }
+        };
         opinionServiceMock.Setup(osa => osa.AddToProduct(testingOpinion, id)).Returns((OpinionServiceAddResponse.Success, id));
         OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object, productServiceMock.Object);
         AdditionRequest request = new(testingOpinion);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.AddToProduct(request);
@@ -79,9 +96,24 @@ public class OpinionControllerTests
     public void AddToProduct_NonexistentProduct_ShouldReturnStatusBadRequest()
     {
         // Arrange
+        var context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new(new List<ClaimsIdentity>()
+                {
+                    new(new List<Claim>()
+                    {
+                        new Claim(ClaimTypes.Role, "Administrator"),
+                        new Claim(ClaimTypes.NameIdentifier, id.ToString())
+                    })
+                })
+            }
+        };
         opinionServiceMock.Setup(osa => osa.AddToProduct(testingOpinion, id)).Returns((OpinionServiceAddResponse.NonexistentProduct, id));
         OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object, productServiceMock.Object);
         AdditionRequest request = new(testingOpinion);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.AddToProduct(request);
@@ -96,8 +128,16 @@ public class OpinionControllerTests
     public void RemoveFromProduct_ExistingOpinionExistingProduct_ShouldReturnStatusOk()
     {
         // Arrange
+        var context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new(new List<ClaimsIdentity>() { new(new List<Claim>() { new Claim(ClaimTypes.Role, "Administrator") }) })
+            }
+        };
         opinionServiceMock.Setup(osa => osa.RemoveFromProduct(id, id)).Returns(OpinionServiceRemoveResponse.Success);
         OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object, productServiceMock.Object);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.RemoveFromProduct(id, id);
@@ -110,8 +150,16 @@ public class OpinionControllerTests
     public void RemoveFromProduct_NonexistentProduct_ShouldReturnStatusNotFound()
     {
         // Arrange
+        var context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new(new List<ClaimsIdentity>() { new(new List<Claim>() { new Claim(ClaimTypes.Role, "Administrator") }) })
+            }
+        };
         opinionServiceMock.Setup(osa => osa.RemoveFromProduct(id, id)).Returns(OpinionServiceRemoveResponse.NonexistentProduct);
         OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object, productServiceMock.Object);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.RemoveFromProduct(id, id);
@@ -126,8 +174,16 @@ public class OpinionControllerTests
     public void RemoveFromProduct_OpinionNotFromProduct_ShouldReturnStatusNotFound()
     {
         // Arrange
+        var context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new(new List<ClaimsIdentity>() { new(new List<Claim>() { new Claim(ClaimTypes.Role, "Administrator") }) })
+            }
+        };
         opinionServiceMock.Setup(osa => osa.RemoveFromProduct(id, id)).Returns(OpinionServiceRemoveResponse.OpinionNotFromProduct);
         OpinionController sut = new(opinionServiceMock.Object, accountServiceMock.Object, productServiceMock.Object);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.RemoveFromProduct(id, id);

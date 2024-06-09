@@ -40,8 +40,12 @@ public class PreferenceController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public IActionResult Create(CreateRequest request)
     {
+        var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (id is null) return Unauthorized();
+        request.preference.OwnerId = int.Parse(id);
         (PreferenceServiceCreateResponse, int) response = service.Create(request.preference);
         if (response.Item1 == PreferenceServiceCreateResponse.InvalidOwnerId) return BadRequest($"Cannot modify Preference as {request.preference.OwnerId} is not a valid OwnerId.");
         if (response.Item1 == PreferenceServiceCreateResponse.ContradictoryPreference) return BadRequest("Cannot modify Preference, referred and forbidden ingredients cannot overlap.");
@@ -49,8 +53,14 @@ public class PreferenceController : ControllerBase
     }
 
     [HttpPut]
+    [Authorize]
     public IActionResult Modify(ModifyRequest request, int preferenceToModify) 
     {
+        var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (id is null) return Unauthorized();
+        Preference temp = service.GetById(preferenceToModify)!;
+        if (temp is not null && temp.OwnerId != int.Parse(id)) return Unauthorized($"Preference wirh the id {preferenceToModify} does not belong to the currently logged in user " +
+            $"and thus cannot be modified by them.");
         PreferenceServiceModifyResponse response = service.Modify(request.preference, preferenceToModify);
         if (response == PreferenceServiceModifyResponse.NonexistentPreference) return NotFound($"There is no preference with an id {preferenceToModify}.");
         if (response == PreferenceServiceModifyResponse.InvalidOwnerId) return BadRequest($"Cannot modify Preference as {request.preference.OwnerId} is not a valid OwnerId.");
@@ -59,8 +69,19 @@ public class PreferenceController : ControllerBase
     }
 
     [HttpDelete]
+    [Authorize(Roles = "Administrator,Moderator,Producent")]
     public IActionResult Delete(int id) 
-    {  
+    {
+        var userRole = User.FindFirstValue(ClaimTypes.Role);
+        if (userRole is null) return Unauthorized();
+        else if (userRole == "Producent")
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId is null) return Unauthorized();
+            Preference temp = service.GetById(id)!;
+            if (temp is not null && temp.OwnerId != int.Parse(userId)) return Unauthorized($"Preference with the id {id} does not belong to the currently logged in user " +
+                $"and thus cannot be modified by them.");
+        }
         PreferenceServiceDeleteResponse response = service.Delete(id);
         if (response == PreferenceServiceDeleteResponse.NonexistentPreference) return NotFound($"There is no preference with an id {id}.");
         return Ok();

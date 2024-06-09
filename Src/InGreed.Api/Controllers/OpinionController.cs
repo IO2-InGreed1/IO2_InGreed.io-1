@@ -7,6 +7,7 @@ using InGreed.Domain.Queries;
 using InGreed.Domain.Helpers;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace InGreed.Api.Controllers;
 
@@ -56,9 +57,14 @@ public class OpinionController : ControllerBase
         return Ok(result);
     }
 
+    
     [HttpPost("/api/Product/add-opinion")]
+    [Authorize]
     public IActionResult AddToProduct(AdditionRequest request)
     {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId is null) return Unauthorized();
+        request.opinion.authorId = int.Parse(userId);
         (OpinionServiceAddResponse response, int resId) result = _opinionService.AddToProduct(request.opinion, request.opinion.productId);
         switch (result.response)
         {
@@ -72,8 +78,19 @@ public class OpinionController : ControllerBase
     }
 
     [HttpDelete("/api/Product/{productId}/remove-opinion/{opinionId}")]
+    [Authorize(Roles = "Administrator,Moderator,Producent")]
     public IActionResult RemoveFromProduct(int opinionId, int productId)
     {
+        var userRole = User.FindFirstValue(ClaimTypes.Role);
+        if (userRole is null) return Unauthorized();
+        else if (userRole == "Producent")
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId is null) return Unauthorized();
+            Opinion temp = _opinionService.GetById(opinionId)!;
+            if (temp is not null && temp.authorId != int.Parse(userId)) return Unauthorized($"Opinion with the id {opinionId} does was not authored by the currently logged in user " +
+                $"and thus cannot be modified by them.");
+        }
         OpinionServiceRemoveResponse result = _opinionService.RemoveFromProduct(opinionId, productId);
         switch (result)
         {
@@ -88,8 +105,8 @@ public class OpinionController : ControllerBase
         }
     }
 
-    [Authorize(Roles = "Moderator,Administrator")]
     [HttpGet("reported")]
+    [Authorize(Roles = "Moderator,Administrator")]
     public IActionResult GetAllReported([FromQuery]OpinionParameters parameters)
     {
         PaginatedList<OpinionWithAuthor> result = _opinionService.GetAllReported(parameters);
@@ -110,6 +127,7 @@ public class OpinionController : ControllerBase
     }
 
     [HttpPost("{opinionId}/report")]
+    [Authorize]
     public IActionResult AddReport(int opinionId)
     {
         OpinionServiceAddReportResponse result = _opinionService.AddReport(opinionId);
@@ -124,8 +142,8 @@ public class OpinionController : ControllerBase
         }
     }
 
-    [Authorize(Roles = "Moderator,Administrator")]
     [HttpDelete("{opinionId}/reports")]
+    [Authorize(Roles = "Moderator,Administrator")]
     public IActionResult RemoveReports(int opinionId)
     {
         OpinionServiceRemoveReportsResponse result = _opinionService.RemoveReports(opinionId);
