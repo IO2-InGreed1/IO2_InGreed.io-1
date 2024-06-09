@@ -6,6 +6,8 @@ using InGreed.Domain.Queries;
 using Newtonsoft.Json;
 using InGreed.Domain.Helpers;
 using System.Security.Claims;
+using InGreed.Domain.Models;
+using InGreed.Logic.Enums.Preference;
 
 namespace InGreed.Api.Controllers;
 
@@ -45,7 +47,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAllProducts([FromQuery]ProductParameters parameters)
+    public IActionResult GetAllProducts([FromQuery] ProductParameters parameters)
     {
         PaginatedList<ProductWithOwner> result;
         try { result = service.GetAllProducts(parameters); }
@@ -110,5 +112,23 @@ public class ProductController : ControllerBase
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 
         return Ok(result);
+    }
+
+    [HttpDelete("{id}")]
+    [Authorize(Roles = "Moderator,Administrator,Producent")]
+    public IActionResult Delete(int id)
+    {
+        var userRole = User.FindFirstValue(ClaimTypes.Role);
+        if (userRole is null) return Unauthorized();
+        else if (userRole == "Producent")
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId is null) return Unauthorized();
+            ProductWithOwner temp = service.GetProductById(id)!;
+            if (temp is not null && temp.Product.ProducentId != int.Parse(userId)) return Unauthorized($"Product with the id {id} does not belong to the currently logged in producer " +
+                $"and thus cannot be modified by them.");
+        }
+        if (service.Delete(id)) return Ok();
+        return NotFound($"There is no product the id {id}.");
     }
 }

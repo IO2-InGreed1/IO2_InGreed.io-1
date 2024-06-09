@@ -13,4 +13,5 @@ public interface IProductService
     void ModifyProduct(int productIdToModify, Product product);
     bool Report(int productId);
     bool RemoveReports(int productId);
+    bool Delete(int id);
 }
