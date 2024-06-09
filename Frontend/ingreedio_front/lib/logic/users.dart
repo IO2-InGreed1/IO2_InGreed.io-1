@@ -32,18 +32,23 @@ abstract class User with UserMappable
   bool isBlocked;
   Widget get image
   {
-    return Image.network(
-      iconURL,
-      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-        if (loadingProgress == null) {
-          return child;
-        } else {
-          return const LoadingWidget();
-        }
-      },
-      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-        return Assets.placeholderImage;
-      },
+    return SizedBox(
+      width: 200,
+      child: Center(
+        child: Image.network(
+          iconURL,
+          loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+            if (loadingProgress == null) {
+              return child;
+            } else {
+              return const LoadingWidget();
+            }
+          },
+          errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+            return Assets.placeholderImage;
+          },
+        ),
+      ),
     );
   }
   Widget get userProfileWidget=>UserProfileWidget(user:this);

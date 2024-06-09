@@ -150,7 +150,7 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
         super.build(context),
         DialogButton<Product>(
           creator: ProductCreator(reference: ItemWrapper(Product.empty()..producer=myWidget.producer),),
-          onFinished: (value){
+          onFinished: (value) async{
             setState(() {
             (providerCubit as ProductCubit).addProduct(value, context);
             refresh();
@@ -158,6 +158,7 @@ class _ProductEditScreenState extends _ProductSearchScreenState {
             },
           child:const Text("Add new product")),
           const SizedBox(height: 15,),
+          reloadButton
       ],
     );
   }

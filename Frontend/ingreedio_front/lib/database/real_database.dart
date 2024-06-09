@@ -12,9 +12,8 @@ enum RequestType
 {
   get,put,post,patch,delete
 }
-Future<Map<String,dynamic>> getResponse(String request,String token,RequestType type,{Map<String, dynamic>? jsonData}) async 
+Future<Map<String,dynamic>> getResponse(String request,String token,RequestType type,{String? jsonData}) async 
 {
-  //var pom=jsonData.toString(); //do debugowania
   final dio = Dio();
   try {
     Response response;
@@ -83,11 +82,12 @@ Opinion parseOpinion(Map<String,dynamic> response,Product product)
 Product parseProduct(Map<String,dynamic> response)
 {
   Map<String, dynamic> map=response["product"];
-  return Product.fromAllData(category: Category.fromNumber(map["category"])!, 
+  return Product.fromAllData(category: Category.fromNumber(map["category"]==0?4:map["category"])!, 
   description: map["description"], 
   id: map["id"], 
   ingredients: parseIngredientList(map), 
   name: map["name"], 
+  iconURL: map["iconURL"],
   producer: Producer.fromAllData(companyName: response["owner"], nip: "", 
   representativeName: "", representativeSurname: "", telephoneNumber: "", id: map["producentId"], 
   isBlocked: false, mail: "", password: "", username: response["owner"]), 
@@ -129,7 +129,7 @@ class RealUserDatabase extends UserDatabse
   @override
   Future<bool> addPreference(Preference preference) async {
     var response=await getResponse("Preference", cubit.state.userToken,RequestType.post,
-    jsonData: _preferenceToMap(preference),
+    jsonData: _preferenceToString(preference),
     );
     preference.id=response["value"];
     return response["success"];
@@ -137,7 +137,7 @@ class RealUserDatabase extends UserDatabse
   @override
   Future<bool> editPreference(Preference oldPreference, Preference editedPreference) async {
     var response=await getResponse("Preference?preferenceToModify=${oldPreference.id}", cubit.state.userToken,RequestType.put,
-    jsonData: _preferenceToMap(editedPreference)
+    jsonData: _preferenceToString(editedPreference)
     );
     return response["success"];
   }
@@ -151,19 +151,19 @@ class RealUserDatabase extends UserDatabse
       prefered: parseIngredientList(json,listName: "preferred"), 
       client: client);
   }
-  Map<String,dynamic> _preferenceToMap(Preference preference)
+  String _preferenceToString(Preference preference)
   {
     return {
-  "preference": {
-    "id": preference.id,
-    "ownerId": preference.client.id,
-    "name": preference.name,
-    "forbidden": codeIngredientList(preference.allergens),
-    "preferred": codeIngredientList(preference.prefered),
-    "category": preference.category==null?0:preference.category!.backendNumber,
-    "active": false,
+  "\"preference\"": {
+    "\"id\"": "\"${preference.id}\"",
+    "\"ownerId\"": "\"${preference.client.id}\"",
+    "\"name\"": "\"${preference.name}\"",
+    "\"forbidden\"": codeIngredientList(preference.allergens),
+    "\"preferred\"": codeIngredientList(preference.prefered),
+    "\"category\"": "\"${preference.category==null?0:preference.category!.backendNumber}\"",
+    "\"active\"": "\"${(false).toString()}\"",
   }
-};
+}.toString();
   }
   @override
   Future<List<Preference>> getUserPreferences(Client client) async {
@@ -276,17 +276,18 @@ class RealProductDatabase extends ProductDatabse
   Future<bool> addProduct(Product product) async {
     var response=await getResponse("Product", cubit.state.userToken,RequestType.post,
     jsonData: {
-    "product": {
-    "id": product.id,
-    "name": product.name,
-    "promotedUntil": product.promotionUntil.toIso8601String(),
-    "ingredients":codeIngredientList(product.ingredients),
-    "category": product.category.backendNumber,
-    "iconURL": product.iconURL,
-    "reportCount":0,
-    "producentId": product.producer.id,
-    "description": product.description,//TODO: pewnie się zmieni
-    }});
+  "\"product\"": {
+    "\"id\"": product.id,
+    "\"name\"": "\"${product.name}\"",
+    "\"promotedUntil\"": "\"${product.promotionUntil.toIso8601String()}\"",
+    "\"ingredients\"": product.ingredients.map((e)=>e.toJson()).toList(),
+    "\"category\"": product.category.backendNumber,
+    "\"iconURL\"": "\"${product.iconURL}\"",
+    "\"producentId\"": product.producer.id,
+    "\"reportCount\"": 0,
+    "\"description\"": "\"${product.description}\""
+  }
+}.toString());
     if(response["success"]==false) return false;
     product.id=response["id"];
     return true;
@@ -295,18 +296,19 @@ class RealProductDatabase extends ProductDatabse
   @override
   Future<bool> editProduct(Product product, Product editedProduct) async {
    var response=await getResponse("Product?productToModifyId=${product.id}", cubit.state.userToken,RequestType.put,
-    jsonData:{ 
-    "product":{
-    "id": editedProduct.id,
-    "name": editedProduct.name,
-    "promotedUntil": editedProduct.promotionUntil.toIso8601String(),
-    "ingredients": codeIngredientList(editedProduct.ingredients),
-    "category": editedProduct.category.backendNumber,
-    "iconURL": editedProduct.iconURL,
-    "producentId": product.producer.id,
-    "description": editedProduct.description,
-    "reportCount":0
-    }});
+    jsonData: {
+  "\"product\"": {
+    "\"id\"": editedProduct.id,
+    "\"name\"": "\"${editedProduct.name}\"",
+    "\"promotedUntil\"": "\"${editedProduct.promotionUntil.toIso8601String()}\"",
+    "\"ingredients\"": editedProduct.ingredients.map((e)=>e.toJson()).toList(),
+    "\"category\"": editedProduct.category.backendNumber,
+    "\"iconURL\"": "\"${editedProduct.iconURL}\"",
+    "\"producentId\"": editedProduct.producer.id,
+    "\"reportCount\"": 0,
+    "\"description\"": "\"${editedProduct.description}\""
+  }
+}.toString());
     if(response["success"]==false) return false;
     //product.id=response["value"];
     return true;
@@ -399,15 +401,15 @@ class RealOpinionDatabase extends OpinionDatabase
   Future<bool> addOpinion(Opinion opinion) async {
     var response =await getResponse("Product/add-opinion", cubit.state.userToken, RequestType.post,
     jsonData: {
-      "opinion": {
-      "id": opinion.id,
-      "productId": opinion.product.id,
-      "authorId": opinion.author.id,
-      "content": opinion.text,
-      "score": opinion.score,
-      "reportCount": 0
+      "\"opinion\"": {
+      "\"id\"": opinion.id,
+      "\"productId\"": opinion.product.id,
+      "\"authorId\"": opinion.author.id,
+      "\"content\"":"\"${opinion.text}\"",
+      "\"score\"": "\"${opinion.score}\"",
+      "\"reportCount\"": 0
     }
-    }
+    }.toString()
     );
     if(response["success"]==true)
     {
@@ -481,9 +483,9 @@ class RealLoginDatabase extends LoginDatabase
   Future<String?> login(String email, String password) async {
     var response=await getResponse("Account/login", cubit.state.userToken,RequestType.post,jsonData: 
     {
-      "email": email,
-      "password": password
-    });
+      "\"email\"": "\"$email\"",
+      "\"password\"": "\"$password\""
+    }.toString());
     try
     {
       return response["authorizationToken"];
@@ -498,10 +500,10 @@ class RealLoginDatabase extends LoginDatabase
   Future<String?> register(String username, String email, String password, UserRole userRole) async {
     var response=await getResponse("Account/register", cubit.state.userToken,RequestType.post,jsonData: 
     {
-      "email": email,
-      "username": username,
-      "password": password
-    });
+      "\"email\"": "\"$email\"",
+      "\"username\"": "\"$username\"",
+      "\"password\"": "\"$password\""
+    }.toString());
     try
     {
       return response["authorizationToken"];

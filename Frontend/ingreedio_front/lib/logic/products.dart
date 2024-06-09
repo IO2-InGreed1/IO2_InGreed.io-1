@@ -58,23 +58,26 @@ class Product with ProductMappable
     this.isReported=false,
     this.iconURL="",
   });
-  Product.clone(Product product):this.fromAllData(category: product.category, description: product.description, id: product.id, ingredients: product.ingredients.map((e) => e).toList(), name: product.name, producer: product.producer, promotionUntil: product.promotionUntil,iconURL: product.iconURL);
+  Product.clone(Product product):this.fromAllData(category: product.category, description: product.description, id: product.id, ingredients: product.ingredients.map((e) => e).toList(), name: product.name, producer: product.producer, promotionUntil: product.promotionUntil);
   Widget get iconWidget=>ProductIconWidget(product: this);
   Widget get productWidget=>ProductWidget(product: this);
   Widget get image
   {
-    return Image.network(
-      iconURL,
-      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-        if (loadingProgress == null) {
-          return child;
-        } else {
-          return const LoadingWidget();
-        }
-      },
-      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-        return Assets.placeholderImage;
-      },
+    return SizedBox(
+      width: 200,
+      child: Image.network(
+        iconURL,
+        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+          if (loadingProgress == null) {
+            return child;
+          } else {
+            return const LoadingWidget();
+          }
+        },
+        errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+          return Assets.placeholderImage;
+        },
+      ),
     );
   }
   Widget clickableIconWidget(BuildContext context)
