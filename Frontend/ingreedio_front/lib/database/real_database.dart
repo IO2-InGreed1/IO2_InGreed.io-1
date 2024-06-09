@@ -322,7 +322,7 @@ class RealProductDatabase extends ProductDatabse
     String requestUrl="Product?";
     if(filter.nameFilter.isNotEmpty)
     {
-      requestUrl+="?Name=${filter.nameFilter}&";
+      requestUrl+="Name=${filter.nameFilter.replaceAll(RegExp(" "), "%20")}&";
     }
     if(filter.category!=null)
     {
