@@ -63,7 +63,16 @@ class SessionCubit extends HydratedCubit<SessionData>
   }
   @override
   SessionData? fromJson(Map<String, dynamic> json) {
-    return SessionDataMapper.fromMap(json);
+    var value= SessionDataMapper.fromMap(json);
+    try
+    {
+      database.userDatabase.loadUser(value.userToken);
+    }
+    catch(e)
+    {
+      return null;
+    }
+    return value;
   }
   
   @override

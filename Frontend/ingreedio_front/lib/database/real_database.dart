@@ -56,8 +56,8 @@ Future<Map<String,dynamic>> getResponse(String request,String token,RequestType 
   catch(e)
   {
     dio.close(force: true);
-    //return {"success":false,};
-    throw(Exception("connection failed, message: \n $e"));
+    return {"success":false,};
+    //throw(Exception("connection failed, message: \n $e"));
   }
   finally 
   {
@@ -111,15 +111,7 @@ List<String> codeIngredientList(List<Ingredient> ingredients){
 List<Product> parseProductList(Map<String,dynamic> response,{String listName="products"}){
   List<dynamic> pom=response[listName];
   List<Product> odp=List.empty(growable: true);
-  for (var element in pom) {odp.add(
-    Product.fromAllData(category: Category.fromNumber(element["category"])!, 
-    description: element["description"], 
-    id: element["id"], 
-    ingredients: parseIngredientList(response), 
-    name: element["name"], 
-    producer: MockupUserDatabase.mockProucer, //TODO: produkty nie zwracają producenta
-    promotionUntil: DateTime.parse(element["promotedUntil"])
-  ));}
+  for (var element in pom) {odp.add(parseProduct({"product":element,"owner":"XD"}));}//TODO: zmiana w pobieraniu ulubionych przedmiotów
   return odp;
 }
 class RealUserDatabase extends UserDatabse
@@ -198,7 +190,7 @@ class RealUserDatabase extends UserDatabse
     int role=response["role"];
     switch(role)
     {
-      case 1: //client
+      case 1||0: //client
       return Client.fromAllData(
         id: response["id"],
         isBlocked: response["banned"], 
