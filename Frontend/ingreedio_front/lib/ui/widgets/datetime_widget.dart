@@ -22,7 +22,12 @@ class PromotionWidget extends StatelessWidget {
     } 
     else 
     {
-      return const Text("no promotion");
+      return const Row(
+        children: [ SizedBox(width: 45,),
+          Text("No promotion"),
+          SizedBox(width: 45,)
+        ],
+      );
     }
   }
   String formatWithLeadingZero(int value) {

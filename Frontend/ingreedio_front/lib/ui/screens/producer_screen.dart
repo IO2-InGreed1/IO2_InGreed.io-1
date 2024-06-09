@@ -22,7 +22,7 @@ class ProducerScreen extends StatelessWidget {
               StandardDecorator(
                 color: Theme.of(context).colorScheme.secondary,
                 child: SizedBox(
-                  width:700,
+                  width:750,
                   child: LabelWidget(
                     label: "My products",
                     isHorizontal: false,
