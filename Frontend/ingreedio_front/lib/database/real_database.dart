@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:ingreedio_front/cubit_logic/session_cubit.dart';
-import 'package:ingreedio_front/database/database_mockup.dart';
 import 'package:ingreedio_front/database/databse.dart';
 import 'package:ingreedio_front/logic/admins.dart';
 import 'package:ingreedio_front/logic/filters.dart';
@@ -111,7 +110,7 @@ List<String> codeIngredientList(List<Ingredient> ingredients){
 List<Product> parseProductList(Map<String,dynamic> response,{String listName="products"}){
   List<dynamic> pom=response[listName];
   List<Product> odp=List.empty(growable: true);
-  for (var element in pom) {odp.add(parseProduct({"product":element,"owner":"XD"}));}//TODO: zmiana w pobieraniu ulubionych przedmiotów
+  for (var element in pom) {odp.add(parseProduct(element));}
   return odp;
 }
 class RealUserDatabase extends UserDatabse
@@ -147,16 +146,17 @@ class RealUserDatabase extends UserDatabse
   String _preferenceToString(Preference preference)
   {
     return {
-  "\"preference\"": {
-    "\"id\"": preference.id,
-    "\"ownerId\"": preference.client.id,
-    "\"name\"": "\"${preference.name}\"",
-    "\"forbidden\"": codeIngredientList(preference.allergens),
-    "\"preferred\"": codeIngredientList(preference.prefered),
-    "\"category\"": preference.category==null?0:preference.category!.backendNumber,
-    "\"active\"": false,
-  }
-}.toString();
+    "\"preference\"": 
+    {
+      "\"id\"": preference.id,
+      "\"ownerId\"": preference.client.id,
+      "\"name\"": "\"${preference.name}\"",
+      "\"forbidden\"": codeIngredientList(preference.allergens),
+      "\"preferred\"": codeIngredientList(preference.prefered),
+      "\"category\"": preference.category==null?0:preference.category!.backendNumber,
+      "\"active\"": false,
+    }
+    }.toString();
   }
   @override
   Future<List<Preference>> getUserPreferences(Client client) async {

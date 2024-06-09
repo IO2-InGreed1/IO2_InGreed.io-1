@@ -14,7 +14,7 @@ enum Category
   drink("drink",Icons.local_drink,3),
   other("other",Icons.question_mark,4);
   const Category(this.name,this.icon,this.backendNumber);
-  static Category? fromNumber(int number)
+  static Category? fromNumber(int? number)
   {
     switch (number) {
       case 0:
