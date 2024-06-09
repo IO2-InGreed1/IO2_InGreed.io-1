@@ -81,9 +81,9 @@ Opinion parseOpinion(Map<String,dynamic> response,Product product)
 Product parseProduct(Map<String,dynamic> response)
 {
   Map<String, dynamic> map=response["product"];
-  return Product.fromAllData(category: Category.fromNumber(map["category"]==0?4:map["category"])!, 
-  description: map["description"], 
-  id: map["id"], 
+  return Product.fromAllData(category: Category.fromNumber((map["category"]==0 || map["category"]==null)?4:map["category"])!, 
+  description: map["description"]==null?" ": map["description"], 
+  id: map["id"]==null?0:map["id"], 
   ingredients: parseIngredientList(map), 
   name: map["name"], 
   iconURL: map["iconURL"],
