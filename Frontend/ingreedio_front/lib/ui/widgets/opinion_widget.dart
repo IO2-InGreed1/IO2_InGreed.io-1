@@ -75,7 +75,7 @@ class OpinionWidget extends StatelessWidget {
       itemSize: 30.0,
       direction: Axis.horizontal,
       ),
-          OpinionText(text:opinion.text),
+          OpinionText(text:opinion.text,numberLines: 1,),
         ],
       ),
     );
@@ -85,7 +85,8 @@ class OpinionWidget extends StatelessWidget {
 class OpinionText extends StatelessWidget {
   final String text;
   final int maxLength;
-  const OpinionText({super.key, required this.text, this.maxLength = 20});
+  final int numberLines;
+  const OpinionText({super.key, required this.text, this.maxLength = 20, this.numberLines=3});
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +115,7 @@ class OpinionText extends StatelessWidget {
 
     // Join the chunks with newlines and limit to 3 lines
     String displayText = lines.take(3).join('\n');
-    bool isTextLong = lines.length > 3;
+    bool isTextLong = lines.length > numberLines;
 
     return Tooltip(
       message: isTextLong ? text : '',
@@ -122,7 +123,7 @@ class OpinionText extends StatelessWidget {
         displayText,
         softWrap: true,
         overflow: TextOverflow.clip,
-        maxLines: 3,
+        maxLines: numberLines,
       ),
     );
   }
