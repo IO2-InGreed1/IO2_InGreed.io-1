@@ -52,11 +52,18 @@ public class FakeOpinionDA : IOpinionDA
 
     public OpinionDAAddResponse AddToProduct(int opinionId, int productId)
     {
+        if (new FakeProductDA().GetProductById(productId) is null) return OpinionDAAddResponse.NonexistentProduct;
+        Opinion? opinion = GetById(opinionId);
+        if (opinion is not null) opinion.productId = productId;
         return OpinionDAAddResponse.Success;
     }
 
     public OpinionDARemoveResponse RemoveFromProduct(int opinionId, int productId)
     {
+        if (new FakeProductDA().GetProductById(productId) is null) return OpinionDARemoveResponse.NonexistentProduct;
+        Opinion? opinion = GetById(opinionId);
+        if (opinion is null || opinion.productId != productId) return OpinionDARemoveResponse.OpinionNotFromProduct;
+        _opinions.Remove(opinion);
         return OpinionDARemoveResponse.Success;
     }
 
