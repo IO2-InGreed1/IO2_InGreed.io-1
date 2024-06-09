@@ -8,20 +8,76 @@ public class FakeUserDA : IUserDA
 {
     private static List<User> _users = new()
     {
-        new(){Id = 1, Email = "example1@mail.com", Password = "1", Username = "User 1", Role = Role.User, Banned = false,
-        IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" },
-        new(){Id = 2, Email = "example2@mail.com", Password = "2", Username = "User 2", Role = Role.Moderator, Banned = false,
-        IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" },
-        new(){Id = 3, Email = "example3@mail.com", Password = "3", Username = "Best Products", Role = Role.Producent, Banned =false,
-        IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" },
-        new(){Id = 4, Email = "client", Password = "client", Username = "client", Role = Role.User, Banned = false,
-        IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" },
-        new(){Id = 5, Email = "producer", Password = "producer", Username = "Worst Products", Role = Role.Producent, Banned =false,
-        IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" },
-        new(){Id = 6, Email = "admin", Password = "admin", Username = "admin", Role = Role.Administrator, Banned = false,
-        IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" },
-        new(){Id = 7, Email = "moderator", Password = "moderator", Username = "moderator", Role = Role.Moderator, Banned =false,
-        IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" }
+        new()
+        {
+            Id = 1, 
+            Email = "example1@mail.com", 
+            Password = "1", 
+            Username = "Funny guy", 
+            Role = Role.User, 
+            Banned = false,
+            IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg",
+            Favourites = new() { 1,2,3 }
+        },
+        new()
+        {
+            Id = 2, 
+            Email = "example2@mail.com", 
+            Password = "2", Username = "User 2", 
+            Role = Role.Moderator, Banned = true,
+            IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" 
+        },
+        new()
+        {
+            Id = 3, 
+            Email = "example3@mail.com", 
+            Password = "3", 
+            Username = "Best Products", 
+            Role = Role.Producent, 
+            Banned =false,
+            IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" 
+        },
+        new()
+        {
+            Id = 4, 
+            Email = "client", 
+            Password = "client", 
+            Username = "client", 
+            Role = Role.User, 
+            Banned = false,
+            IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg",
+            Favourites = new() { 5,6,7,8 }
+        },
+        new()
+        {
+            Id = 5, 
+            Email = "producer", 
+            Password = "producer", 
+            Username = "Worst Products", 
+            Role = Role.Producent, 
+            Banned =false,
+            IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" 
+        },
+        new()
+        {
+            Id = 6, 
+            Email = "admin", 
+            Password = "admin", 
+            Username = "admin", 
+            Role = Role.Administrator, 
+            Banned = false,
+            IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" 
+        },
+        new()
+        {
+            Id = 7, 
+            Email = "moderator", 
+            Password = "moderator", 
+            Username = "moderator", 
+            Role = Role.Moderator, 
+            Banned =false,
+            IconURL = "https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg" 
+        }
     };
     private static int currentId = 7;
 
@@ -29,10 +85,8 @@ public class FakeUserDA : IUserDA
     {
         User toUpdate = GetUserById(userId);
         if (toUpdate is null) return false;
-        if (toUpdate.Favourites.Any(pr => pr.Id  == productId)) return false;
-        Product p = new FakeProductDA().GetProductById(productId).Product;
-        if (p is null) return false;
-        toUpdate.Favourites.Add(p);
+        if (toUpdate.Favourites.Contains(productId)) return false;
+        toUpdate.Favourites.Add(productId);
         return true;
     }
 
@@ -56,10 +110,8 @@ public class FakeUserDA : IUserDA
     {
         User toUpdate = GetUserById(userId);
         if (toUpdate is null) return false;
-        if (!toUpdate.Favourites.Any(pr => pr.Id == productId)) return false;
-        Product p = new FakeProductDA().GetProductById(productId).Product;
-        if (p is null) return false;
-        toUpdate.Favourites.Remove(p);
+        if (!toUpdate.Favourites.Contains(productId)) return false;
+        toUpdate.Favourites.Remove(productId);
         return true;
     }
 

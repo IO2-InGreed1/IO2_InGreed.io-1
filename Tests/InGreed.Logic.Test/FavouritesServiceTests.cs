@@ -43,7 +43,7 @@ public class FavouritesServiceTests
     void Add_ExistingProductFromFavouritesExistingUser_ShouldReturnAlreadyInFavouritesResponse()
     {
         // arrange
-        testingUser.Favourites.Add(testingProduct);
+        testingUser.Favourites.Add(testingProduct.Id);
         userDAMock.Setup(uda => uda.AddToFavourites(id, id)).Returns(false);
         userDAMock.Setup(uda => uda.GetUserById(id)).Returns(testingUser);
         productDAMock.Setup(pda => pda.GetProductById(id)).Returns(new ProductWithOwner() { Product = testingProduct, Owner = "Producent" });
@@ -90,7 +90,7 @@ public class FavouritesServiceTests
     void Delete_ExistingProductFromFavouritesExistingUser_ShouldReturnSuccessResponse()
     {
         // arrange
-        testingUser.Favourites.Add(testingProduct);
+        testingUser.Favourites.Add(testingProduct.Id);
         userDAMock.Setup(uda => uda.RemoveFavourites(id, id)).Returns(true);
         userDAMock.Setup(uda => uda.GetUserById(id)).Returns(testingUser);
         productDAMock.Setup(pda => pda.GetProductById(id)).Returns(new ProductWithOwner() { Product = testingProduct, Owner = "Producent" });
@@ -123,7 +123,7 @@ public class FavouritesServiceTests
     void Delete_NonexistentProduct_ShouldReturnInvalidProductIdResponse()
     {
         // arrange
-        testingUser.Favourites.Add(testingProduct);
+        testingUser.Favourites.Add(testingProduct.Id);
         userDAMock.Setup(uda => uda.GetUserById(id)).Returns(testingUser);
         productDAMock.Setup(pda => pda.GetProductById(id)).Returns(value: null!);
         FavouritesService sut = new(userDAMock.Object, productDAMock.Object);
@@ -139,7 +139,7 @@ public class FavouritesServiceTests
     void Delete_NonexistentUser_ShouldReturnInvalidUserIdResponse()
     {
         // arrange
-        testingUser.Favourites.Add(testingProduct);
+        testingUser.Favourites.Add(testingProduct.Id);
         userDAMock.Setup(uda => uda.GetUserById(id)).Returns(value: null!);
         productDAMock.Setup(pda => pda.GetProductById(id)).Returns(new ProductWithOwner() { Product = testingProduct, Owner = "Producent" });
         FavouritesService sut = new(userDAMock.Object, productDAMock.Object);
