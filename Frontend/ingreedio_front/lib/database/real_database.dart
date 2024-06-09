@@ -462,11 +462,11 @@ class RealOpinionDatabase extends OpinionDatabase
   Future<void> setOpinionReport(Opinion opinion,{bool reportState=true}) async {
     if(reportState)
     {
-      getResponse("Product/${opinion.id}/report", cubit.state.userToken, RequestType.post);
+      getResponse("Opinion/${opinion.id}/report", cubit.state.userToken, RequestType.post);
     }
     else 
     {
-      getResponse("Product/${opinion.id}/reports", cubit.state.userToken, RequestType.delete);
+      getResponse("Opinion/${opinion.id}/reports", cubit.state.userToken, RequestType.delete);
     }
   }
   
