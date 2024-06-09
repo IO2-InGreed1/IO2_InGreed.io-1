@@ -20,7 +20,7 @@ public class UserController : ControllerBase
     [HttpPut("favourites/add/{productId}")]
     public IActionResult AddToFavourites(int productId)
     {
-        var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (id is null) return Unauthorized();
         int userId = int.Parse(id);
         var response = favouritesService.Add(productId, userId);
@@ -43,7 +43,7 @@ public class UserController : ControllerBase
     [HttpDelete("favourites/remove/{productId}")]
     public IActionResult RemoveFromFavourites(int productId)
     {
-        var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (id is null) return Unauthorized();
         int userId = int.Parse(id);
         var response = favouritesService.Delete(productId, userId);

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using InGreed.Domain.Queries;
 using Newtonsoft.Json;
 using InGreed.Domain.Helpers;
+using System.Security.Claims;
 
 namespace InGreed.Api.Controllers;
 
@@ -19,20 +20,26 @@ public class ProductController : ControllerBase
         this.service = service;
     }
 
-    [Authorize(Roles = "Producent")]
     [HttpPost]
+    [Authorize(Roles = "Producent")]
     public IActionResult Create(CreateRequest request)
     {
         if (request.product is null) return BadRequest();
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId is null) return Unauthorized();
+        request.product.ProducentId = int.Parse(userId);
         service.CreateProduct(request.product);
         return Ok(request.product);
     }
 
-    [Authorize(Roles = "Producent")]
     [HttpPut]
+    [Authorize(Roles = "Producent")]
     public IActionResult Modify(ModifyRequest request, int productToModifyId)
     {
         if (request.product is null) return BadRequest();
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId is null) return Unauthorized();
+        request.product.ProducentId = int.Parse(userId);
         service.ModifyProduct(productToModifyId, request.product);
         return Ok(request.product);
     }
@@ -67,15 +74,14 @@ public class ProductController : ControllerBase
         return Ok(new GetByIdResponse(product.Product, product.Owner));
     }
 
-    [Authorize(Roles = "Moderator,Administrator")]
     [HttpDelete("{productId}/reports")]
+    [Authorize(Roles = "Moderator,Administrator")]
     public IActionResult RemoveReports(int productId)
     {
         if (service.RemoveReports(productId)) return Ok();
         else return NotFound($"Cannot reset report count for product with the id {productId} as such product does not exist.");
     }
 
-    [Authorize]
     [HttpPost("{productId}/report")]
     public IActionResult AddReport(int productId)
     {
@@ -84,6 +90,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("reported")]
+    [Authorize(Roles = "Moderator,Administrator")]
     public IActionResult GetReported([FromQuery] ProductParameters parameters)
     {
         PaginatedList<ProductWithOwner> result;

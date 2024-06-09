@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using InGreed.Api.Contracts.Product;
 using InGreed.Domain.Queries;
 using InGreed.Domain.Helpers;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace InGreed.Api.Tests;
 
@@ -73,10 +75,25 @@ public class ProductControllerTests
     public void Create_ShouldReturnStatusOk()
     {
         // Arrange
+        var context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new(new List<ClaimsIdentity>() 
+                { 
+                    new(new List<Claim>() 
+                    { 
+                        new Claim(ClaimTypes.Role, "Producent"),
+                        new Claim(ClaimTypes.NameIdentifier, "1")
+                    }) 
+                })
+            }
+        };
         int newId = 2;
         productServiceMock.Setup(isa => isa.CreateProduct(testingProduct)).Returns(newId);
         ProductController sut = new(productServiceMock.Object);
         CreateRequest request = new(testingProduct);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.Create(request);
@@ -92,8 +109,23 @@ public class ProductControllerTests
     public void Modify_ExistingProduct_ShouldReturnStatusOk()
     {
         // Arrange
+        var context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new(new List<ClaimsIdentity>() 
+                {
+                    new(new List<Claim>() 
+                    { 
+                        new Claim(ClaimTypes.Role, "Producent"),
+                        new Claim(ClaimTypes.NameIdentifier, id.ToString())
+                    }) 
+                })
+            }
+        };
         ProductController sut = new(productServiceMock.Object);
         ModifyRequest request= new(testingProduct);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.Modify(request, id);

@@ -14,10 +14,25 @@ public class PreferenceControllerTests
 {
     private Mock<IPreferenceService> preferenceServiceMock;
     private Preference testingPreference;
+    private ControllerContext context;
     private readonly int id = 1;
 
     public PreferenceControllerTests()
     {
+        context = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext
+            {
+                User = new(new List<ClaimsIdentity>() 
+                { 
+                    new(new List<Claim>() 
+                    { 
+                        new Claim(ClaimTypes.Role, "Administrator"),
+                        new Claim(ClaimTypes.NameIdentifier, "1")
+                    }) 
+                })
+            }
+        };
         preferenceServiceMock = new();
         testingPreference = new() { Id = id, OwnerId = id, Active = true, Name = "test" };
     }
@@ -26,13 +41,6 @@ public class PreferenceControllerTests
     public void GetByUser_AuthorisedUser_ShouldReturnStatusOk()
     {
         // Arrange
-        var context = new ControllerContext
-        {
-            HttpContext = new DefaultHttpContext
-            {
-                User = new(new List<ClaimsIdentity>() { new(new List<Claim>() { new Claim(ClaimTypes.NameIdentifier, "1") }) })
-            }
-        };
         List<Preference> preferences = new() { testingPreference };
         preferenceServiceMock.Setup(psm => psm.GetByUser(id)).Returns(preferences);
         PreferenceController sut = new(preferenceServiceMock.Object);
@@ -76,6 +84,7 @@ public class PreferenceControllerTests
         // Arrange
         preferenceServiceMock.Setup(psm => psm.GetById(id)).Returns(testingPreference);
         PreferenceController sut = new(preferenceServiceMock.Object);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.GetById(id);
@@ -92,6 +101,7 @@ public class PreferenceControllerTests
         // Arrange
         preferenceServiceMock.Setup(psm => psm.GetById(id)).Returns(value: null);
         PreferenceController sut = new(preferenceServiceMock.Object);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.GetById(id);
@@ -109,6 +119,7 @@ public class PreferenceControllerTests
         preferenceServiceMock.Setup(psm => psm.Modify(testingPreference, id)).Returns(Logic.Enums.Preference.PreferenceServiceModifyResponse.Success);
         PreferenceController sut = new(preferenceServiceMock.Object);
         ModifyRequest request = new(testingPreference);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.Modify(request, id);
@@ -124,6 +135,7 @@ public class PreferenceControllerTests
         preferenceServiceMock.Setup(psm => psm.Modify(testingPreference, id)).Returns(Logic.Enums.Preference.PreferenceServiceModifyResponse.InvalidOwnerId);
         PreferenceController sut = new(preferenceServiceMock.Object);
         ModifyRequest request = new(testingPreference);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.Modify(request, id);
@@ -141,6 +153,7 @@ public class PreferenceControllerTests
         preferenceServiceMock.Setup(psm => psm.Modify(testingPreference, id)).Returns(Logic.Enums.Preference.PreferenceServiceModifyResponse.ContradictoryPreference);
         PreferenceController sut = new(preferenceServiceMock.Object);
         ModifyRequest request = new(testingPreference);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.Modify(request, id);
@@ -158,6 +171,7 @@ public class PreferenceControllerTests
         preferenceServiceMock.Setup(psm => psm.Modify(testingPreference, id)).Returns(Logic.Enums.Preference.PreferenceServiceModifyResponse.NonexistentPreference);
         PreferenceController sut = new(preferenceServiceMock.Object);
         ModifyRequest request = new(testingPreference);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.Modify(request, id);
@@ -174,6 +188,7 @@ public class PreferenceControllerTests
         // Arrange
         preferenceServiceMock.Setup(psm => psm.Delete(id)).Returns(Logic.Enums.Preference.PreferenceServiceDeleteResponse.Success);
         PreferenceController sut = new(preferenceServiceMock.Object);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.Delete(id);
@@ -188,6 +203,7 @@ public class PreferenceControllerTests
         // Arrange
         preferenceServiceMock.Setup(psm => psm.Delete(id)).Returns(Logic.Enums.Preference.PreferenceServiceDeleteResponse.NonexistentPreference);
         PreferenceController sut = new(preferenceServiceMock.Object);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.Delete(id);
@@ -205,6 +221,7 @@ public class PreferenceControllerTests
         preferenceServiceMock.Setup(psm => psm.Create(testingPreference)).Returns((PreferenceServiceCreateResponse.Success, id));
         PreferenceController sut = new(preferenceServiceMock.Object);
         CreateRequest request = new(testingPreference);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.Create(request);
@@ -222,6 +239,7 @@ public class PreferenceControllerTests
         preferenceServiceMock.Setup(psm => psm.Create(testingPreference)).Returns((PreferenceServiceCreateResponse.ContradictoryPreference, id));
         PreferenceController sut = new(preferenceServiceMock.Object);
         CreateRequest request = new(testingPreference);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.Create(request);
@@ -239,6 +257,7 @@ public class PreferenceControllerTests
         preferenceServiceMock.Setup(psm => psm.Create(testingPreference)).Returns((PreferenceServiceCreateResponse.InvalidOwnerId, id));
         PreferenceController sut = new(preferenceServiceMock.Object);
         CreateRequest request = new(testingPreference);
+        sut.ControllerContext = context;
 
         // Act
         var response = sut.Create(request);

@@ -3,6 +3,7 @@ using InGreed.Domain.Models;
 using InGreed.Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using InGreed.Logic.Enums.Ingredient;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InGreed.Api.Controllers;
 
@@ -36,6 +37,7 @@ public class IngredientController : ControllerBase
     }
 
     [HttpPost("/api/Product/{productId}/add-ingredient")]
+    [Authorize]
     public IActionResult AddToProduct(AdditionRequest request, int productId)
     {
         IngredientServiceAddResponse result = _ingredientService.AddToProduct(request.ingredient, productId);
@@ -51,6 +53,7 @@ public class IngredientController : ControllerBase
     }
 
     [HttpDelete("/api/Product/{productId}/remove-ingredient/{ingredientId}")]
+    [Authorize]
     public IActionResult RemoveFromProduct(int ingredientId, int productId)
     {
         IngredientServiceRemoveResponse result = _ingredientService.RemoveFromProduct(ingredientId, productId);
