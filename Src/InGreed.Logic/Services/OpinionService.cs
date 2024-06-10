@@ -39,8 +39,8 @@ namespace InGreed.Logic.Services
 
         public PaginatedList<OpinionWithAuthor> GetAllReported(OpinionParameters parameters)
         {
-            if(parameters.ReportCountGreaterThan == -1)
-                parameters.ReportCountGreaterThan = 0;
+            /*if(parameters.ReportCountGreaterThan == -1)
+                parameters.ReportCountGreaterThan = 0;*/
             return _opinionDA.GetAll(parameters);
         }
 
@@ -58,8 +58,8 @@ namespace InGreed.Logic.Services
 
         public PaginatedList<OpinionWithAuthor> GetByProduct(OpinionParameters parameters, int productId)
         {
-            if (parameters.ReportCountGreaterThan == -1)
-                parameters.ReportCountGreaterThan = 0;
+            /*if (parameters.ReportCountGreaterThan == -1)
+                parameters.ReportCountGreaterThan = 0;*/
             return _opinionDA.GetByProduct(parameters, productId);
         }
     }
