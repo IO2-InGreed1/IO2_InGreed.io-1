@@ -113,11 +113,11 @@ public class FakeOpinionDA : IOpinionDA
     public PaginatedList<OpinionWithAuthor> GetByProduct(OpinionParameters parameters, int productId)
     {
         var opinions = _opinions
-            .Where(o => o.productId == productId)
+            .Where(o => (o.reportCount > parameters.ReportCountGreaterThan && o.productId == productId))
             .Skip((parameters.PageNumber - 1) * parameters.PageSize)
             .Take(parameters.PageSize);
 
-        var count = _opinions.Where(o => o.reportCount > parameters.ReportCountGreaterThan).Count();
+        var count = _opinions.Where(o => (o.reportCount > parameters.ReportCountGreaterThan && o.productId == productId)).Count();
         var totalPages = (int)Math.Ceiling(count / (double)parameters.PageSize);
 
         List<OpinionWithAuthor> opinionsWithAuthor = new List<OpinionWithAuthor>(opinions.Count());
